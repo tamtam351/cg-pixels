@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - CGPIXELS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #000000;
+            --deep-black: #0a0a0a;
+            --orange: #ff8c00;
+            --bright-orange: #ffa500;
+            --dark-orange: #ff6b00;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+            background: var(--black);
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            background: rgba(0, 0, 0, 0.85);
+            border-bottom: 1px solid rgba(255, 140, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(0, 0, 0, 0.95);
+            box-shadow: 0 4px 30px rgba(255, 140, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.2rem 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+            text-decoration: none;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo img {
+            width: 45px;
+            height: 45px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 15px var(--orange));
+        }
+
+        .logo-text {
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            background: linear-gradient(135deg, var(--orange), var(--bright-orange));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+            position: relative;
+            transition: all 0.3s;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--orange);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--orange);
+        }
+
+        .nav-links a:hover::after, .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        /* Gallery Hero */
+        .gallery-hero {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(180deg, var(--deep-black) 0%, var(--black) 100%);
+            padding-top: 80px;
+        }
+
+        .gallery-hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 140, 0, 0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .gallery-title-container {
+            text-align: center;
+            padding: 4rem 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .gallery-main-title {
+            font-size: clamp(3.5rem, 10vw, 7rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            perspective: 1000px;
+            overflow: hidden;
+        }
+
+        .gallery-letter {
+            display: inline-block;
+            opacity: 0;
+            transform: rotateY(90deg) translateZ(100px);
+            animation: flipIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        }
+
+        @keyframes flipIn {
+            to {
+                opacity: 1;
+                transform: rotateY(0) translateZ(0);
+            }
+        }
+
+        .gallery-letter:nth-child(1) { animation-delay: 0.1s; color: white; }
+        .gallery-letter:nth-child(2) { animation-delay: 0.2s; color: var(--orange); }
+        .gallery-letter:nth-child(3) { animation-delay: 0.3s; color: white; }
+        .gallery-letter:nth-child(4) { animation-delay: 0.4s; color: var(--bright-orange); }
+        .gallery-letter:nth-child(5) { animation-delay: 0.5s; color: white; }
+        .gallery-letter:nth-child(6) { animation-delay: 0.6s; color: var(--orange); }
+        .gallery-letter:nth-child(7) { animation-delay: 0.7s; color: white; }
+
+        .gallery-subtitle {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 300;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 0.9s;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .gallery-subtitle {
+            transform: translateY(20px);
+        }
+
+        /* Filter Buttons */
+        .filter-section {
+            padding: 3rem 2rem;
+            background: var(--black);
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .filter-btn {
+            padding: 0.9rem 2rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 140, 0, 0.25);
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            font-weight: 500;
+            font-size: 0.95rem;
+            letter-spacing: 0.03em;
+            border-radius: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-btn::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--orange), var(--bright-orange));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .filter-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            border-color: var(--orange);
+            color: var(--black);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 140, 0, 0.3);
+        }
+
+        .filter-btn:hover::before, .filter-btn.active::before {
+            opacity: 1;
+        }
+
+        /* Gallery Grid */
+        .gallery-section {
+            padding: 2rem 2rem 6rem;
+            background: var(--black);
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            position: relative;
+            aspect-ratio: 4/3;
+            overflow: hidden;
+            cursor: pointer;
+            border: 1px solid rgba(255, 140, 0, 0.15);
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border-radius: 12px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInItem 0.6s ease forwards;
+        }
+
+        @keyframes fadeInItem {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .gallery-item:nth-child(1) { animation-delay: 0.1s; }
+        .gallery-item:nth-child(2) { animation-delay: 0.2s; }
+        .gallery-item:nth-child(3) { animation-delay: 0.3s; }
+        .gallery-item:nth-child(4) { animation-delay: 0.4s; }
+        .gallery-item:nth-child(5) { animation-delay: 0.5s; }
+        .gallery-item:nth-child(6) { animation-delay: 0.6s; }
+
+        .gallery-item:hover {
+            transform: translateY(-12px) scale(1.02);
+            border-color: var(--orange);
+            box-shadow: 0 25px 60px rgba(255, 140, 0, 0.3);
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.6s;
+            filter: grayscale(0.2) brightness(0.9);
+        }
+
+        .gallery-item:hover .gallery-img {
+            transform: scale(1.15);
+            filter: grayscale(0) brightness(1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, transparent 60%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2.5rem;
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--orange);
+            margin-bottom: 0.5rem;
+            transform: translateY(20px);
+            transition: transform 0.4s 0.1s;
+        }
+
+        .gallery-item:hover .gallery-title {
+            transform: translateY(0);
+        }
+
+        .gallery-specs {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            transform: translateY(20px);
+            transition: transform 0.4s 0.15s;
+        }
+
+        .gallery-item:hover .gallery-specs {
+            transform: translateY(0);
+        }
+
+        /* Lightbox Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.97);
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            max-width: 90vw;
+            max-height: 90vh;
+            position: relative;
+            animation: zoomIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-img {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            border: 2px solid var(--orange);
+            box-shadow: 0 0 60px rgba(255, 140, 0, 0.5);
+            border-radius: 8px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -3rem;
+            right: 0;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .modal-close:hover {
+            color: var(--orange);
+            transform: rotate(90deg);
+            background: rgba(255, 140, 0, 0.1);
+        }
+
+        .modal-info {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            color: var(--orange);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .modal-specs {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--deep-black);
+            border-top: 1px solid rgba(255, 140, 0, 0.15);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-text {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(0, 0, 0, 0.98);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                transform: translateY(-100%);
+                opacity: 0;
+                transition: all 0.3s;
+                pointer-events: none;
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            .gallery {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .gallery-main-title {
+                font-size: clamp(2.5rem, 12vw, 5rem);
+            }
+
+            .filter-buttons {
+                flex-direction: column;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+
+            .filter-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="logo.png" alt="CGPIXELS Logo" onerror="this.style.display='none';">
+                <span class="logo-text">CGPIXELS</span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="gallery.html" class="active">Gallery</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <button class="menu-toggle" id="menuToggle">☰</button>
+        </div>
+    </nav>
+
+    <!-- Gallery Hero -->
+    <div class="gallery-hero">
+        <div class="gallery-title-container">
+            <h1 class="gallery-main-title">
+                <span class="gallery-letter">G</span>
+                <span class="gallery-letter">A</span>
+                <span class="gallery-letter">L</span>
+                <span class="gallery-letter">L</span>
+                <span class="gallery-letter">E</span>
+                <span class="gallery-letter">R</span>
+                <span class="gallery-letter">Y</span>
+            </h1>
+            <p class="gallery-subtitle">Capturing moments, crafting stories</p>
+        </div>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="filter-section">
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all"><span>All Work</span></button>
+            <button class="filter-btn" data-filter="portraits"><span>Portraits</span></button>
+            <button class="filter-btn" data-filter="commercial"><span>Commercial</span></button>
+            <button class="filter-btn" data-filter="lifestyle"><span>Lifestyle</span></button>
+            <button class="filter-btn" data-filter="editorial"><span>Editorial</span></button>
+        </div>
+    </div>
+
+    <!-- Gallery Grid -->
+    <div class="gallery-section">
+        <div class="gallery">
+            <div class="gallery-item" data-category="portraits">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800" alt="Urban Portrait" class="gallery-img" />
+                <div class="gallery-overlay">
+                    <h3 class="gallery-title">Urban Portrait</h3>
+                    <p class="gallery-specs">Canon EOS R5 | 85mm f/1.4 | ISO 400</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="commercial">
+                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800" alt="Product Shot" class="gallery-img" />
+                <div class="gallery-overlay">
+                    <h3 class="gallery-title">Product Shot</h3>
+                    <p class="gallery-specs">Sony A7IV | 90mm Macro | ISO 100</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="lifestyle">
+                <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=800" alt="Golden Hour" class="gallery-img" />
+                <div class="gallery-overlay">
+                    <h3 class="gallery-title">Golden Hour</h3>
+                    <p class="gallery-specs">Nikon Z9 | 50mm f/1.2 | ISO 200</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="editorial">
+                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800" alt="Fashion Editorial" class="gallery-img" />
+                <div class="gallery-overlay">
+                    <h3 class="gallery-title">Fashion Editorial</h3>
+                    <p class="gallery-specs">Canon EOS R5 | 70-200mm | ISO 800</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="portraits">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800" alt="Studio Portrait" class="gallery-img" />
+                <div class="gallery-overlay">
+                    <h3 class="gallery-title">Studio Portrait</h3>
+                    <p class="gallery-specs">Sony A1 | 85mm f/1.4 | ISO 100</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="commercial">
+                <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=800" alt="Brand Campaign" class="gallery-img" />
+                <div class="gallery-overlay">
+                    <h3 class="gallery-title">Brand Campaign</h3>
+                    <p class="gallery-specs">Nikon Z9 | 35mm f/1.4 | ISO 400</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="lifestyle">
+                <img src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=800" alt="Travel Story" class="gallery-img" />
+                <div class="gallery-overlay">
+                    <h3 class="gallery-title">Travel Story</h3>
+                    <p class="gallery-specs">Fujifilm X-T4 | 23mm f/2 | ISO 320</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="editorial">
+                <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800" alt="Magazine Cover" class="gallery-img" />
+                <div class="gallery-overlay">
+                    <h3 class="gallery-title">Magazine Cover</h3>
+                    <p class="gallery-specs">Hasselblad H6D | 80mm | ISO 64</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="portraits">
+                <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800" alt="Creative Portrait" class="gallery-img" />
+                <div class="gallery-overlay">
+                    <h3 class="gallery-title">Creative Portrait</h3>
+                    <p class="gallery-specs">Canon EOS R6 | 50mm f/1.2 | ISO 250</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">✕</button>
+            <img src="" alt="" class="modal-img" id="modalImg" />
+            <div class="modal-info">
+                <h3 class="modal-title" id="modalTitle"></h3>
+                <p class="modal-specs" id="modalSpecs"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p class="footer-text">© 2024 CGPIXELS. All rights reserved. | Capturing Reality, Sculpting Light</p>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Mobile menu toggle
+        document.getElementById('menuToggle').addEventListener('click', () => {
+            document.getElementById('navLinks').classList.toggle('active');
+        });
+
+        // Filter functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.dataset.filter;
+                document.querySelectorAll('.gallery-item').forEach(item => {
+                    if (filter === 'all' || item.dataset.category === filter) {
+                        item.style.display = 'block';
+                        setTimeout(() => {
+                            item.style.opacity = '1';
+                            item.style.transform = 'translateY(0)';
+                        }, 10);
+                    } else {
+                        item.style.opacity = '0';
+                        item.style.transform = 'translateY(30px)';
+                        setTimeout(() => item.style.display = 'none', 300);
+                    }
+                });
+            });
+        });
+
+        // Lightbox functionality
+        const modal = document.getElementById('modal');
+        const modalImg = document.getElementById('modalImg');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalSpecs = document.getElementById('modalSpecs');
+        const modalClose = document.getElementById('modalClose');
+
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const img = item.querySelector('.gallery-img');
+                const title = item.querySelector('.gallery-title');
+                const specs = item.querySelector('.gallery-specs');
+
+                modalImg.src = img.src;
+                modalTitle.textContent = title.textContent;
+                modalSpecs.textContent = specs.textContent;
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        modalClose.addEventListener('click', () => {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+    </script>
+</body>
+</html>

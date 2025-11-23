@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - CGPIXELS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #000000;
+            --deep-black: #0a0a0a;
+            --orange: #ff8c00;
+            --bright-orange: #ffa500;
+            --dark-orange: #ff6b00;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+            background: var(--black);
+            color: white;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            background: rgba(0, 0, 0, 0.85);
+            border-bottom: 1px solid rgba(255, 140, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(0, 0, 0, 0.95);
+            box-shadow: 0 4px 30px rgba(255, 140, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.2rem 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+            text-decoration: none;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo img {
+            width: 45px;
+            height: 45px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 15px var(--orange));
+        }
+
+        .logo-text {
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            background: linear-gradient(135deg, var(--orange), var(--bright-orange));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+            position: relative;
+            transition: all 0.3s;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--orange);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--orange);
+        }
+
+        .nav-links a:hover::after, .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .about-hero {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(180deg, var(--deep-black) 0%, var(--black) 100%);
+            padding-top: 80px;
+        }
+
+        .about-hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(255, 140, 0, 0.15) 0%, transparent 60%);
+            animation: pulseMove 8s ease-in-out infinite;
+        }
+
+        @keyframes pulseMove {
+            0%, 100% {
+                transform: translateX(0);
+                opacity: 0.5;
+            }
+            50% {
+                transform: translateX(100px);
+                opacity: 1;
+            }
+        }
+
+        .hero-content {
+            text-align: center;
+            padding: 4rem 2rem;
+            max-width: 900px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-title {
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, white 0%, var(--orange) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: slideDown 0.8s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes slideDown {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page-title {
+            transform: translateY(-30px);
+        }
+
+        .page-subtitle {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 300;
+            animation: slideDown 0.8s ease 0.2s forwards;
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 6rem 2rem;
+            background: var(--deep-black);
+            position: relative;
+        }
+
+        .stats-section::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 70% 50%, rgba(255, 140, 0, 0.05) 0%, transparent 70%);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 140, 0, 0.2);
+            border-radius: 15px;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-item::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--orange), var(--bright-orange));
+            transform: scaleX(0);
+            transition: transform 0.4s;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-10px);
+            border-color: var(--orange);
+            background: rgba(255, 140, 0, 0.05);
+            box-shadow: 0 15px 40px rgba(255, 140, 0, 0.2);
+        }
+
+        .stat-item:hover::before {
+            transform: scaleX(1);
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--orange);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Story Section */
+        .story-section {
+            padding: 6rem 2rem;
+            background: var(--black);
+        }
+
+        .story-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .story-image {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid var(--orange);
+            box-shadow: 0 0 50px rgba(255, 140, 0, 0.3);
+        }
+
+        .story-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s;
+        }
+
+        .story-image:hover img {
+            transform: scale(1.1);
+        }
+
+        .story-content h2 {
+            font-size: 2.5rem;
+            color: var(--orange);
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+        }
+
+        .story-content p {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Team Section */
+        .team-section {
+            padding: 6rem 2rem;
+            background: var(--deep-black);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, white, var(--orange));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-header p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .team-member {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 140, 0, 0.15);
+            border-radius: 20px;
+            transition: all 0.4s;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+            border-color: var(--orange);
+            box-shadow: 0 20px 50px rgba(255, 140, 0, 0.2);
+        }
+
+        .member-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--orange), var(--bright-orange));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s;
+        }
+
+        .member-icon svg {
+            width: 60px;
+            height: 60px;
+            fill: var(--black);
+        }
+
+        .team-member:hover .member-icon {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 10px 30px rgba(255, 140, 0, 0.4);
+        }
+
+        .member-name {
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .member-role {
+            font-size: 1rem;
+            color: var(--orange);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .member-bio {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.7;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--deep-black);
+            border-top: 1px solid rgba(255, 140, 0, 0.15);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-text {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(0, 0, 0, 0.98);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                transform: translateY(-100%);
+                opacity: 0;
+                transition: all 0.3s;
+                pointer-events: none;
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            .story-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        /* Smaller stats text on mobile */
+@media (max-width: 480px) {
+    .stat-number {
+        font-size: 2.0rem;
+    }
+
+    .stat-label {
+        font-size: 0.85rem;
+        letter-spacing: 0.05em;
+    }
+
+    .stat-item {
+        padding: 1.5rem 1rem;
+    }
+}
+
+/* Extra improvement for medium-small screens */
+@media (max-width: 640px) {
+    .stat-number {
+        font-size: 2.3rem;
+    }
+
+    .stat-label {
+        font-size: 1rem;
+    }
+}
+
+
+        
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="logo.png" alt="CGPIXELS Logo" onerror="this.style.display='none';">
+                <span class="logo-text">CGPIXELS</span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="about.html" class="active">About</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <button class="menu-toggle" id="menuToggle">☰</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="about-hero">
+        <div class="hero-content">
+            <h1 class="page-title">About CGPIXELS</h1>
+            <p class="page-subtitle">The art of light, the science of timing</p>
+        </div>
+    </div>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="stat-number">500+</span>
+                <span class="stat-label">Projects</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">250+</span>
+                <span class="stat-label">Clients</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">15</span>
+                <span class="stat-label">Awards</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">10+</span>
+                <span class="stat-label">Years</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Story Section -->
+    <section class="story-section">
+        <div class="story-container">
+            <div class="story-image">
+                <img src="https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=800" alt="Photography Studio">
+            </div>
+            <div class="story-content">
+                <h2>Crafting Visual Stories</h2>
+                <p>
+                    At CGPIXELS, we don't just capture images — we sculpt moments with light, freeze emotions in time, and create visual narratives that resonate. Our approach blends traditional photography with cutting-edge digital artistry.
+                </p>
+                <p>
+                    With over a decade of experience and a passion for perfection, we transform ordinary scenes into extraordinary visual experiences. Every project is a collaboration, every frame tells a story, and every pixel matters.
+                </p>
+                <p>
+                    From intimate portraits to large-scale commercial campaigns, we bring the same level of dedication, creativity, and technical excellence to every shoot.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team-section">
+        <div class="section-header">
+            <h2>Meet Our Team</h2>
+            <p>The creative minds behind the lens</p>
+        </div>
+        <div class="team-grid">
+            <div class="team-member">
+                <div class="member-icon">📷</div>
+                <h3 class="member-name">Chris Godwin</h3>
+                <p class="member-role">Lead Photographer</p>
+                <p class="member-bio">Award-winning photographer with 15+ years of experience in editorial and commercial photography.</p>
+            </div>
+            <div class="team-member">
+                <div class="member-icon">🎨</div>
+                <h3 class="member-name">Sarah Chen</h3>
+                <p class="member-role">Creative Director</p>
+                <p class="member-bio">Visionary artist specializing in conceptual photography and visual storytelling.</p>
+            </div>
+            <div class="team-member">
+                <div class="member-icon">✨</div>
+                <h3 class="member-name">Marcus Reid</h3>
+                <p class="member-role">Post-Production Lead</p>
+                <p class="member-bio">Master retoucher and color grading specialist bringing images to life in post.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p class="footer-text">© 2024 CGPIXELS. All rights reserved. | Capturing Reality, Sculpting Light</p>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Mobile menu toggle
+        document.getElementById('menuToggle').addEventListener('click', () => {
+            document.getElementById('navLinks').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

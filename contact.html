@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - CGPIXELS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #000000;
+            --deep-black: #0a0a0a;
+            --orange: #ff8c00;
+            --bright-orange: #ffa500;
+            --dark-orange: #ff6b00;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+            background: var(--black);
+            color: white;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            background: rgba(0, 0, 0, 0.85);
+            border-bottom: 1px solid rgba(255, 140, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(0, 0, 0, 0.95);
+            box-shadow: 0 4px 30px rgba(255, 140, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.2rem 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+            text-decoration: none;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo img {
+            width: 45px;
+            height: 45px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 15px var(--orange));
+        }
+
+        .logo-text {
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            background: linear-gradient(135deg, var(--orange), var(--bright-orange));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+            position: relative;
+            transition: all 0.3s;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--orange);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--orange);
+        }
+
+        .nav-links a:hover::after, .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .contact-hero {
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(180deg, var(--deep-black) 0%, var(--black) 100%);
+            padding-top: 80px;
+        }
+
+        /* Animated Particles */
+        .particles {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--orange);
+            border-radius: 50%;
+            opacity: 0;
+            box-shadow: 0 0 10px var(--orange);
+            animation: particleFloat 15s infinite;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 25%; animation-delay: 3s; }
+        .particle:nth-child(3) { left: 40%; animation-delay: 1s; }
+        .particle:nth-child(4) { left: 55%; animation-delay: 4s; }
+        .particle:nth-child(5) { left: 70%; animation-delay: 2s; }
+        .particle:nth-child(6) { left: 85%; animation-delay: 5s; }
+
+        .hero-content {
+            text-align: center;
+            padding: 4rem 2rem;
+            max-width: 900px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-title {
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, white 0%, var(--orange) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: slideDown 0.8s ease forwards;
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+
+        @keyframes slideDown {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page-subtitle {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 300;
+            animation: slideDown 0.8s ease 0.2s forwards;
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 6rem 2rem;
+            background: var(--black);
+        }
+
+        .contact-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: start;
+        }
+
+        /* Contact Form */
+        .contact-form-wrapper {
+            position: relative;
+        }
+
+        .form-title {
+            font-size: 2rem;
+            color: var(--orange);
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .form-description {
+            font-size: 1.05rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
+        }
+
+        .contact-form {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(30px);
+            padding: 3rem;
+            border: 1px solid rgba(255, 140, 0, 0.2);
+            border-radius: 25px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-form::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--orange), var(--bright-orange));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s;
+        }
+
+        .contact-form:hover::before {
+            transform: scaleX(1);
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.7rem;
+            color: var(--orange);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.08em;
+            transition: all 0.3s;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 1.1rem 1.3rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 140, 0, 0.25);
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--orange);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 30px rgba(255, 140, 0, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 160px;
+        }
+
+        .form-group select {
+            cursor: pointer;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1.3rem;
+            background: linear-gradient(135deg, var(--orange), var(--bright-orange));
+            color: var(--black);
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: 0 10px 30px rgba(255, 140, 0, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(255, 140, 0, 0.5);
+        }
+
+        .submit-btn:active {
+            transform: translateY(-2px);
+        }
+
+        /* Contact Info */
+        .contact-info-wrapper {
+            position: relative;
+        }
+
+        .info-title {
+            font-size: 2rem;
+            color: var(--orange);
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .info-description {
+            font-size: 1.05rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.8rem;
+            padding: 2.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border-left: 4px solid var(--orange);
+            border-radius: 20px;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-item::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 140, 0, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .contact-item:hover {
+            background: rgba(255, 140, 0, 0.08);
+            transform: translateX(10px) scale(1.02);
+            box-shadow: 0 15px 50px rgba(255, 140, 0, 0.3);
+        }
+
+        .contact-item:hover::before {
+            opacity: 1;
+        }
+
+        .contact-icon {
+            min-width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s;
+        }
+
+        .contact-icon svg {
+            width: 35px;
+            height: 35px;
+            fill: var(--orange);
+            filter: drop-shadow(0 0 10px var(--orange));
+            transition: all 0.3s;
+        }
+
+        .contact-item:hover .contact-icon {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        .contact-item:hover .contact-icon svg {
+            filter: drop-shadow(0 0 20px var(--orange));
+        }
+
+        .contact-details h4 {
+            color: var(--orange);
+            margin-bottom: 0.7rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .contact-details p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        .contact-details a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .contact-details a:hover {
+            color: var(--orange);
+        }
+
+        /* Social Links */
+        .social-section {
+            margin-top: 3rem;
+            padding: 2.5rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 140, 0, 0.15);
+        }
+
+        .social-title {
+            font-size: 1.3rem;
+            color: var(--orange);
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 140, 0, 0.3);
+            border-radius: 50%;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            text-decoration: none;
+        }
+
+        .social-link svg {
+            width: 28px;
+            height: 28px;
+            fill: var(--orange);
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            background: var(--orange);
+            border-color: var(--orange);
+            transform: translateY(-8px) rotate(5deg);
+            box-shadow: 0 15px 40px rgba(255, 140, 0, 0.4);
+        }
+
+        .social-link:hover svg {
+            fill: var(--black);
+        }
+
+        /* Success Message */
+        .success-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: linear-gradient(135deg, var(--orange), var(--bright-orange));
+            color: var(--black);
+            padding: 2.5rem 4rem;
+            border-radius: 20px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            z-index: 3000;
+            box-shadow: 0 0 60px rgba(255, 140, 0, 0.8);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .success-message.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--deep-black);
+            border-top: 1px solid rgba(255, 140, 0, 0.15);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-text {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(0, 0, 0, 0.98);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                transform: translateY(-100%);
+                opacity: 0;
+                transition: all 0.3s;
+                pointer-events: none;
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            .contact-form {
+                padding: 2rem;
+            }
+
+            .contact-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .success-message {
+                padding: 2rem 3rem;
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="logo.png" alt="CGPIXELS Logo" onerror="this.style.display='none';">
+                <span class="logo-text">CGPIXELS</span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+            </ul>
+            <button class="menu-toggle" id="menuToggle">☰</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="contact-hero">
+        <div class="particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+        <div class="hero-content">
+            <h1 class="page-title">Let's Create Together</h1>
+            <p class="page-subtitle">Ready to bring your vision to life?</p>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="contact-container">
+            <!-- Contact Form -->
+            <div class="contact-form-wrapper">
+                <h2 class="form-title">Send Us a Message</h2>
+                <p class="form-description">Fill out the form below and we'll get back to you within 24 hours.</p>
+                
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="service">Service Interested In</label>
+                        <select id="service" name="service" required>
+                            <option value="">Select a service</option>
+                            <option value="portrait">Portrait Photography</option>
+                            <option value="commercial">Commercial Shoots</option>
+                            <option value="editorial">Editorial & Fashion</option>
+                            <option value="event">Event Coverage</option>
+                            <option value="lifestyle">Lifestyle Photography</option>
+                            <option value="custom">Custom Project</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Project Details</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="contact-info-wrapper">
+                <h2 class="info-title">Get In Touch</h2>
+                <p class="info-description">Have questions? We're here to help. Reach out to us through any of these channels.</p>
+
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                            </svg>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Email Us</h4>
+                            <p><a href="mailto:hello@cgpixels.com">hello@cgpixels.com</a></p>
+                            <p><a href="mailto:bookings@cgpixels.com">bookings@cgpixels.com</a></p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                            </svg>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Call Us</h4>
+                            <p><a href="tel:+15551234567">+1 (555) 123-4567</a></p>
+                            <p>Mon - Fri: 9AM - 6PM</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                            </svg>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Visit Our Studio</h4>
+                            <p>123 Creative Avenue</p>
+                            <p>Ikeja, Lagos, Nigeria</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                            </svg>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Working Hours</h4>
+                            <p>Monday - Friday: 9AM - 6PM</p>
+                            <p>Saturday: 10AM - 4PM</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social Links -->
+                <div class="social-section">
+                    <h3 class="social-title">Follow Us</h3>
+                    <div class="social-links">
+                        <a href="#" class="social-link" aria-label="Instagram">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Facebook">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="Twitter">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="LinkedIn">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link" aria-label="WhatsApp">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Message -->
+    <div class="success-message" id="successMessage">
+        ✓ Message sent successfully! We'll get back to you soon.
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p class="footer-text">© 2024 CGPIXELS. All rights reserved. | Capturing Reality, Sculpting Light</p>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Mobile menu toggle
+        document.getElementById('menuToggle').addEventListener('click', () => {
+            document.getElementById('navLinks').classList.toggle('active');
+        });
+
+        // Form submission
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Show success message
+            const successMsg = document.getElementById('successMessage');
+            successMsg.classList.add('show');
+
+            // Reset form
+            document.getElementById('contactForm').reset();
+
+            // Hide success message after 3 seconds
+            setTimeout(() => {
+                successMsg.classList.remove('show');
+            }, 3500);
+        });
+
+        // Form field animations
+        document.querySelectorAll('.form-group input, .form-group textarea, .form-group select').forEach(field => {
+            field.addEventListener('focus', () => {
+                field.parentElement.querySelector('label').style.color = 'var(--orange)';
+                field.parentElement.querySelector('label').style.transform = 'translateY(-2px)';
+            });
+
+            field.addEventListener('blur', () => {
+                if (!field.value) {
+                    field.parentElement.querySelector('label').style.color = 'var(--orange)';
+                    field.parentElement.querySelector('label').style.transform = 'translateY(0)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

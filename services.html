@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services - CGPIXELS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #000000;
+            --deep-black: #0a0a0a;
+            --orange: #ff8c00;
+            --bright-orange: #ffa500;
+            --dark-orange: #ff6b00;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+            background: var(--black);
+            color: white;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            background: rgba(0, 0, 0, 0.85);
+            border-bottom: 1px solid rgba(255, 140, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(0, 0, 0, 0.95);
+            box-shadow: 0 4px 30px rgba(255, 140, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.2rem 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+            text-decoration: none;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo img {
+            width: 45px;
+            height: 45px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 15px var(--orange));
+        }
+
+        .logo-text {
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            background: linear-gradient(135deg, var(--orange), var(--bright-orange));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+            position: relative;
+            transition: all 0.3s;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--orange);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--orange);
+        }
+
+        .nav-links a:hover::after, .nav-links a.active::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .services-hero {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(180deg, var(--deep-black) 0%, var(--black) 100%);
+            padding-top: 80px;
+        }
+
+        .hero-bg-animation {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+        }
+
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.3;
+            animation: floatShape 20s ease-in-out infinite;
+        }
+
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--orange) 0%, transparent 70%);
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--bright-orange) 0%, transparent 70%);
+            bottom: 20%;
+            right: 15%;
+            animation-delay: 7s;
+        }
+
+        @keyframes floatShape {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(50px, -50px) scale(1.2);
+            }
+            66% {
+                transform: translate(-30px, 30px) scale(0.8);
+            }
+        }
+
+        .hero-content {
+            text-align: center;
+            padding: 4rem 2rem;
+            max-width: 900px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-title {
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, white 0%, var(--orange) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: slideDown 0.8s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes slideDown {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page-title {
+            transform: translateY(-30px);
+        }
+
+        .page-subtitle {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 300;
+            animation: slideDown 0.8s ease 0.2s forwards;
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        /* Services Grid */
+        .services-section {
+            padding: 6rem 2rem;
+            background: var(--black);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 140, 0, 0.2);
+            padding: 3rem;
+            border-radius: 20px;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .service-card:nth-child(1) { animation-delay: 0.1s; }
+        .service-card:nth-child(2) { animation-delay: 0.2s; }
+        .service-card:nth-child(3) { animation-delay: 0.3s; }
+        .service-card:nth-child(4) { animation-delay: 0.4s; }
+        .service-card:nth-child(5) { animation-delay: 0.5s; }
+        .service-card:nth-child(6) { animation-delay: 0.6s; }
+
+        .service-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--orange), var(--bright-orange));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-15px);
+            border-color: var(--orange);
+            background: rgba(255, 140, 0, 0.05);
+            box-shadow: 0 25px 60px rgba(255, 140, 0, 0.3);
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-icon {
+            margin-bottom: 2rem;
+            display: inline-block;
+            transition: all 0.4s;
+        }
+
+        .service-icon svg {
+            width: 70px;
+            height: 70px;
+            fill: var(--orange);
+            filter: drop-shadow(0 0 20px var(--orange));
+            transition: all 0.4s;
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        .service-card:hover .service-icon svg {
+            filter: drop-shadow(0 0 30px var(--orange));
+        }
+
+        .service-card h3 {
+            font-size: 1.8rem;
+            color: var(--orange);
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .service-card p {
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.8;
+            font-size: 1.05rem;
+            margin-bottom: 2rem;
+        }
+
+        .service-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .service-features li {
+            padding: 0.7rem 0;
+            color: rgba(255, 255, 255, 0.7);
+            border-bottom: 1px solid rgba(255, 140, 0, 0.1);
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .service-features li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--orange);
+            font-weight: bold;
+        }
+
+        .service-price {
+            font-size: 2rem;
+            color: var(--orange);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--orange), var(--bright-orange));
+            color: var(--black);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .service-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 140, 0, 0.4);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: var(--deep-black);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(255, 140, 0, 0.1) 0%, transparent 70%);
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-content h2 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 1.5rem;
+            color: white;
+            font-weight: 800;
+        }
+
+        .cta-content p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 2.5rem;
+            line-height: 1.8;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            padding: 1.2rem 3rem;
+            background: linear-gradient(135deg, var(--orange), var(--bright-orange));
+            color: var(--black);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(255, 140, 0, 0.5);
+        }
+
+        .btn-secondary {
+            padding: 1.2rem 3rem;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border: 2px solid rgba(255, 140, 0, 0.4);
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 140, 0, 0.1);
+            border-color: var(--orange);
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--deep-black);
+            border-top: 1px solid rgba(255, 140, 0, 0.15);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-text {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(0, 0, 0, 0.98);
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+                transform: translateY(-100%);
+                opacity: 0;
+                transition: all 0.3s;
+                pointer-events: none;
+            }
+
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="logo.png" alt="CGPIXELS Logo" onerror="this.style.display='none';">
+                <span class="logo-text">CGPIXELS</span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="services.html" class="active">Services</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <button class="menu-toggle" id="menuToggle">☰</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="services-hero">
+        <div class="hero-bg-animation">
+            <div class="floating-shape shape-1"></div>
+            <div class="floating-shape shape-2"></div>
+        </div>
+        <div class="hero-content">
+            <h1 class="page-title">Our Services</h1>
+            <p class="page-subtitle">Professional photography for every vision</p>
+        </div>
+    </div>
+
+    <!-- Services Grid -->
+    <section class="services-section">
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                    </svg>
+                </div>
+                <h3>Portrait Photography</h3>
+                <p>Professional headshots, personal branding, and artistic portraits that capture your unique essence with stunning clarity and creativity.</p>
+                <ul class="service-features">
+                    <li>Studio & On-location Shoots</li>
+                    <li>Professional Retouching</li>
+                    <li>High-Resolution Delivery</li>
+                    <li>Multiple Outfit Changes</li>
+                </ul>
+                <div class="service-price">From $299</div>
+                <a href="contact.html" class="service-btn">Book Now</a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/>
+                    </svg>
+                </div>
+                <h3>Commercial Shoots</h3>
+                <p>Product photography, brand campaigns, and commercial content designed to elevate your business and captivate your audience.</p>
+                <ul class="service-features">
+                    <li>Product Photography</li>
+                    <li>Brand Campaigns</li>
+                    <li>Marketing Materials</li>
+                    <li>Usage Rights Included</li>
+                </ul>
+                <div class="service-price">From $799</div>
+                <a href="contact.html" class="service-btn">Book Now</a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+                    </svg>
+                </div>
+                <h3>Editorial & Fashion</h3>
+                <p>High-fashion editorials, lookbooks, and creative campaigns with cinematic quality and magazine-worthy results.</p>
+                <ul class="service-features">
+                    <li>Fashion Editorials</li>
+                    <li>Lookbook Creation</li>
+                    <li>Creative Direction</li>
+                    <li>Styling Consultation</li>
+                </ul>
+                <div class="service-price">From $1,299</div>
+                <a href="contact.html" class="service-btn">Book Now</a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M18 3v2h-2V3H8v2H6V3H4v18h2v-2h2v2h8v-2h2v2h2V3h-2zM8 17H6v-2h2v2zm0-4H6v-2h2v2zm0-4H6V7h2v2zm10 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2z"/>
+                    </svg>
+                </div>
+                <h3>Event Coverage</h3>
+                <p>Comprehensive coverage for corporate events, weddings, and special occasions with documentary-style storytelling.</p>
+                <ul class="service-features">
+                    <li>Full Day Coverage</li>
+                    <li>Multiple Photographers</li>
+                    <li>Same-Day Previews</li>
+                    <li>Online Gallery Delivery</li>
+                </ul>
+                <div class="service-price">From $1,499</div>
+                <a href="contact.html" class="service-btn">Book Now</a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"/>
+                    </svg>
+                </div>
+                <h3>Lifestyle Photography</h3>
+                <p>Authentic, candid moments captured in natural settings, perfect for personal branding and lifestyle content.</p>
+                <ul class="service-features">
+                    <li>Natural Light Sessions</li>
+                    <li>Location Scouting</li>
+                    <li>Candid Photography</li>
+                    <li>Social Media Ready</li>
+                </ul>
+                <div class="service-price">From $499</div>
+                <a href="contact.html" class="service-btn">Book Now</a>
+            </div>
+
+            <div class="service-card">
+                <div class="service-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/>
+                    </svg>
+                </div>
+                <h3>Custom Projects</h3>
+                <p>Tailored photography solutions for unique visions and creative concepts that push boundaries.</p>
+                <ul class="service-features">
+                    <li>Custom Concepts</li>
+                    <li>Creative Collaboration</li>
+                    <li>Flexible Packages</li>
+                    <li>Unlimited Creativity</li>
+                </ul>
+                <div class="service-price">Custom Quote</div>
+                <a href="contact.html" class="service-btn">Book Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Ready to Create Something Amazing?</h2>
+            <p>Let's bring your vision to life. Whether it's a personal project or a commercial campaign, we're here to make it happen.</p>
+            <div class="cta-buttons">
+                <a href="contact.html" class="btn-primary">Get Started</a>
+                <a href="gallery.html" class="btn-secondary">View Our Work</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p class="footer-text">© 2024 CGPIXELS. All rights reserved. | Capturing Reality, Sculpting Light</p>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Mobile menu toggle
+        document.getElementById('menuToggle').addEventListener('click', () => {
+            document.getElementById('navLinks').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

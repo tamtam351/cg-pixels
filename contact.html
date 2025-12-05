@@ -18,6 +18,9 @@
             --bright-orange: #ffa500;
             --dark-orange: #ff6b00;
         }
+        a{
+            cursor: pointer;
+        }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
@@ -53,7 +56,9 @@
             justify-content: space-between;
             align-items: center;
         }
-
+        select option{
+            color: #000000;
+        }
         .logo {
             display: flex;
             align-items: center;
@@ -65,13 +70,6 @@
 
         .logo:hover {
             transform: scale(1.05);
-        }
-
-        .logo img {
-            width: 45px;
-            height: 45px;
-            object-fit: contain;
-            filter: drop-shadow(0 0 15px var(--orange));
         }
 
         .logo-text {
@@ -256,12 +254,13 @@
         }
 
         .contact-form {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(30px);
-            padding: 3rem;
-            border: 1px solid rgba(255, 140, 0, 0.2);
-            border-radius: 25px;
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(40px);
+            padding: 3.5rem;
+            border: 2px solid rgba(255, 140, 0, 0.25);
+            border-radius: 30px;
+            box-shadow: 0 15px 60px rgba(0, 0, 0, 0.5),
+                        inset 0 1px 0 rgba(255, 140, 0, 0.1);
             position: relative;
             overflow: hidden;
         }
@@ -272,15 +271,37 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--orange), var(--bright-orange));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.5s;
+            height: 5px;
+            background: linear-gradient(90deg, 
+                var(--orange) 0%, 
+                var(--bright-orange) 25%,
+                var(--orange) 50%,
+                var(--bright-orange) 75%,
+                var(--orange) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 3s linear infinite;
         }
 
-        .contact-form:hover::before {
-            transform: scaleX(1);
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .contact-form::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 140, 0, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+        }
+
+        .contact-form:hover::after {
+            opacity: 1;
         }
 
         .form-group {
@@ -303,25 +324,44 @@
         .form-group textarea,
         .form-group select {
             width: 100%;
-            padding: 1.1rem 1.3rem;
-            background: rgba(255, 255, 255, 0.05);
+            padding: 1.3rem 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 140, 0, 0.25);
-            border-radius: 12px;
+            border: 2px solid rgba(255, 140, 0, 0.3);
+            border-radius: 16px;
             color: white;
-            font-size: 1rem;
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            font-size: 1.05rem;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             font-family: inherit;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+            font-style: italic;
         }
 
         .form-group input:focus,
         .form-group textarea:focus,
         .form-group select:focus {
             outline: none;
-            border-color: var(--orange);
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 30px rgba(255, 140, 0, 0.3);
-            transform: translateY(-3px);
+            border-color: var(--bright-orange);
+            background: rgba(255, 140, 0, 0.1);
+            box-shadow: 0 0 40px rgba(255, 140, 0, 0.4), 
+                        inset 0 0 20px rgba(255, 140, 0, 0.1);
+            transform: translateY(-4px) scale(1.01);
+        }
+
+        .required-star {
+            color: var(--bright-orange);
+            margin-left: 4px;
+            font-size: 1.1em;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
         .form-group textarea {
@@ -335,27 +375,77 @@
 
         .submit-btn {
             width: 100%;
-            padding: 1.3rem;
-            background: linear-gradient(135deg, var(--orange), var(--bright-orange));
+            padding: 1.5rem 2rem;
+            background: linear-gradient(135deg, var(--orange) 0%, var(--bright-orange) 50%, var(--orange) 100%);
+            background-size: 200% 100%;
             color: var(--black);
             border: none;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 700;
+            border-radius: 60px;
+            font-size: 1.2rem;
+            font-weight: 800;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            box-shadow: 0 10px 30px rgba(255, 140, 0, 0.3);
+            letter-spacing: 0.1em;
+            box-shadow: 0 15px 40px rgba(255, 140, 0, 0.4),
+                        inset 0 -3px 0 rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
         }
 
-        .submit-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 50px rgba(255, 140, 0, 0.5);
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(255, 140, 0, 0.6),
+                        inset 0 -3px 0 rgba(0, 0, 0, 0.3);
+            background-position: 100% 0;
+        }
+
+        .btn-icon {
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+            font-weight: bold;
+        }
+
+        .submit-btn:hover .btn-icon {
+            transform: translateX(5px);
         }
 
         .submit-btn:active {
-            transform: translateY(-2px);
+            transform: translateY(-4px) scale(0.98);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .submit-btn:disabled .btn-icon {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         /* Contact Info */
@@ -544,6 +634,30 @@
             transform: translate(-50%, -50%) scale(1);
         }
 
+        /* Error Message */
+        .error-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: linear-gradient(135deg, #ff4444, #cc0000);
+            color: white;
+            padding: 2.5rem 4rem;
+            border-radius: 20px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            z-index: 3000;
+            box-shadow: 0 0 60px rgba(255, 68, 68, 0.8);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .error-message.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
         /* Footer */
         footer {
             background: var(--deep-black);
@@ -600,7 +714,7 @@
                 text-align: center;
             }
 
-            .success-message {
+            .success-message, .error-message {
                 padding: 2rem 3rem;
                 font-size: 1.1rem;
             }
@@ -612,8 +726,7 @@
     <nav id="navbar">
         <div class="nav-container">
             <a href="index.html" class="logo">
-                <img src="logo.png" alt="CGPIXELS Logo" onerror="this.style.display='none';">
-                <span class="logo-text">CGPIXELS</span>
+                <span class="logo-text">CG PIXELS</span>
             </a>
             <ul class="nav-links" id="navLinks">
                 <li><a href="index.html">Home</a></li>
@@ -650,7 +763,11 @@
                 <h2 class="form-title">Send Us a Message</h2>
                 <p class="form-description">Fill out the form below and we'll get back to you within 24 hours.</p>
                 
-                <form class="contact-form" id="contactForm">
+                <form class="contact-form" id="contactForm" action="https://formspree.io/f/xkgdzroe" method="POST">
+                    <!-- Formspree Configuration -->
+                    <input type="hidden" name="_subject" value="New Contact Form Submission - CGPIXELS">
+                    <input type="text" name="_gotcha" style="display:none">
+                    
                     <div class="form-group">
                         <label for="name">Your Name</label>
                         <input type="text" id="name" name="name" required>
@@ -670,12 +787,12 @@
                         <label for="service">Service Interested In</label>
                         <select id="service" name="service" required>
                             <option value="">Select a service</option>
-                            <option value="portrait">Portrait Photography</option>
-                            <option value="commercial">Commercial Shoots</option>
-                            <option value="editorial">Editorial & Fashion</option>
-                            <option value="event">Event Coverage</option>
-                            <option value="lifestyle">Lifestyle Photography</option>
-                            <option value="custom">Custom Project</option>
+                            <option value="Portrait Photography">Portrait Photography</option>
+                            <option value="Commercial Shoots">Commercial Shoots</option>
+                            <option value="Editorial & Fashion">Editorial & Fashion</option>
+                            <option value="Event Coverage">Event Coverage</option>
+                            <option value="Lifestyle Photography">Lifestyle Photography</option>
+                            <option value="Custom Project">Custom Project</option>
                         </select>
                     </div>
 
@@ -684,7 +801,10 @@
                         <textarea id="message" name="message" required></textarea>
                     </div>
 
-                    <button type="submit" class="submit-btn">Send Message</button>
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <span class="btn-text">Send Message</span>
+                        <span class="btn-icon">→</span>
+                    </button>
                 </form>
             </div>
 
@@ -702,8 +822,8 @@
                         </div>
                         <div class="contact-details">
                             <h4>Email Us</h4>
-                            <p><a href="mailto:hello@cgpixels.com">hello@cgpixels.com</a></p>
-                            <p><a href="mailto:bookings@cgpixels.com">bookings@cgpixels.com</a></p>
+                            <p><a href="mailto:Hello@cgstudios.ng">Hello@cgstudios.ng</a></p>
+                            <p><a href="mailto:cgpixels.ng@gmail.com">cgpixels.ng@gmail.com</a></p>
                         </div>
                     </div>
 
@@ -715,7 +835,7 @@
                         </div>
                         <div class="contact-details">
                             <h4>Call Us</h4>
-                            <p><a href="tel:+15551234567">+1 (555) 123-4567</a></p>
+                            <p><a href="tel:+2348139427476">08139427476</a></p>
                             <p>Mon - Fri: 9AM - 6PM</p>
                         </div>
                     </div>
@@ -728,7 +848,7 @@
                         </div>
                         <div class="contact-details">
                             <h4>Visit Our Studio</h4>
-                            <p>123 Creative Avenue</p>
+                            <p>31, Adebayo Street, off Demurin Road, Ketu.</p>
                             <p>Ikeja, Lagos, Nigeria</p>
                         </div>
                     </div>
@@ -751,12 +871,12 @@
                 <div class="social-section">
                     <h3 class="social-title">Follow Us</h3>
                     <div class="social-links">
-                        <a href="#" class="social-link" aria-label="Instagram">
+                        <a href="http://www.instagram.com/cg_pixels" class="social-link" aria-label="Instagram">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                 <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/>
                             </svg>
                         </a>
-                        <a href="#" class="social-link" aria-label="Facebook">
+                        <a href="https://www.facebook.com/share/1FWSHEdRr6/?mibextid=wwXIfr" class="social-link" aria-label="Facebook">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                             </svg>
@@ -766,12 +886,12 @@
                                 <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
                             </svg>
                         </a>
-                        <a href="#" class="social-link" aria-label="LinkedIn">
+                        <a href="https://www.linkedin.com/company/cg-studios-ng/" class="social-link" aria-label="LinkedIn">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                 <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
                             </svg>
                         </a>
-                        <a href="#" class="social-link" aria-label="WhatsApp">
+                        <a href="https://wa.me/2348139427476" class="social-link" aria-label="WhatsApp">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                             </svg>
@@ -787,9 +907,14 @@
         ✓ Message sent successfully! We'll get back to you soon.
     </div>
 
+    <!-- Error Message -->
+    <div class="error-message" id="errorMessage">
+        ✗ Oops! Something went wrong. Please try again.
+    </div>
+
     <!-- Footer -->
     <footer>
-        <p class="footer-text">© 2024 CGPIXELS. All rights reserved. | Capturing Reality, Sculpting Light</p>
+        <p class="footer-text">© 2025 CGPIXELS. All rights reserved. | Capturing Reality, Sculpting Light</p>
     </footer>
 
     <script>
@@ -803,21 +928,68 @@
             document.getElementById('navLinks').classList.toggle('active');
         });
 
-        // Form submission
-        document.getElementById('contactForm').addEventListener('submit', (e) => {
+        // Form submission with Formspree
+        document.getElementById('contactForm').addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            // Show success message
-            const successMsg = document.getElementById('successMessage');
-            successMsg.classList.add('show');
+            const form = e.target;
+            const submitBtn = document.getElementById('submitBtn');
+            const data = new FormData(form);
 
-            // Reset form
-            document.getElementById('contactForm').reset();
+            // Disable button during submission
+            submitBtn.disabled = true;
+            const originalText = submitBtn.querySelector('.btn-text').textContent;
+            submitBtn.querySelector('.btn-text').textContent = 'Sending...';
+            submitBtn.querySelector('.btn-icon').textContent = '⟳';
 
-            // Hide success message after 3 seconds
-            setTimeout(() => {
-                successMsg.classList.remove('show');
-            }, 3500);
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: data,
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (response.ok) {
+                    // Show success message
+                    const successMsg = document.getElementById('successMessage');
+                    successMsg.classList.add('show');
+
+                    // Reset form
+                    form.reset();
+
+                    // Hide success message after 3.5 seconds
+                    setTimeout(() => {
+                        successMsg.classList.remove('show');
+                    }, 3500);
+                } else {
+                    // Show error message
+                    const errorMsg = document.getElementById('errorMessage');
+                    errorMsg.classList.add('show');
+
+                    // Hide error message after 3.5 seconds
+                    setTimeout(() => {
+                        errorMsg.classList.remove('show');
+                    }, 3500);
+
+                    console.error('Formspree error:', await response.json());
+                }
+            } catch (error) {
+                // Show error message
+                const errorMsg = document.getElementById('errorMessage');
+                errorMsg.classList.add('show');
+
+                // Hide error message after 3.5 seconds
+                setTimeout(() => {
+                    errorMsg.classList.remove('show');
+                }, 3500);
+
+                console.error('Submit failed:', error);
+            } finally {
+                // Re-enable button
+                submitBtn.disabled = false;
+                submitBtn.querySelector('.btn-text').textContent = originalText;
+                submitBtn.querySelector('.btn-icon').textContent = '→';
+            }
         });
 
         // Form field animations

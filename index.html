@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CGPIXELS - Capturing Reality, Sculpting Light</title>
+    <title>CG Pixels - Capturing Reality, Sculpting Light</title>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
       * {
@@ -28,6 +28,9 @@
         overflow-x: hidden;
         line-height: 1.6;
         font-weight: 400;
+      }
+      a{
+        text-decoration: none;
       }
 
       /* Custom Cursor */
@@ -87,12 +90,12 @@
         transform: scale(1.05);
       }
 
-      .logo img {
-        width: 45px;
-        height: 45px;
-        object-fit: contain;
+     /* .logo img {
+        width: 250px;
+        height: 100px;
+        object-fit: cover;
         filter: drop-shadow(0 0 15px var(--orange));
-      }
+      } */
 
       .logo-text {
         font-size: 1.4rem;
@@ -392,6 +395,12 @@
         font-size: 2rem;
         opacity: 0.1;
         animation: floatIcon 20s infinite;
+      }
+
+      .floating-icon svg {
+        width: 40px;
+        height: 40px;
+        fill: var(--orange);
       }
 
       @keyframes floatIcon {
@@ -776,13 +785,13 @@
         cursor: pointer;
         border: 1px solid rgba(255, 140, 0, 0.2);
         transition: all 0.3s;
-        backdrop-filter: blur(5px); /* Added for beauty - glassmorphism touch */
+        backdrop-filter: blur(5px);
       }
 
       .gallery-item:hover {
         transform: translateY(-10px);
         border-color: var(--orange);
-        box-shadow: 0 20px 60px rgba(255, 140, 0, 0.4); /* Enhanced shadow for beauty */
+        box-shadow: 0 20px 60px rgba(255, 140, 0, 0.4);
       }
 
       .gallery-img {
@@ -790,7 +799,7 @@
         height: 100%;
         object-fit: cover;
         transition: all 0.5s;
-        filter: grayscale(0.3);
+        ;
       }
 
       .gallery-item:hover .gallery-img {
@@ -902,9 +911,20 @@
       }
 
       .service-icon {
-        font-size: 3rem;
         margin-bottom: 1.5rem;
+        display: inline-block;
+        transition: all 0.4s;
+      }
+
+      .service-icon svg {
+        width: 50px;
+        height: 50px;
+        fill: var(--orange);
         filter: drop-shadow(0 0 20px var(--orange));
+      }
+
+      .service-card:hover .service-icon {
+        transform: scale(1.1);
       }
 
       .service-card h3 {
@@ -990,1081 +1010,1037 @@
         padding: 2rem;
         background: rgba(255, 255, 255, 0.05);
         backdrop-filter: blur(20px) saturate(180%);
-        border-left: 3px solid var(--orange);
+        border-left: 3px solid var(--orange);  
         border-radius: 15px;
         transition: all 0.3s;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3),
-          inset 0 1px 0 rgba(255, 255, 255, 0.1);
-      }
-
-      .contact-item:hover {
-        background: rgba(255, 140, 0, 0.15);
-        transform: translateX(10px);
-        box-shadow: 0 8px 30px rgba(255, 140, 0, 0.3),
-          inset 0 1px 0 rgba(255, 255, 255, 0.1);
-      }
-
-      .contact-icon {
-        font-size: 1.5rem;
-        color: var(--orange);
-        filter: drop-shadow(0 0 10px var(--orange));
-      }
-
-      .contact-details h4 {
-        color: var(--orange);
-        margin-bottom: 0.5rem;
-        font-size: 1.1rem;
-      }
-
-      .contact-details p {
-        color: rgba(255, 255, 255, 0.7);
-      }
-
-      /* Footer */
-      footer {
-        background: var(--deep-black);
-        border-top: 1px solid rgba(255, 140, 0, 0.2);
-        padding: 3rem 2rem;
-        text-align: center;
-      }
-
-      .footer-content {
-        max-width: 1400px;
-        margin: 0 auto;
-      }
-
-      .social-links {
-        display: flex;
-        gap: 2rem;
-        justify-content: center;
-        margin-bottom: 2rem;
-      }
-
-      .social-link {
-        color: white;
-        font-size: 1.5rem;
-        transition: all 0.3s;
-        text-decoration: none;
-      }
-
-      .social-link:hover {
-        color: var(--orange);
-        transform: translateY(-5px);
-        filter: drop-shadow(0 5px 15px var(--orange));
-      }
-
-      .footer-text {
-        color: rgba(255, 255, 255, 0.5);
-        font-size: 0.9rem;
-      }
-
-      /* Modal/Lightbox */
-      .modal {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.95);
-        z-index: 2000;
-        backdrop-filter: blur(10px);
-        align-items: center;
-        justify-content: center;
-        padding: 2rem;
-      }
-
-      .modal.active {
-        display: flex;
-      }
-
-      .modal-content {
-        max-width: 90vw;
-        max-height: 90vh;
-        position: relative;
-      }
-
-      .modal-img {
-        max-width: 100%;
-        max-height: 80vh;
-        object-fit: contain;
-        border: 2px solid var(--orange);
-        box-shadow: 0 0 50px rgba(255, 140, 0, 0.5);
-      }
-
-      .modal-close {
-        position: absolute;
-        top: -3rem;
-        right: 0;
-        background: none;
-        border: none;
-        color: white;
-        font-size: 2rem;
-        cursor: pointer;
-        transition: all 0.3s;
-      }
-
-      .modal-close:hover {
-        color: var(--orange);
-        transform: rotate(90deg);
-      }
-
-      .modal-info {
-        margin-top: 1.5rem;
-        text-align: center;
-      }
-
-      .modal-title {
-        font-size: 1.5rem;
-        color: var(--orange);
-        margin-bottom: 0.5rem;
-      }
-
-      .modal-specs {
-        color: rgba(255, 255, 255, 0.7);
-      }
-
-      /* =========================================
-   RESPONSIVE DESIGN ADJUSTMENTS
-   ========================================= */
-
-      /* Tablets (<=1024px) */
-      @media (max-width: 1024px) {
-        .nav-container {
-          padding: 1rem 1.5rem;
-        }
-
-        .nav-links {
-          gap: 1.5rem;
-        }
-
-        .hero-title {
-          font-size: clamp(2.5rem, 7vw, 5rem);
-        }
-
-        .hero-subtitle {
-          font-size: 1.2rem;
-        }
-
-        .cta-buttons .btn {
-          padding: 1rem 2rem;
-          font-size: 1rem;
-        }
-
-        .about-content {
-          grid-template-columns: 1fr;
-          text-align: center;
-        }
-
-        .about-image {
-          max-width: 400px;
-          margin: 0 auto;
-        }
-
-        .contact-container {
-          grid-template-columns: 1fr;
-          justify-items: center; /* centers horizontally */
-        }
-
-        .contact-form {
-          width: 100%;
-          max-width: 500px; /* centers and limits size */
-        }
-
-        /* perfectly center text inside circles */
-        .circle-content {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          text-align: center;
-        }
-
-        .stats-section {
-          padding: 6rem 1.5rem;
-        }
-
-        .stats-grid {
-          gap: 3rem;
-        }
-
-        .circular-progress {
-          width: 180px;
-          height: 180px;
-        }
-
-        .circle-number {
-          font-size: 2.5rem;
-        }
-      }
-
-      /* Mobile Landscape (<=768px) */
-      @media (max-width: 768px) {
-        .menu-toggle {
-          display: block;
-        }
-
-        .nav-links {
-          position: absolute;
-          top: 100%;
-          left: 0;
-          right: 0;
-          background: rgba(0, 0, 0, 0.98);
-          flex-direction: column;
-          padding: 2rem;
-          gap: 1.5rem;
-          transform: translateY(-100%);
-          opacity: 0;
-          transition: all 0.3s;
-          pointer-events: none;
-        }
-
-        .nav-links.active {
-          transform: translateY(0);
-          opacity: 1;
-          pointer-events: all;
-        }
-
-        .hero-title {
-          font-size: clamp(2rem, 8vw, 4rem);
-        }
-
-        .hero-subtitle {
-          font-size: 1rem;
-          margin-bottom: 2rem;
-        }
-
-        .btn {
-          padding: 0.9rem 1.8rem;
-          font-size: 0.9rem;
-        }
-
-        .gallery {
-          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-          gap: 1rem;
-        }
-
-        .services-grid {
-          grid-template-columns: 1fr;
-          gap: 1.5rem;
-        }
-
-        .stat-circle-item {
-          gap: 1rem;
-          display: flex;
-          justify-content: center;
-          align-items: center; /* ensures the whole circle section centers */
-        }
-
-        .circular-progress {
-          width: 150px;
-          height: 150px;
-          position: relative;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        /* fix number alignment inside circle */
-        .circle-content {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          text-align: center;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-
-        .circle-number {
-          font-size: 2.2rem;
-        }
-
-        .circle-label {
-          font-size: 0.8rem;
-        }
-
-        /* contact section centered */
-        .contact-container {
-          grid-template-columns: 1fr;
-          justify-items: center;
-          text-align: center;
-        }
-
-        .contact-form,
-        .contact-info {
-          width: 100%;
-          max-width: 450px;
-          margin: 0 auto;
-        }
-
-        .section {
-          padding: 4rem 1.5rem;
-        }
-
-        .stats-section {
-          padding: 4rem 1rem;
-        }
-
-        .stats-grid {
-          grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-          gap: 2rem;
-        }
-      }
-
-      /* Mobile Portrait (<=480px) */
-      @media (max-width: 480px) {
-        .logo {
-          font-size: 1.2rem;
-        }
-
-        .logo-icon::before {
-          font-size: 24px;
-        }
-
-        .hero-title {
-          font-size: clamp(1.8rem, 8vw, 3rem);
-        }
-
-        .hero-subtitle {
-          font-size: 0.9rem;
-        }
-
-        .hero-description {
-          font-size: 0.9rem;
-          margin-bottom: 2rem;
-        }
-
-        .cta-buttons {
-          flex-direction: column;
-          gap: 1rem;
-        }
-
-        .btn {
-          padding: 0.8rem 1.5rem;
-          font-size: 0.85rem;
-          border-radius: 30px;
-        }
-
-        .section-title {
-          font-size: 2rem;
-        }
-
-        .section-subtitle {
-          font-size: 1rem;
-        }
-
-        .filter-buttons {
-          flex-direction: column;
-          gap: 0.5rem;
-        }
-
-        .filter-btn {
-          width: 100%;
-          text-align: center;
-        }
-
-        .contact-form {
-          padding: 2rem;
-        }
-
-        .form-group input,
-        .form-group textarea {
-          padding: 0.8rem;
-          font-size: 0.9rem;
-        }
-
-        /* small-screen circle alignment fix */
-        .circular-progress {
-          width: 130px;
-          height: 130px;
-        }
-
-        .circle-content {
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-direction: column;
-        }
-
-        /* contact form center fix */
-        .contact-container {
-          padding: 1rem;
-          justify-items: center;
-        }
-
-        .contact-form,
-        .contact-info {
-          max-width: 100%;
-          margin: 0 auto;
-          text-align: center;
-        }
-
-        .stats-section {
-          padding: 3rem 1rem;
-        }
-
-        .stats-grid {
-          gap: 3rem;
-        }
-
-        .circle-number {
-          font-size: 2rem;
-        }
-
-        .circle-label {
-          font-size: 0.7rem;
-        }
-      }
-
-      /* Fade for success msg only */
-      @keyframes fadeIn {
-        from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
-        to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-      }
-      @keyframes fadeOut {
-        from { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-        to { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
-      }
-
-      /* Stats without circle */
-      .stat-item {
-        text-align: center;
-      }
-
-      .stat-number {
-        font-size: 3rem;
-        font-weight: 700;
-        color: var(--orange);
-        line-height: 1;
-        margin-bottom: 0.5rem;
-        filter: drop-shadow(0 0 10px var(--orange));
-      }
-
-      .stat-label {
-        font-size: 0.9rem;
-        color: rgba(255, 255, 255, 0.6);
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        font-weight: 500;
-      }
-    </style>
-  </head>
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+   }
+.contact-item:hover {
+    background: rgba(255, 140, 0, 0.15);
+    transform: translateX(10px);
+    box-shadow: 0 8px 30px rgba(255, 140, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .contact-icon {
+    font-size: 1.5rem;
+    color: var(--orange);
+    filter: drop-shadow(0 0 10px var(--orange));
+  }
+
+  .contact-icon svg {
+    width: 30px;
+    height: 30px;
+    fill: var(--orange);
+  }
+
+  .contact-details h4 {
+    color: var(--orange);
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+  }
+
+  .contact-details p {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  /* Footer */
+  footer {
+    background: var(--deep-black);
+    border-top: 1px solid rgba(255, 140, 0, 0.2);
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+
+  .footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+
+  .social-link {
+    color: white;
+    transition: all 0.3s;
+    text-decoration: none;
+  }
+
+  .social-link svg {
+    width: 30px;
+    height: 30px;
+    fill: white;
+    transition: all 0.3s;
+  }
+
+  .social-link:hover svg {
+    fill: var(--orange);
+    transform: translateY(-5px);
+    filter: drop-shadow(0 5px 15px var(--orange));
+  }
+
+  .footer-text {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.9rem;
+  }
+
+  /* Modal/Lightbox */
+  .modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 2000;
+    backdrop-filter: blur(10px);
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .modal.active {
+    display: flex;
+  }
+
+  .modal-content {
+    max-width: 90vw;
+    max-height: 90vh;
+    position: relative;
+  }
+
+  .modal-img {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+    border: 2px solid var(--orange);
+    box-shadow: 0 0 50px rgba(255, 140, 0, 0.5);
+  }
+
+  .modal-close {
+    position: absolute;
+    top: -3rem;
+    right: 0;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .modal-close:hover {
+    color: var(--orange);
+    transform: rotate(90deg);
+  }
+
+  .modal-info {
+    margin-top: 1.5rem;
+    text-align: center;
+  }
+
+  .modal-title {
+    font-size: 1.5rem;
+    color: var(--orange);
+    margin-bottom: 0.5rem;
+  }
+
+  .modal-specs {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .nav-container {
+      padding: 1rem 1.5rem;
+    }
+
+    .nav-links {
+      gap: 1.5rem;
+    }
+
+    .hero-title {
+      font-size: clamp(2.5rem, 7vw, 5rem);
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+    }
+
+    .cta-buttons .btn {
+      padding: 1rem 2rem;
+      font-size: 1rem;
+    }
+
+    .about-content {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+
+    .about-image {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .contact-container {
+      grid-template-columns: 1fr;
+      justify-items: center;
+    }
+
+    .contact-form {
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .stats-section {
+      padding: 6rem 1.5rem;
+    }
+
+    .stats-grid {
+      gap: 3rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .menu-toggle {
+      display: block;
+    }
+
+    .nav-links {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.98);
+      flex-direction: column;
+      padding: 2rem;
+      gap: 1.5rem;
+      transform: translateY(-100%);
+      opacity: 0;
+      transition: all 0.3s;
+      pointer-events: none;
+    }
+
+    .nav-links.active {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .hero-title {
+      font-size: clamp(2rem, 8vw, 4rem);
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .btn {
+      padding: 0.9rem 1.8rem;
+      font-size: 0.9rem;
+    }
+
+    .gallery {
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+
+    .services-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .contact-container {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      text-align: center;
+    }
+
+    .contact-form,
+    .contact-info {
+      width: 100%;
+      max-width: 450px;
+      margin: 0 auto;
+    }
+
+    .section {
+      padding: 4rem 1.5rem;
+    }
+
+    .stats-section {
+      padding: 4rem 1rem;
+    }
+
+    .stats-grid {
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 2rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .logo {
+      font-size: 1.2rem;
+    }
+
+    .hero-title {
+      font-size: clamp(1.8rem, 8vw, 3rem);
+    }
+
+    .hero-subtitle {
+      font-size: 0.9rem;
+    }
+
+    .hero-description {
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+    }
+
+    .cta-buttons {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .btn {
+      padding: 0.8rem 1.5rem;
+      font-size: 0.85rem;
+      border-radius: 30px;
+    }
+
+    .section-title {
+      font-size: 2rem;
+    }
+
+    .section-subtitle {
+      font-size: 1rem;
+    }
+
+    .filter-buttons {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .filter-btn {
+      width: 100%;
+      text-align: center;
+    }
+
+    .contact-form {
+      padding: 2rem;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      padding: 0.8rem;
+      font-size: 0.9rem;
+    }
+
+    .contact-container {
+      padding: 1rem;
+      justify-items: center;
+    }
+
+    .contact-form,
+    .contact-info {
+      max-width: 100%;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .stats-section {
+      padding: 3rem 1rem;
+    }
+
+    .stats-grid {
+      gap: 3rem;
+    }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+    to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  }
+  @keyframes fadeOut {
+    from { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    to { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .stat-number {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--orange);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    filter: drop-shadow(0 0 10px var(--orange));
+  }
+
+  .stat-label {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+  }
+</style>
+</head>
   <body>
-    <!-- Custom Cursor Glow -->
     <div class="cursor-glow" id="cursorGlow"></div>
-
-    <!-- Navigation -->
     <nav id="navbar">
-      <div class="nav-container">
-        <a href="index.html" class="logo">
-          <img src="logo.png" alt="CGPIXELS Logo" onerror="this.style.display='none';">
-          <span class="logo-text">CGPIXELS</span>
-        </a>
-        <ul class="nav-links" id="navLinks">
-          <li><a href="#home" class="active">Home</a></li>
-          <li><a href="/gallery.html">Gallery</a></li>
-          <li><a href="/about.html">About</a></li>
-          <li><a href="/services.html">Services</a></li>
-          <li><a href="/contact.html">Contact</a></li>
-        </ul>
-        <button class="menu-toggle" id="menuToggle">☰</button>
+  <div class="nav-container">
+    <a href="index.html" class="logo">
+      <!-- <img src="./media/cglogo2.png" alt="CGPIXELS Logo" onerror="this.style.display='none';"> -->
+      <span class="logo-text">CG PIXELS</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home" class="active">Home</a></li>
+      <li><a href="/gallery.html">Gallery</a></li>
+      <li><a href="/about.html">About</a></li>
+      <li><a href="/services.html">Services</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+    <button class="menu-toggle" id="menuToggle">☰</button>
+  </div>
+</nav>
+
+<section id="home" class="hero">
+  <div class="hero-bg"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="spotlight" id="spotlight"></div>
+  <div class="grid-overlay"></div>
+  <div class="lens-flare"></div>
+  <div class="lens-flare"></div>
+
+  <div class="particle" style="left: 10%"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+
+  <div class="floating-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/>
+    </svg>
+  </div>
+  <div class="floating-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/>
+    </svg>
+  </div>
+  <div class="floating-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+    </svg>
+  </div>
+  <div class="floating-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path d="M9 11.75c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zm6 0c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-.29.02-.58.05-.86 2.36-1.05 4.23-2.98 5.21-5.37C11.07 8.33 14.05 10 17.42 10c.78 0 1.53-.09 2.25-.26.21.71.33 1.47.33 2.26 0 4.41-3.59 8-8 8z"/>
+    </svg>
+  </div>
+  <div class="floating-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path d="M18 3v2h-2V3H8v2H6V3H4v18h2v-2h2v2h8v-2h2v2h2V3h-2zM8 17H6v-2h2v2zm0-4H6v-2h2v2zm0-4H6V7h2v2zm10 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2z"/>
+    </svg>
+  </div>
+
+  <div class="hero-content">
+    <div class="pixel-grid">
+      <div class="pixel"></div>
+      <div class="pixel"></div>
+      <div class="pixel"></div>
+      <div class="pixel"></div>
+      <div class="pixel"></div>
+      <div class="pixel"></div>
+      <div class="pixel"></div>
+      <div class="pixel"></div>
+    </div>
+
+    <h1 class="hero-title">
+      <span class="title-line-1">Pixel Perfect</span>
+      <span class="title-line-2">Photography</span>
+    </h1>
+    <p class="hero-subtitle">
+      Where creativity meets technology. CGPIXELS delivers stunning visuals
+      that capture every moment in pristine detail.
+    </p>
+    <div class="cta-buttons">
+      <a href="#portfolio" class="btn btn-primary">View Work</a>
+      <a href="#contact" class="btn btn-secondary">Learn More</a>
+    </div>
+  </div>
+  <div class="scroll-indicator"></div>
+</section>
+
+<section class="stats-section">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <div class="stat-number" data-target="1500">0</div>
+      <div class="stat-label">Projects</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" data-target="250">0</div>
+      <div class="stat-label">Clients</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" data-target="15">0</div>
+      <div class="stat-label">Awards</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number" data-target="6">0</div>
+      <div class="stat-label">Years</div>
+    </div>
+  </div>
+</section>
+
+<section id="portfolio" class="section">
+  <h2 class="section-title">Portfolio</h2>
+  <p class="section-subtitle">Capturing moments, crafting stories</p>
+
+  <div class="filter-buttons">
+    <button class="filter-btn active" data-filter="all">All Work</button>
+    <button class="filter-btn" data-filter="portraits">Portraits</button>
+    <button class="filter-btn" data-filter="commercial">Commercial</button>
+    <button class="filter-btn" data-filter="lifestyle">Lifestyle</button>
+    <button class="filter-btn" data-filter="editorial">Editorial</button>
+  </div>
+
+  <div class="gallery" id="gallery">
+    <div class="gallery-item" data-aos="fade-up" data-category="portraits">
+      <img
+        src="./media/cg11.jpg"
+        alt="Urban Portrait"
+        class="gallery-img"
+      />
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">PORTRAITS</h3>
+        <p class="gallery-specs">Canon EOS R5 | 85mm f/1.4 | ISO 400</p>
       </div>
-    </nav>
+    </div>
+    <div class="gallery-item" data-aos="fade-up" data-category="lifestyle">
+      <img
+        src="./media/cg18.jpg"
+        alt="Product Shot"
+        class="gallery-img"
+      />
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Family Shot</h3>
+        <p class="gallery-specs">Sony A7IV | 90mm Macro | ISO 100</p>
+      </div>
+    </div>
+    <div class="gallery-item" data-aos="fade-up" data-category="lifestyle">
+      <img
+        src="./media/cg6.jpg"
+        alt="Golden Hour"
+        class="gallery-img"
+      />
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Golden Hour</h3>
+        <p class="gallery-specs">Nikon D750 | 50mm f/1.2 | ISO 200</p>
+      </div>
+    </div>
+    <div class="gallery-item" data-aos="fade-up" data-category="editorial">
+      <img
+        src="./media/cg15.jpg"
+        alt="Fashion Editorial"
+        class="gallery-img"
+      />
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Fashion Editorial</h3>
+        <p class="gallery-specs">Canon EOS R5 | 70-200mm | ISO 800</p>
+      </div>
+    </div>
+    <div class="gallery-item" data-aos="fade-up" data-category="portraits">
+      <img
+        src="./media/cg1.jpg"
+        alt="Studio Portrait"
+        class="gallery-img"
+      />
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Studio Portrait</h3>
+        <p class="gallery-specs">Sony A1 | 85mm f/1.4 | ISO 100</p>
+      </div>
+    </div>
+    <div class="gallery-item" data-aos="fade-up" data-category="commercial">
+      <img
+        src="./media/cg3.jpg"
+        alt="Brand Campaign"
+        class="gallery-img"
+      />
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Fashion coverage</h3>
+        <p class="gallery-specs">Nikon Z9 | 35mm f/1.4 | ISO 400</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-      <div class="hero-bg"></div>
+<section id="about" class="section">
+  <h2 class="section-title">About CG Pixels</h2>
+  <p class="section-subtitle">The art of light, the science of timing</p>
 
-      <!-- Glowing Orbs -->
-      <div class="orb orb-1"></div>
-      <div class="orb orb-2"></div>
-      <div class="orb orb-3"></div>
+  <div class="about-content">
+    <div class="about-image" data-aos="zoom-in">
+      <img
+        src="https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=800"
+        alt="Photography Studio"
+      />
+    </div>
+    <div class="about-text">
+      <h3>Crafting Visual Stories</h3>
+      <p>
+        At CG Pixels, we don't just capture images — we sculpt moments with
+        light, freeze emotions in time, and create visual narratives that
+        resonate. Our approach blends traditional photography with
+        cutting-edge digital artistry.
+      </p>
+      <p>
+        With over a decade of experience and a passion for perfection, we
+        transform ordinary scenes into extraordinary visual experiences.
+        Every project is a collaboration, every frame tells a story, and
+        every pixel matters.
+      </p>
+      <p>
+        From intimate portraits to large-scale commercial campaigns, we
+        bring the same level of dedication, creativity, and technical
+        excellence to every shoot.
+      </p>
+    </div>
+  </div>
+</section>
 
-      <!-- Spotlight Effect -->
-      <div class="spotlight" id="spotlight"></div>
+<section id="services" class="section">
+  <h2 class="section-title">Services</h2>
+  <p class="section-subtitle">Professional photography for every vision</p>
 
-      <div class="grid-overlay"></div>
+  <div class="services-grid">
+    <div class="service-card" data-aos="flip-left">
+      <div class="service-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+        </svg>
+      </div>
+      <h3>Portrait Photography</h3>
+      <p>
+        Professional headshots, personal branding, and artistic portraits
+        that capture your unique essence with stunning clarity and
+        creativity.
+      </p>
+    </div>
+    <div class="service-card" data-aos="flip-left">
+      <div class="service-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/>
+        </svg>
+      </div>
+      <h3>Commercial Shoots</h3>
+      <p>
+        Product photography, brand campaigns, and commercial content
+        designed to elevate your business and captivate your audience.
+      </p>
+    </div>
+    <div class="service-card" data-aos="flip-left">
+      <div class="service-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
+        </svg>
+      </div>
+      <h3>Editorial & Fashion</h3>
+      <p>
+        High-fashion editorials, lookbooks, and creative campaigns with
+        cinematic quality and magazine-worthy results.
+      </p>
+    </div>
+    <div class="service-card" data-aos="flip-left">
+      <div class="service-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M18 3v2h-2V3H8v2H6V3H4v18h2v-2h2v2h8v-2h2v2h2V3h-2zM8 17H6v-2h2v2zm0-4H6v-2h2v2zm0-4H6V7h2v2zm10 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2z"/>
+        </svg>
+      </div>
+      <h3>Event Coverage</h3>
+      <p>
+        Comprehensive coverage for corporate events, weddings, and special
+        occasions with documentary-style storytelling.
+      </p>
+    </div>
+    <div class="service-card" data-aos="flip-left">
+      <div class="service-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"/>
+        </svg>
+      </div>
+      <h3>Lifestyle Photography</h3>
+      <p>
+        Authentic, candid moments captured in natural settings, perfect for
+        personal branding and lifestyle content.
+      </p>
+    </div>
+    <div class="service-card" data-aos="flip-left">
+      <div class="service-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/>
+        </svg>
+      </div>
+      <h3>Custom Projects</h3>
+      <p>
+        Tailored photography solutions for unique visions and creative
+        concepts that push boundaries.
+      </p>
+    </div>
+  </div>
+</section>
 
-      <!-- Lens Flares -->
-      <div class="lens-flare"></div>
-      <div class="lens-flare"></div>
+<section id="contact" class="section">
+  <h2 class="section-title">Let's Create Together</h2>
+  <p class="section-subtitle">Ready to bring your vision to life?</p>
 
-      <!-- Floating Particles -->
-      <div class="particle" style="left: 10%"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
-      <div class="particle"></div>
+  <div class="contact-container">
+    <form class="contact-form" id="contactForm" action="https://formspree.io/f/xkgdzroe" method="POST">
+  <div class="form-group">
+    <label>Your Name</label>
+    <input type="text" name="name" required />
+  </div>
 
-      <!-- Floating Camera Icons -->
-      <div class="floating-icon">📷</div>
-      <div class="floating-icon">🎥</div>
-      <div class="floating-icon">✨</div>
-      <div class="floating-icon">💡</div>
-      <div class="floating-icon">🎬</div>
+  <div class="form-group">
+    <label>Email Address</label>
+    <input type="email" name="email" required />
+  </div>
 
-      <div class="hero-content">
-        <!-- Pixel Grid Animation -->
-        <div class="pixel-grid">
-          <div class="pixel"></div>
-          <div class="pixel"></div>
-          <div class="pixel"></div>
-          <div class="pixel"></div>
-          <div class="pixel"></div>
-          <div class="pixel"></div>
-          <div class="pixel"></div>
-          <div class="pixel"></div>
+  <div class="form-group">
+    <label>Phone Number</label>
+    <input type="tel" name="phone" />
+  </div>
+
+  <div class="form-group">
+    <label>Project Details</label>
+    <textarea name="message" required></textarea>
+  </div>
+
+  <button type="submit" class="btn btn-primary" style="width: 100%">
+    Send Message
+  </button>
+</form>
+
+<div class="contact-info">
+      <div class="contact-item">
+        <div class="contact-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+          </svg>
         </div>
-
-        <h1 class="hero-title">
-          <span class="title-line-1">Pixel Perfect</span>
-          <span class="title-line-2">Photography</span>
-        </h1>
-        <p class="hero-subtitle">
-          Where creativity meets technology. CGPIXELS delivers stunning visuals
-          that capture every moment in pristine detail.
-        </p>
-        <div class="cta-buttons">
-          <a href="#portfolio" class="btn btn-primary">View Work</a>
-          <a href="#contact" class="btn btn-secondary">Learn More</a>
+        <div class="contact-details">
+          <h4>Email</h4>
+          <a href="mailto:Hello@cgstudios.ng"><p>Hello@cgstudios.ng</p></a>
+          <a href="mailto:cgpixels.ng@gmail.com"><p>cgpixels.ng@gmail.com</p></a>
         </div>
       </div>
-      <div class="scroll-indicator"></div>
-    </section>
-
-    <!-- Stats Section without Circular Progress -->
-    <section class="stats-section">
-      <div class="stats-grid">
-        <div class="stat-item">
-          <div class="stat-number" data-target="500">0</div>
-          <div class="stat-label">Projects</div>
+      <div class="contact-item">
+        <div class="contact-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+          </svg>
         </div>
-        <div class="stat-item">
-          <div class="stat-number" data-target="250">0</div>
-          <div class="stat-label">Clients</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number" data-target="15">0</div>
-          <div class="stat-label">Awards</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number" data-target="10">0</div>
-          <div class="stat-label">Years</div>
+        <div class="contact-details">
+          <h4>Phone</h4>
+          <a href="tel:+2348139427476"><p> 08139427476</p></a>
+          <p>Mon - Fri: 9AM - 6PM</p>
         </div>
       </div>
-    </section>
-
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="section">
-      <h2 class="section-title">Portfolio</h2>
-      <p class="section-subtitle">Capturing moments, crafting stories</p>
-
-      <div class="filter-buttons">
-        <button class="filter-btn active" data-filter="all">All Work</button>
-        <button class="filter-btn" data-filter="portraits">Portraits</button>
-        <button class="filter-btn" data-filter="commercial">Commercial</button>
-        <button class="filter-btn" data-filter="lifestyle">Lifestyle</button>
-        <button class="filter-btn" data-filter="editorial">Editorial</button>
-      </div>
-
-      <div class="gallery" id="gallery">
-        <div class="gallery-item" data-aos="fade-up">
-          <img
-            src="./media/cg11.jpg"
-            alt="Urban Portrait"
-            class="gallery-img"
-          />
-          <div class="gallery-overlay">
-            <h3 class="gallery-title">PORTRAITS</h3>
-            <p class="gallery-specs">Canon EOS R5 | 85mm f/1.4 | ISO 400</p>
-          </div>
+      <div class="contact-item">
+        <div class="contact-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+          </svg>
         </div>
-        <div class="gallery-item" data-aos="fade-up">
-          <img
-            src="./media/cg18.jpg"
-            alt="Product Shot"
-            class="gallery-img"
-          />
-          <div class="gallery-overlay">
-            <h3 class="gallery-title">Family Shot</h3>
-            <p class="gallery-specs">Sony A7IV | 90mm Macro | ISO 100</p>
-          </div>
-        </div>
-        <div class="gallery-item" data-aos="fade-up">
-          <img
-            src="./media/cg6.jpg"
-            alt="Golden Hour"
-            class="gallery-img"
-          />
-          <div class="gallery-overlay">
-            <h3 class="gallery-title">Golden Hour</h3>
-            <p class="gallery-specs">Nikon Z9 | 50mm f/1.2 | ISO 200</p>
-          </div>
-        </div>
-        <div class="gallery-item" data-aos="fade-up">
-          <img
-            src="./media/cg15.jpg"
-            alt="Fashion Editorial"
-            class="gallery-img"
-          />
-          <div class="gallery-overlay">
-            <h3 class="gallery-title">Fashion Editorial</h3>
-            <p class="gallery-specs">Canon EOS R5 | 70-200mm | ISO 800</p>
-          </div>
-        </div>
-        <div class="gallery-item" data-aos="fade-up">
-          <img
-            src="./media/cg1.jpg"
-            alt="Studio Portrait"
-            class="gallery-img"
-          />
-          <div class="gallery-overlay">
-            <h3 class="gallery-title">Studio Portrait</h3>
-            <p class="gallery-specs">Sony A1 | 85mm f/1.4 | ISO 100</p>
-          </div>
-        </div>
-        <div class="gallery-item" data-aos="fade-up">
-          <img
-            src="./media/cg3.jpg"
-            alt="Brand Campaign"
-            class="gallery-img"
-          />
-          <div class="gallery-overlay">
-            <h3 class="gallery-title">Fashion coverage</h3>
-            <p class="gallery-specs">Nikon Z9 | 35mm f/1.4 | ISO 400</p>
-          </div>
+        <div class="contact-details">
+          <h4>Studio Location</h4>
+          <p>31, Adebayo Street, off Demurin Road, Ketu.</p>
+          <p>Ikeja, Lagos, Nigeria</p>
         </div>
       </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="section">
-      <h2 class="section-title">About CGPIXELS</h2>
-      <p class="section-subtitle">The art of light, the science of timing</p>
-
-      <div class="about-content">
-        <div class="about-image" data-aos="zoom-in">
-          <img
-            src="https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=800"
-            alt="Photography Studio"
-          />
+      <div class="contact-item">
+        <div class="contact-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+          </svg>
         </div>
-        <div class="about-text">
-          <h3>Crafting Visual Stories</h3>
-          <p>
-            At CGPIXELS, we don't just capture images — we sculpt moments with
-            light, freeze emotions in time, and create visual narratives that
-            resonate. Our approach blends traditional photography with
-            cutting-edge digital artistry.
-          </p>
-          <p>
-            With over a decade of experience and a passion for perfection, we
-            transform ordinary scenes into extraordinary visual experiences.
-            Every project is a collaboration, every frame tells a story, and
-            every pixel matters.
-          </p>
-          <p>
-            From intimate portraits to large-scale commercial campaigns, we
-            bring the same level of dedication, creativity, and technical
-            excellence to every shoot.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Services Section -->
-    <section id="services" class="section">
-      <h2 class="section-title">Services</h2>
-      <p class="section-subtitle">Professional photography for every vision</p>
-
-      <div class="services-grid">
-        <div class="service-card" data-aos="flip-left">
-          <div class="service-icon">👤</div>
-          <h3>Portrait Photography</h3>
-          <p>
-            Professional headshots, personal branding, and artistic portraits
-            that capture your unique essence with stunning clarity and
-            creativity.
-          </p>
-        </div>
-        <div class="service-card" data-aos="flip-left">
-          <div class="service-icon">🏢</div>
-          <h3>Commercial Shoots</h3>
-          <p>
-            Product photography, brand campaigns, and commercial content
-            designed to elevate your business and captivate your audience.
-          </p>
-        </div>
-        <div class="service-card" data-aos="flip-left">
-          <div class="service-icon">🎨</div>
-          <h3>Editorial & Fashion</h3>
-          <p>
-            High-fashion editorials, lookbooks, and creative campaigns with
-            cinematic quality and magazine-worthy results.
-          </p>
-        </div>
-        <div class="service-card" data-aos="flip-left">
-          <div class="service-icon">🎬</div>
-          <h3>Event Coverage</h3>
-          <p>
-            Comprehensive coverage for corporate events, weddings, and special
-            occasions with documentary-style storytelling.
-          </p>
-        </div>
-        <div class="service-card" data-aos="flip-left">
-          <div class="service-icon">✨</div>
-          <h3>Lifestyle Photography</h3>
-          <p>
-            Authentic, candid moments captured in natural settings, perfect for
-            personal branding and lifestyle content.
-          </p>
-        </div>
-        <div class="service-card" data-aos="flip-left">
-          <div class="service-icon">🎯</div>
-          <h3>Custom Projects</h3>
-          <p>
-            Tailored photography solutions for unique visions and creative
-            concepts that push boundaries.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="section">
-      <h2 class="section-title">Let's Create Together</h2>
-      <p class="section-subtitle">Ready to bring your vision to life?</p>
-
-      <div class="contact-container">
-        <form class="contact-form" id="contactForm">
-          <div class="form-group">
-            <label>Your Name</label>
-            <input type="text" name="name" required />
-          </div>
-          <div class="form-group">
-            <label>Email Address</label>
-            <input type="email" name="email" required />
-          </div>
-          <div class="form-group">
-            <label>Phone Number</label>
-            <input type="tel" name="phone" />
-          </div>
-          <div class="form-group">
-            <label>Project Details</label>
-            <textarea name="message" required></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary" style="width: 100%">
-            Send Message
-          </button>
-        </form>
-
-        <div class="contact-info">
-          <div class="contact-item">
-            <div class="contact-icon">📧</div>
-            <div class="contact-details">
-              <h4>Email</h4>
-              <p>hello@cgpixels.com</p>
-              <p>bookings@cgpixels.com</p>
-            </div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-icon">📱</div>
-            <div class="contact-details">
-              <h4>Phone</h4>
-              <p>+1 (555) 123-4567</p>
-              <p>Mon - Fri: 9AM - 6PM</p>
-            </div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-icon">📍</div>
-            <div class="contact-details">
-              <h4>Studio Location</h4>
-              <p>123 Creative Avenue</p>
-              <p>Ikeja, Lagos, Nigeria</p>
-            </div>
-          </div>
-          <div class="contact-item">
-            <div class="contact-icon">⏰</div>
-            <div class="contact-details">
-              <h4>Working Hours</h4>
-              <p>Monday - Friday: 9AM - 6PM</p>
-              <p>Saturday: 10AM - 4PM</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-      <div class="footer-content">
-        <div class="social-links">
-          <a href="#" class="social-link">📷</a>
-          <a href="#" class="social-link">📘</a>
-          <a href="#" class="social-link">🐦</a>
-          <a href="#" class="social-link">💼</a>
-        </div>
-        <p class="footer-text">
-          © 2024 CGPIXELS. All rights reserved. | Capturing Reality, Sculpting
-          Light
-        </p>
-      </div>
-    </footer>
-
-    <!-- Modal/Lightbox -->
-    <div class="modal" id="modal">
-      <div class="modal-content">
-        <button class="modal-close" id="modalClose">✕</button>
-        <img src="" alt="" class="modal-img" id="modalImg" data-aos="zoom-in"/>
-        <div class="modal-info">
-          <h3 class="modal-title" id="modalTitle"></h3>
-          <p class="modal-specs" id="modalSpecs"></p>
+        <div class="contact-details">
+          <h4>Working Hours</h4>
+          <p>Monday - Friday: 9AM - 6PM</p>
+          <p>Saturday: 10AM - 4PM</p>
         </div>
       </div>
     </div>
+  </div>
+</section>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-      AOS.init();
-    </script>
-    <script>
-      // Custom Cursor Glow
-      const cursorGlow = document.getElementById("cursorGlow");
-      document.addEventListener("mousemove", (e) => {
-        cursorGlow.style.left = e.clientX + "px";
-        cursorGlow.style.top = e.clientY + "px";
-      });
+<footer>
+  <div class="footer-content">
+    <div class="social-links">
+      <a href="https://www.instagram.com/cg_pixels/" class="social-link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/>
+        </svg>
+      </a>
+      <a href="https://www.facebook.com/share/1FWSHEdRr6/?mibextid=wwXIfr" class="social-link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+        </svg>
+      </a>
+      <a href="#" class="social-link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
+        </svg>
+      </a>
+      <a href="https://www.linkedin.com/company/cg-studios-ng/" class="social-link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
+        </svg>
+      </a>
+    </div>
+    <p class="footer-text">
+      © 2025 CGPIXELS. All rights reserved. | Capturing Reality, Sculpting
+      Light
+    </p>
+  </div>
+</footer>
 
-      // Spotlight effect follows mouse
-      const spotlight = document.getElementById("spotlight");
-      if (spotlight) {
-        document.addEventListener("mousemove", (e) => {
-          const x = (e.clientX / window.innerWidth) * 100;
-          const y = (e.clientY / window.innerHeight) * 100;
-          spotlight.style.setProperty("--x", x + "%");
-          spotlight.style.setProperty("--y", y + "%");
-        });
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <button class="modal-close" id="modalClose">✕</button>
+    <img src="" alt="" class="modal-img" id="modalImg" data-aos="zoom-in"/>
+    <div class="modal-info">
+      <h3 class="modal-title" id="modalTitle"></h3>
+      <p class="modal-specs" id="modalSpecs"></p>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init();
+</script>
+<script>
+  const cursorGlow = document.getElementById("cursorGlow");
+  document.addEventListener("mousemove", (e) => {
+    cursorGlow.style.left = e.clientX + "px";
+    cursorGlow.style.top = e.clientY + "px";
+  });
+
+  const spotlight = document.getElementById("spotlight");
+  if (spotlight) {
+    document.addEventListener("mousemove", (e) => {
+      const x = (e.clientX / window.innerWidth) * 100;
+      const y = (e.clientY / window.innerHeight) * 100;
+      spotlight.style.setProperty("--x", x + "%");
+      spotlight.style.setProperty("--y", y + "%");
+    });
+  }
+
+  // Counter Animation - UPDATED TO ADD "+"
+  const statItems = document.querySelectorAll(".stat-item");
+  const speed = 50;
+
+  const animateCounter = (item) => {
+    const numberEl = item.querySelector(".stat-number");
+    const target = +numberEl.getAttribute("data-target");
+    const increment = target / (speed * 2);
+    let current = 0;
+
+    const updateCount = () => {
+      current += increment;
+      if (current < target) {
+        numberEl.textContent = Math.ceil(current) + '+';
+        setTimeout(updateCount, 30);
+      } else {
+        numberEl.textContent = target + '+';
       }
+    };
+    updateCount();
+  };
 
-      // Counter Animation with Circular Progress
-      const statItems = document.querySelectorAll(".stat-item");
-      const speed = 50; // Slower speed
-
-      const animateCounter = (item) => {
-        const numberEl = item.querySelector(".stat-number");
-        const target = +numberEl.getAttribute("data-target");
-        const increment = target / (speed * 2); // Slower increment
-        let current = 0;
-
-        const updateCount = () => {
-          current += increment;
-          if (current < target) {
-            numberEl.textContent = Math.ceil(current);
-            setTimeout(updateCount, 30); // Slower update
-          } else {
-            numberEl.textContent = target;
-          }
-        };
-        updateCount();
-      };
-
-      // Trigger counter when stats section is visible
-      const statsObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              statItems.forEach((item, index) => {
-                setTimeout(() => {
-                  animateCounter(item);
-                }, index * 200); // Stagger the animations
-              });
-              statsObserver.unobserve(entry.target);
-            }
+  const statsObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          statItems.forEach((item, index) => {
+            setTimeout(() => {
+              animateCounter(item);
+            }, index * 200);
           });
-        },
-        { threshold: 0.3 }
-      );
-
-      const statsSection = document.querySelector(".stats-section");
-      if (statsSection) statsObserver.observe(statsSection);
-
-      // Navbar scroll effect
-      window.addEventListener('scroll', () => {
-          document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+          statsObserver.unobserve(entry.target);
+        }
       });
+    },
+    { threshold: 0.3 }
+  );
 
-      // Mobile menu toggle
-      document.getElementById('menuToggle').addEventListener('click', () => {
-          document.getElementById('navLinks').classList.toggle('active');
-      });
+  const statsSection = document.querySelector(".stats-section");
+  if (statsSection) statsObserver.observe(statsSection);
 
-      // Close mobile menu when clicking a link
-      document.querySelectorAll(".nav-links a").forEach((link) => {
-        link.addEventListener("click", () => {
-          navLinks.classList.remove("active");
-        });
-      });
+  window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+  });
 
-      // Portfolio filter
-      const filterBtns = document.querySelectorAll(".filter-btn");
-      const galleryItems = document.querySelectorAll(".gallery-item");
+  document.getElementById('menuToggle').addEventListener('click', () => {
+      document.getElementById('navLinks').classList.toggle('active');
+  });
 
-      filterBtns.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          // Remove active class from all buttons
-          filterBtns.forEach((b) => b.classList.remove("active"));
-          btn.classList.add("active");
+  document.querySelectorAll(".nav-links a").forEach((link) => {
+    link.addEventListener("click", () => {
+      document.getElementById('navLinks').classList.remove("active");
+    });
+  });
 
-          const filter = btn.getAttribute("data-filter");
+  const filterBtns = document.querySelectorAll(".filter-btn");
+  const galleryItems = document.querySelectorAll(".gallery-item");
 
-          galleryItems.forEach((item) => {
-            if (
-              filter === "all" ||
-              item.getAttribute("data-category") === filter
-            ) {
-              item.style.display = "block";
-              setTimeout(() => {
-                item.style.opacity = "1";
-                item.style.transform = "scale(1)";
-              }, 10);
-            } else {
-              item.style.opacity = "0";
-              item.style.transform = "scale(0.8)";
-              setTimeout(() => {
-                item.style.display = "none";
-              }, 300);
-            }
-          });
-        });
-      });
+  filterBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      filterBtns.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
 
-      // Modal/Lightbox functionality
-      const modal = document.getElementById("modal");
-      const modalImg = document.getElementById("modalImg");
-      const modalTitle = document.getElementById("modalTitle");
-      const modalSpecs = document.getElementById("modalSpecs");
-      const modalClose = document.getElementById("modalClose");
+      const filter = btn.getAttribute("data-filter");
 
       galleryItems.forEach((item) => {
-        item.addEventListener("click", () => {
-          const img = item.querySelector(".gallery-img");
-          const title = item.querySelector(".gallery-title");
-          const specs = item.querySelector(".gallery-specs");
-
-          modalImg.src = img.src;
-          modalTitle.textContent = title.textContent;
-          modalSpecs.textContent = specs.textContent;
-          modal.classList.add("active");
-          document.body.style.overflow = "hidden";
-        });
-      });
-
-      modalClose.addEventListener("click", () => {
-        modal.classList.remove("active");
-        document.body.style.overflow = "auto";
-      });
-
-      modal.addEventListener("click", (e) => {
-        if (e.target === modal) {
-          modal.classList.remove("active");
-          document.body.style.overflow = "auto";
+        if (
+          filter === "all" ||
+          item.getAttribute("data-category") === filter
+        ) {
+          item.style.display = "block";
+          setTimeout(() => {
+            item.style.opacity = "1";
+            item.style.transform = "scale(1)";
+          }, 10);
+        } else {
+          item.style.opacity = "0";
+          item.style.transform = "scale(0.8)";
+          setTimeout(() => {
+            item.style.display = "none";
+          }, 300);
         }
       });
+    });
+  });
 
-      // Smooth scroll for navigation links
-      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-        anchor.addEventListener("click", function (e) {
-          e.preventDefault();
-          const target = document.querySelector(this.getAttribute("href"));
-          if (target) {
-            target.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            });
-          }
+  const modal = document.getElementById("modal");
+  const modalImg = document.getElementById("modalImg");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalSpecs = document.getElementById("modalSpecs");
+  const modalClose = document.getElementById("modalClose");
+
+  galleryItems.forEach((item) => {
+    item.addEventListener("click", () => {
+      const img = item.querySelector(".gallery-img");
+      const title = item.querySelector(".gallery-title");
+      const specs = item.querySelector(".gallery-specs");
+
+      modalImg.src = img.src;
+      modalTitle.textContent = title.textContent;
+      modalSpecs.textContent = specs.textContent;
+      modal.classList.add("active");
+      document.body.style.overflow = "hidden";
+    });
+  });
+
+  modalClose.addEventListener("click", () => {
+    modal.classList.remove("active");
+    document.body.style.overflow = "auto";
+  });
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.classList.remove("active");
+      document.body.style.overflow = "auto";
+    }
+  });
+
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener("click", function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute("href"));
+      if (target) {
+        target.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
         });
-      });
+      }
+    });
+  });
 
-      // Form submission
-      const contactForm = document.getElementById("contactForm");
-      contactForm.addEventListener("submit", (e) => {
-        e.preventDefault();
+  const contactForm = document.getElementById("contactForm");
+  contactForm.addEventListener("submit", (e) => {
+    e.preventDefault();
 
-        // Create success message
-        const successMsg = document.createElement("div");
-        successMsg.style.cssText = `
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                background: linear-gradient(135deg, var(--orange), var(--bright-orange));
-                color: var(--black);
-                padding: 2rem 3rem;
-                border-radius: 10px;
-                font-size: 1.2rem;
-                font-weight: bold;
-                z-index: 3000;
-                box-shadow: 0 0 50px rgba(255, 140, 0, 0.8);
-                animation: fadeIn 0.3s ease;
-            `;
-        successMsg.textContent =
-          "✓ Message sent successfully! We'll get back to you soon.";
-        document.body.appendChild(successMsg);
+    const successMsg = document.createElement("div");
+    successMsg.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, var(--orange), var(--bright-orange));
+            color: var(--black);
+            padding: 2rem 3rem;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            z-index: 3000;
+            box-shadow: 0 0 50px rgba(255, 140, 0, 0.8);
+            animation: fadeIn 0.3s ease;
+        `;
+    successMsg.textContent =
+      "✓ Message sent successfully! We'll get back to you soon.";
+    document.body.appendChild(successMsg);
 
-        // Reset form
-        contactForm.reset();
+    contactForm.reset();
 
-        // Remove message after 3 seconds
-        setTimeout(() => {
-          successMsg.style.animation = "fadeOut 0.3s ease";
-          setTimeout(() => successMsg.remove(), 300);
-        }, 3000);
-      });
+    setTimeout(() => {
+      successMsg.style.animation = "fadeOut 0.3s ease";
+      setTimeout(() => successMsg.remove(), 300);
+    }, 3000);
+  });
 
-      // Scroll reveal animation
-      const observerOptions = {
-        threshold: 0.1,
-        rootMargin: "0px 0px -100px 0px",
-      };
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: "0px 0px -100px 0px",
+  };
 
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.style.opacity = "1";
-            entry.target.style.transform = "translateY(0)";
-          }
-        });
-      }, observerOptions);
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = "1";
+        entry.target.style.transform = "translateY(0)";
+      }
+    });
+  }, observerOptions);
 
-      // Observe all sections and gallery items
-      document
-        .querySelectorAll(".section, .gallery-item, .service-card")
-        .forEach((el) => {
-          el.style.opacity = "0";
-          el.style.transform = "translateY(30px)";
-          el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
-          observer.observe(el);
-        });
+  document
+    .querySelectorAll(".section, .gallery-item, .service-card")
+    .forEach((el) => {
+      el.style.opacity = "0";
+      el.style.transform = "translateY(30px)";
+      el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+      observer.observe(el);
+    });
 
-      // Parallax effect on hero
-      window.addEventListener("scroll", () => {
-        const scrolled = window.pageYOffset;
-        const heroContent = document.querySelector(".hero-content");
-        if (heroContent) {
-          heroContent.style.transform = `translateY(${scrolled * 0.5}px)`;
-          heroContent.style.opacity = 1 - scrolled / 700;
-        }
-      });
-    </script>
-  </body>
+  window.addEventListener("scroll", () => {
+    const scrolled = window.pageYOffset;
+    const heroContent = document.querySelector(".hero-content");
+    if (heroContent) {
+      heroContent.style.transform = `translateY(${scrolled * 0.5}px)`;
+      heroContent.style.opacity = 1 - scrolled / 700;
+    }
+  });
+</script>
+</body>
 </html>

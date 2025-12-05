@@ -66,13 +66,13 @@
             transform: scale(1.05);
         }
 
-        .logo img {
-            width: 45px;
-            height: 45px;
-            object-fit: contain;
-            filter: drop-shadow(0 0 15px var(--orange));
-        }
-
+       
+      /*.logo img {
+        width: 250px;
+        height: 100px;
+        object-fit: cover;
+        filter: drop-shadow(0 0 15px var(--orange));
+      }*/
         .logo-text {
             font-size: 1.4rem;
             font-weight: 800;
@@ -317,12 +317,12 @@
             height: 100%;
             object-fit: cover;
             transition: all 0.6s;
-            filter: grayscale(0.2) brightness(0.9);
+            filter: grayscale(0) brightness(0.9);
         }
 
         .gallery-item:hover .gallery-img {
             transform: scale(1.15);
-            filter: grayscale(0) brightness(1);
+            filter: grayscale(0) brightness(1.1);
         }
 
         .gallery-overlay {
@@ -364,7 +364,9 @@
         .gallery-item:hover .gallery-specs {
             transform: translateY(0);
         }
-
+        a{
+            cursor: pointer;
+        }
         /* Lightbox Modal */
         .modal {
             display: none;
@@ -522,8 +524,8 @@
     <nav id="navbar">
         <div class="nav-container">
             <a href="index.html" class="logo">
-                <img src="logo.png" alt="CGPIXELS Logo" onerror="this.style.display='none';">
-                <span class="logo-text">CGPIXELS</span>
+                <!-- <img src="./media/cglogo2.png" alt="CGPIXELS Logo" onerror="this.style.display='none';"> -->
+                <span class="logo-text">CG PIXELS</span>
             </a>
             <ul class="nav-links" id="navLinks">
                 <li><a href="index.html">Home</a></li>
@@ -557,7 +559,7 @@
         <div class="filter-buttons">
             <button class="filter-btn active" data-filter="all"><span>All Work</span></button>
             <button class="filter-btn" data-filter="portraits"><span>Portraits</span></button>
-            <button class="filter-btn" data-filter="commercial"><span>Commercial</span></button>
+            <button class="filter-btn" data-filter="kids"><span>kids</span></button>
             <button class="filter-btn" data-filter="lifestyle"><span>Lifestyle</span></button>
             <button class="filter-btn" data-filter="editorial"><span>Editorial</span></button>
         </div>
@@ -566,69 +568,85 @@
     <!-- Gallery Grid -->
     <div class="gallery-section">
         <div class="gallery">
-            <div class="gallery-item" data-category="portraits">
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800" alt="Urban Portrait" class="gallery-img" />
+            <div class="gallery-item" data-category="kids">
+                <img src="./media/kids1.jpg"alt="Urban Portrait" class="gallery-img" />
                 <div class="gallery-overlay">
                     <h3 class="gallery-title">Urban Portrait</h3>
                     <p class="gallery-specs">Canon EOS R5 | 85mm f/1.4 | ISO 400</p>
                 </div>
             </div>
-            <div class="gallery-item" data-category="commercial">
-                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800" alt="Product Shot" class="gallery-img" />
+            <div class="gallery-item" data-category="kids">
+                <img src="./media/kids2.jpg" alt="Product Shot" class="gallery-img" />
                 <div class="gallery-overlay">
                     <h3 class="gallery-title">Product Shot</h3>
                     <p class="gallery-specs">Sony A7IV | 90mm Macro | ISO 100</p>
                 </div>
             </div>
             <div class="gallery-item" data-category="lifestyle">
-                <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=800" alt="Golden Hour" class="gallery-img" />
+                <img src="./media/cg17.jpg" alt="Golden Hour" class="gallery-img" />
                 <div class="gallery-overlay">
                     <h3 class="gallery-title">Golden Hour</h3>
                     <p class="gallery-specs">Nikon Z9 | 50mm f/1.2 | ISO 200</p>
                 </div>
             </div>
             <div class="gallery-item" data-category="editorial">
-                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800" alt="Fashion Editorial" class="gallery-img" />
+                <img src="./media/cg11.jpg" alt="Fashion Editorial" class="gallery-img" />
                 <div class="gallery-overlay">
-                    <h3 class="gallery-title">Fashion Editorial</h3>
+                    <h3 class="gallery-title">Fashion</h3>
                     <p class="gallery-specs">Canon EOS R5 | 70-200mm | ISO 800</p>
                 </div>
             </div>
             <div class="gallery-item" data-category="portraits">
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800" alt="Studio Portrait" class="gallery-img" />
+                <img src="./media/cg20.jpg" alt="Studio Portrait" class="gallery-img" />
                 <div class="gallery-overlay">
                     <h3 class="gallery-title">Studio Portrait</h3>
                     <p class="gallery-specs">Sony A1 | 85mm f/1.4 | ISO 100</p>
                 </div>
             </div>
             <div class="gallery-item" data-category="commercial">
-                <img src="https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=800" alt="Brand Campaign" class="gallery-img" />
+                <img src="./media/cg12.jpg" alt="Brand Campaign" class="gallery-img" />
                 <div class="gallery-overlay">
-                    <h3 class="gallery-title">Brand Campaign</h3>
+                    <h3 class="gallery-title">⭐</h3>
                     <p class="gallery-specs">Nikon Z9 | 35mm f/1.4 | ISO 400</p>
                 </div>
             </div>
             <div class="gallery-item" data-category="lifestyle">
-                <img src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=800" alt="Travel Story" class="gallery-img" />
+                <img src="./media/kids5.jpg" alt="Travel Story" class="gallery-img" />
                 <div class="gallery-overlay">
-                    <h3 class="gallery-title">Travel Story</h3>
+                    <h3 class="gallery-title">kids</h3>
                     <p class="gallery-specs">Fujifilm X-T4 | 23mm f/2 | ISO 320</p>
                 </div>
             </div>
             <div class="gallery-item" data-category="editorial">
-                <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800" alt="Magazine Cover" class="gallery-img" />
+                <img src="./media/cg9.jpg" alt="Magazine Cover" class="gallery-img" />
                 <div class="gallery-overlay">
-                    <h3 class="gallery-title">Magazine Cover</h3>
+                    <h3 class="gallery-title">Golden hour</h3>
                     <p class="gallery-specs">Hasselblad H6D | 80mm | ISO 64</p>
                 </div>
             </div>
-            <div class="gallery-item" data-category="portraits">
+            <!-- <div class="gallery-item" data-category="portraits">
                 <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800" alt="Creative Portrait" class="gallery-img" />
                 <div class="gallery-overlay">
                     <h3 class="gallery-title">Creative Portrait</h3>
                     <p class="gallery-specs">Canon EOS R6 | 50mm f/1.2 | ISO 250</p>
                 </div>
             </div>
+             <div class="gallery-item" data-category="portraits">
+                <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800" alt="Creative Portrait" class="gallery-img" />
+                <div class="gallery-overlay">
+                    <h3 class="gallery-title">Creative Portrait</h3>
+                    <p class="gallery-specs">Canon EOS R6 | 50mm f/1.2 | ISO 250</p>
+                </div>
+            </div> -->
+             
+             
+             <!-- <div class="gallery-item" data-category="portraits">
+                <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800" alt="Creative Portrait" class="gallery-img" />
+                <div class="gallery-overlay">
+                    <h3 class="gallery-title">Creative Portrait</h3>
+                    <p class="gallery-specs">Canon EOS R6 | 50mm f/1.2 | ISO 250</p>
+                </div>
+            </div> -->
         </div>
     </div>
 
@@ -646,7 +664,7 @@
 
     <!-- Footer -->
     <footer>
-        <p class="footer-text">© 2024 CGPIXELS. All rights reserved. | Capturing Reality, Sculpting Light</p>
+        <p class="footer-text">© 2025 CGPIXELS. All rights reserved. | Capturing Reality, Sculpting Light</p>
     </footer>
 
     <script>

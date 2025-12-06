@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Services - CGPIXELS</title>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -27,7 +28,32 @@
             line-height: 1.6;
         }
 
-        /* Navigation */
+        /* Animated Background Particles */
+        .bg-particles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle-dot {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--orange);
+            border-radius: 50%;
+            opacity: 0;
+            animation: particleRise 8s infinite;
+            box-shadow: 0 0 10px var(--orange);
+        }
+
+        @keyframes particleRise {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            20% { opacity: 0.8; }
+            80% { opacity: 0.6; }
+            100% { transform: translateY(-100vh) scale(1.2); opacity: 0; }
+        }
+
         nav {
             position: fixed;
             top: 0;
@@ -66,14 +92,6 @@
         .logo:hover {
             transform: scale(1.05);
         }
-
-     
-     /* .logo img {
-        width: 250px;
-        height: 100px;
-        object-fit: cover;
-        filter: drop-shadow(0 0 15px var(--orange));
-      }*/
 
         .logo-text {
             font-size: 1.4rem;
@@ -131,9 +149,9 @@
             cursor: pointer;
         }
 
-        /* Hero Section */
+        /* HERO with Parallax & 3D Tilt */
         .services-hero {
-            min-height: 60vh;
+            min-height: 70vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -149,69 +167,114 @@
             overflow: hidden;
         }
 
-        .floating-shape {
+        /* Multiple animated orbs */
+        .floating-orb {
             position: absolute;
             border-radius: 50%;
-            filter: blur(60px);
-            opacity: 0.3;
-            animation: floatShape 20s ease-in-out infinite;
+            filter: blur(80px);
+            opacity: 0.25;
+            animation: orbDance 25s ease-in-out infinite;
         }
 
-        .shape-1 {
-            width: 300px;
-            height: 300px;
+        .orb1 {
+            width: 500px;
+            height: 500px;
             background: radial-gradient(circle, var(--orange) 0%, transparent 70%);
-            top: 20%;
-            left: 10%;
+            top: 10%;
+            left: 5%;
             animation-delay: 0s;
         }
 
-        .shape-2 {
+        .orb2 {
             width: 400px;
             height: 400px;
             background: radial-gradient(circle, var(--bright-orange) 0%, transparent 70%);
-            bottom: 20%;
-            right: 15%;
-            animation-delay: 7s;
+            bottom: 15%;
+            right: 10%;
+            animation-delay: 8s;
         }
 
-        @keyframes floatShape {
-            0%, 100% {
-                transform: translate(0, 0) scale(1);
-            }
-            33% {
-                transform: translate(50px, -50px) scale(1.2);
-            }
-            66% {
-                transform: translate(-30px, 30px) scale(0.8);
-            }
+        .orb3 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, var(--dark-orange) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            animation-delay: 4s;
+        }
+
+        @keyframes orbDance {
+            0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            25% { transform: translate(100px, -80px) scale(1.3) rotate(90deg); }
+            50% { transform: translate(-60px, 100px) scale(0.8) rotate(180deg); }
+            75% { transform: translate(80px, 60px) scale(1.1) rotate(270deg); }
+        }
+
+        /* Spotlight effect following cursor */
+        .spotlight {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle 600px at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+                rgba(255, 140, 0, 0.15) 0%, transparent 60%);
+            pointer-events: none;
+            transition: background 0.1s ease;
         }
 
         .hero-content {
             text-align: center;
             padding: 4rem 2rem;
-            max-width: 900px;
+            max-width: 1000px;
             position: relative;
             z-index: 2;
+            transform-style: preserve-3d;
+        }
+
+        /* Glowing badge above title */
+        .hero-badge {
+            display: inline-block;
+            padding: 0.6rem 1.5rem;
+            background: rgba(255, 140, 0, 0.1);
+            border: 1px solid var(--orange);
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--orange);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 2rem;
+            animation: badgePulse 3s ease-in-out infinite;
+            box-shadow: 0 0 20px rgba(255, 140, 0, 0.3);
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(255, 140, 0, 0.3); }
+            50% { transform: scale(1.05); box-shadow: 0 0 30px rgba(255, 140, 0, 0.5); }
         }
 
         .page-title {
-            font-size: clamp(3rem, 8vw, 5.5rem);
-            font-weight: 800;
+            font-size: clamp(3.5rem, 9vw, 6.5rem);
+            font-weight: 900;
             margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, white 0%, var(--orange) 100%);
+            background: linear-gradient(135deg, white 0%, var(--bright-orange) 50%, var(--orange) 100%);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: slideDown 0.8s ease forwards;
+            animation: titleGlow 0.8s ease forwards, titleFloat 3s ease-in-out infinite;
             opacity: 0;
+            filter: drop-shadow(0 0 40px rgba(255, 140, 0, 0.6));
         }
 
-        @keyframes slideDown {
+        @keyframes titleGlow {
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
+        }
+
+        @keyframes titleFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
         }
 
         .page-title {
@@ -219,18 +282,21 @@
         }
 
         .page-subtitle {
-            font-size: 1.3rem;
-            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.4rem;
+            color: rgba(255, 255, 255, 0.8);
             font-weight: 300;
-            animation: slideDown 0.8s ease 0.2s forwards;
+            animation: titleGlow 0.8s ease 0.2s forwards;
             opacity: 0;
             transform: translateY(-20px);
+            text-shadow: 0 2px 20px rgba(255, 140, 0, 0.3);
         }
 
-        /* Services Grid */
+        /* Services Grid with PREMIUM effects */
         .services-section {
-            padding: 6rem 2rem;
+            padding: 8rem 2rem;
             background: var(--black);
+            position: relative;
+            z-index: 1;
         }
 
         .services-grid {
@@ -243,90 +309,136 @@
 
         .service-card {
             background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 140, 0, 0.2);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 140, 0, 0.25);
             padding: 3rem;
-            border-radius: 20px;
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border-radius: 25px;
+            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             position: relative;
             overflow: hidden;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 0.6s ease forwards;
+            cursor: pointer;
         }
 
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .service-card:nth-child(1) { animation-delay: 0.1s; }
-        .service-card:nth-child(2) { animation-delay: 0.2s; }
-        .service-card:nth-child(3) { animation-delay: 0.3s; }
-        .service-card:nth-child(4) { animation-delay: 0.4s; }
-        .service-card:nth-child(5) { animation-delay: 0.5s; }
-        .service-card:nth-child(6) { animation-delay: 0.6s; }
-
+        /* Animated gradient border - REMOVED */
         .service-card::before {
             content: "";
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--orange), var(--bright-orange));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.5s;
-        }
-
-        .service-card:hover {
-            transform: translateY(-15px);
-            border-color: var(--orange);
-            background: rgba(255, 140, 0, 0.05);
-            box-shadow: 0 25px 60px rgba(255, 140, 0, 0.3);
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            background: var(--orange);
+            border-radius: 25px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
 
         .service-card:hover::before {
-            transform: scaleX(1);
+            opacity: 0.3;
+            box-shadow: 0 0 40px rgba(255, 140, 0, 0.5);
         }
 
+        /* Professional glow effect on hover */
+        .service-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 25px;
+            padding: 2px;
+            background: linear-gradient(135deg, 
+                rgba(255, 140, 0, 0) 0%,
+                rgba(255, 140, 0, 0.3) 50%,
+                rgba(255, 140, 0, 0) 100%
+            );
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+
+        .service-card:hover::after {
+            opacity: 1;
+            animation: borderGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes borderGlow {
+            0%, 100% {
+                filter: brightness(1);
+            }
+            50% {
+                filter: brightness(1.3);
+            }
+        }
+
+        .service-card:hover {
+            transform: translateY(-20px) scale(1.02);
+            border-color: var(--bright-orange);
+            background: rgba(255, 140, 0, 0.03);
+            box-shadow: 
+                0 30px 60px rgba(255, 140, 0, 0.25),
+                0 10px 40px rgba(255, 140, 0, 0.15),
+                0 0 0 1px rgba(255, 140, 0, 0.1) inset;
+        }
+
+        /* Icon with rotation effect */
         .service-icon {
             margin-bottom: 2rem;
             display: inline-block;
-            transition: all 0.4s;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
         }
 
         .service-icon svg {
-            width: 70px;
-            height: 70px;
+            width: 80px;
+            height: 80px;
             fill: var(--orange);
-            filter: drop-shadow(0 0 20px var(--orange));
-            transition: all 0.4s;
+            filter: drop-shadow(0 0 25px var(--orange));
+            transition: all 0.5s;
+        }
+
+        /* Glowing ring around icon */
+        .service-icon::before {
+            content: '';
+            position: absolute;
+            inset: -10px;
+            border: 2px solid var(--orange);
+            border-radius: 50%;
+            opacity: 0;
+            animation: ringPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes ringPulse {
+            0%, 100% { transform: scale(1); opacity: 0; }
+            50% { transform: scale(1.3); opacity: 0.6; }
         }
 
         .service-card:hover .service-icon {
-            transform: scale(1.2) rotate(5deg);
+            transform: scale(1.2) rotate(360deg);
         }
 
         .service-card:hover .service-icon svg {
-            filter: drop-shadow(0 0 30px var(--orange));
+            filter: drop-shadow(0 0 40px var(--orange));
+        }
+
+        .service-card:hover .service-icon::before {
+            opacity: 1;
         }
 
         .service-card h3 {
-            font-size: 1.8rem;
+            font-size: 2rem;
             color: var(--orange);
             margin-bottom: 1.5rem;
-            font-weight: 700;
+            font-weight: 800;
+            text-shadow: 0 2px 10px rgba(255, 140, 0, 0.3);
+            transition: all 0.3s;
         }
 
-        .service-card p {
-            color: rgba(255, 255, 255, 0.75);
-            line-height: 1.8;
-            font-size: 1.05rem;
-            margin-bottom: 2rem;
+        .service-card:hover h3 {
+            transform: translateX(5px);
+            text-shadow: 0 4px 20px rgba(255, 140, 0, 0.6);
         }
 
         .service-features {
@@ -335,11 +447,12 @@
         }
 
         .service-features li {
-            padding: 0.7rem 0;
-            color: rgba(255, 255, 255, 0.7);
+            padding: 0.8rem 0;
+            color: rgba(255, 255, 255, 0.75);
             border-bottom: 1px solid rgba(255, 140, 0, 0.1);
             position: relative;
-            padding-left: 1.5rem;
+            padding-left: 2rem;
+            transition: all 0.3s;
         }
 
         .service-features li::before {
@@ -348,36 +461,80 @@
             left: 0;
             color: var(--orange);
             font-weight: bold;
+            font-size: 1.2em;
+            transition: all 0.3s;
+        }
+
+        .service-card:hover .service-features li {
+            padding-left: 2.5rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .service-card:hover .service-features li::before {
+            transform: scale(1.3);
+            filter: drop-shadow(0 0 8px var(--orange));
         }
 
         .service-price {
-            font-size: 2rem;
+            font-size: 2.5rem;
             color: var(--orange);
-            font-weight: 800;
+            font-weight: 900;
             margin-bottom: 1.5rem;
+            filter: drop-shadow(0 2px 10px rgba(255, 140, 0, 0.5));
+            transition: all 0.3s;
         }
 
+        .service-card:hover .service-price {
+            transform: scale(1.1);
+            filter: drop-shadow(0 4px 20px rgba(255, 140, 0, 0.8));
+        }
+
+        /* Premium Button with hover effects */
         .service-btn {
             display: inline-block;
-            padding: 1rem 2.5rem;
+            padding: 1.2rem 3rem;
             background: linear-gradient(135deg, var(--orange), var(--bright-orange));
             color: var(--black);
             text-decoration: none;
             border-radius: 50px;
-            font-weight: 600;
-            transition: all 0.3s;
+            font-weight: 700;
+            font-size: 1.05rem;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             border: none;
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: 0 10px 30px rgba(255, 140, 0, 0.3);
+        }
+
+        .service-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .service-btn:hover::before {
+            width: 300px;
+            height: 300px;
         }
 
         .service-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(255, 140, 0, 0.4);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 50px rgba(255, 140, 0, 0.6);
         }
 
-        /* CTA Section */
+        /* CTA Section with animated background */
         .cta-section {
-            padding: 6rem 2rem;
+            padding: 8rem 2rem;
             background: var(--deep-black);
             text-align: center;
             position: relative;
@@ -388,74 +545,99 @@
             content: "";
             position: absolute;
             inset: 0;
-            background: radial-gradient(circle at center, rgba(255, 140, 0, 0.1) 0%, transparent 70%);
+            background: radial-gradient(circle at center, rgba(255, 140, 0, 0.15) 0%, transparent 70%);
+            animation: pulseGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
         }
 
         .cta-content {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             position: relative;
             z-index: 1;
         }
 
         .cta-content h2 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-size: clamp(2.5rem, 6vw, 4rem);
             margin-bottom: 1.5rem;
             color: white;
-            font-weight: 800;
+            font-weight: 900;
+            background: linear-gradient(135deg, white, var(--orange));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: titleFloat 3s ease-in-out infinite;
         }
 
         .cta-content p {
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 2.5rem;
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 3rem;
             line-height: 1.8;
         }
 
         .cta-buttons {
             display: flex;
-            gap: 1.5rem;
+            gap: 2rem;
             justify-content: center;
             flex-wrap: wrap;
         }
 
         .btn-primary {
-            padding: 1.2rem 3rem;
+            padding: 1.3rem 3.5rem;
             background: linear-gradient(135deg, var(--orange), var(--bright-orange));
             color: var(--black);
             text-decoration: none;
             border-radius: 50px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.3s;
+            font-weight: 700;
+            font-size: 1.15rem;
+            transition: all 0.4s;
+            display: inline-block;
+            box-shadow: 0 15px 40px rgba(255, 140, 0, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::after {
+            content: '→';
+            margin-left: 10px;
+            transition: transform 0.3s;
             display: inline-block;
         }
 
         .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 50px rgba(255, 140, 0, 0.5);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 25px 60px rgba(255, 140, 0, 0.6);
+        }
+
+        .btn-primary:hover::after {
+            transform: translateX(5px);
         }
 
         .btn-secondary {
-            padding: 1.2rem 3rem;
+            padding: 1.3rem 3.5rem;
             background: rgba(255, 255, 255, 0.05);
             color: white;
             text-decoration: none;
             border-radius: 50px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            border: 2px solid rgba(255, 140, 0, 0.4);
-            transition: all 0.3s;
+            font-weight: 700;
+            font-size: 1.15rem;
+            border: 2px solid var(--orange);
+            transition: all 0.4s;
             display: inline-block;
         }
 
         .btn-secondary:hover {
-            background: rgba(255, 140, 0, 0.1);
-            border-color: var(--orange);
-            transform: translateY(-3px);
+            background: rgba(255, 140, 0, 0.15);
+            border-color: var(--bright-orange);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(255, 140, 0, 0.3);
         }
 
-        /* Footer */
         footer {
             background: var(--deep-black);
             border-top: 1px solid rgba(255, 140, 0, 0.15);
@@ -506,11 +688,13 @@
     </style>
 </head>
 <body>
+    <!-- Animated Background Particles -->
+    <div class="bg-particles" id="particlesContainer"></div>
+
     <!-- Navigation -->
     <nav id="navbar">
         <div class="nav-container">
             <a href="index.html" class="logo">
-                <!-- <img src="./media/cglogo2.png" alt="CGPIXELS Logo" onerror="this.style.display='none';"> -->
                 <span class="logo-text">CG PIXELS</span>
             </a>
             <ul class="nav-links" id="navLinks">
@@ -525,28 +709,34 @@
     </nav>
 
     <!-- Hero Section -->
-    <div class="services-hero">
+    <div class="services-hero" id="hero">
         <div class="hero-bg-animation">
-            <div class="floating-shape shape-1"></div>
-            <div class="floating-shape shape-2"></div>
+            <div class="floating-orb orb1"></div>
+            <div class="floating-orb orb2"></div>
+            <div class="floating-orb orb3"></div>
+            <div class="spotlight" id="spotlight"></div>
         </div>
         <div class="hero-content">
+            <div class="hero-badge">✨ Premium Photography Packages</div>
             <h1 class="page-title">Our Services</h1>
-            <p class="page-subtitle">Professional photography for every vision</p>
+            <p class="page-subtitle">Professional photography for every vision — crafted with passion and precision</p>
         </div>
     </div>
 
     <!-- Services Grid -->
     <section class="services-section">
         <div class="services-grid">
-            <div class="service-card">
+            <div class="service-card" 
+                 data-aos="fade-up" 
+                 data-aos-duration="800" 
+                 data-aos-delay="100"
+                 data-aos-easing="ease-out-cubic">
                 <div class="service-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
                     </svg>
                 </div>
                 <h3>Regular</h3>
-                <!-- <p>Professional headshots, personal branding, and artistic portraits that capture your unique essence with stunning clarity and creativity.</p> -->
                 <ul class="service-features">
                     <li>3k per picture</li>
                     <li>Minimum of 2 pictures in one outfit which will be 6k</li>
@@ -557,95 +747,68 @@
                 <a href="contact.html" class="service-btn">Book Now</a>
             </div>
 
-            <div class="service-card">
+            <div class="service-card" 
+                 data-aos="fade-up" 
+                 data-aos-duration="800" 
+                 data-aos-delay="250"
+                 data-aos-easing="ease-out-cubic">
                 <div class="service-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/>
                     </svg>
                 </div>
                 <h3>Bronze</h3>
-                <!-- <p>Product photography, brand campaigns, and commercial content designed to elevate your business and captivate your audience.</p> -->
                 <ul class="service-features">
                     <li>1-2 Outfits</li>
                     <li>5 Edited pictures</li>
                     <li>Access to all raw photos</li>
-                    <li>Bonus:Complimentary flyer design</li>
+                    <li>Bonus: Complimentary flyer design</li>
                 </ul>
                 <div class="service-price">From &#8358;25,000</div>
                 <a href="contact.html" class="service-btn">Book Now</a>
             </div>
 
-            <div class="service-card">
+            <div class="service-card" 
+                 data-aos="fade-up" 
+                 data-aos-duration="800" 
+                 data-aos-delay="400"
+                 data-aos-easing="ease-out-cubic">
                 <div class="service-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/>
                     </svg>
                 </div>
                 <h3>Silver</h3>
-                <!-- <p>High-fashion editorials, lookbooks, and creative campaigns with cinematic quality and magazine-worthy results.</p> -->
                 <ul class="service-features">
                     <li>2-3 Outfits</li>
                     <li>10 Edited pictures</li>
                     <li>Access to all raw photos</li>
-                    <li>Bonus:Complimentary flyer design</li>
+                    <li>Bonus: Complimentary flyer design</li>
                 </ul>
                 <div class="service-price">From &#8358;40,000</div>
                 <a href="contact.html" class="service-btn">Book Now</a>
             </div>
 
-            <div class="service-card">
+            <div class="service-card" 
+                 data-aos="fade-up" 
+                 data-aos-duration="800" 
+                 data-aos-delay="550"
+                 data-aos-easing="ease-out-cubic">
                 <div class="service-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                         <path d="M18 3v2h-2V3H8v2H6V3H4v18h2v-2h2v2h8v-2h2v2h2V3h-2zM8 17H6v-2h2v2zm0-4H6v-2h2v2zm0-4H6V7h2v2zm10 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2z"/>
                     </svg>
                 </div>
                 <h3>Gold</h3>
-                <!-- <p>Comprehensive coverage for corporate events, weddings, and special occasions with documentary-style storytelling.</p> -->
                 <ul class="service-features">
                     <li>3-5 Outfits</li>
                     <li>15 Edited pictures</li>
                     <li>Access to all raw photos</li>
-                    <li>Bonus:Complimentary flyer design</li>
+                    <li>Bonus: Complimentary flyer design</li>
                 </ul>
                 <div class="service-price">From &#8358;70,000</div>
                 <a href="contact.html" class="service-btn">Book Now</a>
             </div>
-
-            <!-- <div class="service-card">
-                <div class="service-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"/>
-                    </svg>
-                </div>
-                <h3>Lifestyle Photography</h3>
-                <p>Authentic, candid moments captured in natural settings, perfect for personal branding and lifestyle content.</p>
-                <ul class="service-features">
-                    <li>Natural Light Sessions</li>
-                    <li>Location Scouting</li>
-                    <li>Candid Photography</li>
-                    <li>Social Media Ready</li>
-                </ul>
-                <div class="service-price">From $499</div>
-                <a href="contact.html" class="service-btn">Book Now</a>
-            </div>
-
-            <div class="service-card">
-                <div class="service-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/>
-                    </svg>
-                </div>
-                <h3>Custom Projects</h3>
-                <p>Tailored photography solutions for unique visions and creative concepts that push boundaries.</p>
-                <ul class="service-features">
-                    <li>Custom Concepts</li>
-                    <li>Creative Collaboration</li>
-                    <li>Flexible Packages</li>
-                    <li>Unlimited Creativity</li>
-                </ul>
-                <div class="service-price">Custom Quote</div>
-                <a href="contact.html" class="service-btn">Book Now</a>
-            </div> -->
         </div>
     </section>
 
@@ -666,7 +829,20 @@
         <p class="footer-text">© 2025 CGPIXELS. All rights reserved. | Capturing Reality, Sculpting Light</p>
     </footer>
 
+    <!-- AOS Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
     <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out-cubic',
+            once: false,
+            mirror: true,
+            anchorPlacement: 'top-bottom',
+            offset: 100
+        });
+
         // Navbar scroll effect
         window.addEventListener('scroll', () => {
             document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
@@ -676,6 +852,88 @@
         document.getElementById('menuToggle').addEventListener('click', () => {
             document.getElementById('navLinks').classList.toggle('active');
         });
+
+        // Spotlight effect follows cursor
+        const hero = document.getElementById('hero');
+        const spotlight = document.getElementById('spotlight');
+        
+        hero.addEventListener('mousemove', (e) => {
+            const rect = hero.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width) * 100;
+            const y = ((e.clientY - rect.top) / rect.height) * 100;
+            spotlight.style.setProperty('--mouse-x', x + '%');
+            spotlight.style.setProperty('--mouse-y', y + '%');
+        });
+
+        // Create animated particles
+        function createParticles() {
+            const container = document.getElementById('particlesContainer');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle-dot';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (8 + Math.random() * 4) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        createParticles();
+
+        // 3D tilt effect on service cards
+        const cards = document.querySelectorAll('.service-card');
+        
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                // Refresh AOS on this card to trigger animation again
+                card.classList.add('aos-animate');
+            });
+            
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 20;
+                const rotateY = (centerX - x) / 20;
+                
+                card.style.transform = `
+                    perspective(1000px) 
+                    rotateX(${rotateX}deg) 
+                    rotateY(${rotateY}deg) 
+                    translateY(-20px) 
+                    scale(1.03)
+                `;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0) scale(1)';
+            });
+        });
+
+        // Smooth scroll animations for CTA section
+        const ctaSection = document.querySelector('.cta-section');
+        const observerOptions = {
+            threshold: 0.3,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const ctaObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 1s ease forwards';
+                }
+            });
+        }, observerOptions);
+
+        if (ctaSection) {
+            ctaObserver.observe(ctaSection);
+        }
     </script>
 </body>
 </html>

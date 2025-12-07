@@ -66,13 +66,6 @@
             transform: scale(1.05);
         }
 
-       
-      /*.logo img {
-        width: 250px;
-        height: 100px;
-        object-fit: cover;
-        filter: drop-shadow(0 0 15px var(--orange));
-      }*/
         .logo-text {
             font-size: 1.4rem;
             font-weight: 800;
@@ -128,6 +121,7 @@
             font-size: 1.8rem;
             cursor: pointer;
         }
+        
 
         /* Gallery Hero */
         .gallery-hero {
@@ -182,6 +176,7 @@
                 transform: rotateY(0) translateZ(0);
             }
         }
+        
 
         .gallery-letter:nth-child(1) { animation-delay: 0.1s; color: white; }
         .gallery-letter:nth-child(2) { animation-delay: 0.2s; color: var(--orange); }
@@ -292,6 +287,15 @@
             animation: fadeInItem 0.6s ease forwards;
         }
 
+        /* Special styling for wedding photos to ensure proper display */
+        .gallery-item.wedding-photo {
+            aspect-ratio: 3/4; /* Taller aspect ratio for portrait wedding photos */
+        }
+
+        .gallery-item.wedding-photo .gallery-img {
+            object-position: center top; /* Ensure faces are visible */
+        }
+
         @keyframes fadeInItem {
             to {
                 opacity: 1;
@@ -305,6 +309,10 @@
         .gallery-item:nth-child(4) { animation-delay: 0.4s; }
         .gallery-item:nth-child(5) { animation-delay: 0.5s; }
         .gallery-item:nth-child(6) { animation-delay: 0.6s; }
+        .gallery-item:nth-child(7) { animation-delay: 0.7s; }
+        .gallery-item:nth-child(8) { animation-delay: 0.8s; }
+        .gallery-item:nth-child(9) { animation-delay: 0.9s; }
+        .gallery-item:nth-child(10) { animation-delay: 1s; }
 
         .gallery-item:hover {
             transform: translateY(-12px) scale(1.02);
@@ -457,6 +465,7 @@
             color: rgba(255, 255, 255, 0.7);
             font-size: 1rem;
         }
+      
 
         /* Footer */
         footer {
@@ -524,7 +533,6 @@
     <nav id="navbar">
         <div class="nav-container">
             <a href="index.html" class="logo">
-                <!-- <img src="./media/cglogo2.png" alt="CGPIXELS Logo" onerror="this.style.display='none';"> -->
                 <span class="logo-text">CG PIXELS</span>
             </a>
             <ul class="nav-links" id="navLinks">
@@ -559,9 +567,10 @@
         <div class="filter-buttons">
             <button class="filter-btn active" data-filter="all"><span>All Work</span></button>
             <button class="filter-btn" data-filter="portraits"><span>Portraits</span></button>
-            <button class="filter-btn" data-filter="kids"><span>kids</span></button>
+            <button class="filter-btn" data-filter="kids"><span>Kids</span></button>
             <button class="filter-btn" data-filter="lifestyle"><span>Lifestyle</span></button>
             <button class="filter-btn" data-filter="editorial"><span>Editorial</span></button>
+            <button class="filter-btn" data-filter="wedding"><span>Wedding</span></button>
         </div>
     </div>
 
@@ -569,16 +578,16 @@
     <div class="gallery-section">
         <div class="gallery">
             <div class="gallery-item" data-category="kids">
-                <img src="./media/kids1.jpg"alt="Urban Portrait" class="gallery-img" />
+                <img src="./media/kids1.jpg" alt="Kids Portrait" class="gallery-img" />
                 <div class="gallery-overlay">
-                    <h3 class="gallery-title">Urban Portrait</h3>
+                    <h3 class="gallery-title">Kids</h3>
                     <p class="gallery-specs">Canon EOS R5 | 85mm f/1.4 | ISO 400</p>
                 </div>
             </div>
             <div class="gallery-item" data-category="kids">
-                <img src="./media/kids2.jpg" alt="Product Shot" class="gallery-img" />
+                <img src="./media/kids2.jpg" alt="Kids Portrait" class="gallery-img" />
                 <div class="gallery-overlay">
-                    <h3 class="gallery-title">Product Shot</h3>
+                    <h3 class="gallery-title">Kids</h3>
                     <p class="gallery-specs">Sony A7IV | 90mm Macro | ISO 100</p>
                 </div>
             </div>
@@ -610,43 +619,35 @@
                     <p class="gallery-specs">Nikon Z9 | 35mm f/1.4 | ISO 400</p>
                 </div>
             </div>
-            <div class="gallery-item" data-category="lifestyle">
-                <img src="./media/kids5.jpg" alt="Travel Story" class="gallery-img" />
+            <div class="gallery-item" data-category="kids">
+                <img src="./media/kids5.jpg" alt="Kids" class="gallery-img" />
                 <div class="gallery-overlay">
-                    <h3 class="gallery-title">kids</h3>
+                    <h3 class="gallery-title">Kids</h3>
                     <p class="gallery-specs">Fujifilm X-T4 | 23mm f/2 | ISO 320</p>
                 </div>
             </div>
             <div class="gallery-item" data-category="editorial">
-                <img src="./media/cg9.jpg" alt="Magazine Cover" class="gallery-img" />
+                <img src="./media/cg9.jpg" alt="Golden hour" class="gallery-img" />
                 <div class="gallery-overlay">
                     <h3 class="gallery-title">Golden hour</h3>
                     <p class="gallery-specs">Hasselblad H6D | 80mm | ISO 64</p>
                 </div>
             </div>
-            <!-- <div class="gallery-item" data-category="portraits">
-                <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800" alt="Creative Portrait" class="gallery-img" />
+            <!-- Wedding Photos with special class -->
+            <div class="gallery-item wedding-photo" data-category="wedding">
+                <img src="./media/2025_12_06_14.16.41.jpg" alt="Wedding Couple" class="gallery-img" />
                 <div class="gallery-overlay">
-                    <h3 class="gallery-title">Creative Portrait</h3>
-                    <p class="gallery-specs">Canon EOS R6 | 50mm f/1.2 | ISO 250</p>
+                    <h3 class="gallery-title">Wedding Bliss</h3>
+                    <p class="gallery-specs">Canon EOS R5 | 50mm f/1.2 | ISO 200</p>
                 </div>
             </div>
-             <div class="gallery-item" data-category="portraits">
-                <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800" alt="Creative Portrait" class="gallery-img" />
+            <div class="gallery-item wedding-photo" data-category="wedding">
+                <img src="./media/2025_12_06_14.16.53.jpg" alt="Wedding Portrait" class="gallery-img" />
                 <div class="gallery-overlay">
-                    <h3 class="gallery-title">Creative Portrait</h3>
-                    <p class="gallery-specs">Canon EOS R6 | 50mm f/1.2 | ISO 250</p>
+                    <h3 class="gallery-title">Love Story</h3>
+                    <p class="gallery-specs">Canon EOS R5 | 85mm f/1.4 | ISO 250</p>
                 </div>
-            </div> -->
-             
-             
-             <!-- <div class="gallery-item" data-category="portraits">
-                <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800" alt="Creative Portrait" class="gallery-img" />
-                <div class="gallery-overlay">
-                    <h3 class="gallery-title">Creative Portrait</h3>
-                    <p class="gallery-specs">Canon EOS R6 | 50mm f/1.2 | ISO 250</p>
-                </div>
-            </div> -->
+            </div>
         </div>
     </div>
 

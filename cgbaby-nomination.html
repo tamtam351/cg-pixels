@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CG Baby of the Year – Nominations | CGPIXELS</title>
+
+  <!-- Firebase loaded via ES module in the script block below -->
+
+  <style>
+    /* ── RESET & ROOT ───────────────────────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --black:      #000000;
+      --deep:       #080808;
+      --card:       #0d0d0d;
+      --orange:     #ff8c00;
+      --bright:     #ffa500;
+      --dim-orange: #ff6b00;
+      --muted:      rgba(255,255,255,.60);
+      --border:     rgba(255,140,0,.22);
+      --sf: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sf);
+      background: var(--black);
+      color: #fff;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ── NAVIGATION ─────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      backdrop-filter: blur(24px);
+      background: rgba(0,0,0,.82);
+      border-bottom: 1px solid rgba(255,140,0,.13);
+      transition: background .3s, box-shadow .3s;
+    }
+    nav.scrolled {
+      background: rgba(0,0,0,.96);
+      box-shadow: 0 4px 30px rgba(255,140,0,.1);
+    }
+    .nav-container {
+      max-width: 1400px; margin: 0 auto;
+      padding: 1.15rem 2.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .logo {
+      display: flex; align-items: center; gap: .7rem;
+      cursor: pointer; transition: transform .3s;
+    }
+    .logo:hover { transform: scale(1.05); }
+    .logo-text {
+      font-size: 1.4rem; font-weight: 800; letter-spacing: .08em;
+      background: linear-gradient(135deg, var(--orange), var(--bright));
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+    .nav-links a {
+      color: rgba(255,255,255,.82); font-weight: 500; font-size: .95rem;
+      letter-spacing: .02em; position: relative; transition: color .3s; padding: .5rem 0;
+    }
+    .nav-links a::after {
+      content: ""; position: absolute; bottom: 0; left: 0;
+      width: 0; height: 2px; background: var(--orange); transition: width .3s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--orange); }
+    .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+    .nav-cgbaby { display: flex; align-items: center; gap: .4rem; }
+    .nav-cgbaby svg { fill: var(--orange); }
+    .menu-toggle {
+      display: none; background: none; border: none;
+      color: #fff; font-size: 1.8rem; cursor: pointer; line-height: 1;
+    }
+
+    /* ── HERO ────────────────────────────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden; padding-top: 80px;
+      background: var(--deep);
+    }
+    .hero-atmosphere { position: absolute; inset: 0; pointer-events: none; }
+    .atmo-orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(100px); opacity: .22;
+    }
+    .atmo-orb-1 {
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, var(--orange) 0%, transparent 70%);
+      top: -15%; left: -10%;
+      animation: orbDrift 18s ease-in-out infinite alternate;
+    }
+    .atmo-orb-2 {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, var(--dim-orange) 0%, transparent 70%);
+      bottom: -10%; right: -5%;
+      animation: orbDrift 22s ease-in-out infinite alternate-reverse;
+    }
+    @keyframes orbDrift {
+      0%   { transform: translate(0,0) scale(1); }
+      100% { transform: translate(60px,40px) scale(1.15); }
+    }
+    .hero-grid {
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,140,0,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,140,0,.035) 1px, transparent 1px);
+      background-size: 80px 80px;
+      animation: gridMove 25s linear infinite;
+    }
+    @keyframes gridMove {
+      0%   { transform: translate(0,0); }
+      100% { transform: translate(80px,80px); }
+    }
+    .particle {
+      position: absolute; width: 4px; height: 4px; border-radius: 50%;
+      background: var(--orange); box-shadow: 0 0 10px var(--orange);
+      opacity: 0; animation: rise 14s infinite;
+    }
+    @keyframes rise {
+      0%   { transform: translateY(100vh); opacity: 0; }
+      12%  { opacity: .75; }
+      88%  { opacity: .55; }
+      100% { transform: translateY(-15vh); opacity: 0; }
+    }
+
+    .hero-inner {
+      position: relative; z-index: 2;
+      text-align: center; padding: 4rem 2rem;
+      max-width: 900px;
+    }
+
+    .contest-badge {
+      display: inline-flex; align-items: center; gap: .55rem;
+      padding: .65rem 1.6rem;
+      background: rgba(255,140,0,.09);
+      border: 1px solid rgba(255,140,0,.45);
+      border-radius: 50px;
+      font-size: .82rem; font-weight: 700;
+      color: var(--bright); text-transform: uppercase; letter-spacing: .12em;
+      margin-bottom: 2.2rem;
+      animation: badgePulse 3.5s ease-in-out infinite;
+    }
+    @keyframes badgePulse {
+      0%,100% { box-shadow: 0 0 14px rgba(255,140,0,.2); }
+      50%      { box-shadow: 0 0 30px rgba(255,140,0,.5); }
+    }
+    .badge-icon svg { fill: var(--bright); display: block; }
+
+    .hero-title {
+      font-size: clamp(3rem, 9vw, 6.5rem);
+      font-weight: 900; line-height: 1; letter-spacing: -.03em;
+      margin-bottom: 1.5rem;
+    }
+    .t1 { display: block; color: #fff; }
+    .t2 {
+      display: block;
+      background: linear-gradient(130deg, var(--bright) 0%, var(--orange) 55%, var(--dim-orange) 100%);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: textGlow 2.8s ease-in-out infinite alternate;
+    }
+    @keyframes textGlow {
+      0%   { filter: drop-shadow(0 0 20px rgba(255,140,0,.35)); }
+      100% { filter: drop-shadow(0 0 60px rgba(255,140,0,.85)); }
+    }
+
+    .hero-sub {
+      font-size: clamp(.95rem, 2.3vw, 1.3rem);
+      color: var(--muted); font-weight: 300;
+      margin: 0 auto 3rem; max-width: 580px; line-height: 1.75;
+    }
+
+    /* ── COUNTDOWN ───────────────────────────────────────────────── */
+    .countdown-wrap {
+      display: flex; justify-content: center; gap: 1.2rem;
+      flex-wrap: wrap; margin-bottom: 2.5rem;
+    }
+    .cd-block {
+      display: flex; flex-direction: column; align-items: center;
+      background: rgba(255,140,0,.06);
+      border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.2rem 1.6rem; min-width: 88px;
+      transition: all .3s;
+    }
+    .cd-block:hover {
+      background: rgba(255,140,0,.12); border-color: var(--orange);
+      transform: translateY(-5px); box-shadow: 0 12px 30px rgba(255,140,0,.22);
+    }
+    .cd-num {
+      font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 900;
+      color: var(--orange); font-variant-numeric: tabular-nums;
+      filter: drop-shadow(0 0 10px var(--orange)); line-height: 1;
+    }
+    .cd-label {
+      font-size: .72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .13em;
+      color: var(--muted); margin-top: .4rem;
+    }
+    .countdown-msg {
+      display: flex; align-items: center; justify-content: center; gap: .55rem;
+      color: var(--muted); font-size: 1rem; margin-bottom: 2.5rem;
+    }
+    .countdown-msg svg { fill: var(--orange); flex-shrink: 0; }
+
+    .btn-hero {
+      display: inline-flex; align-items: center; gap: .7rem;
+      padding: 1.25rem 3.2rem;
+      background: linear-gradient(135deg, var(--orange), var(--bright));
+      color: var(--black); border-radius: 60px;
+      font-weight: 800; font-size: 1.05rem;
+      text-transform: uppercase; letter-spacing: .09em;
+      box-shadow: 0 14px 40px rgba(255,140,0,.38);
+      transition: all .4s cubic-bezier(.68,-.55,.265,1.55);
+      cursor: pointer; border: none;
+    }
+    .btn-hero:hover {
+      transform: translateY(-6px) scale(1.04);
+      box-shadow: 0 24px 60px rgba(255,140,0,.58);
+    }
+    .btn-hero svg { fill: var(--black); transition: transform .3s; }
+    .btn-hero:hover svg { transform: translateX(4px); }
+
+    /* ── SECTION HEADER ─────────────────────────────────────────── */
+    .section-header { text-align: center; margin-bottom: 3.5rem; }
+    .section-header h2 {
+      font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 900;
+      background: linear-gradient(135deg, #fff, var(--orange));
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent; margin-bottom: .7rem;
+    }
+    .section-header p { color: var(--muted); font-size: 1.05rem; }
+
+    /* ── HOW IT WORKS ────────────────────────────────────────────── */
+    .how-section {
+      padding: 7rem 2rem 8rem; background: var(--deep);
+      position: relative; overflow: hidden;
+    }
+    .how-section::before {
+      content: ""; position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 20% 50%, rgba(255,140,0,.07) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 80% 60%, rgba(255,100,0,.05) 0%, transparent 70%);
+    }
+
+    /* ── 4-column fixed grid ── */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      max-width: 1200px; margin: 0 auto;
+      position: relative; z-index: 1;
+    }
+
+    /* connector line between icons */
+    .steps-grid::before {
+      content: ""; position: absolute;
+      top: 52px; left: calc(12.5% + 36px); right: calc(12.5% + 36px);
+      height: 2px;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(255,140,0,.4) 15%,
+        rgba(255,140,0,.4) 85%,
+        transparent 100%);
+      z-index: 0;
+    }
+
+    /* dashed dots along the connector */
+    .steps-grid::after {
+      content: ""; position: absolute;
+      top: 48px; left: calc(12.5% + 36px); right: calc(12.5% + 36px);
+      height: 10px; z-index: 0;
+      background: repeating-linear-gradient(
+        90deg,
+        rgba(255,140,0,.6) 0px, rgba(255,140,0,.6) 6px,
+        transparent 6px, transparent 18px
+      );
+      animation: dashedScroll 2s linear infinite;
+    }
+    @keyframes dashedScroll {
+      0%   { background-position: 0 0; }
+      100% { background-position: 24px 0; }
+    }
+
+    .step-card {
+      position: relative; z-index: 1;
+      text-align: center; padding: 0 1rem 2.2rem;
+      background: rgba(255,255,255,.02);
+      border: 1px solid rgba(255,140,0,.15);
+      border-radius: 24px;
+      transition: all .45s cubic-bezier(.25,.8,.25,1);
+      overflow: hidden;
+    }
+
+    /* glass sheen on hover */
+    .step-card::before {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,140,0,.08) 0%, transparent 60%);
+      opacity: 0; transition: opacity .4s; border-radius: 24px;
+    }
+    .step-card:hover::before { opacity: 1; }
+
+    /* bottom glow line */
+    .step-card::after {
+      content: ""; position: absolute;
+      bottom: 0; left: 10%; right: 10%; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--orange), transparent);
+      transform: scaleX(0); transition: transform .45s;
+    }
+    .step-card:hover::after { transform: scaleX(1); }
+    .step-card:hover {
+      transform: translateY(-12px);
+      border-color: rgba(255,140,0,.45);
+      box-shadow: 0 24px 60px rgba(255,140,0,.18), 0 0 0 1px rgba(255,140,0,.08);
+    }
+
+    /* step number watermark */
+    .step-num {
+      position: absolute; bottom: 1rem; right: 1.2rem;
+      font-size: 5rem; font-weight: 900; line-height: 1;
+      color: var(--orange); opacity: .06;
+      pointer-events: none; user-select: none;
+    }
+
+    /* icon circle — sits on top of the connector line */
+    .step-icon-wrap {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: var(--deep);
+      border: 2px solid rgba(255,140,0,.4);
+      display: flex; align-items: center; justify-content: center;
+      margin: -40px auto 1.6rem;
+      position: relative; z-index: 2;
+      transition: all .4s cubic-bezier(.68,-.55,.265,1.55);
+      box-shadow: 0 0 0 6px var(--deep), 0 0 30px rgba(255,140,0,.2);
+    }
+    .step-card:hover .step-icon-wrap {
+      background: rgba(255,140,0,.12);
+      border-color: var(--orange);
+      transform: scale(1.15) rotate(8deg);
+      box-shadow: 0 0 0 6px var(--deep), 0 0 40px rgba(255,140,0,.45);
+    }
+    .step-icon-wrap svg { fill: var(--orange); display: block; transition: transform .4s; }
+    .step-card:hover .step-icon-wrap svg { transform: scale(1.1); }
+
+    /* top spacer so icon overlaps border */
+    .step-top-space { height: 40px; }
+
+    /* phase label pill */
+    .step-phase {
+      display: inline-flex; align-items: center; gap: .35rem;
+      padding: .3rem .85rem; border-radius: 50px;
+      font-size: .68rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: .12em;
+      margin-bottom: 1rem;
+      background: rgba(255,140,0,.1); border: 1px solid rgba(255,140,0,.3);
+      color: var(--orange);
+    }
+    .step-phase-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--orange); flex-shrink: 0;
+      animation: phaseDot 1.5s ease-in-out infinite;
+    }
+    @keyframes phaseDot {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: .4; transform: scale(.6); }
+    }
+
+    .step-card h3 {
+      font-size: 1.25rem; color: #fff;
+      margin-bottom: .7rem; font-weight: 800; letter-spacing: -.01em;
+    }
+    .step-card p { font-size: .88rem; color: var(--muted); line-height: 1.75; }
+    .step-highlight { color: var(--orange); font-weight: 700; }
+
+    /* tablet: 2x2 */
+    @media (max-width: 900px) {
+      .steps-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+      .steps-grid::before, .steps-grid::after { display: none; }
+      .step-icon-wrap { margin-top: 1.5rem; box-shadow: 0 0 30px rgba(255,140,0,.2); }
+      .step-top-space { display: none; }
+    }
+    /* mobile: 1 col */
+    @media (max-width: 520px) {
+      .steps-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── NOMINATION FORM ────────────────────────────────────────── */
+    .form-section {
+      padding: 7rem 2rem; background: var(--black); position: relative;
+    }
+    .form-section::before {
+      content: ""; position: absolute; inset: 0;
+      background: radial-gradient(circle at 28% 65%, rgba(255,140,0,.07) 0%, transparent 60%);
+    }
+    .form-wrap { max-width: 740px; margin: 0 auto; position: relative; z-index: 1; }
+    .glass-form {
+      background: rgba(255,255,255,.025);
+      backdrop-filter: blur(32px);
+      border: 2px solid rgba(255,140,0,.22);
+      border-radius: 28px; padding: 3.5rem;
+      box-shadow: 0 24px 80px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,140,0,.07);
+      position: relative; overflow: hidden;
+    }
+    .glass-form::before {
+      content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--orange), var(--bright), var(--orange));
+      background-size: 200% 100%;
+      animation: shimmer 3.2s linear infinite;
+    }
+    @keyframes shimmer {
+      0%   { background-position: -200% 0; }
+      100% { background-position:  200% 0; }
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .form-group { margin-bottom: 1.8rem; }
+    .form-group label {
+      display: flex; align-items: center; gap: .45rem;
+      margin-bottom: .65rem;
+      color: var(--orange); font-weight: 700;
+      text-transform: uppercase; font-size: .78rem; letter-spacing: .11em;
+    }
+    .form-group label svg { fill: var(--orange); opacity: .8; display: block; }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%; padding: 1rem 1.3rem;
+      background: rgba(255,255,255,.04);
+      border: 2px solid rgba(255,140,0,.22);
+      border-radius: 14px;
+      color: #fff; font-size: 1rem; font-family: var(--sf);
+      transition: border-color .4s, background .4s, transform .35s, box-shadow .4s;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: rgba(255,255,255,.28); }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none; border-color: var(--bright);
+      background: rgba(255,140,0,.07);
+      box-shadow: 0 0 0 4px rgba(255,140,0,.12), 0 0 24px rgba(255,140,0,.22);
+      transform: translateY(-3px);
+    }
+    .form-group select option { background: #111; color: #fff; }
+    .form-group textarea { resize: vertical; min-height: 112px; }
+    .char-count { text-align: right; font-size: .75rem; color: rgba(255,255,255,.3); margin-top: .35rem; }
+
+    /* ── UPLOAD ZONE ─────────────────────────────────────────────── */
+    .upload-zone {
+      border: 2px dashed rgba(255,140,0,.38); border-radius: 18px;
+      padding: 2.8rem 1.5rem; text-align: center; cursor: pointer;
+      transition: all .4s; position: relative; overflow: hidden;
+    }
+    .upload-zone:hover, .upload-zone.dragover {
+      border-color: var(--bright); background: rgba(255,140,0,.055); transform: scale(1.01);
+    }
+    .upload-zone input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+    }
+    .upload-icon-wrap {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: rgba(255,140,0,.1); border: 1.5px solid rgba(255,140,0,.3);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1rem; transition: all .35s;
+    }
+    .upload-zone:hover .upload-icon-wrap {
+      background: rgba(255,140,0,.2); border-color: var(--orange);
+      box-shadow: 0 0 20px rgba(255,140,0,.3);
+    }
+    .upload-icon-wrap svg { fill: var(--orange); display: block; }
+    .upload-title { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: .35rem; }
+    .upload-sub { font-size: .85rem; color: var(--muted); }
+    .upload-sub strong { color: var(--orange); }
+    .upload-preview {
+      display: none; width: 130px; height: 130px; border-radius: 14px;
+      object-fit: cover; margin: 1.2rem auto 0;
+      border: 2px solid var(--orange); box-shadow: 0 0 20px rgba(255,140,0,.35);
+    }
+    .upload-progress {
+      display: none; margin-top: .85rem; height: 4px;
+      background: rgba(255,255,255,.1); border-radius: 99px; overflow: hidden;
+    }
+    .upload-progress-bar {
+      height: 100%; background: linear-gradient(90deg, var(--orange), var(--bright));
+      border-radius: 99px; width: 0; transition: width .3s;
+    }
+
+    /* ── CONSENT ─────────────────────────────────────────────────── */
+    .consent-row {
+      display: flex; gap: .8rem; align-items: flex-start; margin-bottom: 2rem;
+    }
+    .consent-row input[type="checkbox"] {
+      width: 20px; height: 20px; margin-top: .15rem;
+      accent-color: var(--orange); cursor: pointer; flex-shrink: 0;
+    }
+    .consent-label { font-size: .88rem; color: var(--muted); line-height: 1.65; }
+    .consent-label a { color: var(--orange); text-decoration: underline; }
+
+    /* ── SUBMIT BUTTON ───────────────────────────────────────────── */
+    .submit-btn {
+      width: 100%; padding: 1.35rem;
+      background: linear-gradient(135deg, var(--orange), var(--bright));
+      color: var(--black); border: none; border-radius: 60px;
+      font-size: 1.1rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: .1em;
+      cursor: pointer; display: flex; align-items: center; justify-content: center; gap: .8rem;
+      box-shadow: 0 14px 40px rgba(255,140,0,.38);
+      transition: all .4s cubic-bezier(.68,-.55,.265,1.55);
+      position: relative; overflow: hidden;
+    }
+    .submit-btn::before {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.22), transparent);
+      transform: translateX(-100%); transition: transform .55s;
+    }
+    .submit-btn:hover::before { transform: translateX(100%); }
+    .submit-btn:hover:not(:disabled) {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 24px 60px rgba(255,140,0,.58);
+    }
+    .submit-btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+    .submit-btn svg { fill: var(--black); transition: transform .3s; display: block; }
+    .submit-btn:hover svg { transform: translateX(5px); }
+
+    .terms-note {
+      text-align: center; margin-top: 1.4rem;
+      font-size: .82rem; color: rgba(255,255,255,.35);
+    }
+    .terms-note a { color: var(--orange); text-decoration: underline; }
+
+    /* ── NOMINEES ────────────────────────────────────────────────── */
+    .nominees-section { padding: 6rem 2rem; background: var(--deep); }
+    .nominees-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.8rem; max-width: 1200px; margin: 0 auto;
+    }
+    .nominee-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 18px; overflow: hidden;
+      transition: all .42s; position: relative;
+    }
+    .nominee-card:hover {
+      transform: translateY(-9px); border-color: var(--orange);
+      box-shadow: 0 18px 45px rgba(255,140,0,.24);
+    }
+    .nominee-img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; transition: transform .6s; }
+    .nominee-card:hover .nominee-img { transform: scale(1.08); }
+    .nominee-info { padding: .9rem 1rem; }
+    .nominee-name { font-size: .98rem; font-weight: 700; color: var(--orange); margin-bottom: .2rem; }
+    .nominee-age  { font-size: .82rem; color: var(--muted); }
+    .nominee-badge {
+      position: absolute; top: .65rem; right: .65rem;
+      background: var(--orange); color: var(--black);
+      font-size: .68rem; font-weight: 800;
+      text-transform: uppercase; padding: .2rem .55rem;
+      border-radius: 50px; letter-spacing: .08em;
+    }
+
+    /* skeletons */
+    .skeleton { background: rgba(255,140,0,.04); border-radius: 18px; overflow: hidden; border: 1px solid rgba(255,140,0,.09); }
+    .skel-img {
+      width: 100%; aspect-ratio: 1;
+      background: linear-gradient(90deg, rgba(255,140,0,.04) 25%, rgba(255,140,0,.11) 50%, rgba(255,140,0,.04) 75%);
+      background-size: 200% 100%; animation: skelAnim 1.6s infinite;
+    }
+    .skel-line {
+      height: 11px; border-radius: 6px; margin: .9rem;
+      background: linear-gradient(90deg, rgba(255,255,255,.03) 25%, rgba(255,255,255,.07) 50%, rgba(255,255,255,.03) 75%);
+      background-size: 200% 100%; animation: skelAnim 1.6s infinite;
+    }
+    @keyframes skelAnim { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+    .nominees-empty {
+      grid-column: 1/-1; text-align: center;
+      color: var(--muted); font-size: 1.05rem; padding: 3.5rem 1rem;
+    }
+    .empty-icon-wrap {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: rgba(255,140,0,.08); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.25rem;
+    }
+    .empty-icon-wrap svg { fill: rgba(255,140,0,.45); display: block; }
+
+    .view-voting-btn {
+      display: inline-flex; align-items: center; gap: .55rem;
+      margin-top: 3rem; padding: 1.05rem 2.8rem;
+      background: rgba(255,140,0,.08); border: 2px solid var(--orange);
+      color: var(--orange); border-radius: 60px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .08em; font-size: .9rem;
+      transition: all .35s;
+    }
+    .view-voting-btn:hover {
+      background: rgba(255,140,0,.16); box-shadow: 0 10px 30px rgba(255,140,0,.22);
+      transform: translateY(-3px);
+    }
+    .view-voting-btn svg { fill: var(--orange); transition: transform .3s; display: block; }
+    .view-voting-btn:hover svg { transform: translateX(4px); }
+
+    /* ── TOAST ───────────────────────────────────────────────────── */
+    .toast {
+      position: fixed; bottom: 2rem; left: 50%;
+      transform: translateX(-50%) translateY(120px);
+      display: flex; align-items: center; gap: .7rem;
+      padding: 1rem 2.2rem; border-radius: 60px;
+      font-weight: 700; font-size: .97rem; z-index: 9000;
+      transition: transform .42s cubic-bezier(.68,-.55,.265,1.55);
+      pointer-events: none; white-space: nowrap;
+    }
+    .toast svg { flex-shrink: 0; display: block; }
+    .toast.success {
+      background: linear-gradient(135deg, var(--orange), var(--bright));
+      color: var(--black); box-shadow: 0 10px 40px rgba(255,140,0,.5);
+    }
+    .toast.success svg { fill: var(--black); }
+    .toast.error {
+      background: linear-gradient(135deg, #e53935, #b71c1c);
+      color: #fff; box-shadow: 0 10px 40px rgba(229,57,53,.4);
+    }
+    .toast.error svg { fill: #fff; }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* ── FOOTER ──────────────────────────────────────────────────── */
+    footer {
+      background: var(--deep); border-top: 1px solid rgba(255,140,0,.11);
+      padding: 2.5rem 2rem; text-align: center;
+    }
+    .footer-text { color: rgba(255,255,255,.38); font-size: .88rem; }
+
+    /* ── RESPONSIVE ──────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .menu-toggle { display: block; }
+      .nav-links {
+        position: absolute; top: 100%; left: 0; right: 0;
+        background: rgba(0,0,0,.98); flex-direction: column; padding: 2rem; gap: 1.5rem;
+        transform: translateY(-100%); opacity: 0; transition: all .3s; pointer-events: none;
+      }
+      .nav-links.active { transform: translateY(0); opacity: 1; pointer-events: all; }
+      .form-row { grid-template-columns: 1fr; gap: 0; }
+      .glass-form { padding: 2rem 1.4rem; }
+      .steps-grid::before { display: none; }
+      .cd-block { min-width: 72px; padding: 1rem 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <svg id="toastIcon" width="20" height="20" viewBox="0 0 24 24"></svg>
+  <span id="toastMsg"></span>
+</div>
+
+<!-- ── NAV ─────────────────────────────────────────────────────────── -->
+<nav id="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="logo">
+      <span class="logo-text">CG PIXELS</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Pricing</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li>
+        <a href="cgbaby-nomination.html" class="active nav-cgbaby">
+          <!-- trophy star -->
+          <svg width="15" height="15" viewBox="0 0 24 24">
+            <path d="M19 5h-2V3H7v2H5C3.9 5 3 5.9 3 7v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0011 15.9V18H7v2h10v-2h-4v-2.1a5.01 5.01 0 003.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.86 10.4 5 9.3 5 8zm14 0c0 1.3-.86 2.4-2 2.82V7h2v1z"/>
+          </svg>
+          CG Baby
+        </a>
+      </li>
+    </ul>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="white">
+        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+<!-- ── HERO ─────────────────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-atmosphere">
+    <div class="atmo-orb atmo-orb-1"></div>
+    <div class="atmo-orb atmo-orb-2"></div>
+  </div>
+  <div class="hero-grid"></div>
+  <div class="particle" style="left:8%;animation-delay:0s;animation-duration:10s"></div>
+  <div class="particle" style="left:23%;animation-delay:3.5s;animation-duration:13s"></div>
+  <div class="particle" style="left:41%;animation-delay:1.2s;animation-duration:11s"></div>
+  <div class="particle" style="left:59%;animation-delay:5s;animation-duration:14s"></div>
+  <div class="particle" style="left:77%;animation-delay:2.2s;animation-duration:12s"></div>
+  <div class="particle" style="left:91%;animation-delay:7s;animation-duration:9.5s"></div>
+
+  <div class="hero-inner">
+    <div class="contest-badge">
+      <span class="badge-icon">
+        <svg width="16" height="16" viewBox="0 0 24 24">
+          <path d="M19 5h-2V3H7v2H5C3.9 5 3 5.9 3 7v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0011 15.9V18H7v2h10v-2h-4v-2.1a5.01 5.01 0 003.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.86 10.4 5 9.3 5 8zm14 0c0 1.3-.86 2.4-2 2.82V7h2v1z"/>
+        </svg>
+      </span>
+      Annual Contest · 2025 Edition
+    </div>
+
+    <h1 class="hero-title">
+      <span class="t1">CG Baby</span>
+      <span class="t2">of the Year</span>
+    </h1>
+
+    <p class="hero-sub">
+      Nominate the most adorable star from a CG Pixels photoshoot.
+      The community votes, the top&nbsp;5 advance — then the real battle begins.
+    </p>
+
+    <!-- COUNTDOWN -->
+    <div class="countdown-wrap">
+      <div class="cd-block"><span class="cd-num" id="cd-days">--</span><span class="cd-label">Days</span></div>
+      <div class="cd-block"><span class="cd-num" id="cd-hours">--</span><span class="cd-label">Hours</span></div>
+      <div class="cd-block"><span class="cd-num" id="cd-mins">--</span><span class="cd-label">Mins</span></div>
+      <div class="cd-block"><span class="cd-num" id="cd-secs">--</span><span class="cd-label">Secs</span></div>
+    </div>
+
+    <p class="countdown-msg" id="countdown-msg">
+      <svg width="18" height="18" viewBox="0 0 24 24">
+        <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm.01 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/>
+      </svg>
+      Nominations close soon — don't miss your chance!
+    </p>
+
+    <button class="btn-hero" onclick="document.getElementById('nominate').scrollIntoView({behavior:'smooth'})">
+      Nominate a Baby
+      <svg width="20" height="20" viewBox="0 0 24 24">
+        <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+      </svg>
+    </button>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ──────────────────────────────────────────────────── -->
+<section class="how-section">
+  <div class="section-header">
+    <h2>How It Works</h2>
+    <p>Four phases, one winner — here's the full journey</p>
+  </div>
+
+  <div class="steps-grid">
+
+    <!-- CARD 1 -->
+    <div class="step-card">
+      <div class="step-top-space"></div>
+      <div class="step-icon-wrap">
+        <svg width="34" height="34" viewBox="0 0 24 24">
+          <path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15a5 5 0 110-10 5 5 0 010 10zm0-8a3 3 0 100 6 3 3 0 000-6z"/>
+        </svg>
+      </div>
+      <div class="step-phase"><div class="step-phase-dot"></div>Phase 01</div>
+      <h3>Nominate</h3>
+      <p>Submit your baby from a CG Pixels shoot — photo, name, age, and a short story about what makes them special.</p>
+      <div class="step-num">01</div>
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="step-card">
+      <div class="step-top-space"></div>
+      <div class="step-icon-wrap">
+        <svg width="34" height="34" viewBox="0 0 24 24">
+          <path d="M18 3v2h-2V3H8v2H6V3H4v18h2v-2h2v2h8v-2h2v2h2V3h-2zM8 17H6v-2h2v2zm0-4H6v-2h2v2zm0-4H6V7h2v2zm10 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2z"/>
+        </svg>
+      </div>
+      <div class="step-phase"><div class="step-phase-dot"></div>Phase 02</div>
+      <h3>Free Voting</h3>
+      <p>Everyone gets <span class="step-highlight">3 free votes</span>. Share the link — the more your community rallies, the higher your baby climbs.</p>
+      <div class="step-num">02</div>
+    </div>
+
+    <!-- CARD 3 -->
+    <div class="step-card">
+      <div class="step-top-space"></div>
+      <div class="step-icon-wrap">
+        <svg width="34" height="34" viewBox="0 0 24 24">
+          <path d="M19 5h-2V3H7v2H5C3.9 5 3 5.9 3 7v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0011 15.9V18H7v2h10v-2h-4v-2.1a5.01 5.01 0 003.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.86 10.4 5 9.3 5 8zm14 0c0 1.3-.86 2.4-2 2.82V7h2v1z"/>
+        </svg>
+      </div>
+      <div class="step-phase"><div class="step-phase-dot"></div>Phase 03</div>
+      <h3>Grand Finals</h3>
+      <p>The top 5 advance. Now it's paid — buy vote tokens at <span class="step-highlight">₦500</span> each to back your favourite until the deadline hits.</p>
+      <div class="step-num">03</div>
+    </div>
+
+    <!-- CARD 4 -->
+    <div class="step-card">
+      <div class="step-top-space"></div>
+      <div class="step-icon-wrap">
+        <svg width="34" height="34" viewBox="0 0 24 24">
+          <path d="M20 6h-2.18c.11-.31.18-.65.18-1 0-1.66-1.34-3-3-3-1 0-1.96.54-2.5 1.35l-.5.67-.5-.67C10.96 2.54 10 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm11 15H4v-2h16v2zm0-5H4V8h5.08L7 10.83 8.62 12 11 8.76l1-1.36 1 1.36L15.38 12 17 10.83 14.92 8H20v6z"/>
+        </svg>
+      </div>
+      <div class="step-phase"><div class="step-phase-dot"></div>Phase 04</div>
+      <h3>Win Prizes</h3>
+      <p>The highest-voted baby is crowned CG Baby of the Year — premium shoot package, official certificate, and a full brand spotlight.</p>
+      <div class="step-num">04</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── NOMINATION FORM ────────────────────────────────────────────────── -->
+<section class="form-section" id="nominate">
+  <div class="section-header">
+    <h2>Submit Your Nomination</h2>
+    <p>One entry per child · Must have an existing CG Pixels photoshoot</p>
+  </div>
+
+  <div class="form-wrap">
+    <form class="glass-form" id="nomForm" novalidate>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="childName">
+            <svg width="13" height="13" viewBox="0 0 24 24"><path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v2h20v-2c0-3.33-6.67-5-10-5z"/></svg>
+            Child's Name *
+          </label>
+          <input type="text" id="childName" placeholder="e.g. Adaeze" required maxlength="50" />
+        </div>
+        <div class="form-group">
+          <label for="childAge">
+            <svg width="13" height="13" viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg>
+            Age *
+          </label>
+          <select id="childAge" required>
+            <option value="">Select age</option>
+            <option>0 – 6 months</option>
+            <option>6 – 12 months</option>
+            <option>1 year</option>
+            <option>2 years</option>
+            <option>3 years</option>
+            <option>4 years</option>
+            <option>5 years</option>
+            <option>6 – 10 years</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="parentName">
+            <svg width="13" height="13" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+            Parent / Guardian *
+          </label>
+          <input type="text" id="parentName" placeholder="Your full name" required maxlength="80" />
+        </div>
+        <div class="form-group">
+          <label for="parentPhone">
+            <svg width="13" height="13" viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.61 21 3 13.39 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+            WhatsApp Number *
+          </label>
+          <input type="tel" id="parentPhone" placeholder="08XXXXXXXXX" required />
+        </div>
+      </div>
+
+      <!-- Photo Upload -->
+      <div class="form-group">
+        <label>
+          <svg width="13" height="13" viewBox="0 0 24 24"><path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15a5 5 0 110-10 5 5 0 010 10zm0-8a3 3 0 100 6 3 3 0 000-6z"/></svg>
+          Child's Photo *
+        </label>
+        <div class="upload-zone" id="uploadZone">
+          <input type="file" id="photoInput" accept="image/jpeg,image/png,image/webp" />
+          <div class="upload-icon-wrap">
+            <svg width="30" height="30" viewBox="0 0 24 24">
+              <path d="M19.35 10.04A7.49 7.49 0 0012 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 000 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/>
+            </svg>
+          </div>
+          <div class="upload-title">Tap or drag to upload photo</div>
+          <div class="upload-sub">JPG / PNG / WEBP &nbsp;·&nbsp; <strong>Max 5 MB</strong></div>
+          <img class="upload-preview" id="uploadPreview" alt="Preview" />
+          <div class="upload-progress" id="uploadProgress">
+            <div class="upload-progress-bar" id="uploadProgressBar"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="form-group">
+        <label for="description">
+          <svg width="13" height="13" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm17.71-10.21a.996.996 0 000-1.41l-2.34-2.34a.996.996 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+          Why does this baby deserve to win? *
+        </label>
+        <textarea id="description" placeholder="Share what makes them special… (max 200 characters)" maxlength="200" required></textarea>
+        <div class="char-count"><span id="charCount">0</span> / 200</div>
+      </div>
+
+      <!-- Instagram -->
+      <div class="form-group">
+        <label for="instagram">
+          <svg width="13" height="13" viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 01-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 017.8 2m-.2 2A3.6 3.6 0 004 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 003.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 011.25 1.25A1.25 1.25 0 0117.25 8 1.25 1.25 0 0116 6.75a1.25 1.25 0 011.25-1.25M12 7a5 5 0 015 5 5 5 0 01-5 5 5 5 0 01-5-5 5 5 0 015-5m0 2a3 3 0 00-3 3 3 3 0 003 3 3 3 0 003-3 3 3 0 00-3-3z"/></svg>
+          Instagram Handle
+          <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0;font-size:.78rem">(optional)</span>
+        </label>
+        <input type="text" id="instagram" placeholder="@yourhandle" />
+      </div>
+
+      <!-- Consent -->
+      <div class="consent-row">
+        <input type="checkbox" id="consent" required />
+        <label for="consent" class="consent-label">
+          I confirm this photo was taken by CG Pixels and I have the right to submit it.
+          I agree to the <a href="#">Contest Rules &amp; Terms</a>.
+        </label>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit" class="submit-btn" id="submitBtn">
+        <span id="btnText">Submit Nomination</span>
+        <svg id="btnIcon" width="22" height="22" viewBox="0 0 24 24">
+          <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+        </svg>
+      </button>
+
+      <p class="terms-note">
+        All entries reviewed within 24 hours.
+        Questions? <a href="contact.html">Contact us</a>.
+      </p>
+    </form>
+  </div>
+</section>
+
+<!-- ── CURRENT NOMINEES ───────────────────────────────────────────────── -->
+<section class="nominees-section">
+  <div class="section-header">
+    <h2>Current Nominees</h2>
+    <p>Voting opens when nominations close — share and build your community!</p>
+  </div>
+
+  <div class="nominees-grid" id="nomineesGrid">
+    <div class="skeleton"><div class="skel-img"></div><div class="skel-line" style="width:62%"></div><div class="skel-line" style="width:40%;margin-top:.4rem"></div></div>
+    <div class="skeleton"><div class="skel-img"></div><div class="skel-line" style="width:70%"></div><div class="skel-line" style="width:35%;margin-top:.4rem"></div></div>
+    <div class="skeleton"><div class="skel-img"></div><div class="skel-line" style="width:55%"></div><div class="skel-line" style="width:48%;margin-top:.4rem"></div></div>
+    <div class="skeleton"><div class="skel-img"></div><div class="skel-line" style="width:66%"></div><div class="skel-line" style="width:38%;margin-top:.4rem"></div></div>
+  </div>
+
+  <div style="text-align:center">
+    <a href="cgbaby-voting.html" class="view-voting-btn">
+      Go to Voting Page
+      <svg width="18" height="18" viewBox="0 0 24 24">
+        <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+      </svg>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-text">© 2025 CGPIXELS · CG Baby of the Year Contest · All rights reserved</p>
+</footer>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════════════════════════ -->
+<script type="module">
+/* ── FIREBASE v12 MODULAR SDK ────────────────────────────────────── */
+import { initializeApp }                              from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+import { getAnalytics }                               from "https://www.gstatic.com/firebasejs/12.13.0/firebase-analytics.js";
+import { getFirestore, collection, addDoc, query,
+         where, orderBy, limit, getDocs, getDoc,
+         onSnapshot, serverTimestamp, doc }           from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+/* Cloudinary handles photo storage — no Firebase Storage needed */
+
+/* ── YOUR FIREBASE CONFIG ────────────────────────────────────────── */
+const firebaseConfig = {
+  apiKey:            "AIzaSyCTptvNojix0zW9fES8Ms7F6qo3T5YkzxA",
+  authDomain:        "cg-pixels.firebaseapp.com",
+  projectId:         "cg-pixels",
+  storageBucket:     "cg-pixels.firebasestorage.app",
+  messagingSenderId: "214403536099",
+  appId:             "1:214403536099:web:d9acacb847a16754a661d6",
+  measurementId:     "G-LFHZHQ0404"
+};
+
+const app       = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const db        = getFirestore(app);
+
+/* ── CLOUDINARY CONFIG ───────────────────────────────────────────── */
+const CLOUDINARY_CLOUD  = 'dix51rfcc';
+const CLOUDINARY_PRESET = 'cgbaby_nominations';
+
+/* ── STATE ───────────────────────────────────────────────────────── */
+let nominationsClosed    = false;
+let NOMINATION_DEADLINE  = null; // loaded from Firestore
+let countdownInterval    = null;
+
+/* ── NAV ─────────────────────────────────────────────────────────── */
+window.addEventListener('scroll', () =>
+  document.getElementById('navbar').classList.toggle('scrolled', scrollY > 50));
+document.getElementById('menuToggle').addEventListener('click', () =>
+  document.getElementById('navLinks').classList.toggle('active'));
+
+/* ── LOAD CONFIG FROM FIRESTORE ──────────────────────────────────── */
+async function loadConfig() {
+  try {
+    const snap = await getDoc(doc(db, 'config', 'contest'));
+    if (snap.exists()) {
+      const cfg = snap.data();
+
+      /* get nomination deadline — Firestore timestamp → JS Date */
+      if (cfg.nominationDeadline) {
+        NOMINATION_DEADLINE = cfg.nominationDeadline.toDate
+          ? cfg.nominationDeadline.toDate()
+          : new Date(cfg.nominationDeadline);
+      }
+
+      /* Show the deadline date under the countdown */
+      if (NOMINATION_DEADLINE) {
+        const formatted = NOMINATION_DEADLINE.toLocaleDateString('en-NG', {
+          weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+          hour: '2-digit', minute: '2-digit'
+        });
+        const msgEl = document.getElementById('countdown-msg');
+        if (msgEl) {
+          msgEl.innerHTML = `
+            <svg width="18" height="18" viewBox="0 0 24 24">
+              <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm.01 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/>
+            </svg>
+            Nominations close: <strong style="color:var(--orange);margin-left:.3rem">${formatted}</strong>`;
+        }
+      }
+    } else {
+      /* No config doc yet — fall back to a far future date so form stays open */
+      NOMINATION_DEADLINE = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+      console.warn('No config/contest doc found — using 30-day fallback deadline');
+    }
+  } catch(e) {
+    console.error('Could not load config:', e);
+    NOMINATION_DEADLINE = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+  }
+
+  /* start countdown now that we have the deadline */
+  startCountdown();
+}
+
+/* ── COUNTDOWN ───────────────────────────────────────────────────── */
+const pad = n => String(n).padStart(2,'0');
+
+function startCountdown() {
+  if (countdownInterval) clearInterval(countdownInterval);
+  tick();
+  countdownInterval = setInterval(tick, 1000);
+}
+
+function tick() {
+  if (!NOMINATION_DEADLINE) return;
+  const diff = NOMINATION_DEADLINE - Date.now();
+
+  if (diff <= 0) {
+    nominationsClosed = true;
+    ['cd-days','cd-hours','cd-mins','cd-secs'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = '00';
+    });
+    document.getElementById('countdown-msg').innerHTML = `
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--orange)">
+        <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+      </svg>
+      Nominations are now closed. Voting has begun!`;
+    const _btn  = document.getElementById('submitBtn');
+    const _text = document.getElementById('btnText');
+    if (_btn)  _btn.disabled = true;
+    if (_text) _text.textContent = 'Nominations Closed';
+    if (countdownInterval) clearInterval(countdownInterval);
+    return;
+  }
+
+  document.getElementById('cd-days').textContent  = pad(Math.floor(diff / 86400000));
+  document.getElementById('cd-hours').textContent = pad(Math.floor((diff % 86400000) / 3600000));
+  document.getElementById('cd-mins').textContent  = pad(Math.floor((diff % 3600000)  / 60000));
+  document.getElementById('cd-secs').textContent  = pad(Math.floor((diff % 60000)    / 1000));
+}
+
+/* kick everything off by loading config first */
+loadConfig();
+
+/* ── FILE UPLOAD PREVIEW ─────────────────────────────────────────── */
+let selectedFile = null;
+document.getElementById('photoInput').addEventListener('change', function() {
+  const file = this.files[0];
+  if (!file) return;
+  if (file.size > 5*1024*1024) { showToast('Photo must be under 5 MB', 'error'); return; }
+  selectedFile = file;
+  const r = new FileReader();
+  r.onload = e => { const p = document.getElementById('uploadPreview'); p.src = e.target.result; p.style.display = 'block'; };
+  r.readAsDataURL(file);
+});
+
+const zone = document.getElementById('uploadZone');
+zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragover'); });
+zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+zone.addEventListener('drop', e => {
+  e.preventDefault(); zone.classList.remove('dragover');
+  if (e.dataTransfer.files[0]) {
+    document.getElementById('photoInput').files = e.dataTransfer.files;
+    document.getElementById('photoInput').dispatchEvent(new Event('change'));
+  }
+});
+
+/* ── CHAR COUNT ──────────────────────────────────────────────────── */
+document.getElementById('description').addEventListener('input', function() {
+  document.getElementById('charCount').textContent = this.value.length;
+});
+
+/* ── TOAST ───────────────────────────────────────────────────────── */
+const CHECK = 'M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z';
+const CROSS = 'M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z';
+
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  document.getElementById('toastIcon').innerHTML = `<path d="${type==='success'?CHECK:CROSS}"/>`;
+  t.className = `toast ${type} show`;
+  setTimeout(() => t.classList.remove('show'), 3600);
+}
+
+/* ── FORM SUBMIT ─────────────────────────────────────────────────── */
+document.getElementById('nomForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  if (nominationsClosed) { showToast('Nominations are closed','error'); return; }
+
+  const v = id => document.getElementById(id).value.trim();
+  const childName=v('childName'), childAge=v('childAge'), parentName=v('parentName'),
+        parentPhone=v('parentPhone'), description=v('description'), instagram=v('instagram');
+  const consent = document.getElementById('consent').checked;
+
+  if (!childName||!childAge||!parentName||!parentPhone||!description) { showToast('Please fill all required fields','error'); return; }
+  if (!consent) { showToast('Please agree to the contest terms','error'); return; }
+  if (!selectedFile) { showToast('Please upload a photo','error'); return; }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  document.getElementById('btnText').textContent = 'Uploading…';
+  document.getElementById('btnIcon').innerHTML = '<path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46A7.93 7.93 0 0020 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74A7.93 7.93 0 004 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/>';
+  document.getElementById('btnIcon').style.animation = 'spin .9s linear infinite';
+
+  try {
+    let photoURL = '';
+
+    /* ── Upload photo to Cloudinary ── */
+    document.getElementById('btnText').textContent = 'Uploading photo…';
+    const pw = document.getElementById('uploadProgress');
+    const pb = document.getElementById('uploadProgressBar');
+    pw.style.display = 'block';
+
+    const formData = new FormData();
+    formData.append('file',         selectedFile);
+    formData.append('upload_preset', CLOUDINARY_PRESET);
+    formData.append('folder',        'cgbaby/nominations');
+
+    /* Use XHR so we can show real upload progress */
+    photoURL = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`);
+
+      xhr.upload.addEventListener('progress', evt => {
+        if (evt.lengthComputable) {
+          pb.style.width = (evt.loaded / evt.total * 100) + '%';
+        }
+      });
+
+      xhr.addEventListener('load', () => {
+        if (xhr.status === 200) {
+          const res = JSON.parse(xhr.responseText);
+          resolve(res.secure_url);
+        } else {
+          reject(new Error(`Cloudinary error: ${xhr.status}`));
+        }
+      });
+
+      xhr.addEventListener('error', () => reject(new Error('Upload failed')));
+      xhr.send(formData);
+    });
+
+    document.getElementById('btnText').textContent = 'Saving…';
+
+    /* ── Write nomination to Firestore ── */
+    const data = {
+      childName, childAge, parentName, parentPhone, description, instagram,
+      photoURL, votes: 0, phase: 'nomination', isTopFive: false, approved: false,
+      createdAt: serverTimestamp()
+    };
+
+    await addDoc(collection(db, 'nominations'), data);
+
+    showToast("Nomination submitted! We'll review it within 24 hours.");
+    document.getElementById('nomForm').reset();
+    selectedFile = null;
+    document.getElementById('uploadPreview').style.display = 'none';
+    document.getElementById('charCount').textContent = '0';
+    loadNominees();
+
+  } catch(err) {
+    console.error(err);
+    showToast('Something went wrong. Please try again.','error');
+  } finally {
+    btn.disabled = false;
+    document.getElementById('btnText').textContent = 'Submit Nomination';
+    document.getElementById('btnIcon').style.animation = '';
+    document.getElementById('btnIcon').innerHTML = '<path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>';
+    document.getElementById('uploadProgress').style.display = 'none';
+    document.getElementById('uploadProgressBar').style.width = '0';
+  }
+});
+
+/* ── LOAD NOMINEES (modular v12) ─────────────────────────────────── */
+async function loadNominees() {
+  const grid = document.getElementById('nomineesGrid');
+  let nominations = [];
+
+  try {
+    const q    = query(collection(db, 'nominations'), where('approved','==',true), orderBy('createdAt','desc'), limit(12));
+    const snap = await getDocs(q);
+    snap.forEach(d => nominations.push({ id: d.id, ...d.data() }));
+  } catch(e) { console.warn('Firestore read error', e); }
+
+  if (!nominations.length) {
+    grid.innerHTML = `
+      <div class="nominees-empty">
+        <div class="empty-icon-wrap">
+          <svg width="38" height="38" viewBox="0 0 24 24"><path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15a5 5 0 110-10 5 5 0 010 10zm0-8a3 3 0 100 6 3 3 0 000-6z"/></svg>
+        </div>
+        No nominees yet — be the first to nominate!
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = nominations.map((n, i) => `
+    <div class="nominee-card">
+      ${i < 3 ? '<span class="nominee-badge">New</span>' : ''}
+      <img class="nominee-img" src="${n.photoURL}" alt="${n.childName}" loading="lazy" />
+      <div class="nominee-info">
+        <div class="nominee-name">${n.childName}</div>
+        <div class="nominee-age">${n.childAge}</div>
+      </div>
+    </div>`).join('');
+}
+
+loadNominees();
+
+/* Real-time listener: refresh nominees grid whenever Firestore changes */
+const nqListener = query(collection(db, 'nominations'), where('approved','==',true));
+onSnapshot(nqListener, () => loadNominees());
+
+/* spinner keyframe */
+const ss = document.createElement('style');
+ss.textContent = '@keyframes spin { to { transform: rotate(360deg); } }';
+document.head.appendChild(ss);
+</script>
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Payment Successful · CG Baby of the Year</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap');
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --black:#000; --deep:#06060a;
+      --gold:#ffd700; --orange:#ff8c00; --bright:#ffa500;
+      --green:#00e676; --muted:rgba(255,255,255,.45);
+      --sf:'Space Grotesk',sans-serif; --mono:'JetBrains Mono',monospace;
+    }
+
+    body {
+      font-family:var(--sf); background:var(--deep); color:#fff;
+      min-height:100vh; display:flex; flex-direction:column; align-items:center;
+      justify-content:center; padding:2rem 1rem; position:relative; overflow:hidden;
+    }
+
+    /* ── BACKGROUND GLOW ── */
+    body::before {
+      content:""; position:fixed; inset:0; pointer-events:none;
+      background:
+        radial-gradient(ellipse 50% 50% at 50% 30%, rgba(0,230,118,.12) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 50% 80%, rgba(255,215,0,.06) 0%, transparent 60%);
+    }
+
+    /* ── PARTICLES ── */
+    .particles { position:fixed; inset:0; pointer-events:none; z-index:0; }
+    .particle {
+      position:absolute; width:6px; height:6px; border-radius:50%;
+      animation:fall linear infinite;
+    }
+    @keyframes fall {
+      0%   { transform:translateY(-20px) rotate(0deg); opacity:1; }
+      100% { transform:translateY(110vh) rotate(720deg); opacity:0; }
+    }
+
+    /* ── CHECK ANIMATION ── */
+    .check-wrap {
+      position:relative; z-index:1; text-align:center; margin-bottom:2.5rem;
+    }
+    .check-ring {
+      width:120px; height:120px; border-radius:50%; margin:0 auto 1.2rem;
+      background:linear-gradient(135deg,rgba(0,230,118,.15),rgba(0,230,118,.05));
+      border:2px solid rgba(0,230,118,.3);
+      display:flex; align-items:center; justify-content:center;
+      animation:ringPop .5s cubic-bezier(.68,-.55,.265,1.55) .2s both;
+      position:relative;
+    }
+    .check-ring::before {
+      content:""; position:absolute; inset:-8px; border-radius:50%;
+      border:2px solid rgba(0,230,118,.12); animation:ringExpand 2s ease-out infinite;
+    }
+    @keyframes ringPop { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
+    @keyframes ringExpand { 0%{transform:scale(1);opacity:.5} 100%{transform:scale(1.4);opacity:0} }
+    .check-icon { font-size:3.5rem; animation:iconPop .4s cubic-bezier(.68,-.55,.265,1.55) .5s both; }
+    @keyframes iconPop { from{transform:scale(0) rotate(-30deg)} to{transform:scale(1) rotate(0deg)} }
+
+    .success-h {
+      font-size:clamp(1.8rem,6vw,2.8rem); font-weight:900; letter-spacing:-.02em;
+      background:linear-gradient(135deg,var(--green),#00bcd4);
+      -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+      margin-bottom:.4rem;
+      animation:fadeUp .4s ease .6s both;
+    }
+    .success-sub {
+      font-size:.9rem; color:var(--muted); line-height:1.6;
+      animation:fadeUp .4s ease .7s both;
+    }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
+
+    /* ── CREDITS REVEAL ── */
+    .credits-reveal {
+      position:relative; z-index:1;
+      width:100%; max-width:420px;
+      background:linear-gradient(135deg,rgba(255,215,0,.09),rgba(255,140,0,.06));
+      border:1.5px solid rgba(255,215,0,.35); border-radius:24px;
+      padding:2rem; text-align:center; margin-bottom:1.5rem;
+      animation:cardSlide .5s cubic-bezier(.68,-.55,.265,1.55) .8s both;
+      overflow:hidden;
+    }
+    .credits-reveal::before {
+      content:""; position:absolute; top:0; left:0; right:0; height:3px;
+      background:linear-gradient(90deg,var(--gold),var(--orange),var(--gold));
+      background-size:200% 100%; animation:shimmer 3s linear infinite;
+    }
+    @keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+    @keyframes cardSlide { from{opacity:0;transform:scale(.9) translateY(20px)} to{opacity:1;transform:none} }
+
+    .credits-reveal-lbl { font-size:.68rem; color:rgba(255,215,0,.6); text-transform:uppercase; letter-spacing:.12em; margin-bottom:.6rem; }
+    .credits-reveal-num {
+      font-family:var(--mono); font-size:4rem; font-weight:700; color:var(--gold); line-height:1;
+      filter:drop-shadow(0 0 24px rgba(255,215,0,.6));
+      animation:countUp .6s ease 1.2s both;
+    }
+    @keyframes countUp { 0%{opacity:0;transform:scale(.5)} 60%{transform:scale(1.15)} 100%{opacity:1;transform:scale(1)} }
+    .credits-reveal-sub { font-size:.82rem; color:rgba(255,255,255,.5); margin-top:.4rem; }
+
+    /* ── TX DETAILS ── */
+    .tx-card {
+      position:relative; z-index:1;
+      width:100%; max-width:420px;
+      background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.07);
+      border-radius:20px; padding:1.5rem;
+      animation:fadeUp .4s ease 1s both;
+    }
+    .tx-row {
+      display:flex; justify-content:space-between; align-items:center;
+      padding:.7rem 0; border-bottom:1px solid rgba(255,255,255,.04);
+    }
+    .tx-row:last-child { border-bottom:none; }
+    .tx-key { font-size:.72rem; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; }
+    .tx-val { font-size:.88rem; font-weight:700; color:#fff; font-family:var(--mono); }
+    .tx-val.green { color:var(--green); }
+    .tx-val.gold  { color:var(--gold); }
+
+    /* ── CTA BUTTONS ── */
+    .cta-group {
+      position:relative; z-index:1;
+      width:100%; max-width:420px; margin-top:1.5rem;
+      display:flex; flex-direction:column; gap:.75rem;
+      animation:fadeUp .4s ease 1.1s both;
+    }
+    .btn-primary {
+      padding:1.1rem; border-radius:50px;
+      background:linear-gradient(135deg,var(--orange),var(--bright));
+      color:#000; border:none; font-size:.92rem; font-weight:800;
+      text-transform:uppercase; letter-spacing:.09em; cursor:pointer;
+      display:flex; align-items:center; justify-content:center; gap:.5rem;
+      box-shadow:0 12px 30px rgba(255,140,0,.35); transition:all .3s;
+    }
+    .btn-primary:hover { transform:translateY(-3px); box-shadow:0 20px 45px rgba(255,140,0,.5); }
+    .btn-secondary {
+      padding:.9rem; border-radius:50px;
+      background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1);
+      color:var(--muted); font-size:.82rem; font-weight:600; cursor:pointer; transition:all .2s;
+    }
+    .btn-secondary:hover { border-color:var(--orange); color:var(--orange); background:rgba(255,140,0,.06); }
+
+    .logo {
+      position:relative; z-index:1;
+      font-size:.95rem; font-weight:800; letter-spacing:.1em;
+      background:linear-gradient(135deg,var(--orange),var(--bright));
+      -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+      margin-bottom:2.5rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- particles injected by JS -->
+<div class="particles" id="particles"></div>
+
+<div class="logo">CG PIXELS</div>
+
+<!-- check animation -->
+<div class="check-wrap">
+  <div class="check-ring">
+    <div class="check-icon">✅</div>
+  </div>
+  <h1 class="success-h">Payment Confirmed!</h1>
+  <p class="success-sub">Your credits have been added to your account</p>
+</div>
+
+<!-- credits added -->
+<div class="credits-reveal">
+  <div class="credits-reveal-lbl">Credits Added to Your Account</div>
+  <div class="credits-reveal-num" id="credNum">—</div>
+  <div class="credits-reveal-sub">Ready to use for voting right now 🗳</div>
+</div>
+
+<!-- tx details -->
+<div class="tx-card" id="txCard">
+  <div class="tx-row">
+    <span class="tx-key">Status</span>
+    <span class="tx-val green">● SUCCESSFUL</span>
+  </div>
+  <div class="tx-row">
+    <span class="tx-key">Amount Paid</span>
+    <span class="tx-val gold" id="txAmt">₦—</span>
+  </div>
+  <div class="tx-row">
+    <span class="tx-key">Transaction ID</span>
+    <span class="tx-val" id="txRef" style="font-size:.72rem;word-break:break-all">—</span>
+  </div>
+  <div class="tx-row">
+    <span class="tx-key">Date</span>
+    <span class="tx-val" id="txDate">—</span>
+  </div>
+</div>
+
+<!-- CTAs -->
+<div class="cta-group">
+  <button class="btn-primary" onclick="goVote()">
+    🗳 Start Voting Now
+  </button>
+  <button class="btn-secondary" onclick="goVote()">
+    Back to Dashboard
+  </button>
+</div>
+
+<script>
+  /* ── CONFETTI PARTICLES ── */
+  const colours = ['#ffd700','#ff8c00','#00e676','#fff','#ffa500','#ff4757'];
+  const pWrap = document.getElementById('particles');
+  for (let i = 0; i < 60; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.cssText = `
+      left:${Math.random()*100}%;
+      width:${4+Math.random()*8}px;
+      height:${4+Math.random()*8}px;
+      background:${colours[Math.floor(Math.random()*colours.length)]};
+      border-radius:${Math.random()>.5?'50%':'2px'};
+      animation-duration:${2+Math.random()*4}s;
+      animation-delay:${Math.random()*3}s;
+      opacity:${0.4+Math.random()*0.6};
+    `;
+    pWrap.appendChild(p);
+  }
+
+  /* ── POPULATE FROM URL ── */
+  const params  = new URLSearchParams(location.search);
+  const ref     = params.get('ref')  || 'N/A';
+  const amt     = parseInt(params.get('amt')  || '0');
+  const credits = parseInt(params.get('cred') || '0');
+
+  document.getElementById('credNum').textContent = credits.toLocaleString();
+  document.getElementById('txAmt').textContent   = `₦${amt.toLocaleString()}`;
+  document.getElementById('txRef').textContent   = ref;
+  document.getElementById('txDate').textContent  = new Date().toLocaleString('en-NG', {
+    day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit'
+  });
+
+  /* ── ANIMATED COUNTER ── */
+  const el = document.getElementById('credNum');
+  let current = 0;
+  const target = credits;
+  const dur = 1200;
+  const step = target / (dur / 16);
+  const t = setTimeout(function run() {
+    current = Math.min(current + step, target);
+    el.textContent = Math.floor(current).toLocaleString();
+    if (current < target) setTimeout(run, 16);
+  }, 1400);
+
+  window.goVote = () => { window.location.href = 'cgbaby-voting.html'; };
+</script>
+</body>
+</html>

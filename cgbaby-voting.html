@@ -4,7 +4,6 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>My Dashboard · CG Baby of the Year | CGPIXELS</title>
-  <script src="https://js.paystack.co/v1/inline.js"></script>
   <style>
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
     :root {
@@ -18,7 +17,7 @@
     body { font-family:var(--sf); background:var(--black); color:#fff; overflow-x:hidden; }
     a { text-decoration:none; color:inherit; }
 
-    /* ── NAV ── */
+    /* NAV */
     nav {
       position:fixed; top:0; left:0; right:0; z-index:1000;
       backdrop-filter:blur(24px); background:rgba(0,0,0,.88);
@@ -36,7 +35,6 @@
     }
     .nav-r { display:flex; align-items:center; gap:.8rem; flex-wrap:wrap; }
 
-    /* nav credit pill */
     .nav-credit-pill {
       display:flex; align-items:center; gap:.4rem;
       padding:.38rem .9rem; border-radius:50px;
@@ -47,10 +45,8 @@
     .nav-credit-pill svg { fill:var(--gold); display:block; }
     .nav-credit-val { font-size:.95rem; font-weight:900; color:var(--gold); }
     .nav-credit-lbl { font-size:.68rem; color:rgba(255,215,0,.65); }
-
     .nav-name { font-size:.82rem; color:var(--muted); }
     .nav-name strong { color:#fff; }
-
     .btn-out {
       display:flex; align-items:center; gap:.3rem;
       padding:.38rem .85rem; border-radius:8px;
@@ -61,11 +57,8 @@
     .btn-out:hover { background:rgba(255,82,82,.18); }
     .btn-out svg { fill:var(--red); display:block; }
 
-    /* ── DASHBOARD HERO ── */
-    .dash-hero {
-      padding-top:72px; background:var(--deep);
-      position:relative; overflow:hidden;
-    }
+    /* DASHBOARD HERO */
+    .dash-hero { padding-top:72px; background:var(--deep); position:relative; overflow:hidden; }
     .dash-hero::before {
       content:""; position:absolute; inset:0;
       background:
@@ -78,18 +71,15 @@
       background-size:70px 70px; animation:gm 28s linear infinite;
     }
     @keyframes gm { 0%{transform:translate(0,0)} 100%{transform:translate(70px,70px)} }
-
     .dash-hero-inner {
       position:relative; z-index:1;
       max-width:1400px; margin:0 auto; padding:2.5rem 2rem;
     }
 
-    /* welcome row */
     .welcome-row {
       display:flex; align-items:flex-start; justify-content:space-between;
       gap:1.5rem; flex-wrap:wrap; margin-bottom:2rem;
     }
-    .welcome-left {}
     .welcome-tag {
       display:inline-flex; align-items:center; gap:.4rem;
       padding:.3rem .9rem; border-radius:50px; margin-bottom:.8rem;
@@ -109,7 +99,6 @@
     .welcome-child { font-size:.9rem; color:var(--muted); display:flex; align-items:center; gap:.4rem; }
     .welcome-child svg { fill:var(--muted); display:block; }
 
-    /* phase badge (top right of hero) */
     .phase-pill {
       display:inline-flex; align-items:center; gap:.45rem;
       padding:.5rem 1.2rem; border-radius:50px;
@@ -123,37 +112,34 @@
     .phase-pill.closed { background:rgba(255,255,255,.05); border-color:rgba(255,255,255,.12); color:var(--muted); }
     @keyframes pPulse { 0%,100%{box-shadow:0 0 10px rgba(255,140,0,.15)} 50%{box-shadow:0 0 22px rgba(255,140,0,.4)} }
 
-    /* ── STATS CARDS ROW ── */
+    /* STATS ROW */
     .stats-row {
-      display:grid;
-      grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+      display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
       gap:1.1rem; margin-bottom:0;
     }
     .stat-card {
       padding:1.3rem 1.5rem; border-radius:18px;
-      background:rgba(255,255,255,.025);
-      border:1px solid rgba(255,255,255,.07);
-      transition:all .3s; position:relative; overflow:hidden;
-      cursor:default;
+      background:rgba(255,255,255,.025); border:1px solid rgba(255,255,255,.07);
+      transition:all .3s; position:relative; overflow:hidden; cursor:default;
     }
     .stat-card::before { content:""; position:absolute; top:0; left:0; right:0; height:2px; }
-    .stat-card.gold-card::before { background:linear-gradient(90deg,var(--gold),#e6a000); }
     .stat-card.orange-card::before { background:linear-gradient(90deg,var(--orange),var(--bright)); }
-    .stat-card.green-card::before { background:linear-gradient(90deg,#00897b,var(--green)); }
+    .stat-card.green-card::before  { background:linear-gradient(90deg,#00897b,var(--green)); }
     .stat-card:hover { border-color:rgba(255,140,0,.25); transform:translateY(-3px); box-shadow:0 10px 28px rgba(0,0,0,.4); }
 
-    /* big credit display */
     .credit-display-card {
       padding:1.5rem 1.8rem; border-radius:20px;
       background:linear-gradient(135deg,rgba(255,215,0,.08) 0%,rgba(255,140,0,.06) 100%);
       border:1.5px solid rgba(255,215,0,.28);
-      cursor:pointer; transition:all .35s;
-      position:relative; overflow:hidden;
+      cursor:pointer; transition:all .35s; position:relative; overflow:hidden;
     }
-    .credit-display-card::before { content:""; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--gold),#e6a000,var(--gold)); background-size:200% 100%; animation:shimmer 3s linear infinite; }
+    .credit-display-card::before {
+      content:""; position:absolute; top:0; left:0; right:0; height:2px;
+      background:linear-gradient(90deg,var(--gold),#e6a000,var(--gold));
+      background-size:200% 100%; animation:shimmer 3s linear infinite;
+    }
     @keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
     .credit-display-card:hover { border-color:var(--gold); box-shadow:0 0 30px rgba(255,215,0,.15); transform:translateY(-3px); }
-
     .credit-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:.6rem; }
     .credit-icon-wrap {
       width:42px; height:42px; border-radius:50%;
@@ -166,8 +152,7 @@
       padding:.32rem .8rem; border-radius:50px;
       background:linear-gradient(135deg,var(--gold),#e6a000);
       color:#000; border:none; font-size:.7rem; font-weight:800;
-      text-transform:uppercase; letter-spacing:.08em; cursor:pointer;
-      transition:all .25s;
+      text-transform:uppercase; letter-spacing:.08em; cursor:pointer; transition:all .25s;
     }
     .credit-add-btn:hover { transform:scale(1.05); box-shadow:0 4px 16px rgba(255,215,0,.4); }
     .credit-add-btn svg { fill:#000; display:block; }
@@ -176,10 +161,7 @@
       filter:drop-shadow(0 0 15px rgba(255,215,0,.45));
     }
     .credit-label { font-size:.72rem; color:rgba(255,215,0,.6); text-transform:uppercase; letter-spacing:.1em; margin-top:.25rem; }
-
     .stat-icon { width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; margin-bottom:.8rem; }
-    .gold-card  .stat-icon { background:rgba(255,215,0,.1); }
-    .gold-card  .stat-icon svg { fill:var(--gold); }
     .orange-card .stat-icon { background:rgba(255,140,0,.1); }
     .orange-card .stat-icon svg { fill:var(--orange); }
     .green-card  .stat-icon { background:rgba(0,230,118,.08); }
@@ -187,7 +169,7 @@
     .stat-val { font-size:1.9rem; font-weight:900; color:#fff; line-height:1; margin-bottom:.25rem; }
     .stat-lbl { font-size:.72rem; color:var(--muted); text-transform:uppercase; letter-spacing:.1em; }
 
-    /* ── SECTION HEADERS ── */
+    /* SECTION HEADERS */
     .sec-hdr { text-align:center; margin-bottom:2.2rem; }
     .sec-hdr h2 {
       font-size:clamp(1.7rem,4vw,2.6rem); font-weight:900;
@@ -197,7 +179,7 @@
     }
     .sec-hdr p { color:var(--muted); font-size:.9rem; }
 
-    /* ── LEADERBOARD ── */
+    /* LEADERBOARD */
     .lb-sec { padding:3.5rem 2rem; background:var(--deep); }
     .lb-wrap { max-width:680px; margin:0 auto; }
     .lb-row {
@@ -223,23 +205,19 @@
     .lb-bar-wrap { position:absolute; bottom:0; left:0; right:0; height:2px; background:rgba(255,255,255,.04); }
     .lb-bar { height:100%; background:linear-gradient(90deg,var(--dim),var(--bright)); transition:width 1s; }
 
-    /* ── VOTING GRID ── */
+    /* VOTING GRID */
     .vote-sec { padding:3.5rem 2rem 5rem; background:var(--black); }
     .vote-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.8rem; max-width:1300px; margin:0 auto; }
-
     .v-card {
       background:var(--card); border:1px solid var(--border);
-      border-radius:20px; overflow:hidden; transition:all .4s;
-      position:relative;
+      border-radius:20px; overflow:hidden; transition:all .4s; position:relative;
     }
     .v-card:hover { transform:translateY(-7px); border-color:rgba(255,140,0,.4); box-shadow:0 18px 45px rgba(255,140,0,.15); }
-
     .r-crown { position:absolute; top:.75rem; left:.75rem; z-index:3; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
     .r-crown svg { fill:currentColor; display:block; }
-    .r-crown.gold   { background:rgba(255,215,0,.2); border:1.5px solid var(--gold); color:var(--gold); }
-    .r-crown.silver { background:rgba(192,192,192,.15); border:1.5px solid #c0c0c0; color:#c0c0c0; }
-    .r-crown.bronze { background:rgba(205,127,50,.15); border:1.5px solid #cd7f32; color:#cd7f32; }
-
+    .r-crown.gold   { background:rgba(255,215,0,.2);   border:1.5px solid var(--gold);   color:var(--gold); }
+    .r-crown.silver { background:rgba(192,192,192,.15); border:1.5px solid #c0c0c0;       color:#c0c0c0; }
+    .r-crown.bronze { background:rgba(205,127,50,.15);  border:1.5px solid #cd7f32;       color:#cd7f32; }
     .fin-badge {
       position:absolute; top:.75rem; right:.75rem; z-index:3;
       display:flex; align-items:center; gap:.25rem; padding:.2rem .6rem;
@@ -248,7 +226,6 @@
       text-transform:uppercase; letter-spacing:.07em;
     }
     .fin-badge svg { fill:var(--gold); display:block; }
-
     .v-img-wrap { position:relative; aspect-ratio:1; overflow:hidden; }
     .v-img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .6s; }
     .v-card:hover .v-img { transform:scale(1.06); }
@@ -262,14 +239,11 @@
     .v-cnt svg { fill:var(--orange); display:block; }
     .v-prog-wrap { height:3px; background:rgba(255,255,255,.05); }
     .v-prog { height:100%; background:linear-gradient(90deg,var(--dim),var(--bright)); transition:width 1s; }
-
     .v-body { padding:1.2rem; }
     .v-name { font-size:1rem; font-weight:700; color:#fff; margin-bottom:.2rem; }
     .v-age  { font-size:.75rem; color:var(--muted); margin-bottom:.85rem; display:flex; align-items:center; gap:.3rem; }
     .v-age svg { fill:var(--muted); display:block; }
     .v-desc { font-size:.82rem; color:var(--muted); line-height:1.6; margin-bottom:1rem; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-
-    /* vote buttons */
     .v-btn {
       width:100%; padding:.85rem; border:none; border-radius:50px;
       font-size:.85rem; font-weight:800; text-transform:uppercase; letter-spacing:.09em;
@@ -277,27 +251,22 @@
       transition:all .35s cubic-bezier(.68,-.55,.265,1.55);
     }
     .v-btn svg { fill:currentColor; display:block; flex-shrink:0; }
-    .v-btn.cast { background:linear-gradient(135deg,var(--orange),var(--bright)); color:#000; box-shadow:0 8px 22px rgba(255,140,0,.3); }
+    .v-btn.cast  { background:linear-gradient(135deg,var(--orange),var(--bright)); color:#000; box-shadow:0 8px 22px rgba(255,140,0,.3); }
     .v-btn.cast:hover:not(:disabled) { transform:translateY(-3px) scale(1.02); box-shadow:0 14px 34px rgba(255,140,0,.5); }
     .v-btn.voted { background:rgba(0,230,118,.07); border:2px solid rgba(0,230,118,.28); color:var(--green); }
     .v-btn.locked{ background:rgba(255,255,255,.03); border:2px solid rgba(255,255,255,.07); color:var(--muted); }
     .v-btn:disabled { opacity:.5; cursor:not-allowed; transform:none !important; }
 
-    /* empty */
     .empty-st { grid-column:1/-1; text-align:center; padding:4.5rem 1rem; color:var(--muted); }
     .empty-ico { width:68px; height:68px; border-radius:50%; background:rgba(255,140,0,.07); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; margin:0 auto 1rem; }
     .empty-ico svg { fill:rgba(255,140,0,.4); display:block; }
-
-    /* skeletons */
     .skel { border-radius:20px; overflow:hidden; border:1px solid rgba(255,140,0,.07); }
     .skel-i { aspect-ratio:1; background:linear-gradient(90deg,rgba(255,140,0,.04) 25%,rgba(255,140,0,.09) 50%,rgba(255,140,0,.04) 75%); background-size:200% 100%; animation:sk 1.5s infinite; }
     .skel-b { padding:1.1rem; }
     .skel-l { height:11px; border-radius:6px; margin-bottom:.55rem; background:linear-gradient(90deg,rgba(255,255,255,.03) 25%,rgba(255,255,255,.06) 50%,rgba(255,255,255,.03) 75%); background-size:200% 100%; animation:sk 1.5s infinite; }
     @keyframes sk { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 
-    /* ══════════════════
-       BUY CREDITS MODAL
-    ══════════════════ */
+    /* BUY CREDITS MODAL */
     .mo {
       position:fixed; inset:0; z-index:9000;
       background:rgba(0,0,0,.92); backdrop-filter:blur(12px);
@@ -313,25 +282,22 @@
     }
     .mo.open .mo-box { transform:scale(1); }
     .mo-box::before { content:""; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--gold),#e6a000,var(--gold)); background-size:200% 100%; animation:shimmer 3s linear infinite; }
-
     .mo-head { padding:1.6rem 1.8rem .8rem; }
     .mo-head h2 { font-size:1.3rem; font-weight:900; margin-bottom:.3rem; }
     .mo-head p  { font-size:.82rem; color:var(--muted); line-height:1.55; }
-
     .mo-body { padding:.8rem 1.8rem 1.8rem; }
 
     .packs { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; margin-bottom:1.2rem; }
     .pack {
       padding:1rem; border-radius:13px; cursor:pointer; text-align:center;
-      background:rgba(255,255,255,.04); border:2px solid rgba(255,255,255,.07);
-      transition:all .25s;
+      background:rgba(255,255,255,.04); border:2px solid rgba(255,255,255,.07); transition:all .25s;
     }
     .pack:hover { border-color:var(--gold); background:rgba(255,215,0,.06); }
-    .pack.sel { border-color:var(--gold); background:rgba(255,215,0,.1); box-shadow:0 0 16px rgba(255,215,0,.2); }
-    .pack-c { font-size:1.5rem; font-weight:900; color:var(--gold); line-height:1; }
+    .pack.sel   { border-color:var(--gold); background:rgba(255,215,0,.1); box-shadow:0 0 16px rgba(255,215,0,.2); }
+    .pack-c  { font-size:1.5rem; font-weight:900; color:var(--gold); line-height:1; }
     .pack-cl { font-size:.62rem; color:rgba(255,215,0,.55); text-transform:uppercase; letter-spacing:.1em; margin-bottom:.2rem; }
-    .pack-p { font-size:.85rem; font-weight:700; color:#fff; }
-    .pack-b { font-size:.6rem; color:var(--green); font-weight:700; margin-top:.15rem; }
+    .pack-p  { font-size:.85rem; font-weight:700; color:#fff; }
+    .pack-b  { font-size:.6rem; color:var(--green); font-weight:700; margin-top:.15rem; }
 
     .custom-row { display:flex; align-items:center; gap:.7rem; margin-bottom:1.1rem; }
     .custom-row label { font-size:.68rem; color:var(--orange); font-weight:800; text-transform:uppercase; letter-spacing:.1em; white-space:nowrap; }
@@ -342,6 +308,13 @@
     }
     .custom-row input:focus { outline:none; border-color:var(--gold); }
     .custom-row input::placeholder { color:rgba(255,255,255,.2); }
+
+    .how-box {
+      background:rgba(0,180,216,.06); border:1px solid rgba(0,180,216,.2);
+      border-radius:9px; padding:.75rem .9rem; margin-bottom:1rem;
+      font-size:.78rem; color:rgba(255,255,255,.7); line-height:1.7;
+    }
+    .how-box strong { color:#00b4d8; }
 
     .disclaimer {
       background:rgba(255,82,82,.06); border:1px solid rgba(255,82,82,.2);
@@ -363,7 +336,7 @@
     .btn-cancel-mo { width:100%; background:none; border:none; color:var(--muted); font-size:.8rem; cursor:pointer; padding:.6rem; margin-top:.5rem; transition:color .2s; }
     .btn-cancel-mo:hover { color:#fff; }
 
-    /* ── TOAST ── */
+    /* TOAST */
     .toast {
       position:fixed; bottom:1.8rem; left:50%;
       transform:translateX(-50%) translateY(100px);
@@ -389,9 +362,7 @@
       .packs       { grid-template-columns:1fr; }
       .nav-name    { display:none; }
     }
-    @media (max-width:420px) {
-      .stats-row { grid-template-columns:1fr; }
-    }
+    @media (max-width:420px) { .stats-row { grid-template-columns:1fr; } }
   </style>
 </head>
 <body>
@@ -406,27 +377,27 @@
 <div class="mo" id="buyMo">
   <div class="mo-box">
     <div class="mo-head">
-      <h2>💳 Buy Vote Credits</h2>
-      <p>Minimum <strong style="color:var(--gold)">500 credits for ₦500</strong>. Buy as many as you want — each credit = 1 vote.</p>
+      <h2>🏦 Buy Vote Credits</h2>
+      <p>Minimum <strong style="color:var(--gold)">500 credits for ₦500</strong>. Pay via instant bank transfer — credits added <strong style="color:var(--green)">automatically</strong> once confirmed.</p>
     </div>
     <div class="mo-body">
       <div class="packs">
-        <div class="pack sel" data-c="500" data-p="500" onclick="selPack(this)">
+        <div class="pack sel" data-c="500" data-p="500" onclick="selPackFn(this)">
           <div class="pack-cl">Credits</div>
           <div class="pack-c">500</div>
           <div class="pack-p">₦500</div>
         </div>
-        <div class="pack" data-c="1000" data-p="1000" onclick="selPack(this)">
+        <div class="pack" data-c="1000" data-p="1000" onclick="selPackFn(this)">
           <div class="pack-cl">Credits</div>
           <div class="pack-c">1,000</div>
           <div class="pack-p">₦1,000</div>
         </div>
-        <div class="pack" data-c="2500" data-p="2500" onclick="selPack(this)">
+        <div class="pack" data-c="2500" data-p="2500" onclick="selPackFn(this)">
           <div class="pack-cl">Credits</div>
           <div class="pack-c">2,500</div>
           <div class="pack-p">₦2,500</div>
         </div>
-        <div class="pack" data-c="5000" data-p="5000" onclick="selPack(this)">
+        <div class="pack" data-c="5000" data-p="5000" onclick="selPackFn(this)">
           <div class="pack-cl">Credits</div>
           <div class="pack-c">5,000</div>
           <div class="pack-p">₦5,000</div>
@@ -436,16 +407,24 @@
 
       <div class="custom-row">
         <label>Custom (min 500)</label>
-        <input type="number" id="custC" placeholder="e.g. 3000" min="500" step="100" oninput="onCustom()"/>
+        <input type="number" id="custC" placeholder="e.g. 3000" min="500" step="100" oninput="onCustomFn()"/>
+      </div>
+
+      <div class="how-box">
+        <strong>⚡ How it works:</strong><br>
+        1. Click <em>Generate Account</em> below<br>
+        2. Transfer exactly ₦<span id="moAmtPreview">500</span> to the Wema Bank account shown<br>
+        3. A 10-minute countdown starts — complete transfer before it expires<br>
+        4. Credits appear in your wallet <strong style="color:var(--green)">automatically</strong> — no need to notify anyone
       </div>
 
       <div class="disclaimer">
-        <strong>⚠ No Refunds Policy:</strong> All credit purchases are completely final and non-refundable. Credits hold no monetary value, can only be used to vote in this contest, and expire when the contest ends. By clicking Pay you accept these terms.
+        <strong>⚠ No Refunds Policy:</strong> All credit purchases are completely final and non-refundable. Credits hold no monetary value, can only be used to vote in this contest, and expire when the contest ends.
       </div>
 
-      <button class="btn-pay" id="btnPay" onclick="doPay()">
-        <svg width="17" height="17" viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
-        <span id="payTxt">Pay ₦500 for 500 Credits</span>
+      <button class="btn-pay" id="btnPay" onclick="doPayFn()">
+        <svg width="17" height="17" viewBox="0 0 24 24"><path d="M4 10h16v2H4zm0-4h16v2H4zm10 8H4v2h10zm4 0l-1 4-3-1 2-2-1-4 3 1-1 2z"/></svg>
+        <span id="payTxt">Generate Account · ₦500</span>
       </button>
       <button class="btn-cancel-mo" onclick="closeMo()">Cancel</button>
     </div>
@@ -475,17 +454,13 @@
 <div class="dash-hero">
   <div class="dash-hero-grid"></div>
   <div class="dash-hero-inner">
-
-    <!-- Welcome row -->
     <div class="welcome-row">
       <div class="welcome-left">
         <div class="welcome-tag">
           <svg width="12" height="12" viewBox="0 0 24 24"><path d="M19 5h-2V3H7v2H5C3.9 5 3 5.9 3 7v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0011 15.9V18H7v2h10v-2h-4v-2.1a5.01 5.01 0 003.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.86 10.4 5 9.3 5 8zm14 0c0 1.3-.86 2.4-2 2.82V7h2v1z"/></svg>
           CG Baby of the Year · 2025
         </div>
-        <h1 class="welcome-name">
-          Welcome back, <span id="wName">—</span>
-        </h1>
+        <h1 class="welcome-name">Welcome back, <span id="wName">—</span></h1>
         <div class="welcome-child" id="wChild">
           <svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v2h20v-2c0-3.33-6.67-5-10-5z"/></svg>
           Loading…
@@ -497,10 +472,7 @@
       </div>
     </div>
 
-    <!-- Stats cards -->
     <div class="stats-row">
-
-      <!-- CREDITS CARD — main hero element -->
       <div class="credit-display-card" onclick="openMo()">
         <div class="credit-top">
           <div class="credit-icon-wrap">
@@ -515,20 +487,17 @@
         <div class="credit-label">Credits Available · tap to buy more</div>
       </div>
 
-      <!-- Votes used -->
       <div class="stat-card orange-card">
         <div class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
         <div class="stat-val" id="usedCred">0</div>
         <div class="stat-lbl">Votes Cast</div>
       </div>
 
-      <!-- Total nominees -->
       <div class="stat-card green-card">
         <div class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15a5 5 0 110-10 5 5 0 010 10zm0-8a3 3 0 100 6 3 3 0 000-6z"/></svg></div>
         <div class="stat-val" id="nomCount">0</div>
         <div class="stat-lbl">Total Nominees</div>
       </div>
-
     </div>
   </div>
 </div>
@@ -561,20 +530,14 @@
   <p class="footer-t">© 2025 CGPIXELS · CG Baby of the Year · All credit purchases are final and non-refundable</p>
 </footer>
 
-<!-- ════════════════════════════════════════════
-     FIREBASE v12 + AUTH + FIRESTORE
-════════════════════════════════════════════ -->
 <script type="module">
 import { initializeApp }                               from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
 import { getAnalytics }                                from "https://www.gstatic.com/firebasejs/12.13.0/firebase-analytics.js";
 import { getFirestore, collection, query, where,
          onSnapshot, doc, getDoc, updateDoc,
          setDoc, increment, serverTimestamp }          from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
-import { getAuth, onAuthStateChanged, signOut }       from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signOut }        from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
-/* ─────────────────────────────────────────────
-   ▼▼▼  YOUR FIREBASE CONFIG  ▼▼▼
-───────────────────────────────────────────── */
 const FIREBASE_CONFIG = {
   apiKey:            "AIzaSyCTptvNojix0zW9fES8Ms7F6qo3T5YkzxA",
   authDomain:        "cg-pixels.firebaseapp.com",
@@ -585,33 +548,27 @@ const FIREBASE_CONFIG = {
   measurementId:     "G-LFHZHQ0404"
 };
 
-/* ─────────────────────────────────────────────
-   ▼▼▼  PAYSTACK PUBLIC KEY  ▼▼▼
-   Get this from: dashboard.paystack.com
-   Settings → API Keys → Public Key
-   Use pk_test_... for testing, pk_live_... for real money
-───────────────────────────────────────────── */
-const PAYSTACK_KEY = " pk_test_e6c2b260c0beaab9d7bcf0f51fe41760562873f6";
+/* ── PASTE YOUR FIREBASE FUNCTIONS URL HERE AFTER DEPLOYING ──
+   e.g. "https://us-central1-cg-pixels.cloudfunctions.net"    */
+/* Local dev: "http://localhost:3000"
+   Production: "https://YOUR-RENDER-URL.onrender.com" */
+const CLOUD_FUNCTIONS_BASE_URL = "https://cgbaby-server.onrender.com";
 
-/* ── INIT ── */
 const app  = initializeApp(FIREBASE_CONFIG);
 getAnalytics(app);
 const db   = getFirestore(app);
 const auth = getAuth(app);
 
-/* ── STATE ── */
-let me       = null;  // Firebase Auth user
-let profile  = null;  // Firestore users/{uid} doc
+let me       = null;
+let profile  = null;
 let nominees = [];
 let curPhase = 'free';
 let selPack  = { c:500, p:500 };
 
-/* ── NAV SCROLL ── */
-window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', scrollY > 50));
+window.addEventListener('scroll', () =>
+  document.getElementById('navbar').classList.toggle('scrolled', scrollY > 50));
 
-/* ─────────────────────────────────────────
-   TOAST
-───────────────────────────────────────── */
+/* TOAST */
 const P = {
   ok:   'M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z',
   err:  'M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z',
@@ -620,34 +577,26 @@ const P = {
 function toast(msg, type='success') {
   const t = document.getElementById('toast');
   document.getElementById('toastMsg').textContent = msg;
-  document.getElementById('toastIcon').innerHTML = `<path d="${type==='error'?P.err:type==='info'?P.info:P.ok}"/>`;
+  document.getElementById('toastIcon').innerHTML  = `<path d="${type==='error'?P.err:type==='info'?P.info:P.ok}"/>`;
   t.className = `toast ${type} show`;
-  setTimeout(()=>t.classList.remove('show'), 4200);
+  setTimeout(() => t.classList.remove('show'), 4200);
 }
 
-/* ─────────────────────────────────────────
-   AUTH GATE — redirect if not logged in
-───────────────────────────────────────── */
+/* AUTH GATE */
 onAuthStateChanged(auth, async user => {
-  if (!user) {
-    window.location.href = 'cgbaby-auth.html';
-    return;
-  }
+  if (!user) { window.location.href = 'cgbaby-auth.html'; return; }
   me = user;
 
-  /* load user profile */
   const snap = await getDoc(doc(db,'users',user.uid));
   if (snap.exists()) {
     profile = snap.data();
   } else {
-    /* create a default profile if somehow missing */
     profile = { parentName:'Voter', childName:'', credits:0, creditsUsed:0 };
     await setDoc(doc(db,'users',user.uid), { ...profile, email:user.email, createdAt:serverTimestamp() });
   }
 
   renderProfile();
 
-  /* live credit listener — updates instantly when admin confirms payment */
   onSnapshot(doc(db,'users',user.uid), s => {
     if (s.exists()) {
       profile = s.data();
@@ -656,31 +605,28 @@ onAuthStateChanged(auth, async user => {
     }
   });
 
-  /* load config and nominees */
   await loadConfig();
   startNomineesListener();
 });
 
 function renderProfile() {
   const firstName = profile.parentName?.split(' ')[0] || 'Voter';
-  document.getElementById('wName').textContent    = firstName;
-  document.getElementById('navName').innerHTML    = `Hi, <strong>${firstName}</strong>`;
-  document.getElementById('wChild').innerHTML     = `
+  document.getElementById('wName').textContent   = firstName;
+  document.getElementById('navName').innerHTML   = `Hi, <strong>${firstName}</strong>`;
+  document.getElementById('wChild').innerHTML    = `
     <svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v2h20v-2c0-3.33-6.67-5-10-5z"/></svg>
-    ${profile.childName ? `Voting for: <strong style="color:var(--bright)">${profile.childName}</strong>` : 'Nominate your child to join the contest'}`;
-
+    ${profile.childName
+      ? `Voting for: <strong style="color:var(--bright)">${profile.childName}</strong>`
+      : 'Nominate your child to join the contest'}`;
   const c = profile.credits ?? 0;
   document.getElementById('bigCred').textContent  = c.toLocaleString();
   document.getElementById('navCred').textContent  = c.toLocaleString();
   document.getElementById('usedCred').textContent = (profile.creditsUsed ?? 0).toLocaleString();
 }
 
-/* ── SIGN OUT ── */
 window.doOut = async () => { await signOut(auth); window.location.href = 'cgbaby-auth.html'; };
 
-/* ─────────────────────────────────────────
-   LOAD CONFIG (phase dates from Firestore)
-───────────────────────────────────────── */
+/* LOAD PHASE CONFIG */
 async function loadConfig() {
   try {
     const snap = await getDoc(doc(db,'config','contest'));
@@ -710,26 +656,13 @@ async function loadConfig() {
   } catch(e) { console.warn('Config load:', e.message); }
 }
 
-/* ─────────────────────────────────────────
-   NOMINEES — real-time listener
-   Uses simple query (no composite index needed)
-   then sorts client-side
-───────────────────────────────────────── */
+/* NOMINEES LISTENER */
 function startNomineesListener() {
-  /* Simple query — only filters by approved, no orderBy
-     This works without any composite index */
-  const q = query(
-    collection(db, 'nominations'),
-    where('approved', '==', true)
-  );
-
+  const q = query(collection(db,'nominations'), where('approved','==',true));
   onSnapshot(q, snap => {
     nominees = [];
     snap.forEach(d => nominees.push({ id:d.id, ...d.data() }));
-
-    /* sort by votes descending client-side */
     nominees.sort((a,b) => (b.votes||0) - (a.votes||0));
-
     document.getElementById('nomCount').textContent = nominees.length;
     renderLeaderboard();
     renderGrid();
@@ -739,9 +672,7 @@ function startNomineesListener() {
   });
 }
 
-/* ─────────────────────────────────────────
-   LEADERBOARD
-───────────────────────────────────────── */
+/* LEADERBOARD */
 function renderLeaderboard() {
   const wrap = document.getElementById('lbWrap');
   const top  = nominees.slice(0,10);
@@ -772,24 +703,19 @@ function renderLeaderboard() {
     </div>`).join('');
 }
 
-/* ─────────────────────────────────────────
-   VOTING GRID
-───────────────────────────────────────── */
+/* VOTING GRID */
 function renderGrid() {
   const grid = document.getElementById('vGrid');
   const maxV = nominees[0]?.votes || 1;
   const top5 = nominees.slice(0,5).map(n=>n.id);
   const myC  = profile?.credits ?? 0;
 
-  /* No sessionStorage voted tracking — credits are the ONLY limiter.
-     User can vote for any baby as many times as they have credits. */
-
   if (!nominees.length) {
     grid.innerHTML = `
       <div class="empty-st">
         <div class="empty-ico"><svg width="32" height="32" viewBox="0 0 24 24"><path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15a5 5 0 110-10 5 5 0 010 10zm0-8a3 3 0 100 6 3 3 0 000-6z"/></svg></div>
         <p style="margin-bottom:.8rem;font-size:1rem">No approved nominees yet.</p>
-        <p style="font-size:.85rem">Nominations are being reviewed by the admin — check back soon!</p>
+        <p style="font-size:.85rem">Nominations are being reviewed — check back soon!</p>
         <a href="cgbaby-nomination.html" style="color:var(--orange);text-decoration:underline;display:inline-block;margin-top:.8rem">Nominate a baby →</a>
       </div>`;
     return;
@@ -803,28 +729,24 @@ function renderGrid() {
     coin:  `<svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.41 16.09V20h-2.67v-1.93c-1.71-.36-3.16-1.46-3.27-3.4h1.96c.1 1.05.82 1.87 2.65 1.87 1.96 0 2.4-.98 2.4-1.59 0-.83-.44-1.61-2.67-2.14-2.48-.6-4.18-1.62-4.18-3.67 0-1.72 1.39-2.84 3.11-3.21V4h2.67v1.95c1.86.45 2.79 1.86 2.85 3.39H14.3c-.05-1.11-.64-1.87-2.22-1.87-1.5 0-2.4.68-2.4 1.64 0 .84.65 1.39 2.67 1.91s4.18 1.39 4.18 3.91c-.01 1.83-1.38 2.83-3.12 3.16z"/></svg>`
   };
 
-  function crown(r) {
+  const crown = r => {
     if (r===1) return `<div class="r-crown gold">${SVG.star}</div>`;
     if (r===2) return `<div class="r-crown silver">${SVG.star}</div>`;
     if (r===3) return `<div class="r-crown bronze">${SVG.star}</div>`;
     return '';
-  }
+  };
 
   grid.innerHTML = nominees.map((n,i) => {
-    const rank    = i+1;
-    const isTop5  = top5.includes(n.id);
-    const pct     = ((n.votes||0)/maxV*100).toFixed(1);
-    const hasVoted = false; // no sessionStorage tracking — credits are the only limiter
-    let action = '';
+    const rank   = i+1;
+    const isTop5 = top5.includes(n.id);
+    const pct    = ((n.votes||0)/maxV*100).toFixed(1);
+    let action   = '';
 
     if (curPhase === 'free') {
-      if (hasVoted)
-        action = `<button class="v-btn voted" disabled>${SVG.check} Voted</button>`;
-      else if (myC < 1)
+      if (myC < 1)
         action = `<button class="v-btn locked" disabled>${SVG.lock} No Credits · <span style="color:var(--gold);cursor:pointer" onclick="openMo()">Buy More</span></button>`;
       else
         action = `<button class="v-btn cast" data-id="${n.id}">${SVG.heart} Vote (1 Credit)</button>`;
-
     } else if (curPhase === 'finals') {
       action = isTop5
         ? `<button class="v-btn cast" style="background:linear-gradient(135deg,var(--gold),#e6a000);color:#000" data-id="${n.id}" data-finals="1">${SVG.coin} Spend 1 Credit</button>`
@@ -859,16 +781,14 @@ function renderGrid() {
   }).join('');
 }
 
-/* ── EVENT DELEGATION ── */
+/* EVENT DELEGATION FOR VOTE BUTTONS */
 document.getElementById('vGrid').addEventListener('click', async e => {
   const btn = e.target.closest('.v-btn.cast[data-id]');
   if (!btn || btn.disabled) return;
   await castVote(btn.dataset.id, btn, !!btn.dataset.finals);
 });
 
-/* ─────────────────────────────────────────
-   CAST VOTE — deducts 1 credit, adds 1 vote
-───────────────────────────────────────── */
+/* CAST VOTE */
 async function castVote(nid, btn, isFinals=false) {
   if (!me) return;
   const myC = profile?.credits ?? 0;
@@ -880,129 +800,103 @@ async function castVote(nid, btn, isFinals=false) {
 
   try {
     await Promise.all([
-      updateDoc(doc(db,'users',me.uid),      { credits:increment(-1), creditsUsed:increment(1) }),
-      updateDoc(doc(db,'nominations',nid),   { votes:increment(1) })
+      updateDoc(doc(db,'users',me.uid),    { credits:increment(-1), creditsUsed:increment(1) }),
+      updateDoc(doc(db,'nominations',nid), { votes:increment(1) })
     ]);
-
-    /* remember voted in session */
-    const vk  = `cgv_${me.uid}`;
-    const vid = JSON.parse(sessionStorage.getItem(vk)||'[]');
-    vid.push(nid);
-    sessionStorage.setItem(vk, JSON.stringify(vid));
-
     toast('Vote cast! 1 credit used 🎉');
-
-    btn.className   = 'v-btn voted';
-    btn.disabled    = true;
+    btn.className     = 'v-btn voted';
+    btn.disabled      = true;
     btn.style.opacity = '1';
-    btn.innerHTML   = `<svg width="16" height="16" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg> Voted`;
-
+    btn.innerHTML     = `<svg width="16" height="16" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg> Voted`;
   } catch(err) {
     console.error('Vote error:', err);
     toast('Vote failed — try again','error');
-    btn.disabled    = false;
+    btn.disabled      = false;
     btn.style.opacity = '1';
     renderGrid();
   }
 }
 
 /* ══════════════════════════════════════
-   BUY CREDITS MODAL + PAYSTACK
+   BUY CREDITS MODAL — FLUTTERWAVE
+   Prices are set here and validated
+   server-side — users cannot change them
 ══════════════════════════════════════ */
 window.openMo  = () => document.getElementById('buyMo').classList.add('open');
 window.closeMo = () => document.getElementById('buyMo').classList.remove('open');
-document.getElementById('buyMo').addEventListener('click', e => { if(e.target===document.getElementById('buyMo')) closeMo(); });
+document.getElementById('buyMo').addEventListener('click', e => {
+  if (e.target === document.getElementById('buyMo')) closeMo();
+});
 
-window.selPack = (card) => {
-  document.querySelectorAll('.pack').forEach(c=>c.classList.remove('sel'));
+/* Pack selection — prices locked in data attributes */
+window.selPackFn = (card) => {
+  document.querySelectorAll('.pack').forEach(c => c.classList.remove('sel'));
   card.classList.add('sel');
   selPack = { c: parseInt(card.dataset.c), p: parseInt(card.dataset.p) };
   document.getElementById('custC').value = '';
-  updPayBtn();
+  updPayBtnFn();
 };
 
-window.onCustom = () => {
-  document.querySelectorAll('.pack').forEach(c=>c.classList.remove('sel'));
-  const v = parseInt(document.getElementById('custC').value)||0;
+window.onCustomFn = () => {
+  document.querySelectorAll('.pack').forEach(c => c.classList.remove('sel'));
+  const v = parseInt(document.getElementById('custC').value) || 0;
+  /* enforce minimum — price always equals credits (1 credit = ₦1, min 500) */
   if (v >= 500) selPack = { c:v, p:v };
-  updPayBtn();
+  updPayBtnFn();
 };
 
-function updPayBtn() {
-  document.getElementById('payTxt').textContent = `Pay ₦${selPack.p.toLocaleString()} for ${selPack.c.toLocaleString()} Credits`;
+function updPayBtnFn() {
+  document.getElementById('payTxt').textContent       = `Generate Account · ₦${selPack.p.toLocaleString()}`;
+  document.getElementById('moAmtPreview').textContent  = selPack.p.toLocaleString();
 }
 
-window.doPay = () => {
+/* Generate virtual account and redirect to payment page */
+window.doPayFn = async () => {
   if (!me) { toast('Please sign in first','error'); return; }
   if (selPack.c < 500) { toast('Minimum is 500 credits','error'); return; }
 
-  /* Check if Paystack key is still a placeholder */
-  if (PAYSTACK_KEY.includes('REPLACE_THIS')) {
-    toast('Paystack key not set — contact admin','error');
-    alert('⚠️  To enable payments:\n\n1. Go to dashboard.paystack.com\n2. Settings → API Keys\n3. Copy your Public Key\n4. Replace PAYSTACK_KEY in cgbaby-voting.html');
-    return;
-  }
-
-  if (!window.PaystackPop) { toast('Paystack script not loaded — check internet connection','error'); return; }
-
   const btn = document.getElementById('btnPay');
   btn.disabled = true;
-  document.getElementById('payTxt').textContent = 'Opening payment…';
+  document.getElementById('payTxt').textContent = 'Generating account…';
 
-  const ref = `cgbaby_${me.uid.slice(0,8)}_${Date.now()}`;
+  try {
+    const res = await fetch(`${CLOUD_FUNCTIONS_BASE_URL}/api/create-virtual-account`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        uid:        me.uid,
+        email:      me.email,
+        parentName: profile?.parentName || '',
+        credits:    selPack.c,
+        amount:     selPack.p,
+      })
+    });
 
-  const handler = PaystackPop.setup({
-    key:       "pk_test_e6c2b260c0beaab9d7bcf0f51fe41760562873f6",
-    email:    me.email,
-    amount:   selPack.p * 100,   // kobo
-    currency: 'NGN',
-    ref,
-    metadata: {
-      custom_fields: [
-        { display_name:'User ID',    variable_name:'uid',     value:me.uid },
-        { display_name:'Credits',    variable_name:'credits', value:String(selPack.c) },
-        { display_name:'Parent Name',variable_name:'parent',  value:profile?.parentName||'' }
-      ],
-      uid:     me.uid,
-      credits: selPack.c
-    },
+    const data = await res.json();
+    if (!res.ok || !data.success) throw new Error(data.error || 'Could not generate account');
 
-    callback: async (response) => {
-      document.getElementById('payTxt').textContent = 'Saving…';
-      try {
-        /* write PENDING payment to Firestore — admin confirms to credit */
-        await setDoc(doc(db,'payments',response.reference), {
-          reference:  response.reference,
-          uid:        me.uid,
-          email:      me.email,
-          parentName: profile?.parentName || '',
-          credits:    selPack.c,
-          amount:     selPack.p,
-          status:     'pending',
-          createdAt:  serverTimestamp()
-        });
+    closeMo();
 
-        closeMo();
-        toast(`Payment of ₦${selPack.p.toLocaleString()} received! Your ${selPack.c.toLocaleString()} credits will be added within minutes after verification.`);
+    /* redirect to payment page with all details in URL */
+    const params = new URLSearchParams({
+      ref:  data.txRef,
+      uid:  me.uid,
+      amt:  data.amount,
+      cred: data.credits,
+      acct: data.accountNumber,
+      name: data.accountName,
+      bank: data.bankName,
+      exp:  data.expiresAt,
+    });
 
-      } catch(err) {
-        console.error('Payment record error:', err);
-        toast(`Payment done! Ref: ${response.reference} — Contact us on WhatsApp if credits don't appear.`,'info');
-        closeMo();
-      } finally {
-        btn.disabled = false;
-        updPayBtn();
-      }
-    },
+    window.location.href = `cgbaby-pay.html?${params.toString()}`;
 
-    onClose: () => {
-      btn.disabled = false;
-      updPayBtn();
-      toast('Payment cancelled','info');
-    }
-  });
-
-  handler.openIframe();
+  } catch (err) {
+    console.error('createVirtualAccount error:', err);
+    toast(`Failed: ${err.message}`, 'error');
+    btn.disabled = false;
+    updPayBtnFn();
+  }
 };
 
 /* spinner keyframe */

@@ -1991,6 +1991,17 @@
       document.body.style.overflow = "auto";
     }
   });
+  // Close mobile nav when clicking outside
+document.addEventListener('click', (e) => {
+  const nav = document.getElementById('navLinks');
+  const toggle = document.getElementById('menuToggle');
+  
+  if (nav.classList.contains('active') && 
+      !nav.contains(e.target) && 
+      !toggle.contains(e.target)) {
+    nav.classList.remove('active');
+  }
+});
 
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener("click", function (e) {

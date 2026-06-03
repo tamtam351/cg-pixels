@@ -875,6 +875,17 @@
             spotlight.style.setProperty('--mouse-x', x + '%');
             spotlight.style.setProperty('--mouse-y', y + '%');
         });
+        // Close mobile nav when clicking outside
+document.addEventListener('click', (e) => {
+  const nav = document.getElementById('navLinks');
+  const toggle = document.getElementById('menuToggle');
+  
+  if (nav.classList.contains('active') && 
+      !nav.contains(e.target) && 
+      !toggle.contains(e.target)) {
+    nav.classList.remove('active');
+  }
+});
 
         // Create animated particles
         function createParticles() {

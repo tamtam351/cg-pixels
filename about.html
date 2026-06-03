@@ -649,7 +649,17 @@
         window.addEventListener('scroll', () => {
             document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
         });
-
+// Close mobile nav when clicking outside
+document.addEventListener('click', (e) => {
+  const nav = document.getElementById('navLinks');
+  const toggle = document.getElementById('menuToggle');
+  
+  if (nav.classList.contains('active') && 
+      !nav.contains(e.target) && 
+      !toggle.contains(e.target)) {
+    nav.classList.remove('active');
+  }
+});
         // Mobile menu toggle
         document.getElementById('menuToggle').addEventListener('click', () => {
             document.getElementById('navLinks').classList.toggle('active');

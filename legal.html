@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Legal · Terms, Refund & Privacy | CGPIXELS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+    :root {
+      --black:#000;
+      --deep:#06060a;
+      --surface:#0c0c12;
+      --card:#111118;
+      --orange:#ff8c00;
+      --bright:#ffa500;
+      --dim:#ff5e00;
+      --gold:#ffd700;
+      --red:#ff4757;
+      --green:#00e676;
+      --blue:#00b4d8;
+      --muted:rgba(255,255,255,.48);
+      --border:rgba(255,140,0,.12);
+      --display:'Space Grotesk', sans-serif;
+      --body:'Inter', sans-serif;
+    }
+
+    html { scroll-behavior:smooth; }
+
+    body {
+      font-family:var(--body);
+      background:var(--deep);
+      color:#fff;
+      line-height:1.75;
+      overflow-x:hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position:sticky; top:0; z-index:200;
+      background:rgba(6,6,10,.92);
+      backdrop-filter:blur(24px);
+      border-bottom:1px solid var(--border);
+      padding:0 2rem;
+      height:60px;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .nav-logo {
+      font-family:var(--display);
+      font-size:1.15rem; font-weight:800; letter-spacing:.1em;
+      background:linear-gradient(135deg,var(--orange),var(--bright));
+      -webkit-background-clip:text; background-clip:text;
+      -webkit-text-fill-color:transparent;
+      text-decoration:none;
+    }
+    .nav-back {
+      display:flex; align-items:center; gap:.45rem;
+      color:var(--muted); font-size:.82rem; font-weight:500;
+      text-decoration:none; transition:color .2s;
+    }
+    .nav-back:hover { color:var(--orange); }
+    .nav-back svg { fill:currentColor; display:block; }
+
+    /* ── HERO ── */
+    .hero {
+      position:relative; overflow:hidden;
+      padding:5rem 2rem 4rem;
+      text-align:center;
+      background:var(--deep);
+      border-bottom:1px solid var(--border);
+    }
+    .hero-bg {
+      position:absolute; inset:0; pointer-events:none;
+      background:
+        radial-gradient(ellipse 70% 80% at 50% -10%, rgba(255,140,0,.13) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 40% at 80% 100%, rgba(255,94,0,.06) 0%, transparent 60%);
+    }
+    .hero-grid {
+      position:absolute; inset:0; pointer-events:none;
+      background-image:
+        linear-gradient(rgba(255,140,0,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,140,0,.03) 1px, transparent 1px);
+      background-size:50px 50px;
+    }
+    .hero-eyebrow {
+      position:relative;
+      display:inline-flex; align-items:center; gap:.5rem;
+      padding:.35rem 1rem; border-radius:50px; margin-bottom:1.4rem;
+      background:rgba(255,140,0,.08); border:1px solid rgba(255,140,0,.28);
+      font-family:var(--display);
+      font-size:.68rem; font-weight:700; color:var(--bright);
+      text-transform:uppercase; letter-spacing:.15em;
+    }
+    .hero-eyebrow svg { fill:var(--bright); display:block; }
+    .hero h1 {
+      position:relative;
+      font-family:var(--display);
+      font-size:clamp(2.2rem,6vw,3.8rem);
+      font-weight:800; letter-spacing:-.03em; line-height:1.05;
+      margin-bottom:.9rem;
+      background:linear-gradient(160deg,#fff 30%,rgba(255,140,0,.7) 100%);
+      -webkit-background-clip:text; background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+    .hero-sub {
+      position:relative;
+      color:var(--muted); font-size:.95rem; max-width:480px; margin:0 auto;
+    }
+
+    /* ── TAB BAR ── */
+    .tab-bar {
+      position:sticky; top:60px; z-index:150;
+      background:rgba(6,6,10,.96);
+      backdrop-filter:blur(20px);
+      border-bottom:1px solid var(--border);
+      display:flex; justify-content:center;
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      scrollbar-width:none;
+    }
+    .tab-bar::-webkit-scrollbar { display:none; }
+
+    .tab-btn {
+      position:relative;
+      display:flex; align-items:center; gap:.55rem;
+      padding:1.1rem 2rem;
+      background:none; border:none;
+      color:var(--muted);
+      font-family:var(--display);
+      font-size:.82rem; font-weight:700;
+      text-transform:uppercase; letter-spacing:.1em;
+      cursor:pointer; white-space:nowrap;
+      transition:color .25s;
+      border-bottom:2px solid transparent;
+    }
+    .tab-btn svg { fill:currentColor; display:block; flex-shrink:0; transition:fill .25s; }
+    .tab-btn:hover { color:rgba(255,255,255,.75); }
+    .tab-btn.active { color:var(--orange); border-bottom-color:var(--orange); }
+    .tab-btn.active svg { fill:var(--orange); }
+
+    /* ── LAYOUT ── */
+    .page-wrap {
+      display:grid;
+      grid-template-columns:220px 1fr;
+      gap:0;
+      max-width:1100px;
+      margin:0 auto;
+      padding:3rem 2rem 6rem;
+      align-items:start;
+    }
+
+    /* ── SIDEBAR TOC ── */
+    .toc {
+      position:sticky; top:130px;
+      padding-right:2rem;
+    }
+    .toc-label {
+      font-family:var(--display);
+      font-size:.62rem; font-weight:800; color:rgba(255,140,0,.5);
+      text-transform:uppercase; letter-spacing:.15em;
+      margin-bottom:.9rem;
+    }
+    .toc-list { list-style:none; }
+    .toc-list li { margin-bottom:.15rem; }
+    .toc-list a {
+      display:block; padding:.4rem .7rem;
+      font-size:.8rem; color:var(--muted);
+      text-decoration:none; border-radius:7px;
+      border-left:2px solid transparent;
+      transition:all .2s; line-height:1.4;
+    }
+    .toc-list a:hover { color:#fff; background:rgba(255,140,0,.06); }
+    .toc-list a.current { color:var(--orange); border-left-color:var(--orange); background:rgba(255,140,0,.06); }
+
+    /* ── SECTIONS ── */
+    .section { display:none; }
+    .section.active { display:block; }
+
+    .updated-badge {
+      display:inline-flex; align-items:center; gap:.4rem;
+      padding:.4rem .9rem; border-radius:50px; margin-bottom:2.5rem;
+      background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08);
+      font-size:.75rem; color:var(--muted);
+    }
+    .updated-badge svg { fill:var(--muted); display:block; }
+
+    /* entry heading */
+    .entry {
+      scroll-margin-top:140px;
+      margin-bottom:2.8rem;
+    }
+    .entry-head {
+      display:flex; align-items:center; gap:.75rem;
+      margin-bottom:.85rem;
+    }
+    .entry-icon {
+      width:36px; height:36px; border-radius:10px;
+      background:rgba(255,140,0,.1); border:1px solid rgba(255,140,0,.22);
+      display:flex; align-items:center; justify-content:center;
+      flex-shrink:0;
+    }
+    .entry-icon svg { fill:var(--orange); display:block; }
+    .entry-num {
+      font-family:var(--display);
+      font-size:.65rem; font-weight:800; color:rgba(255,140,0,.5);
+      text-transform:uppercase; letter-spacing:.12em;
+      display:block; margin-bottom:.15rem;
+    }
+    .entry h2 {
+      font-family:var(--display);
+      font-size:1.05rem; font-weight:700; color:#fff;
+      line-height:1.2;
+    }
+    .entry p {
+      color:rgba(255,255,255,.68);
+      font-size:.9rem; margin-bottom:.75rem;
+    }
+    .entry ul {
+      list-style:none; margin:0 0 .75rem;
+    }
+    .entry ul li {
+      display:flex; align-items:flex-start; gap:.6rem;
+      padding:.45rem 0;
+      border-bottom:1px solid rgba(255,255,255,.04);
+      color:rgba(255,255,255,.68); font-size:.9rem;
+    }
+    .entry ul li:last-child { border-bottom:none; }
+    .entry ul li::before {
+      content:""; display:block;
+      width:5px; height:5px; border-radius:50%;
+      background:var(--orange); flex-shrink:0;
+      margin-top:.6rem;
+    }
+
+    /* callout boxes */
+    .box {
+      border-radius:14px; padding:1.3rem 1.6rem; margin:1.5rem 0;
+    }
+    .box-warn {
+      background:rgba(255,71,87,.07);
+      border:1px solid rgba(255,71,87,.25);
+    }
+    .box-warn .box-title { color:var(--red); }
+    .box-ok {
+      background:rgba(0,230,118,.05);
+      border:1px solid rgba(0,230,118,.2);
+    }
+    .box-ok .box-title { color:var(--green); }
+    .box-info {
+      background:rgba(255,140,0,.06);
+      border:1px solid rgba(255,140,0,.2);
+    }
+    .box-info .box-title { color:var(--orange); }
+    .box-title {
+      font-family:var(--display);
+      font-size:.88rem; font-weight:700;
+      display:flex; align-items:center; gap:.5rem;
+      margin-bottom:.5rem;
+    }
+    .box-title svg { fill:currentColor; display:block; }
+    .box p { color:rgba(255,255,255,.68); font-size:.88rem; margin:0; }
+
+    /* data table */
+    .data-table { width:100%; border-collapse:collapse; margin:1rem 0 1.5rem; font-size:.86rem; }
+    .data-table th {
+      background:rgba(255,140,0,.08);
+      color:var(--orange);
+      padding:.65rem 1rem; text-align:left;
+      border:1px solid rgba(255,140,0,.12);
+      font-family:var(--display); font-weight:700;
+      font-size:.72rem; text-transform:uppercase; letter-spacing:.08em;
+    }
+    .data-table td {
+      padding:.65rem 1rem;
+      border:1px solid rgba(255,255,255,.05);
+      color:rgba(255,255,255,.65);
+    }
+    .data-table tr:nth-child(even) td { background:rgba(255,255,255,.02); }
+
+    /* inline text link */
+    .txt-link {
+      background:none; border:none;
+      color:var(--orange); cursor:pointer;
+      font-size:inherit; font-family:inherit;
+      font-weight:600; padding:0;
+      text-decoration:underline; text-underline-offset:3px;
+    }
+
+    /* phase steps */
+    .phases { display:flex; flex-direction:column; gap:.65rem; margin:.75rem 0 1rem; }
+    .phase-step {
+      display:flex; align-items:flex-start; gap:1rem;
+      padding:1rem 1.2rem;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:12px;
+    }
+    .phase-num {
+      width:28px; height:28px; border-radius:50%; flex-shrink:0;
+      background:rgba(255,140,0,.1); border:1px solid rgba(255,140,0,.3);
+      display:flex; align-items:center; justify-content:center;
+      font-family:var(--display); font-size:.72rem; font-weight:800; color:var(--orange);
+    }
+    .phase-title { font-family:var(--display); font-weight:700; font-size:.88rem; color:#fff; margin-bottom:.15rem; }
+    .phase-desc  { font-size:.82rem; color:var(--muted); }
+
+    /* ── FOOTER ── */
+    footer {
+      background:rgba(0,0,0,.6);
+      border-top:1px solid var(--border);
+      padding:2rem;
+      text-align:center;
+      color:var(--muted);
+      font-size:.8rem;
+    }
+    footer a { color:var(--orange); text-decoration:none; }
+    footer a:hover { text-decoration:underline; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width:900px) {
+      .page-wrap { grid-template-columns:1fr; padding:2rem 1.5rem 5rem; }
+      .toc { display:none; }
+    }
+    @media (max-width:600px) {
+      .hero { padding:3.5rem 1.5rem 2.8rem; }
+      .tab-btn { padding:.9rem 1.2rem; font-size:.72rem; gap:.35rem; }
+      .page-wrap { padding:1.5rem 1rem 4rem; }
+      .entry h2 { font-size:.95rem; }
+      .box { padding:1rem 1.2rem; }
+      .data-table th, .data-table td { padding:.5rem .7rem; font-size:.8rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation:none !important; transition:none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">CG PIXELS</a>
+  <a href="index.html" class="nav-back">
+    <svg width="14" height="14" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+    Back to site
+  </a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-eyebrow">
+    <svg width="12" height="12" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+    Legal Information
+  </div>
+  <h1>Contest Policies</h1>
+  <p class="hero-sub">Everything you need to know about participating in CG Baby of the Year 2025.</p>
+</div>
+
+<!-- TAB BAR -->
+<div class="tab-bar">
+  <button class="tab-btn active" id="tab-terms" onclick="switchTab('terms')">
+    <svg width="15" height="15" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+    Terms & Conditions
+  </button>
+  <button class="tab-btn" id="tab-refund" onclick="switchTab('refund')">
+    <svg width="15" height="15" viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+    Refund Policy
+  </button>
+  <button class="tab-btn" id="tab-privacy" onclick="switchTab('privacy')">
+    <svg width="15" height="15" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+    Privacy Policy
+  </button>
+</div>
+
+<!-- PAGE WRAP -->
+<div class="page-wrap">
+
+  <!-- SIDEBAR TOC (desktop only) -->
+  <aside class="toc" id="toc">
+    <div class="toc-label">On this page</div>
+    <ul class="toc-list" id="tocList"></ul>
+  </aside>
+
+  <!-- CONTENT -->
+  <div>
+
+    <!-- ═══════════════════════════════
+         TERMS & CONDITIONS
+    ═══════════════════════════════ -->
+    <div class="section active" id="section-terms">
+      <div class="updated-badge">
+        <svg width="13" height="13" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm.01 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
+        Last updated: June 2025
+      </div>
+
+      <div class="entry" id="t-acceptance">
+        <div class="entry-head">
+          <div class="entry-icon"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div>
+          <div><span class="entry-num">Section 01</span><h2>Acceptance of Terms</h2></div>
+        </div>
+        <p>By accessing or using the CG Baby of the Year contest platform operated by CGPIXELS, you agree to be bound by these Terms and Conditions. If you do not agree, please do not use our platform.</p>
+      </div>
+
+      <div class="entry" id="t-eligibility">
+        <div class="entry-head">
+          <div class="entry-icon"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v2h20v-2c0-3.33-6.67-5-10-5z"/></svg></div>
+          <div><span class="entry-num">Section 02</span><h2>Contest Eligibility</h2></div>
+        </div>
+        <ul>
+          <li>Nominees must have had a photoshoot conducted by CGPIXELS.</li>
+          <li>Each child may be nominated only once per contest year.</li>
+          <li>Participants must provide accurate and truthful information during registration and nomination.</li>
+          <li>CGPIXELS reserves the right to disqualify any entry that violates these terms.</li>
+        </ul>
+      </div>
+
+      <div class="entry" id="t-credits">
+        <div class="entry-head">
+          <div class="entry-icon"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.41 16.09V20h-2.67v-1.93c-1.71-.36-3.16-1.46-3.27-3.4h1.96c.1 1.05.82 1.87 2.65 1.87 1.96 0 2.4-.98 2.4-1.59 0-.83-.44-1.61-2.67-2.14-2.48-.6-4.18-1.62-4.18-3.67 0-1.72 1.39-2.84 3.11-3.21V4h2.67v1.95c1.86.45 2.79 1.86 2.85 3.39H14.3c-.05-1.11-.64-1.87-2.22-1.87-1.5 0-2.4.68-2.4 1.64 0 .84.65 1.39 2.67 1.91s4.18 1.39 4.18 3.91c-.01 1.83-1.38 2.83-3.12 3.16z"/></svg></div>
+          <div><span class="entry-num">Section 03</span><h2>Vote Credits & Payments</h2></div>
+        </div>
+        <div class="box box-warn">
+          <div class="box-title">
+            <svg width="15" height="15" viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+            No Refunds Policy
+          </div>
+          <p>All vote credit purchases are completely final and non-refundable under any circumstances. Credits hold no monetary value outside of this contest platform.</p>
+        </div>
+        <ul>
+          <li>Vote credits can only be used to vote within the CG Baby of the Year contest.</li>
+          <li>Credits expire at the end of the contest and cannot be carried over.</li>
+          <li>Minimum purchase is 500 credits for ₦500. Credits are priced at ₦1 per credit.</li>
+          <li>All payments are processed securely through Flutterwave via instant bank transfer.</li>
+          <li>CGPIXELS is not responsible for failed bank transfers due to incorrect account details entered by the user.</li>
+          <li>Credits are added automatically upon payment confirmation. If credits are not received within 30 minutes of a successful transfer, contact us via WhatsApp.</li>
+        </ul>
+      </div>
+
+      <div class="entry" id="t-voting">
+        <div class="entry-head">
+          <div class="entry-icon"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+          <div><span class="entry-num">Section 04</span><h2>Voting Rules</h2></div>
+        </div>
+        <ul>
+          <li>1 credit = 1 vote. There is no limit on how many credits you can purchase.</li>
+          <li>Votes cast are final and cannot be reversed or refunded.</li>
+          <li>Any attempt to manipulate votes through technical means will result in immediate disqualification.</li>
+          <li>CGPIXELS reserves the right to audit and remove fraudulent votes at any time.</li>
+        </ul>
+      </div>
+
+      <div class="entry" id="t-phases">
+        <div class="entry-head">
+          <div class="entry-icon"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg></div>
+          <div><span class="entry-num">Section 05</span><h2>Contest Phases</h2></div>
+        </div>
+        <div class="phases">
+          <div class="phase-step"><div class="phase-num">1</div><div><div class="phase-title">Nominations</div><div class="phase-desc">Submit your child's details and photo for admin review. Must be a CGPIXELS photoshoot.</div></div></div>
+          <div class="phase-step"><div class="phase-num">2</div><div><div class="phase-title">Free Voting</div><div class="phase-desc">All registered users receive free credits to vote. Community rallying determines top nominees.</div></div></div>
+          <div class="phase-step"><div class="phase-num">3</div><div><div class="phase-title">Grand Finals</div><div class="phase-desc">Top 5 nominees advance. Additional credits can be purchased to vote for your favourite.</div></div></div>
+          <div class="phase-step"><div class="phase-num">4</div><div><div class="phase-title">Winner Announcement</div><div class="phase-desc">Highest votes at the deadline wins. Winner receives premium shoot package and official recognition.</div></div></div>
+        </div>
+      </div>
+
+      <div class="entry" id="t-photos">
+        <div class="entry-head">
+          <div class="entry-icon"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15a5 5 0 110-10 5 5 0 010 10zm0-8a3 3 0 100 6 3 3 0 000-6z"/></svg></div>
+          <div><span class="entry-num">Section 06</span><h2>Photo & Content Rights</h2></div>
+        </div>
+        <ul>
+          <li>By submitting a photo, you confirm you have the right to use it and grant CGPIXELS permission to display it on the contest platform and related social media.</li>
+          <li>All submitted photos must have been taken by CGPIXELS.</li>
+          <li>CGPIXELS will not sell or misuse submitted photos.</li>
+        </ul>
+      </div>
+
+      <div class="entry" id="t-liability">
+        <div class="entry-head">
+          <div class="entry-icon"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div>
+          <div><span class="entry-num">Section 07</span><h2>Limitation of Liability</h2></div>
+        </div>
+        <p>CGPIXELS shall not be liable for any indirect, incidental, or consequential damages arising from your participation in the contest. Our total liability shall not exceed the amount you paid for credits. CGPIXELS reserves the right to modify these terms at any time — continued use constitutes acceptance.</p>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════
+         REFUND POLICY
+    ═══════════════════════════════ -->
+    <div class="section" id="section-refund">
+      <div class="updated-badge">
+        <svg width="13" height="13" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm.01 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
+        Last updated: June 2025
+      </div>
+
+      <div class="box box-warn" style="margin-bottom:2.5rem;padding:1.6rem 1.8rem;text-align:center">
+        <div class="box-title" style="justify-content:center;font-size:1rem;margin-bottom:.6rem">
+          <svg width="18" height="18" viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+          All Sales Are Final — No Refunds
+        </div>
+        <p style="font-size:.9rem">All vote credit purchases made on the CG Baby of the Year platform are completely final and non-refundable under any circumstances.</p>
+      </div>
+
+      <div class="entry" id="r-why">
+        <div class="entry-head">
+          <div class="entry-icon"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg></div>
+          <div><span class="entry-num">Section 01</span><h2>Why No Refunds</h2></div>
+        </div>
+        <p>Vote credits are a digital contest currency with no monetary value outside this platform. Once purchased and added to your account, they can be immediately used to vote. Due to the nature of digital goods and contest integrity, we are unable to process refunds.</p>
+      </div>
+
+      <div class="entry" id="r-what">
+        <div class="entry-head">
+          <div class="entry-icon"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.41 16.09V20h-2.67v-1.93c-1.71-.36-3.16-1.46-3.27-3.4h1.96c.1 1.05.82 1.87 2.65 1.87 1.96 0 2.4-.98 2.4-1.59 0-.83-.44-1.61-2.67-2.14-2.48-.6-4.18-1.62-4.18-3.67 0-1.72 1.39-2.84 3.11-3.21V4h2.67v1.95c1.86.45 2.79 1.86 2.85 3.39H14.3c-.05-1.11-.64-1.87-2.22-1.87-1.5 0-2.4.68-2.4 1.64 0 .84.65 1.39 2.67 1.91s4.18 1.39 4.18 3.91c-.01 1.83-1.38 2.83-3.12 3.16z"/></svg></div>
+          <div><span class="entry-num">Section 02</span><h2>What Credits Are</h2></div>
+        </div>
+        <ul>
+          <li>Digital tokens used exclusively within the CG Baby of the Year contest.</li>
+          <li>They hold no monetary value and cannot be exchanged for cash.</li>
+          <li>Credits expire at the end of the contest period with no compensation for unused credits.</li>
+          <li>Cannot be transferred between accounts.</li>
+        </ul>
+      </div>
+
+      <div class="entry" id="r-failures">
+        <div class="entry-head">
+          <div class="entry-icon"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg></div>
+          <div><span class="entry-num">Section 03</span><h2>Payment Failures</h2></div>
+        </div>
+        <p>If you made a bank transfer and credits were not added within 30 minutes:</p>
+        <ul>
+          <li>Confirm the transfer was successful in your bank app.</li>
+          <li>Ensure you transferred the exact amount to the correct account number provided.</li>
+          <li>Contact us via WhatsApp with your transaction reference number immediately.</li>
+          <li>We will investigate and credit your account if payment is confirmed on our end.</li>
+        </ul>
+
+        <div class="box box-ok">
+          <div class="box-title">
+            <svg width="15" height="15" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+            The Only Exception
+          </div>
+          <p>If you were charged but credits were never added due to a verified technical error on our end, we will either add the credits or issue a refund after investigation. Contact us with proof of payment.</p>
+        </div>
+      </div>
+
+      <div class="entry" id="r-duplicate">
+        <div class="entry-head">
+          <div class="entry-icon"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg></div>
+          <div><span class="entry-num">Section 04</span><h2>Duplicate Payments</h2></div>
+        </div>
+        <p>If you accidentally made the same payment twice, contact us immediately with both transaction references. We will investigate and refund the duplicate payment within 7 business days.</p>
+      </div>
+
+      <div class="entry" id="r-chargebacks">
+        <div class="entry-head">
+          <div class="entry-icon"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg></div>
+          <div><span class="entry-num">Section 05</span><h2>Chargebacks</h2></div>
+        </div>
+        <div class="box box-warn">
+          <div class="box-title">
+            <svg width="15" height="15" viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+            Important
+          </div>
+          <p>Initiating a chargeback or payment dispute for a valid credit purchase will result in immediate suspension of your account and disqualification from the contest.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════
+         PRIVACY POLICY
+    ═══════════════════════════════ -->
+    <div class="section" id="section-privacy">
+      <div class="updated-badge">
+        <svg width="13" height="13" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm.01 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"/></svg>
+        Last updated: June 2025
+      </div>
+
+      <div class="entry" id="p-who">
+        <div class="entry-head">
+          <div class="entry-icon"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+          <div><span class="entry-num">Section 01</span><h2>Who We Are</h2></div>
+        </div>
+        <p>CGPIXELS is a photography studio operating the CG Baby of the Year annual contest. This privacy policy explains how we handle personal data collected through our contest platform.</p>
+      </div>
+
+      <div class="entry" id="p-collect">
+        <div class="entry-head">
+          <div class="entry-icon"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg></div>
+          <div><span class="entry-num">Section 02</span><h2>Information We Collect</h2></div>
+        </div>
+        <table class="data-table">
+          <tr><th>Data</th><th>Why We Collect It</th></tr>
+          <tr><td>Parent/Guardian name</td><td>Account registration and identification</td></tr>
+          <tr><td>Email address</td><td>Account login and communication</td></tr>
+          <tr><td>WhatsApp/Phone number</td><td>Contest communication and support</td></tr>
+          <tr><td>Child's name and age</td><td>Nomination entry</td></tr>
+          <tr><td>Child's photo</td><td>Contest display on the voting platform</td></tr>
+          <tr><td>Payment reference</td><td>Credit purchase verification</td></tr>
+          <tr><td>Vote history</td><td>Contest integrity and audit</td></tr>
+        </table>
+      </div>
+
+      <div class="entry" id="p-use">
+        <div class="entry-head">
+          <div class="entry-icon"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg></div>
+          <div><span class="entry-num">Section 03</span><h2>How We Use Your Information</h2></div>
+        </div>
+        <ul>
+          <li>To create and manage your contest account</li>
+          <li>To display nominated children on the voting platform</li>
+          <li>To process credit purchases and verify payments</li>
+          <li>To communicate contest updates, results and announcements</li>
+          <li>To prevent fraud and ensure contest integrity</li>
+          <li>To comply with legal obligations</li>
+        </ul>
+      </div>
+
+      <div class="entry" id="p-share">
+        <div class="entry-head">
+          <div class="entry-icon"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg></div>
+          <div><span class="entry-num">Section 04</span><h2>Who We Share Your Data With</h2></div>
+        </div>
+        <ul>
+          <li><strong style="color:#fff">Flutterwave</strong> — our payment processor receives your email to process credit purchases. Bound by their own privacy policy.</li>
+          <li><strong style="color:#fff">Firebase (Google)</strong> — we use Firebase to store contest data securely. Google's data processing terms apply.</li>
+          <li><strong style="color:#fff">Cloudinary</strong> — nominee photos are stored on Cloudinary's secure servers.</li>
+          <li>We do <strong style="color:#fff">not</strong> sell your personal data to any third parties, ever.</li>
+        </ul>
+      </div>
+
+      <div class="entry" id="p-rights">
+        <div class="entry-head">
+          <div class="entry-icon"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg></div>
+          <div><span class="entry-num">Section 05</span><h2>Your Rights</h2></div>
+        </div>
+        <ul>
+          <li>Request access to the personal data we hold about you</li>
+          <li>Request correction of inaccurate data</li>
+          <li>Request deletion of your account and associated data</li>
+          <li>Withdraw consent for promotional communications at any time</li>
+        </ul>
+        <div class="box box-info">
+          <div class="box-title">
+            <svg width="15" height="15" viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.61 21 3 13.39 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+            How to Exercise Your Rights
+          </div>
+          <p>Contact us via WhatsApp. For account deletion requests, email us with your registered email address and we will process within 7 business days.</p>
+        </div>
+      </div>
+
+      <div class="entry" id="p-children">
+        <div class="entry-head">
+          <div class="entry-icon"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v2h20v-2c0-3.33-6.67-5-10-5z"/></svg></div>
+          <div><span class="entry-num">Section 06</span><h2>Children's Privacy</h2></div>
+        </div>
+        <p>The contest involves photos of children. We only collect children's information with explicit consent from their parent or guardian. We do not knowingly collect data directly from children. Parents may request removal of their child's photo at any time by contacting us.</p>
+      </div>
+
+      <div class="entry" id="p-security">
+        <div class="entry-head">
+          <div class="entry-icon"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg></div>
+          <div><span class="entry-num">Section 07</span><h2>Security & Cookies</h2></div>
+        </div>
+        <p>We use Firebase Authentication, HTTPS encryption, and secure payment processing through Flutterwave. Our platform uses essential session cookies only for keeping you logged in — no tracking or advertising cookies are used.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 CGPIXELS · CG Baby of the Year · All rights reserved &nbsp;·&nbsp; <a href="index.html">Home</a>
+  <br/>
+  <a href="terms.html">Terms & Conditions</a> · 
+    <a href="refund.html">Refund Policy</a> · 
+    <a href="privacy.html">Privacy Policy</a></p>
+</p>
+</footer>
+
+<script>
+/* ── TAB SWITCHING ── */
+const TABS = {
+  terms:   { btn:'tab-terms',   section:'section-terms',   toc:['t-acceptance','t-eligibility','t-credits','t-voting','t-phases','t-photos','t-liability'] },
+  refund:  { btn:'tab-refund',  section:'section-refund',  toc:['r-why','r-what','r-failures','r-duplicate','r-chargebacks'] },
+  privacy: { btn:'tab-privacy', section:'section-privacy', toc:['p-who','p-collect','p-use','p-share','p-rights','p-children','p-security'] }
+};
+
+const TOC_LABELS = {
+  't-acceptance':'Acceptance','t-eligibility':'Eligibility','t-credits':'Credits & Payments',
+  't-voting':'Voting Rules','t-phases':'Contest Phases','t-photos':'Photo Rights','t-liability':'Liability',
+  'r-why':'Why No Refunds','r-what':'What Credits Are','r-failures':'Payment Failures',
+  'r-duplicate':'Duplicate Payments','r-chargebacks':'Chargebacks',
+  'p-who':'Who We Are','p-collect':'Data We Collect','p-use':'How We Use It',
+  'p-share':'Who We Share With','p-rights':'Your Rights','p-children':'Children','p-security':'Security'
+};
+
+function switchTab(tab) {
+  Object.keys(TABS).forEach(key => {
+    const t = TABS[key];
+    document.getElementById(t.btn).classList.toggle('active', key === tab);
+    document.getElementById(t.section).classList.toggle('active', key === tab);
+  });
+
+  /* rebuild TOC */
+  const tocList = document.getElementById('tocList');
+  tocList.innerHTML = TABS[tab].toc.map(id => `
+    <li><a href="#${id}">${TOC_LABELS[id]}</a></li>
+  `).join('');
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  /* highlight active toc item on scroll */
+  observeToc();
+}
+
+/* ── TOC SCROLL HIGHLIGHT ── */
+let observer;
+function observeToc() {
+  if (observer) observer.disconnect();
+  const links = document.querySelectorAll('.toc-list a');
+  if (!links.length) return;
+
+  observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(l => l.classList.remove('current'));
+        const link = document.querySelector(`.toc-list a[href="#${e.target.id}"]`);
+        if (link) link.classList.add('current');
+      }
+    });
+  }, { rootMargin:'-20% 0px -70% 0px' });
+
+  links.forEach(l => {
+    const el = document.getElementById(l.getAttribute('href').slice(1));
+    if (el) observer.observe(el);
+  });
+}
+
+/* ── URL HASH SUPPORT ── */
+const hashMap = { terms:'terms', refund:'refund', privacy:'privacy' };
+const startTab = hashMap[location.hash.replace('#','').replace('tab=','')] || 'terms';
+switchTab(startTab);
+</script>
+</body>
+</html>

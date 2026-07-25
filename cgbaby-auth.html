@@ -17,25 +17,14 @@
     body { font-family:var(--sf); background:var(--deep); color:#fff; overflow-x:hidden; }
     a { text-decoration:none; color:inherit; }
 
-    /* ══════════════════════════════
-       FULL-SCREEN SPLIT LAYOUT
-    ══════════════════════════════ */
-    .layout {
-      min-height:100vh;
-      display:grid;
-      grid-template-columns:1fr 1fr;
-    }
+    .layout { min-height:100vh; display:grid; grid-template-columns:1fr 1fr; }
 
-    /* ── LEFT HERO PANEL ── */
+    /* ── LEFT HERO ── */
     .hero-panel {
-      position:relative; overflow:hidden;
-      background:var(--deep);
-      display:flex; flex-direction:column;
-      justify-content:center; align-items:flex-start;
+      position:relative; overflow:hidden; background:var(--deep);
+      display:flex; flex-direction:column; justify-content:center; align-items:flex-start;
       padding:4rem 4rem 4rem 5rem;
     }
-
-    /* layered orange glow */
     .hero-panel::before {
       content:""; position:absolute; inset:0;
       background:
@@ -43,58 +32,37 @@
         radial-gradient(ellipse 50% 50% at 90% 80%, rgba(255,94,0,.12) 0%, transparent 60%);
       animation:heroBgPulse 6s ease-in-out infinite alternate;
     }
-    @keyframes heroBgPulse {
-      0%   { opacity:.7; transform:scale(1); }
-      100% { opacity:1;  transform:scale(1.04); }
-    }
-
-    /* grid lines */
+    @keyframes heroBgPulse { 0%{opacity:.7;transform:scale(1)} 100%{opacity:1;transform:scale(1.04)} }
     .hero-panel::after {
       content:""; position:absolute; inset:0;
-      background-image:
-        linear-gradient(rgba(255,140,0,.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,140,0,.04) 1px, transparent 1px);
-      background-size:60px 60px;
-      animation:gridSlide 20s linear infinite;
+      background-image:linear-gradient(rgba(255,140,0,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,140,0,.04) 1px,transparent 1px);
+      background-size:60px 60px; animation:gridSlide 20s linear infinite;
     }
     @keyframes gridSlide { 0%{transform:translate(0,0)} 100%{transform:translate(60px,60px)} }
-
     .hero-content { position:relative; z-index:2; max-width:480px; }
 
-    /* floating pixel dots */
     .pixel-row { display:flex; gap:10px; margin-bottom:2.5rem; }
     .pixel-dot {
       width:10px; height:10px; border-radius:2px; background:var(--orange);
-      box-shadow:0 0 15px var(--orange);
-      animation:pixelPulse 1.8s ease-in-out infinite;
+      box-shadow:0 0 15px var(--orange); animation:pixelPulse 1.8s ease-in-out infinite;
     }
     .pixel-dot:nth-child(2) { animation-delay:.25s; background:var(--bright); }
     .pixel-dot:nth-child(3) { animation-delay:.5s; }
     .pixel-dot:nth-child(4) { animation-delay:.75s; background:var(--bright); }
     .pixel-dot:nth-child(5) { animation-delay:1s; }
-    @keyframes pixelPulse {
-      0%,100%{transform:scale(1);opacity:.7}
-      50%{transform:scale(1.5);opacity:1}
-    }
+    @keyframes pixelPulse { 0%,100%{transform:scale(1);opacity:.7} 50%{transform:scale(1.5);opacity:1} }
 
     .hero-tag {
       display:inline-flex; align-items:center; gap:.5rem;
       padding:.5rem 1.2rem; border-radius:50px; margin-bottom:1.8rem;
       background:rgba(255,140,0,.1); border:1px solid rgba(255,140,0,.35);
       font-size:.72rem; font-weight:800; color:var(--bright);
-      text-transform:uppercase; letter-spacing:.15em;
-      animation:tagGlow 2.5s ease-in-out infinite;
+      text-transform:uppercase; letter-spacing:.15em; animation:tagGlow 2.5s ease-in-out infinite;
     }
-    @keyframes tagGlow {
-      0%,100%{box-shadow:0 0 10px rgba(255,140,0,.2)}
-      50%{box-shadow:0 0 25px rgba(255,140,0,.5)}
-    }
+    @keyframes tagGlow { 0%,100%{box-shadow:0 0 10px rgba(255,140,0,.2)} 50%{box-shadow:0 0 25px rgba(255,140,0,.5)} }
     .hero-tag svg { fill:var(--bright); display:block; }
 
-    .hero-title {
-      font-size:clamp(2.5rem,4.5vw,4rem); font-weight:900;
-      line-height:1; letter-spacing:-.03em; margin-bottom:1.2rem;
-    }
+    .hero-title { font-size:clamp(2.5rem,4.5vw,4rem); font-weight:900; line-height:1; letter-spacing:-.03em; margin-bottom:1.2rem; }
     .hero-title .line1 { display:block; color:#fff; }
     .hero-title .line2 {
       display:block; margin-top:.1em;
@@ -103,64 +71,42 @@
       filter:drop-shadow(0 0 30px rgba(255,140,0,.5));
       animation:titleGlow 2.5s ease-in-out infinite alternate;
     }
-    @keyframes titleGlow {
-      0%  {filter:drop-shadow(0 0 20px rgba(255,140,0,.4))}
-      100%{filter:drop-shadow(0 0 50px rgba(255,140,0,.9))}
-    }
+    @keyframes titleGlow { 0%{filter:drop-shadow(0 0 20px rgba(255,140,0,.4))} 100%{filter:drop-shadow(0 0 50px rgba(255,140,0,.9))} }
 
-    .hero-desc {
-      font-size:1rem; color:var(--muted); line-height:1.75;
-      margin-bottom:2.5rem; max-width:380px;
-    }
+    .hero-desc { font-size:1rem; color:var(--muted); line-height:1.75; margin-bottom:2.5rem; max-width:380px; }
 
-    /* free credits card */
     .credits-card {
       display:flex; align-items:center; gap:1.2rem;
       padding:1.2rem 1.5rem; border-radius:18px; margin-bottom:1.8rem;
-      background:rgba(0,230,118,.07);
-      border:1px solid rgba(0,230,118,.3);
+      background:rgba(0,230,118,.07); border:1px solid rgba(0,230,118,.3);
       position:relative; overflow:hidden;
     }
     .credits-card::before {
       content:""; position:absolute; top:0; left:0; right:0; height:2px;
       background:linear-gradient(90deg,transparent,var(--green),transparent);
     }
-    .credits-num {
-      font-size:2.8rem; font-weight:900; color:var(--green); line-height:1;
-      filter:drop-shadow(0 0 15px rgba(0,230,118,.5));
-      flex-shrink:0;
-    }
+    .credits-num { font-size:2.8rem; font-weight:900; color:var(--green); line-height:1; filter:drop-shadow(0 0 15px rgba(0,230,118,.5)); flex-shrink:0; }
     .credits-info-title { font-size:1rem; font-weight:800; color:#fff; margin-bottom:.2rem; }
     .credits-info-sub   { font-size:.82rem; color:var(--muted); line-height:1.5; }
     .credits-info-sub strong { color:var(--green); }
 
-    /* stats row */
-    .hero-stats {
-      display:flex; gap:2rem; padding-top:1.5rem;
-      border-top:1px solid rgba(255,255,255,.07);
-    }
-    .hero-stat-val  { font-size:1.6rem; font-weight:900; color:var(--orange); }
-    .hero-stat-label{ font-size:.7rem; color:var(--muted); text-transform:uppercase; letter-spacing:.1em; margin-top:.15rem; }
+    .hero-stats { display:flex; gap:2rem; padding-top:1.5rem; border-top:1px solid rgba(255,255,255,.07); }
+    .hero-stat-val   { font-size:1.6rem; font-weight:900; color:var(--orange); }
+    .hero-stat-label { font-size:.7rem; color:var(--muted); text-transform:uppercase; letter-spacing:.1em; margin-top:.15rem; }
 
-    /* ── RIGHT FORM PANEL ── */
+    /* ── RIGHT FORM ── */
     .form-panel {
-      background:var(--card);
-      display:flex; flex-direction:column;
+      background:var(--card); display:flex; flex-direction:column;
       justify-content:center; align-items:center;
-      padding:3rem 3.5rem;
-      position:relative; overflow:hidden;
+      padding:3rem 3.5rem; position:relative; overflow:hidden;
     }
     .form-panel::before {
       content:""; position:absolute; inset:0;
       background:radial-gradient(ellipse 70% 60% at 50% 0%, rgba(255,140,0,.06) 0%, transparent 70%);
     }
-
     .form-inner { width:100%; max-width:400px; position:relative; z-index:1; }
 
-    /* nav logo */
-    .form-logo {
-      text-align:center; margin-bottom:2rem;
-    }
+    .form-logo { text-align:center; margin-bottom:2rem; }
     .form-logo-text {
       font-size:1.2rem; font-weight:900; letter-spacing:.1em;
       background:linear-gradient(135deg,var(--orange),var(--bright));
@@ -168,69 +114,47 @@
     }
     .form-logo-sub { font-size:.7rem; color:var(--muted); margin-top:.2rem; text-transform:uppercase; letter-spacing:.12em; }
 
-    /* ════════════════════════════════
-       MILLION DOLLAR TOGGLE SWITCHER
-    ════════════════════════════════ */
+    /* ── TOGGLE ── */
     .toggle-wrap {
       position:relative; margin-bottom:2.2rem;
-      background:rgba(255,255,255,.04);
-      border:1px solid rgba(255,255,255,.07);
-      border-radius:16px; padding:5px;
-      display:grid; grid-template-columns:1fr 1fr;
-      overflow:hidden;
+      background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.07);
+      border-radius:16px; padding:5px; display:grid; grid-template-columns:1fr 1fr; overflow:hidden;
     }
-
-    /* gliding background pill */
     .toggle-slider {
-      position:absolute;
-      top:5px; left:5px;
+      position:absolute; top:5px; left:5px;
       width:calc(50% - 5px); height:calc(100% - 10px);
       border-radius:12px;
-      background:linear-gradient(135deg, var(--orange), var(--bright), var(--dim));
-      background-size:200% 200%;
-      animation:sliderGradient 4s ease-in-out infinite alternate;
+      background:linear-gradient(135deg,var(--orange),var(--bright),var(--dim));
+      background-size:200% 200%; animation:sliderGradient 4s ease-in-out infinite alternate;
       box-shadow:0 4px 20px rgba(255,140,0,.5), 0 0 0 1px rgba(255,140,0,.3);
-      transition:transform .45s cubic-bezier(.68,-.55,.265,1.55);
-      z-index:0;
+      transition:transform .45s cubic-bezier(.68,-.55,.265,1.55); z-index:0;
     }
-    @keyframes sliderGradient {
-      0%  {background-position:0% 50%}
-      100%{background-position:100% 50%}
-    }
+    @keyframes sliderGradient { 0%{background-position:0% 50%} 100%{background-position:100% 50%} }
     .toggle-slider.to-login { transform:translateX(calc(100% + 5px)); }
-
     .toggle-btn {
-      position:relative; z-index:1;
-      background:none; border:none; cursor:pointer;
-      padding:.85rem .5rem; border-radius:12px;
-      font-size:.88rem; font-weight:700;
+      position:relative; z-index:1; background:none; border:none; cursor:pointer;
+      padding:.85rem .5rem; border-radius:12px; font-size:.88rem; font-weight:700;
       transition:color .3s, transform .2s;
       display:flex; align-items:center; justify-content:center; gap:.4rem;
-      pointer-events:auto;
       width:100%;
     }
     .toggle-btn svg { display:block; transition:fill .3s; }
-    .toggle-btn.active          { color:#000; }
-    .toggle-btn.active svg      { fill:#000; }
-    .toggle-btn:not(.active)    { color:var(--muted); }
-    .toggle-btn:not(.active) svg{ fill:var(--muted); }
+    .toggle-btn.active        { color:#000; }
+    .toggle-btn.active svg    { fill:#000; }
+    .toggle-btn:not(.active)  { color:var(--muted); }
+    .toggle-btn:not(.active) svg { fill:var(--muted); }
     .toggle-btn:hover:not(.active) { color:#fff; transform:scale(1.03); }
-
-    /* sparkle burst on toggle */
     .toggle-btn.active .btn-label::after {
-      content:"✦";
-      position:absolute; right:-14px; top:-6px;
-      font-size:.6rem; color:rgba(0,0,0,.5);
-      animation:sparkle .6s ease-out forwards;
+      content:"✦"; position:absolute; right:-14px; top:-6px;
+      font-size:.6rem; color:rgba(0,0,0,.5); animation:sparkle .6s ease-out forwards;
     }
     @keyframes sparkle { 0%{opacity:1;transform:scale(0) rotate(0deg)} 100%{opacity:0;transform:scale(1.5) rotate(180deg)} }
     .btn-label { position:relative; }
 
-    /* form sections */
     .form-section { animation:formFadeIn .35s ease; }
     @keyframes formFadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
 
-    /* field */
+    /* ── FIELDS ── */
     .field { margin-bottom:1.25rem; }
     .field label {
       display:flex; align-items:center; gap:.4rem;
@@ -238,11 +162,9 @@
       text-transform:uppercase; letter-spacing:.12em; margin-bottom:.5rem;
     }
     .field label svg { fill:var(--orange); display:block; opacity:.75; }
-
     .field input {
       width:100%; padding:.88rem 1.1rem;
-      background:rgba(255,255,255,.05);
-      border:1.5px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.05); border:1.5px solid rgba(255,255,255,.08);
       border-radius:12px; color:#fff; font-size:.95rem; font-family:var(--sf);
       transition:border-color .35s, background .35s, transform .3s, box-shadow .35s;
     }
@@ -253,11 +175,71 @@
       transform:translateY(-2px);
     }
     .field input::placeholder { color:rgba(255,255,255,.2); }
-    .field input.has-val { border-color:rgba(255,140,0,.3); }
-
     .field-row { display:grid; grid-template-columns:1fr 1fr; gap:.85rem; }
 
-    /* submit btn */
+    /* ── TERMS CHECKBOX ── */
+    .terms-check {
+      display:flex; align-items:flex-start; gap:.75rem;
+      margin-bottom:1.1rem; margin-top:.2rem;
+      padding:.9rem 1rem; border-radius:12px;
+      background:rgba(255,140,0,.04); border:1px solid rgba(255,140,0,.15);
+      cursor:pointer; transition:all .2s; position:relative;
+    }
+    .terms-check:hover { background:rgba(255,140,0,.08); border-color:rgba(255,140,0,.3); }
+    .terms-check.checked { background:rgba(255,140,0,.07); border-color:rgba(255,140,0,.35); }
+
+    /* hidden real checkbox */
+    .terms-check input[type="checkbox"] {
+      position:absolute; opacity:0; width:0; height:0; pointer-events:none;
+    }
+
+    /* custom checkbox box */
+    .check-box {
+      width:20px; height:20px; border-radius:6px; flex-shrink:0;
+      border:2px solid rgba(255,140,0,.4);
+      background:rgba(255,255,255,.04);
+      display:flex; align-items:center; justify-content:center;
+      transition:all .25s cubic-bezier(.68,-.55,.265,1.55);
+      margin-top:.05rem;
+    }
+    .check-box svg {
+      fill:#000; display:block;
+      width:12px; height:12px;
+      opacity:0; transform:scale(0) rotate(-20deg);
+      transition:all .25s cubic-bezier(.68,-.55,.265,1.55);
+    }
+    .terms-check.checked .check-box {
+      background:linear-gradient(135deg,var(--orange),var(--bright));
+      border-color:var(--orange);
+      box-shadow:0 0 14px rgba(255,140,0,.45);
+      transform:scale(1.08);
+    }
+    .terms-check.checked .check-box svg {
+      opacity:1; transform:scale(1) rotate(0deg);
+    }
+
+    .terms-text { font-size:.78rem; color:rgba(255,255,255,.6); line-height:1.6; }
+    .terms-text a {
+      color:var(--orange); text-decoration:underline;
+      text-underline-offset:2px; font-weight:600;
+    }
+    .terms-text a:hover { color:var(--bright); }
+
+    /* error shake on terms */
+    .terms-check.shake {
+      animation:shake .4s ease;
+      border-color:var(--red) !important;
+      background:rgba(255,82,82,.08) !important;
+    }
+    @keyframes shake {
+      0%,100%{transform:translateX(0)}
+      20%{transform:translateX(-6px)}
+      40%{transform:translateX(6px)}
+      60%{transform:translateX(-4px)}
+      80%{transform:translateX(4px)}
+    }
+
+    /* ── SUBMIT ── */
     .btn-submit {
       width:100%; padding:1.05rem; border:none; border-radius:14px;
       background:linear-gradient(135deg,var(--orange) 0%,var(--bright) 50%,var(--dim) 100%);
@@ -270,25 +252,19 @@
       position:relative; overflow:hidden; margin-top:.75rem;
       animation:btnGradient 4s ease-in-out infinite alternate;
     }
-    @keyframes btnGradient {
-      0%  {background-position:0% 50%}
-      100%{background-position:100% 50%}
-    }
+    @keyframes btnGradient { 0%{background-position:0% 50%} 100%{background-position:100% 50%} }
     .btn-submit::before {
       content:""; position:absolute; inset:0;
       background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);
       transform:translateX(-100%); transition:transform .55s;
     }
     .btn-submit:hover::before { transform:translateX(100%); }
-    .btn-submit:hover:not(:disabled) {
-      transform:translateY(-4px) scale(1.02);
-      box-shadow:0 16px 50px rgba(255,140,0,.6);
-    }
+    .btn-submit:hover:not(:disabled) { transform:translateY(-4px) scale(1.02); box-shadow:0 16px 50px rgba(255,140,0,.6); }
     .btn-submit:active:not(:disabled) { transform:translateY(-1px) scale(.99); }
     .btn-submit:disabled { opacity:.5; cursor:not-allowed; transform:none !important; }
     .btn-submit svg { fill:#000; display:block; flex-shrink:0; }
 
-    /* form message */
+    /* ── MESSAGES ── */
     .form-msg {
       padding:.75rem 1rem; border-radius:10px; font-size:.82rem;
       font-weight:600; margin-bottom:1rem; display:none;
@@ -299,25 +275,16 @@
     .form-msg.ok  { background:rgba(0,230,118,.08); border:1px solid rgba(0,230,118,.3); color:var(--green); }
     .form-msg svg { flex-shrink:0; display:block; }
     .form-msg.err svg { fill:var(--red); }
-    .form-msg.ok svg  { fill:var(--green); }
+    .form-msg.ok  svg { fill:var(--green); }
 
-    /* footer note */
-    .form-note {
-      text-align:center; margin-top:1.2rem;
-      font-size:.75rem; color:rgba(255,255,255,.3); line-height:1.6;
-    }
+    .form-note { text-align:center; margin-top:1.2rem; font-size:.75rem; color:rgba(255,255,255,.3); line-height:1.6; }
     .form-note a { color:var(--orange); cursor:pointer; }
 
-    .forgot-link {
-      text-align:right; margin-top:.3rem;
-    }
-    .forgot-link button {
-      background:none; border:none; color:rgba(255,140,0,.7);
-      font-size:.75rem; cursor:pointer; transition:color .2s;
-    }
+    .forgot-link { text-align:right; margin-top:.3rem; }
+    .forgot-link button { background:none; border:none; color:rgba(255,140,0,.7); font-size:.75rem; cursor:pointer; transition:color .2s; }
     .forgot-link button:hover { color:var(--orange); }
 
-    /* toast */
+    /* ── TOAST ── */
     .toast {
       position:fixed; bottom:2rem; left:50%;
       transform:translateX(-50%) translateY(100px);
@@ -332,7 +299,7 @@
     .toast.error   { background:linear-gradient(135deg,#b71c1c,var(--red)); color:#fff; }
     .toast.show    { transform:translateX(-50%) translateY(0); }
 
-    /* ── MOBILE ── */
+    /* ── RESPONSIVE ── */
     @media (max-width:900px) {
       .layout { grid-template-columns:1fr; }
       .hero-panel { display:none; }
@@ -340,12 +307,12 @@
     }
     @media (max-width:400px) {
       .field-row { grid-template-columns:1fr; gap:0; }
+      .form-panel { padding:1.8rem 1.2rem; }
     }
   </style>
 </head>
 <body>
 
-<!-- TOAST -->
 <div class="toast" id="toast">
   <svg width="16" height="16" viewBox="0 0 24 24" id="toastIcon"></svg>
   <span id="toastMsg"></span>
@@ -353,62 +320,39 @@
 
 <div class="layout">
 
-  <!-- ── LEFT: HERO ── -->
+  <!-- LEFT HERO -->
   <div class="hero-panel">
     <div class="hero-content">
-
       <div class="pixel-row">
-        <div class="pixel-dot"></div>
-        <div class="pixel-dot"></div>
-        <div class="pixel-dot"></div>
-        <div class="pixel-dot"></div>
+        <div class="pixel-dot"></div><div class="pixel-dot"></div>
+        <div class="pixel-dot"></div><div class="pixel-dot"></div>
         <div class="pixel-dot"></div>
       </div>
-
       <div class="hero-tag">
         <svg width="13" height="13" viewBox="0 0 24 24"><path d="M19 5h-2V3H7v2H5C3.9 5 3 5.9 3 7v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0011 15.9V18H7v2h10v-2h-4v-2.1a5.01 5.01 0 003.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.86 10.4 5 9.3 5 8zm14 0c0 1.3-.86 2.4-2 2.82V7h2v1z"/></svg>
-        Annual Contest · 2026
+        Annual Contest · 2025
       </div>
-
       <h1 class="hero-title">
         <span class="line1">CG Baby</span>
         <span class="line2">of the Year</span>
       </h1>
-
-      <p class="hero-desc">
-        Nigeria's most exciting baby photography contest. Nominate, vote, and crown the most adorable face of 2026 — captured by CG Pixels.
-      </p>
-
+      <p class="hero-desc">Nigeria's most exciting baby photography contest. Nominate, vote, and crown the most adorable face of 2025 — captured by CG Pixels.</p>
       <div class="credits-card">
         <div class="credits-num">10</div>
         <div>
           <div class="credits-info-title">Free Credits on Sign Up</div>
-          <div class="credits-info-sub">
-            Each credit = 1 vote. Use them freely on any baby you love.<br>
-            <strong>Want more? Buy 500+ credits for ₦500.</strong>
-          </div>
+          <div class="credits-info-sub">Each credit = 1 vote. Use them freely on any baby you love.<br><strong>Want more? Buy 500+ credits for ₦500.</strong></div>
         </div>
       </div>
-
       <div class="hero-stats">
-        <div>
-          <div class="hero-stat-val">3</div>
-          <div class="hero-stat-label">Contest Phases</div>
-        </div>
-        <div>
-          <div class="hero-stat-val">Top 5</div>
-          <div class="hero-stat-label">Advance to Finals</div>
-        </div>
-        <div>
-          <div class="hero-stat-val">₦500</div>
-          <div class="hero-stat-label">Min. Token Pack</div>
-        </div>
+        <div><div class="hero-stat-val">3</div><div class="hero-stat-label">Contest Phases</div></div>
+        <div><div class="hero-stat-val">Top 5</div><div class="hero-stat-label">Advance to Finals</div></div>
+        <div><div class="hero-stat-val">₦500</div><div class="hero-stat-label">Min. Token Pack</div></div>
       </div>
-
     </div>
   </div>
 
-  <!-- ── RIGHT: FORM ── -->
+  <!-- RIGHT FORM -->
   <div class="form-panel">
     <div class="form-inner">
 
@@ -417,7 +361,7 @@
         <div class="form-logo-sub">Contest Portal</div>
       </div>
 
-      <!-- MILLION DOLLAR TOGGLE -->
+      <!-- TOGGLE -->
       <div class="toggle-wrap" id="toggleWrap">
         <div class="toggle-slider" id="toggleSlider"></div>
         <button class="toggle-btn active" id="tabReg" onclick="switchTab('register'); return false;">
@@ -430,7 +374,7 @@
         </button>
       </div>
 
-      <!-- MESSAGE -->
+      <!-- MESSAGES -->
       <div class="form-msg err" id="formErr">
         <svg width="15" height="15" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
         <span id="errMsg"></span>
@@ -479,13 +423,28 @@
           </label>
           <input type="password" id="rPass" placeholder="Min 6 characters"/>
         </div>
+
+        <!-- TERMS CHECKBOX -->
+        <div class="terms-check" id="termsCheck" onclick="toggleTerms()">
+          <input type="checkbox" id="termsInput"/>
+          <div class="check-box" id="checkBox">
+            <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+          </div>
+          <div class="terms-text">
+            I have read and agree to the
+            <a href="legal.html" onclick="event.stopPropagation()" target="_blank">Terms & Conditions</a>,
+            <a href="legal.html#refund" onclick="event.stopPropagation()" target="_blank">Refund Policy</a>
+            and
+            <a href="legal.html#privacy" onclick="event.stopPropagation()" target="_blank">Privacy Policy</a>.
+            All credit purchases are final and non-refundable.
+          </div>
+        </div>
+
         <button class="btn-submit" id="btnReg" onclick="doRegister(); return false;">
           <svg width="17" height="17" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
           <span id="regBtnTxt">Create Account · Get 10 Free Credits</span>
         </button>
-        <p class="form-note">
-          By registering you agree to the <a href="#">contest rules</a>. All token purchases are final — no refunds.
-        </p>
+        <p class="form-note">Already have an account? <a href="#" onclick="switchTab('login'); return false;">Sign in →</a></p>
       </div>
 
       <!-- LOGIN -->
@@ -516,16 +475,15 @@
 
     </div>
   </div>
-
 </div>
 
 <script type="module">
-import { initializeApp }                               from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
-import { getAnalytics }                                from "https://www.gstatic.com/firebasejs/12.13.0/firebase-analytics.js";
-import { getFirestore, doc, setDoc, getDoc, serverTimestamp }  from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+import { initializeApp }                                    from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+import { getAnalytics }                                     from "https://www.gstatic.com/firebasejs/12.13.0/firebase-analytics.js";
+import { getFirestore, doc, setDoc, getDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 import { getAuth, createUserWithEmailAndPassword,
          signInWithEmailAndPassword,
-         sendPasswordResetEmail, onAuthStateChanged }  from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+         sendPasswordResetEmail, onAuthStateChanged }       from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey:            "AIzaSyCTptvNojix0zW9fES8Ms7F6qo3T5YkzxA",
@@ -542,13 +500,9 @@ getAnalytics(app);
 const db   = getFirestore(app);
 const auth = getAuth(app);
 
-/* redirect if already logged in — but NOT during registration flow */
 onAuthStateChanged(auth, user => {
-  /* Only redirect if we're on the login tab, not mid-registration */
   const isRegistering = document.getElementById('btnReg')?.disabled;
-  if (user && !isRegistering) {
-    window.location.href = 'cgbaby-voting.html';
-  }
+  if (user && !isRegistering) window.location.href = 'cgbaby-voting.html';
 });
 
 /* ── TAB SWITCH ── */
@@ -562,7 +516,18 @@ window.switchTab = (tab) => {
   hideMsg();
 };
 
-/* ─��� MESSAGES ── */
+/* ── TERMS TOGGLE ── */
+let termsAccepted = false;
+window.toggleTerms = () => {
+  termsAccepted = !termsAccepted;
+  document.getElementById('termsInput').checked = termsAccepted;
+  document.getElementById('termsCheck').classList.toggle('checked', termsAccepted);
+  document.getElementById('checkBox').querySelector('svg').style.display = 'block';
+  // remove shake if they just checked it
+  if (termsAccepted) document.getElementById('termsCheck').classList.remove('shake');
+};
+
+/* ── MESSAGES ── */
 const showErr = msg => {
   document.getElementById('errMsg').textContent = msg;
   document.getElementById('formErr').classList.add('show');
@@ -579,16 +544,16 @@ const hideMsg = () => {
 };
 
 /* ── TOAST ── */
-const TOAST_PATHS = {
+const TP = {
   check:'M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z',
   cross:'M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z'
 };
 window.showToast = (msg, type='success') => {
   const t = document.getElementById('toast');
   document.getElementById('toastMsg').textContent = msg;
-  document.getElementById('toastIcon').innerHTML = `<path d="${type==='success'?TOAST_PATHS.check:TOAST_PATHS.cross}"/>`;
+  document.getElementById('toastIcon').innerHTML = `<path d="${type==='success'?TP.check:TP.cross}"/>`;
   t.className = `toast ${type} show`;
-  setTimeout(()=>t.classList.remove('show'), 4200);
+  setTimeout(() => t.classList.remove('show'), 4200);
 };
 
 function setBusy(btnId, txtId, busy, def) {
@@ -605,49 +570,52 @@ window.doRegister = async () => {
   const phone      = document.getElementById('rPhone').value.trim();
   const password   = document.getElementById('rPass').value;
 
-  if (!parentName)              return showErr('Enter your name');
-  if (!childName)               return showErr("Enter your child's name");
-  if (!email.includes('@'))     return showErr('Enter a valid email');
-  if (phone.length < 7)         return showErr('Enter your WhatsApp number');
-  if (password.length < 6)      return showErr('Password must be at least 6 characters');
+  if (!parentName)          return showErr('Enter your name');
+  if (!childName)           return showErr("Enter your child's name");
+  if (!email.includes('@')) return showErr('Enter a valid email');
+  if (phone.length < 7)     return showErr('Enter your WhatsApp number');
+  if (password.length < 6)  return showErr('Password must be at least 6 characters');
+
+  /* terms check — shake if not ticked */
+  if (!termsAccepted) {
+    const tc = document.getElementById('termsCheck');
+    tc.classList.add('shake');
+    setTimeout(() => tc.classList.remove('shake'), 500);
+    showErr('Please accept the Terms & Conditions to continue');
+    tc.scrollIntoView({ behavior:'smooth', block:'center' });
+    return;
+  }
 
   setBusy('btnReg','regBtnTxt', true, '');
   try {
     const cred = await createUserWithEmailAndPassword(auth, email, password);
     const uid  = cred.user.uid;
 
-    /* Write user profile WITH 10 free credits BEFORE redirect */
     const userDoc = {
-      parentName,
-      childName,
-      email,
-      phone,
-      credits:     10,
-      creditsUsed: 0,
-      totalBought: 0,
-      createdAt:   serverTimestamp()
+      parentName, childName, email, phone,
+      credits:10, creditsUsed:0, totalBought:0,
+      termsAccepted: true,
+      termsAcceptedAt: new Date().toISOString(),
+      createdAt: serverTimestamp()
     };
 
-    await setDoc(doc(db, 'users', uid), userDoc);
+    await setDoc(doc(db,'users',uid), userDoc);
 
-    /* Verify it was written */
-    const check = await getDoc(doc(db, 'users', uid));
+    const check = await getDoc(doc(db,'users',uid));
     if (!check.exists() || (check.data().credits ?? 0) < 10) {
-      /* Retry write if somehow failed */
-      await setDoc(doc(db, 'users', uid), userDoc);
+      await setDoc(doc(db,'users',uid), userDoc);
     }
 
-    showToast('Account created! 10 free credits added 🎉');
-    /* Small delay so Firestore propagates before redirect */
+    window.showToast('Account created! 10 free credits added 🎉');
     setTimeout(() => { window.location.href = 'cgbaby-voting.html'; }, 1200);
 
   } catch(e) {
     const m = {
-      'auth/email-already-in-use':'This email is already registered. Sign in instead.',
-      'auth/invalid-email':       'Invalid email address.',
-      'auth/weak-password':       'Password too weak — use at least 6 characters.',
+      'auth/email-already-in-use': 'This email is already registered. Sign in instead.',
+      'auth/invalid-email':        'Invalid email address.',
+      'auth/weak-password':        'Password too weak — use at least 6 characters.',
       'auth/network-request-failed':'Network error — check your connection.',
-      'auth/configuration-not-found':'Firebase Auth is not enabled yet — enable Email/Password in Firebase Console → Authentication → Sign-in method.'
+      'auth/configuration-not-found':'Firebase Auth is not enabled. Contact admin.'
     };
     showErr(m[e.code] || e.message);
     setBusy('btnReg','regBtnTxt', false, 'Create Account · Get 10 Free Credits');
@@ -665,14 +633,13 @@ window.doLogin = async () => {
   setBusy('btnLogin','loginBtnTxt', true, '');
   try {
     await signInWithEmailAndPassword(auth, email, password);
-    /* onAuthStateChanged → redirect */
   } catch(e) {
     const m = {
       'auth/user-not-found':     'No account found with this email.',
       'auth/wrong-password':     'Incorrect password.',
       'auth/invalid-credential': 'Incorrect email or password.',
       'auth/too-many-requests':  'Too many attempts — try again in a few minutes.',
-      'auth/configuration-not-found':'Firebase Auth not enabled — contact the admin.'
+      'auth/configuration-not-found':'Firebase Auth not enabled — contact admin.'
     };
     showErr(m[e.code] || e.message);
     setBusy('btnLogin','loginBtnTxt', false, 'Sign In to Vote');
@@ -694,7 +661,7 @@ document.addEventListener('keydown', e => {
   if (e.key !== 'Enter') return;
   const isReg = document.getElementById('formRegister').style.display !== 'none';
   isReg ? window.doRegister() : window.doLogin();
-});
+});o
 </script>
 </body>
 </html>

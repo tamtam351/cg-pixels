@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Book Us - CGPIXELS</title>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+
+        :root {
+            --black:#000000; --deep-black:#0a0a0a;
+            --orange:#ff8c00; --bright-orange:#ffa500; --dark-orange:#ff6b00;
+            --gold:#ffd700; --green:#00e676; --red:#ff5252; --blue:#42a5f5;
+            --card:#0d0d0d; --card2:#111114;
+            --muted:rgba(255,255,255,.5);
+            --border:rgba(255,140,0,.18);
+            --sf:-apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+            --disp:'Space Grotesk', sans-serif;
+            --mono:'JetBrains Mono', monospace;
+        }
+        a { text-decoration:none; }
+        body {
+            font-family:var(--sf); background:var(--black); color:#fff;
+            overflow-x:hidden; line-height:1.6;
+        }
+
+        /* particles */
+        .bg-particles { position:fixed; inset:0; pointer-events:none; z-index:0; }
+        .particle-dot {
+            position:absolute; width:3px; height:3px; background:var(--orange);
+            border-radius:50%; opacity:0; animation:particleRise 8s infinite;
+            box-shadow:0 0 10px var(--orange);
+        }
+        @keyframes particleRise {
+            0% { transform:translateY(100vh) scale(0); opacity:0; }
+            20% { opacity:.8; } 80% { opacity:.6; }
+            100% { transform:translateY(-100vh) scale(1.2); opacity:0; }
+        }
+
+        /* NAV — matches rest of site */
+        nav {
+            position:fixed; top:0; left:0; right:0; z-index:1000;
+            backdrop-filter:blur(20px); background:rgba(0,0,0,.85);
+            border-bottom:1px solid rgba(255,140,0,.15); transition:all .3s ease;
+        }
+        nav.scrolled { background:rgba(0,0,0,.95); box-shadow:0 4px 30px rgba(255,140,0,.1); }
+        .nav-container {
+            max-width:1400px; margin:0 auto; padding:1.2rem 2.5rem;
+            display:flex; justify-content:space-between; align-items:center;
+        }
+        .logo { display:flex; align-items:center; gap:.75rem; cursor:pointer; transition:transform .3s; }
+        .logo:hover { transform:scale(1.05); }
+        .logo-text {
+            font-size:1.4rem; font-weight:800; letter-spacing:.08em;
+            background:linear-gradient(135deg,var(--orange),var(--bright-orange));
+            -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+        }
+        .nav-links { display:flex; gap:2.5rem; list-style:none; align-items:center; }
+        .nav-links a {
+            color:rgba(255,255,255,.85); text-decoration:none; font-weight:500;
+            font-size:.95rem; letter-spacing:.02em; position:relative; transition:all .3s; padding:.5rem 0;
+        }
+        .nav-links a::after {
+            content:""; position:absolute; bottom:0; left:0; width:0; height:2px;
+            background:var(--orange); transition:width .3s;
+        }
+        .nav-links a:hover, .nav-links a.active { color:var(--orange); }
+        .nav-links a:hover::after, .nav-links a.active::after { width:100%; }
+        .nav-cgbaby { display:flex; align-items:center; gap:.4rem; }
+        .nav-cgbaby svg { fill:var(--orange); }
+        .menu-toggle { display:none; background:none; border:none; color:#fff; font-size:1.8rem; cursor:pointer; }
+
+        /* HERO */
+        .book-hero {
+            min-height:60vh; display:flex; align-items:center; justify-content:center;
+            position:relative; overflow:hidden;
+            background:linear-gradient(180deg,var(--deep-black) 0%, var(--black) 100%);
+            padding:130px 2rem 3rem;
+        }
+        .floating-orb { position:absolute; border-radius:50%; filter:blur(80px); opacity:.22; animation:orbDance 25s ease-in-out infinite; }
+        .orb1 { width:480px; height:480px; background:radial-gradient(circle,var(--orange) 0%,transparent 70%); top:5%; left:0; }
+        .orb2 { width:380px; height:380px; background:radial-gradient(circle,var(--gold) 0%,transparent 70%); bottom:0; right:5%; animation-delay:8s; }
+        @keyframes orbDance {
+            0%,100% { transform:translate(0,0) scale(1) rotate(0deg); }
+            50% { transform:translate(-60px,80px) scale(1.15) rotate(180deg); }
+        }
+        .hero-content { text-align:center; max-width:900px; position:relative; z-index:2; }
+        .hero-badge {
+            display:inline-block; padding:.6rem 1.5rem; background:rgba(255,140,0,.1);
+            border:1px solid var(--orange); border-radius:50px; font-size:.85rem; font-weight:600;
+            color:var(--orange); text-transform:uppercase; letter-spacing:.1em; margin-bottom:1.8rem;
+            box-shadow:0 0 20px rgba(255,140,0,.25);
+        }
+        .page-title {
+            font-family:var(--disp); font-size:clamp(2.8rem,7vw,5rem); font-weight:800; margin-bottom:1rem;
+            background:linear-gradient(135deg,#fff 0%, var(--bright-orange) 55%, var(--gold) 100%);
+            -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+            filter:drop-shadow(0 0 40px rgba(255,140,0,.5));
+        }
+        .typed-line { font-size:1.35rem; color:var(--gold); font-weight:600; min-height:2rem; margin-bottom:.8rem; }
+        .typed-cursor { display:inline-block; width:2px; background:var(--gold); margin-left:2px; animation:blinkCursor 1s step-end infinite; }
+        @keyframes blinkCursor { 50% { opacity:0; } }
+        .hero-sub { font-size:1.1rem; color:rgba(255,255,255,.7); font-weight:300; max-width:640px; margin:0 auto; }
+
+        /* LAYOUT */
+        .book-wrap {
+            max-width:1300px; margin:0 auto; padding:2rem 2rem 8rem;
+            display:grid; grid-template-columns:1.6fr 1fr; gap:2.5rem; align-items:start;
+            position:relative; z-index:1;
+        }
+
+        .glass-card {
+            background:rgba(255,255,255,.025); backdrop-filter:blur(20px);
+            border:1px solid var(--border); border-radius:24px; padding:2.2rem;
+        }
+
+        .form-section { margin-bottom:2rem; }
+        .form-section-title {
+            display:flex; align-items:center; gap:.65rem; font-family:var(--disp);
+            font-size:1.15rem; font-weight:700; color:#fff; margin-bottom:1.3rem;
+        }
+        .form-section-title .num {
+            width:30px; height:30px; border-radius:50%; flex-shrink:0;
+            background:linear-gradient(135deg,var(--orange),var(--bright-orange));
+            color:#000; display:flex; align-items:center; justify-content:center;
+            font-weight:800; font-size:.9rem;
+        }
+
+        .f-group { margin-bottom:1.4rem; position:relative; }
+        .f-group label {
+            display:flex; align-items:center; gap:.4rem; font-size:.8rem; font-weight:700;
+            color:rgba(255,255,255,.65); text-transform:uppercase; letter-spacing:.07em; margin-bottom:.55rem;
+        }
+        .f-group .req { color:var(--orange); }
+        .f-check {
+            width:16px; height:16px; opacity:0; transform:scale(.5); transition:all .3s cubic-bezier(.68,-.55,.265,1.55);
+        }
+        .f-group.valid .f-check { opacity:1; transform:scale(1); }
+        .f-check circle { fill:var(--green); }
+        .f-check path { stroke:#000; }
+
+        .f-input, .f-select, textarea.f-input {
+            width:100%; padding:.95rem 1.2rem; background:rgba(255,255,255,.04);
+            border:1.5px solid rgba(255,140,0,.18); border-radius:12px; color:#fff;
+            font-size:.95rem; font-family:var(--sf); transition:all .3s;
+        }
+        .f-group.valid .f-input, .f-group.valid textarea.f-input { border-color:var(--green); background:rgba(0,230,118,.04); }
+        .f-input:focus, textarea.f-input:focus { outline:none; border-color:var(--orange); box-shadow:0 0 0 4px rgba(255,140,0,.1); }
+        .f-input::placeholder, textarea.f-input::placeholder { color:rgba(255,255,255,.25); }
+        textarea.f-input { resize:vertical; min-height:100px; }
+
+        /* pill groups */
+        .pill-row { display:flex; gap:.7rem; flex-wrap:wrap; }
+        .pill {
+            padding:.75rem 1.4rem; border-radius:50px; border:1.5px solid rgba(255,140,0,.2);
+            background:rgba(255,255,255,.03); color:rgba(255,255,255,.7); font-size:.88rem; font-weight:600;
+            cursor:pointer; transition:all .25s; user-select:none;
+        }
+        .pill:hover { border-color:var(--orange); color:#fff; }
+        .pill.active {
+            background:linear-gradient(135deg,var(--orange),var(--bright-orange)); color:#000;
+            border-color:transparent; box-shadow:0 8px 20px rgba(255,140,0,.35);
+        }
+
+        /* package cards */
+        .pkg-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:1rem; margin-bottom:1rem; }
+        .pkg-card {
+            background:rgba(255,255,255,.03); border:1.5px solid rgba(255,140,0,.18); border-radius:16px;
+            padding:1.4rem; cursor:pointer; transition:all .3s; position:relative;
+        }
+        .pkg-card:hover { border-color:var(--bright-orange); transform:translateY(-4px); }
+        .pkg-card.selected {
+            border-color:var(--gold); background:rgba(255,215,0,.06);
+            box-shadow:0 12px 30px rgba(255,215,0,.18);
+        }
+        .pkg-card.selected::before {
+            content:"✓ SELECTED"; position:absolute; top:-10px; right:12px;
+            background:var(--gold); color:#000; font-size:.6rem; font-weight:900;
+            padding:.25rem .6rem; border-radius:50px; letter-spacing:.06em;
+        }
+        .pkg-name { font-family:var(--disp); font-size:1.15rem; font-weight:700; color:var(--orange); margin-bottom:.3rem; }
+        .pkg-card.selected .pkg-name { color:var(--gold); }
+        .pkg-price { font-family:var(--mono); font-size:1.3rem; font-weight:700; color:#fff; }
+        .pkg-price span { font-size:.7rem; color:var(--muted); font-weight:400; }
+
+        .perks-panel {
+            display:none; margin-top:.5rem; padding:1.3rem 1.5rem; border-radius:16px;
+            background:rgba(255,215,0,.04); border:1px solid rgba(255,215,0,.22);
+        }
+        .perks-panel.show { display:block; }
+        .perks-title { font-size:.75rem; color:var(--gold); text-transform:uppercase; letter-spacing:.1em; font-weight:800; margin-bottom:.8rem; }
+        .perks-panel ul { list-style:none; }
+        .perks-panel li {
+            padding:.5rem 0; padding-left:1.7rem; position:relative; font-size:.88rem; color:rgba(255,255,255,.85);
+            border-bottom:1px solid rgba(255,255,255,.05);
+        }
+        .perks-panel li:last-child { border-bottom:none; }
+        .perks-panel li::before { content:"✓"; position:absolute; left:0; color:var(--gold); font-weight:800; }
+
+        /* calendar row */
+        .date-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; }
+        @media (max-width:600px) { .date-grid { grid-template-columns:1fr; } }
+        .delivery-display {
+            padding:.95rem 1.2rem; background:rgba(255,255,255,.03); border:1.5px dashed rgba(255,140,0,.3);
+            border-radius:12px; font-size:.95rem; color:var(--bright-orange); font-weight:700; font-family:var(--mono);
+        }
+        .express-toggle {
+            margin-top:1rem; display:flex; align-items:flex-start; gap:.85rem; padding:1.1rem 1.3rem;
+            background:rgba(255,215,0,.04); border:1px solid rgba(255,215,0,.22); border-radius:14px; cursor:pointer;
+        }
+        .express-toggle input { margin-top:.2rem; width:18px; height:18px; accent-color:var(--gold); cursor:pointer; }
+        .express-toggle .et-txt strong { color:var(--gold); }
+        .express-toggle .et-txt { font-size:.85rem; color:rgba(255,255,255,.7); line-height:1.55; }
+
+        /* submit */
+        .submit-btn {
+            width:100%; padding:1.2rem; margin-top:1rem; border:none; border-radius:50px;
+            background:linear-gradient(135deg,var(--orange),var(--bright-orange)); color:#000;
+            font-weight:800; font-size:1.05rem; text-transform:uppercase; letter-spacing:.06em;
+            cursor:pointer; transition:all .35s cubic-bezier(.68,-.55,.265,1.55);
+            box-shadow:0 12px 35px rgba(255,140,0,.35);
+        }
+        .submit-btn:hover { transform:translateY(-4px) scale(1.02); box-shadow:0 20px 50px rgba(255,140,0,.55); }
+        .submit-btn:disabled { opacity:.5; cursor:not-allowed; transform:none; box-shadow:none; }
+        .form-note { font-size:.75rem; color:var(--muted); text-align:center; margin-top:.9rem; }
+
+        /* summary sidebar */
+        .summary-card { position:sticky; top:110px; }
+        .summary-title {
+            font-family:var(--disp); font-size:1.05rem; font-weight:800; color:#fff; margin-bottom:1.3rem;
+            display:flex; align-items:center; gap:.5rem;
+        }
+        .summary-row {
+            display:flex; justify-content:space-between; align-items:center; padding:.6rem 0;
+            border-bottom:1px solid rgba(255,255,255,.06); font-size:.85rem;
+        }
+        .summary-row .lbl { color:var(--muted); }
+        .summary-row .val { color:#fff; font-weight:600; text-align:right; max-width:60%; text-transform:capitalize; }
+        .summary-row.fee .val { color:var(--gold); }
+        .summary-total {
+            display:flex; justify-content:space-between; align-items:center; margin-top:1rem;
+            padding-top:1rem; border-top:2px solid rgba(255,215,0,.25);
+        }
+        .summary-total .lbl { font-size:.85rem; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; font-weight:700; }
+        .summary-total .val { font-family:var(--mono); font-size:2rem; font-weight:800; color:var(--gold); filter:drop-shadow(0 2px 12px rgba(255,215,0,.4)); }
+        .security-note {
+            margin-top:1.5rem; padding:1rem; border-radius:12px; background:rgba(66,165,245,.05);
+            border:1px solid rgba(66,165,245,.2); font-size:.75rem; color:rgba(255,255,255,.6); line-height:1.6;
+        }
+
+        footer { background:var(--deep-black); border-top:1px solid rgba(255,140,0,.15); padding:3rem 2rem; text-align:center; }
+        .footer-text { color:rgba(255,255,255,.5); font-size:.9rem; }
+        .footer-text a { color:rgba(255,255,255,.38); font-size:.88rem; }
+
+        @media (max-width:980px) {
+            .book-wrap { grid-template-columns:1fr; }
+            .summary-card { position:static; }
+        }
+        @media (max-width:768px) {
+            .menu-toggle { display:block; }
+            .nav-links {
+                position:absolute; top:100%; left:0; right:0; background:rgba(0,0,0,.98);
+                flex-direction:column; padding:2rem; gap:1.5rem; transform:translateY(-100%);
+                opacity:0; transition:all .3s; pointer-events:none;
+            }
+            .nav-links.active { transform:translateY(0); opacity:1; pointer-events:all; }
+            .glass-card { padding:1.4rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-particles" id="particlesContainer"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo"><span class="logo-text">CG PIXELS</span></a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="services.html">Pricing</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="book.html" class="active">Book Us</a></li>
+                <a href="cgbaby-nomination.html" class="active nav-cgbaby">
+                    <svg width="15" height="15" viewBox="0 0 24 24">
+                        <path d="M19 5h-2V3H7v2H5C3.9 5 3 5.9 3 7v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0011 15.9V18H7v2h10v-2h-4v-2.1a5.01 5.01 0 003.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.86 10.4 5 9.3 5 8zm14 0c0 1.3-.86 2.4-2 2.82V7h2v1z"/>
+                    </svg>
+                    CG Champ
+                </a>
+            </li>
+            <li><a href="cgbaby-voting.html">Login</a></li>
+            </ul>
+            <button class="menu-toggle" id="menuToggle">☰</button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <div class="book-hero">
+        <div class="floating-orb orb1"></div>
+        <div class="floating-orb orb2"></div>
+        <div class="hero-content">
+            <div class="hero-badge">✨ Reserve Your Session</div>
+            <h1 class="page-title">Book Your Shoot</h1>
+            <div class="typed-line"><span id="typedText"></span><span class="typed-cursor">&nbsp;</span></div>
+            <p class="hero-sub">Fill the form below, pick your package, and secure your slot in minutes. Your session, your terms — crafted with precision.</p>
+        </div>
+    </div>
+
+    <!-- BOOKING FORM -->
+    <div class="book-wrap" id="bookWrap">
+        <form class="glass-card" id="bookForm" data-aos="fade-up" data-aos-duration="700">
+
+            <!-- 1. Contact -->
+            <div class="form-section">
+                <div class="form-section-title"><span class="num">1</span>Your Details</div>
+
+                <div class="f-group" data-field="fullName">
+                    <label>Full Name <span class="req">*</span>
+                        <svg class="f-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12"/><path d="M7 12.5l3 3 7-7" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </label>
+                    <input type="text" class="f-input" id="fullName" placeholder="e.g. Adaeze Okafor" autocomplete="name" required>
+                </div>
+
+                <div class="f-group" data-field="contact">
+                    <label>Phone Number / Email Address <span class="req">*</span>
+                        <svg class="f-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12"/><path d="M7 12.5l3 3 7-7" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </label>
+                    <input type="text" class="f-input" id="contact" placeholder="080XXXXXXXX or you@email.com" required>
+                </div>
+            </div>
+
+            <!-- 2. Session For -->
+            <div class="form-section">
+                <div class="form-section-title"><span class="num">2</span>Who's This Session For?</div>
+                <div class="f-group" data-field="sessionFor">
+                    <div class="pill-row" id="sessionForRow">
+                        <div class="pill" data-value="child">Child</div>
+                        <div class="pill" data-value="adult">Adult</div>
+                        <div class="pill" data-value="family">Family</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Service Type -->
+            <div class="form-section">
+                <div class="form-section-title"><span class="num">3</span>Service Type</div>
+                <div class="f-group" data-field="serviceType">
+                    <div class="pill-row" id="serviceTypeRow">
+                        <div class="pill" data-value="Studio Session">Studio Session</div>
+                        <div class="pill" data-value="Home Service">Home Service</div>
+                        <div class="pill" data-value="Event">Event</div>
+                        <div class="pill" data-value="Wedding">Wedding</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Package -->
+            <div class="form-section">
+                <div class="form-section-title"><span class="num">4</span>Photography Package</div>
+                <div class="f-group" data-field="package">
+                    <div class="pkg-grid" id="pkgGrid"></div>
+                    <div class="perks-panel" id="perksPanel">
+                        <div class="perks-title">What's Included</div>
+                        <ul id="perksList"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Calendar -->
+            <div class="form-section">
+                <div class="form-section-title"><span class="num">5</span>Smart Booking Calendar</div>
+                <div class="date-grid">
+                    <div class="f-group" data-field="bookingDate">
+                        <label>Preferred Booking Date <span class="req">*</span>
+                            <svg class="f-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12"/><path d="M7 12.5l3 3 7-7" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </label>
+                        <input type="date" class="f-input" id="bookingDate" required>
+                    </div>
+                    <div class="f-group valid" data-field="deliveryDate">
+                        <label>Expected Delivery Date</label>
+                        <div class="delivery-display" id="deliveryDisplay">Select a booking date first</div>
+                    </div>
+                </div>
+                <label class="express-toggle" for="expressCheck">
+                    <input type="checkbox" id="expressCheck">
+                    <div class="et-txt">
+                        Our standard turnaround is <strong>3 working days</strong>. Need it same day?
+                        <strong>Add Express Delivery for +₦5,000</strong> and get your edited pictures the same day as your session.
+                    </div>
+                </label>
+            </div>
+
+            <!-- 6. Notes -->
+            <div class="form-section">
+                <div class="form-section-title"><span class="num">6</span>Additional Notes</div>
+                <div class="f-group" data-field="notes">
+                    <label>Special Requests <span style="color:var(--muted);text-transform:none;font-weight:400">(optional)</span></label>
+                    <textarea class="f-input" id="notes" placeholder="Anything else we should know? Theme, outfit changes, location details, etc."></textarea>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">Proceed to Payment</button>
+            <div class="form-note">🔒 Payments are securely processed by Flutterwave. You'll get a dedicated account number to transfer into.</div>
+        </form>
+
+        <!-- Summary Sidebar -->
+        <div class="glass-card summary-card" data-aos="fade-up" data-aos-duration="700" data-aos-delay="150">
+            <div class="summary-title">🧾 Booking Summary</div>
+            <div class="summary-row"><span class="lbl">Client</span><span class="val" id="sumName">—</span></div>
+            <div class="summary-row"><span class="lbl">Session For</span><span class="val" id="sumFor">—</span></div>
+            <div class="summary-row"><span class="lbl">Service Type</span><span class="val" id="sumService">—</span></div>
+            <div class="summary-row"><span class="lbl">Package</span><span class="val" id="sumPkg">—</span></div>
+            <div class="summary-row"><span class="lbl">Session Date</span><span class="val" id="sumDate">—</span></div>
+            <div class="summary-row"><span class="lbl">Delivery Date</span><span class="val" id="sumDelivery">—</span></div>
+            <div class="summary-row fee" id="sumExpressRow" style="display:none"><span class="lbl">Express Delivery</span><span class="val">+₦5,000</span></div>
+            <div class="summary-total"><span class="lbl">Total</span><span class="val" id="sumTotal">₦0</span></div>
+            <div class="security-note">💳 Once you submit, we'll generate a dedicated bank account for you to transfer the amount above into. Your slot is held while payment is verified.</div>
+        </div>
+    </div>
+
+    <footer>
+        <p class="footer-text">© 2026 CGPIXELS. All rights reserved. | Capturing Reality, Sculpting Light
+             <br/>
+             <a href="Legal.html">Terms & Conditions</a> ·
+             <a href="Legal.html#refund">Refund Policy</a> ·
+             <a href="Legal.html#privacy">Privacy Policy</a>
+        </p>
+    </footer>
+
+    <!-- LIBRARIES -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+    <script>
+        AOS.init({ duration:700, easing:'ease-out-cubic', once:true });
+
+        window.addEventListener('scroll', () => {
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+        });
+        document.getElementById('menuToggle').addEventListener('click', () => {
+            document.getElementById('navLinks').classList.toggle('active');
+        });
+        document.addEventListener('click', (e) => {
+            const nav = document.getElementById('navLinks');
+            const toggle = document.getElementById('menuToggle');
+            if (nav.classList.contains('active') && !nav.contains(e.target) && !toggle.contains(e.target)) {
+                nav.classList.remove('active');
+            }
+        });
+
+        (function createParticles() {
+            const container = document.getElementById('particlesContainer');
+            for (let i = 0; i < 26; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle-dot';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDelay = Math.random() * 8 + 's';
+                p.style.animationDuration = (8 + Math.random() * 4) + 's';
+                container.appendChild(p);
+            }
+        })();
+
+        /* GSAP intro */
+        gsap.from('.hero-badge', { opacity:0, y:-20, duration:.8, ease:'power3.out' });
+        gsap.from('.page-title', { opacity:0, y:-35, duration:1, delay:.15, ease:'power3.out' });
+        gsap.from('.hero-sub', { opacity:0, y:20, duration:.9, delay:.5, ease:'power3.out' });
+
+        /* Typing animation */
+        const typedPhrases = ["Studio Sessions.", "Home Photoshoots.", "Weddings & Events.", "Family Portraits."];
+        const typedEl = document.getElementById('typedText');
+        let tpIndex = 0, tpChar = 0, tpDeleting = false;
+        function typeLoop() {
+            const phrase = typedPhrases[tpIndex];
+            if (!tpDeleting) {
+                tpChar++;
+                typedEl.textContent = phrase.slice(0, tpChar);
+                if (tpChar === phrase.length) { tpDeleting = true; setTimeout(typeLoop, 1400); return; }
+            } else {
+                tpChar--;
+                typedEl.textContent = phrase.slice(0, tpChar);
+                if (tpChar === 0) { tpDeleting = false; tpIndex = (tpIndex + 1) % typedPhrases.length; }
+            }
+            setTimeout(typeLoop, tpDeleting ? 40 : 80);
+        }
+        typeLoop();
+
+        /* ══════════════ PACKAGES ══════════════ */
+        const PACKAGES = {
+            regular: { label:"Regular", price:3000, note:"Pay-per-picture — final total settles on session day.", features:["₦3,000 per edited picture","Minimum of 2 pictures in one outfit (₦6,000)","₦4,000 per group picture","₦1,500 per raw picture"] },
+            bronze:  { label:"Bronze",  price:25000, features:["1–2 Outfits","5 Edited pictures","Access to all raw photos","Bonus: Complimentary flyer design"] },
+            silver:  { label:"Silver",  price:40000, features:["2–3 Outfits","10 Edited pictures","Access to all raw photos","Bonus: Complimentary flyer design"] },
+            gold:    { label:"Gold",    price:70000, features:["3–5 Outfits","15 Edited pictures","Access to all raw photos","Bonus: Complimentary flyer design"] },
+        };
+
+        const pkgGrid = document.getElementById('pkgGrid');
+        Object.keys(PACKAGES).forEach(key => {
+            const p = PACKAGES[key];
+            const card = document.createElement('div');
+            card.className = 'pkg-card';
+            card.dataset.pkg = key;
+            card.innerHTML = `<div class="pkg-name">${p.label}</div><div class="pkg-price">₦${p.price.toLocaleString()}<span>${key === 'regular' ? '/picture' : ' starting'}</span></div>`;
+            card.addEventListener('click', () => selectPackage(key));
+            pkgGrid.appendChild(card);
+        });
+
+        /* ══════════════ STATE ══════════════ */
+        const state = { sessionFor:null, serviceType:null, package:null, express:false, bookingDate:null, deliveryDate:null };
+
+        function markValid(field, valid) {
+            const grp = document.querySelector(`[data-field="${field}"]`);
+            if (grp) grp.classList.toggle('valid', valid);
+        }
+
+        function selectPackage(key) {
+            state.package = key;
+            document.querySelectorAll('.pkg-card').forEach(c => c.classList.toggle('selected', c.dataset.pkg === key));
+            const p = PACKAGES[key];
+            document.getElementById('perksList').innerHTML = p.features.map(f => `<li>${f}</li>`).join('') + (p.note ? `<li style="color:var(--muted);font-style:italic">${p.note}</li>` : '');
+            document.getElementById('perksPanel').classList.add('show');
+            markValid('package', true);
+            recalcDelivery();
+        }
+
+        function bindPillRow(rowId, field) {
+            const row = document.getElementById(rowId);
+            row.querySelectorAll('.pill').forEach(pill => {
+                pill.addEventListener('click', () => {
+                    row.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+                    pill.classList.add('active');
+                    state[field] = pill.dataset.value;
+                    markValid(field, true);
+                    updateSummary();
+                });
+            });
+        }
+        bindPillRow('sessionForRow', 'sessionFor');
+        bindPillRow('serviceTypeRow', 'serviceType');
+
+        /* ══════════════ VALIDATION on text fields ══════════════ */
+        const fullNameEl = document.getElementById('fullName');
+        const contactEl = document.getElementById('contact');
+        fullNameEl.addEventListener('input', () => {
+            markValid('fullName', fullNameEl.value.trim().length >= 3);
+            updateSummary();
+        });
+        function isValidContact(v) {
+            const email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const phone = /^[0-9+\-\s()]{7,}$/;
+            return email.test(v.trim()) || phone.test(v.trim());
+        }
+        contactEl.addEventListener('input', () => {
+            markValid('contact', isValidContact(contactEl.value));
+        });
+
+        /* ══════════════ SMART CALENDAR ══════════════ */
+        const bookingDateEl = document.getElementById('bookingDate');
+        const expressCheck = document.getElementById('expressCheck');
+        const deliveryDisplay = document.getElementById('deliveryDisplay');
+
+        (function setMinDate() {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            bookingDateEl.min = tomorrow.toISOString().slice(0, 10);
+        })();
+
+        function addWorkingDays(date, days) {
+            const d = new Date(date);
+            let added = 0;
+            while (added < days) {
+                d.setDate(d.getDate() + 1);
+                const day = d.getDay();
+                if (day !== 0 && day !== 6) added++;
+            }
+            return d;
+        }
+        function fmtDate(d) {
+            if (!d) return '—';
+            return d.toLocaleDateString('en-NG', { weekday:'short', day:'2-digit', month:'short', year:'numeric' });
+        }
+
+        function recalcDelivery() {
+            if (!bookingDateEl.value) return;
+            const bd = new Date(bookingDateEl.value + 'T00:00:00');
+            state.bookingDate = bd;
+            state.deliveryDate = state.express ? bd : addWorkingDays(bd, 3);
+            deliveryDisplay.textContent = fmtDate(state.deliveryDate) + (state.express ? ' ⚡ Same-day' : '');
+            markValid('bookingDate', true);
+            updateSummary();
+        }
+        bookingDateEl.addEventListener('change', recalcDelivery);
+        expressCheck.addEventListener('change', () => {
+            state.express = expressCheck.checked;
+            recalcDelivery();
+        });
+
+        /* ══════════════ SUMMARY + TOTAL ══════════════ */
+        function calcTotal() {
+            const base = state.package ? PACKAGES[state.package].price : 0;
+            return base + (state.express ? 5000 : 0);
+        }
+        function updateSummary() {
+            document.getElementById('sumName').textContent = fullNameEl.value.trim() || '—';
+            document.getElementById('sumFor').textContent = state.sessionFor || '—';
+            document.getElementById('sumService').textContent = state.serviceType || '—';
+            document.getElementById('sumPkg').textContent = state.package ? PACKAGES[state.package].label : '—';
+            document.getElementById('sumDate').textContent = fmtDate(state.bookingDate);
+            document.getElementById('sumDelivery').textContent = fmtDate(state.deliveryDate);
+            document.getElementById('sumExpressRow').style.display = state.express ? 'flex' : 'none';
+            document.getElementById('sumTotal').textContent = `₦${calcTotal().toLocaleString()}`;
+        }
+
+        /* ══════════════ FORMSPREE (backup email notification) ══════════════ */
+        const FORMSPREE_ENDPOINT = "https://formspree.io/f/xkgdzroe";
+        function notifyFormspree(data) {
+            fetch(FORMSPREE_ENDPOINT, {
+                method: "POST",
+                headers: { "Content-Type": "application/json", Accept: "application/json" },
+                body: JSON.stringify(data)
+            }).catch(() => { /* non-blocking — booking still saved on the server either way */ });
+        }
+
+        function validateAll() {
+            let ok = true;
+            if (fullNameEl.value.trim().length < 3) { markValid('fullName', false); ok = false; }
+            if (!isValidContact(contactEl.value)) { markValid('contact', false); ok = false; }
+            if (!state.sessionFor) ok = false;
+            if (!state.serviceType) ok = false;
+            if (!state.package) ok = false;
+            if (!bookingDateEl.value) { markValid('bookingDate', false); ok = false; }
+            return ok;
+        }
+
+        /* ══════════════ SUBMIT → create virtual account on the server ══════════════ */
+        const submitBtn = document.getElementById('submitBtn');
+        document.getElementById('bookForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!validateAll()) {
+                submitBtn.textContent = 'Please complete all required fields';
+                setTimeout(() => submitBtn.textContent = 'Proceed to Payment', 2200);
+                return;
+            }
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Generating your payment account…';
+
+            const bookingPayload = {
+                fullName: fullNameEl.value.trim(),
+                contact: contactEl.value.trim(),
+                sessionFor: state.sessionFor,
+                serviceType: state.serviceType,
+                package: state.package,
+                bookingDate: state.bookingDate.toISOString(),
+                deliveryDate: state.deliveryDate.toISOString(),
+                express: state.express,
+                notes: document.getElementById('notes').value.trim(),
+            };
+
+            notifyFormspree({
+                ...bookingPayload,
+                packageLabel: PACKAGES[state.package].label,
+                bookingDate: fmtDate(state.bookingDate),
+                deliveryDate: fmtDate(state.deliveryDate),
+                amount: calcTotal(),
+            });
+
+            try {
+                const res = await fetch('/api/create-booking-account', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(bookingPayload),
+                });
+                const data = await res.json();
+                if (!res.ok || !data.success) {
+                    throw new Error(data.error || 'Could not create payment account');
+                }
+
+                /* hand off to the bank-transfer holding page */
+                const qp = new URLSearchParams({
+                    ref: data.txRef,
+                    acct: data.accountNumber,
+                    bank: data.bankName,
+                    name: data.accountName,
+                    amt: data.amount,
+                    exp: data.expiresAt,
+                    cname: bookingPayload.fullName,
+                    contact: bookingPayload.contact,
+                    sfor: bookingPayload.sessionFor,
+                    stype: bookingPayload.serviceType,
+                    pkglabel: PACKAGES[state.package].label,
+                    bdate: fmtDate(state.bookingDate),
+                    ddate: fmtDate(state.deliveryDate),
+                    express: bookingPayload.express ? '1' : '0',
+                });
+                window.location.href = `book-pay.html?${qp.toString()}`;
+            } catch (err) {
+                console.error(err);
+                submitBtn.textContent = 'Something went wrong — try again';
+                submitBtn.disabled = false;
+                setTimeout(() => submitBtn.textContent = 'Proceed to Payment', 2600);
+            }
+        });
+    </script>
+</body>
+</html>

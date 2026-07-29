@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Booking Confirmed · CG Pixels</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --black:#000; --deep-black:#0a0a0a;
+      --orange:#ff8c00; --bright-orange:#ffa500;
+      --gold:#ffd700; --green:#00e676;
+      --muted:rgba(255,255,255,.5);
+      --sf:-apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+      --disp:'Space Grotesk', sans-serif;
+      --mono:'JetBrains Mono', monospace;
+    }
+    body {
+      font-family:var(--sf); background:var(--black); color:#fff; min-height:100vh;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      padding:2.5rem 1rem; line-height:1.6;
+      background-image:
+        radial-gradient(ellipse 60% 50% at 20% 10%, rgba(255,140,0,.08) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 85% 90%, rgba(255,215,0,.05) 0%, transparent 60%);
+    }
+    .success-badge {
+      width:64px; height:64px; border-radius:50%; margin-bottom:1.3rem;
+      background:rgba(0,230,118,.1); border:2px solid var(--green);
+      display:flex; align-items:center; justify-content:center; font-size:2rem;
+      box-shadow:0 0 30px rgba(0,230,118,.3);
+    }
+    .success-title { font-family:var(--disp); font-size:1.6rem; font-weight:800; margin-bottom:.4rem; text-align:center; }
+    .success-sub { color:var(--muted); font-size:.9rem; text-align:center; margin-bottom:2rem; max-width:420px; }
+
+    .receipt-card {
+      width:100%; max-width:560px;
+      background:linear-gradient(180deg,#0f0f10,#0a0a0a); border:1.5px solid rgba(255,215,0,.3);
+      border-radius:26px; padding:2.2rem; position:relative; overflow:hidden;
+    }
+    .receipt-card::before {
+      content:""; position:absolute; top:0; left:0; right:0; height:4px;
+      background:linear-gradient(90deg,var(--gold),var(--orange),var(--bright-orange),var(--gold));
+      background-size:300% 100%; animation:shimmer 4s linear infinite;
+    }
+    @keyframes shimmer { 0% { background-position:-300% 0; } 100% { background-position:300% 0; } }
+    .receipt-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1.8rem; flex-wrap:wrap; gap:1rem; }
+    .receipt-brand { font-family:var(--disp); font-size:1.25rem; font-weight:800; color:var(--orange); }
+    .receipt-status {
+      display:inline-flex; align-items:center; gap:.4rem; padding:.4rem 1rem; border-radius:50px;
+      background:rgba(0,230,118,.1); border:1px solid rgba(0,230,118,.35); color:var(--green);
+      font-size:.72rem; font-weight:800; text-transform:uppercase; letter-spacing:.08em;
+    }
+    .receipt-ref { font-family:var(--mono); font-size:.78rem; color:var(--muted); margin-top:.4rem; }
+    .receipt-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.4rem 2rem; margin-bottom:1.6rem; }
+    @media (max-width:520px) { .receipt-grid { grid-template-columns:1fr; } }
+    .r-item .r-lbl { font-size:.66rem; color:var(--muted); text-transform:uppercase; letter-spacing:.09em; margin-bottom:.3rem; }
+    .r-item .r-val { font-size:.95rem; font-weight:700; color:#fff; }
+    .receipt-divider { height:1px; background:rgba(255,255,255,.08); margin:1.4rem 0; }
+    .receipt-total-row { display:flex; justify-content:space-between; align-items:center; }
+    .receipt-total-row .lbl { font-size:.85rem; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; font-weight:700; }
+    .receipt-total-row .val { font-family:var(--mono); font-size:2.1rem; font-weight:800; color:var(--gold); }
+
+    .receipt-actions { width:100%; max-width:560px; display:flex; gap:.9rem; margin-top:1.6rem; flex-wrap:wrap; }
+    .r-btn {
+      flex:1; min-width:160px; padding:.95rem; border-radius:50px; text-align:center; font-weight:700;
+      font-size:.85rem; cursor:pointer; transition:all .3s; border:1.5px solid var(--orange); color:var(--orange);
+      background:rgba(255,140,0,.08); text-transform:uppercase; letter-spacing:.04em;
+    }
+    .r-btn.primary { background:linear-gradient(135deg,var(--orange),var(--bright-orange)); color:#000; border:none; }
+    .r-btn:hover { transform:translateY(-3px); box-shadow:0 12px 30px rgba(255,140,0,.3); }
+  </style>
+</head>
+<body>
+  <div class="success-badge">✓</div>
+  <div class="success-title">Booking Confirmed!</div>
+  <div class="success-sub">Your payment landed and your session is locked in. Save your receipt below.</div>
+
+  <div class="receipt-card" id="receiptCard">
+    <div class="receipt-top">
+      <div>
+        <div class="receipt-brand">CG PIXELS</div>
+        <div class="receipt-ref">Ref: <span id="rcRef">—</span></div>
+      </div>
+      <div class="receipt-status">✓ Payment Received</div>
+    </div>
+    <div class="receipt-grid">
+      <div class="r-item"><div class="r-lbl">Client Name</div><div class="r-val" id="rcName">—</div></div>
+      <div class="r-item"><div class="r-lbl">Contact</div><div class="r-val" id="rcContact">—</div></div>
+      <div class="r-item"><div class="r-lbl">Service Type</div><div class="r-val" id="rcService">—</div></div>
+      <div class="r-item"><div class="r-lbl">Package</div><div class="r-val" id="rcPkg">—</div></div>
+      <div class="r-item"><div class="r-lbl">Express Delivery</div><div class="r-val" id="rcExpress">—</div></div>
+      <div class="r-item"><div class="r-lbl">Session Date</div><div class="r-val" id="rcDate">—</div></div>
+      <div class="r-item"><div class="r-lbl">Delivery Date</div><div class="r-val" id="rcDelivery">—</div></div>
+    </div>
+    <div class="receipt-divider"></div>
+    <div class="receipt-total-row"><span class="lbl">Amount Paid</span><span class="val" id="rcTotal">₦0</span></div>
+  </div>
+
+  <div class="receipt-actions">
+    <div class="r-btn primary" id="btnDownloadImg">⬇ Download as Image</div>
+    <div class="r-btn" id="btnDownloadPdf">⬇ Download as PDF</div>
+    <div class="r-btn" id="btnHome">🏠 Back to Site</div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const ref      = params.get('ref') || '—';
+    const amt      = parseInt(params.get('amt') || '0');
+    const cname    = params.get('cname') || '—';
+    const contact  = params.get('contact') || '—';
+    const stype    = params.get('stype') || '—';
+    const pkglabel = params.get('pkglabel') || '—';
+    const bdate    = params.get('bdate') || '—';
+    const ddate    = params.get('ddate') || '—';
+    const express  = params.get('express') === '1';
+
+    document.getElementById('rcRef').textContent = ref;
+    document.getElementById('rcName').textContent = cname;
+    document.getElementById('rcContact').textContent = contact;
+    document.getElementById('rcService').textContent = stype;
+    document.getElementById('rcPkg').textContent = pkglabel;
+    document.getElementById('rcExpress').textContent = express ? 'Yes (+₦5,000)' : 'No — standard 3 working days';
+    document.getElementById('rcDate').textContent = bdate;
+    document.getElementById('rcDelivery').textContent = ddate;
+    document.getElementById('rcTotal').textContent = `₦${amt.toLocaleString()}`;
+
+    document.getElementById('btnDownloadImg').addEventListener('click', () => {
+      html2canvas(document.getElementById('receiptCard'), { backgroundColor:'#0a0a0a', scale:2 }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = `CGPixels-Receipt-${ref}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+    });
+
+    document.getElementById('btnDownloadPdf').addEventListener('click', () => {
+      html2canvas(document.getElementById('receiptCard'), { backgroundColor:'#0a0a0a', scale:2 }).then(canvas => {
+        const { jsPDF } = window.jspdf;
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF({ orientation:'portrait', unit:'px', format:[canvas.width, canvas.height] });
+        pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+        pdf.save(`CGPixels-Receipt-${ref}.pdf`);
+      });
+    });
+
+    document.getElementById('btnHome').addEventListener('click', () => {
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>

@@ -1877,6 +1877,20 @@
           /></svg
         >Leaderboard
       </button>
+      <div class="mob-drawer-section">Studio Bookings</div>
+      <button
+        class="nav-item"
+        data-panel="bookings"
+        onclick="
+          navTo('bookings');
+          closeDrawer();
+        "
+      >
+        <svg width="17" height="17" viewBox="0 0 24 24">
+          <path d="M18 3v2h-2V3H8v2H6V3H4v18h2v-2h2v2h8v-2h2v2h2V3h-2z" /></svg
+        >Bookings
+        <span class="nbadge" id="drawerBookBadge" style="display: none">0</span>
+      </button>
       <div class="mob-drawer-section">Users & Money</div>
       <button
         class="nav-item"
@@ -2002,6 +2016,13 @@
               d="M7.5 21H2V9h5.5v12zm7.25-18h-5.5v18h5.5V3zM22 11h-5.5v10H22V11z"
             /></svg
           >Leaderboard
+        </button>
+        <div class="sb-section">Studio Bookings</div>
+        <button class="nav-item" data-panel="bookings">
+          <svg width="17" height="17" viewBox="0 0 24 24">
+            <path d="M18 3v2h-2V3H8v2H6V3H4v18h2v-2h2v2h8v-2h2v2h2V3h-2z" /></svg
+          >Bookings
+          <span class="nbadge" id="pendBookBadge" style="display: none">0</span>
         </button>
         <div class="sb-section">Users & Money</div>
         <button class="nav-item" data-panel="payments">
@@ -2528,7 +2549,124 @@
             </table>
           </div>
         </div>
+        <!-- BOOKINGS -->
+        <div class="panel" id="panel-bookings">
+          <div class="stats-row">
+            <div class="sc or">
+              <div class="sc-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24">
+                  <path d="M18 3v2h-2V3H8v2H6V3H4v18h2v-2h2v2h8v-2h2v2h2V3h-2z" />
+                </svg>
+              </div>
+              <div class="sc-val" id="bTot">—</div>
+              <div class="sc-lbl">Total Bookings</div>
+              <div class="sc-sub" id="bPend">— awaiting action</div>
+            </div>
+            <div class="sc gn">
+              <div class="sc-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24">
+                  <path
+                    d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"
+                  />
+                </svg>
+              </div>
+              <div class="sc-val" id="bConf">—</div>
+              <div class="sc-lbl">Confirmed</div>
+              <div class="sc-sub">Payment verified</div>
+            </div>
+            <div class="sc gd">
+              <div class="sc-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24">
+                  <path
+                    d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"
+                  />
+                </svg>
+              </div>
+              <div class="sc-val" id="bRev">₦0</div>
+              <div class="sc-lbl">Bookings Revenue</div>
+              <div class="sc-sub">Confirmed payments only</div>
+            </div>
+            <div class="sc rd">
+              <div class="sc-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+                </svg>
+              </div>
+              <div class="sc-val" id="bAwait">—</div>
+              <div class="sc-lbl">Amount Mismatch</div>
+              <div class="sc-sub">Needs manual review</div>
+            </div>
+          </div>
+          <div class="tbl-card">
+            <div class="tbl-head">
+              <div class="tbl-head-title">
+                <svg width="15" height="15" viewBox="0 0 24 24">
+                  <path d="M18 3v2h-2V3H8v2H6V3H4v18h2v-2h2v2h8v-2h2v2h2V3h-2z" />
+                </svg>
+                Studio Bookings
+              </div>
+              <div class="tbl-controls">
+                <input
+                  class="srch"
+                  id="bookSrch"
+                  type="text"
+                  placeholder="Search by name…"
+                />
+                <select class="fsel" id="bookFlt">
+                  <option value="all">All Status</option>
+                  <option value="pending">Awaiting Transfer</option>
+                  <option value="paid">Paid</option>
+                  <option value="amount_mismatch">Amount Mismatch</option>
+                  <option value="rejected">Rejected</option>
+                </select>
+              </div>
+            </div>
+            <table class="desktop-table">
+              <thead>
+                <tr>
+                  <th>Customer</th>
+                  <th>For</th>
+                  <th>Service</th>
+                  <th>Package</th>
+                  <th>Session Date</th>
+                  <th>Delivery</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="bookBody"></tbody>
+            </table>
+            <div class="mob-cards" id="bookBodyMob" style="padding: 0.75rem"></div>
+          </div>
+        </div>
       </main>
+
+      <!-- BOOKING DETAILS MODAL -->
+      <div class="mo" id="bkMo">
+        <div class="mo-box" style="max-width: 520px">
+          <div class="mo-info" style="padding-top: 1.6rem">
+            <div class="mo-name" id="bkMoName"></div>
+            <div class="mo-meta" id="bkMoMeta"></div>
+            <div class="mo-desc" id="bkMoNotes"></div>
+          </div>
+          <div class="mo-actions">
+            <button class="abtn gd" id="bkMoAppr">
+              <svg width="12" height="12" viewBox="0 0 24 24">
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" /></svg
+              >Confirm Payment
+            </button>
+            <button class="abtn rej" id="bkMoRej">
+              <svg width="12" height="12" viewBox="0 0 24 24">
+                <path
+                  d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"
+                /></svg
+              >Reject
+            </button>
+            <button class="mo-close" onclick="closeBkMo()">Close</button>
+          </div>
+        </div>
+      </div>
 
       <!-- BOTTOM TAB BAR -->
       <nav class="bottom-bar">
@@ -2636,7 +2774,9 @@
       let allNoms = [],
         allUsers = [],
         allPayments = [],
-        modalNomId = null;
+        allBookings = [],
+        modalNomId = null,
+        modalBookId = null;
 
       /* ── LOGIN ── */
       const SESSION_KEY = "cgadmin_s";
@@ -2689,6 +2829,7 @@
         payments: "Payments",
         users: "Registered Users",
         phases: "Phase Control",
+        bookings: "Studio Bookings",
       };
 
       window.navTo = (pId) => {
@@ -2849,7 +2990,53 @@
           renderPayMob();
         });
 
+        onSnapshot(collection(db, "bookings"), (snap) => {
+          allBookings = [];
+          snap.forEach((d) => allBookings.push({ id: d.id, ...d.data() }));
+          allBookings.sort((a, b) => {
+            const ta = a.createdAt?.toDate ? a.createdAt.toDate().getTime() : 0;
+            const tb = b.createdAt?.toDate ? b.createdAt.toDate().getTime() : 0;
+            return tb - ta;
+          });
+
+          const pending = allBookings.filter(
+            (b) => b.status === "pending" || b.status === "amount_mismatch",
+          ).length;
+          const confirmed = allBookings.filter((b) => b.status === "paid");
+          const awaiting = allBookings.filter(
+            (b) => b.status === "amount_mismatch",
+          ).length;
+          const revenue = confirmed.reduce((s, b) => s + (b.amount || 0), 0);
+
+          document.getElementById("bTot").textContent = allBookings.length;
+          document.getElementById("bPend").textContent =
+            `${pending} awaiting action`;
+          document.getElementById("bConf").textContent = confirmed.length;
+          document.getElementById("bRev").textContent =
+            `₦${revenue.toLocaleString()}`;
+          document.getElementById("bAwait").textContent = awaiting;
+
+          ["pendBookBadge", "drawerBookBadge"].forEach((id) => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.textContent = pending;
+            el.style.display = pending > 0 ? "inline-block" : "none";
+          });
+
+          renderBookingsTable();
+          renderBookingsMob();
+        });
+
         loadPhaseConfig();
+
+        document.getElementById("bookSrch")?.addEventListener("input", () => {
+          renderBookingsTable();
+          renderBookingsMob();
+        });
+        document.getElementById("bookFlt")?.addEventListener("change", () => {
+          renderBookingsTable();
+          renderBookingsMob();
+        });
 
         document.getElementById("nomSrch").addEventListener("input", () => {
           renderNomTable();
@@ -3325,6 +3512,170 @@
           )
           .join("");
       }
+
+      /* ── BOOKINGS ── */
+      const bkStatusBadge = (s) => {
+        if (s === "paid")
+          return `<span class="badge appr"><div class="bd"></div>Paid</span>`;
+        if (s === "rejected")
+          return `<span class="badge rej"><div class="bd"></div>Rejected</span>`;
+        if (s === "amount_mismatch")
+          return `<span class="badge conf"><div class="bd"></div>Amount Mismatch</span>`;
+        return `<span class="badge pend"><div class="bd"></div>Awaiting Transfer</span>`;
+      };
+      const bkFmtDate = (v) => {
+        if (!v) return "—";
+        try {
+          const d = v.toDate ? v.toDate() : new Date(v);
+          return d.toLocaleDateString("en-NG", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+          });
+        } catch {
+          return "—";
+        }
+      };
+      const bkFilterData = () => {
+        const search = (
+          document.getElementById("bookSrch")?.value || ""
+        ).toLowerCase();
+        const filter = document.getElementById("bookFlt")?.value || "all";
+        let data = allBookings;
+        if (search)
+          data = data.filter(
+            (b) =>
+              b.fullName?.toLowerCase().includes(search) ||
+              b.contact?.toLowerCase().includes(search),
+          );
+        if (filter !== "all") data = data.filter((b) => b.status === filter);
+        return data;
+      };
+      const bkActions = (b) => {
+        if (b.status === "paid") {
+          return `<button class="abtn view" onclick="openBkMo('${b.id}')">View</button>
+            <button class="abtn rej" onclick="rejectBooking('${b.id}')">Revoke</button>`;
+        }
+        if (b.status === "rejected") {
+          return `<button class="abtn view" onclick="openBkMo('${b.id}')">View</button>
+            <button class="abtn gd" onclick="confirmBooking('${b.id}')">Mark Paid</button>`;
+        }
+        return `<button class="abtn view" onclick="openBkMo('${b.id}')">View</button>
+          <button class="abtn gd" onclick="confirmBooking('${b.id}')"><svg width="11" height="11" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>Mark Paid</button>
+          <button class="abtn rej" onclick="rejectBooking('${b.id}')"><svg width="11" height="11" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>Reject</button>`;
+      };
+
+      function renderBookingsTable() {
+        const tbody = document.getElementById("bookBody");
+        const data = bkFilterData();
+        if (!data.length) {
+          tbody.innerHTML = `<tr class="erow"><td colspan="9"><div class="eico"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M18 3v2h-2V3H8v2H6V3H4v18h2v-2h2v2h8v-2h2v2h2V3h-2z"/></svg></div>No bookings found.</td></tr>`;
+          return;
+        }
+        tbody.innerHTML = data
+          .map(
+            (b) => `
+    <tr>
+      <td><div class="nm">${b.fullName || "—"}</div><div class="nm-sub">${b.contact || ""}</div></td>
+      <td style="color:var(--muted);font-size:.82rem;text-transform:capitalize">${b.sessionFor || "—"}</td>
+      <td style="color:var(--muted);font-size:.82rem">${b.serviceType || "—"}</td>
+      <td style="color:var(--bright);font-weight:700;font-size:.82rem;text-transform:capitalize">${b.package || "—"}</td>
+      <td style="color:var(--muted);font-size:.78rem">${bkFmtDate(b.bookingDate)}</td>
+      <td style="color:var(--muted);font-size:.78rem">${bkFmtDate(b.deliveryDate)}${b.express ? ' <span style="color:var(--gold)">⚡</span>' : ""}</td>
+      <td style="color:var(--gold);font-weight:800">₦${(b.amount || 0).toLocaleString()}</td>
+      <td>${bkStatusBadge(b.status)}</td>
+      <td><div class="arow">${bkActions(b)}</div></td>
+    </tr>`,
+          )
+          .join("");
+      }
+
+      function renderBookingsMob() {
+        const wrap = document.getElementById("bookBodyMob");
+        const data = bkFilterData();
+        if (!data.length) {
+          wrap.innerHTML = `<div style="text-align:center;padding:2rem;color:var(--muted)">No bookings found.</div>`;
+          return;
+        }
+        wrap.innerHTML = data
+          .map(
+            (b) => `
+    <div class="mob-card">
+      <div class="mob-card-top">
+        <div class="mob-card-info">
+          <div class="mob-card-name">${b.fullName || "—"}</div>
+          <div class="mob-card-age">${b.contact || ""}</div>
+          <div class="mob-card-meta">
+            <div class="mob-meta-row">📸 ${b.package || "—"} · ${b.serviceType || "—"}</div>
+            <div class="mob-meta-row">📅 ${bkFmtDate(b.bookingDate)} → ${bkFmtDate(b.deliveryDate)}${b.express ? " ⚡ Express" : ""}</div>
+          </div>
+        </div>
+        <div class="mob-card-right">${bkStatusBadge(b.status)}</div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin:.5rem 0">
+        <span style="font-size:.7rem;color:var(--muted);text-transform:uppercase">Amount</span>
+        <span style="font-size:1.15rem;font-weight:900;color:var(--gold)">₦${(b.amount || 0).toLocaleString()}</span>
+      </div>
+      <div class="mob-card-actions">${bkActions(b)}</div>
+    </div>`,
+          )
+          .join("");
+      }
+
+      window.openBkMo = (id) => {
+        const b = allBookings.find((x) => x.id === id);
+        if (!b) return;
+        modalBookId = id;
+        document.getElementById("bkMoName").textContent = b.fullName || "—";
+        document.getElementById("bkMoMeta").innerHTML = `
+          Contact: <strong>${b.contact || "—"}</strong><br/>
+          Session for: <strong style="text-transform:capitalize">${b.sessionFor || "—"}</strong> &nbsp;·&nbsp; Service: <strong>${b.serviceType || "—"}</strong><br/>
+          Package: <strong style="color:var(--gold);text-transform:capitalize">${b.package || "—"}</strong> &nbsp;·&nbsp; Amount: <strong style="color:var(--gold)">₦${(b.amount || 0).toLocaleString()}</strong><br/>
+          Session Date: <strong>${bkFmtDate(b.bookingDate)}</strong> &nbsp;·&nbsp; Delivery: <strong>${bkFmtDate(b.deliveryDate)}</strong>${b.express ? " <strong style='color:var(--gold)'>(Express +₦5,000)</strong>" : ""}<br/>
+          Ref: <span style="font-family:monospace;font-size:.75rem;color:var(--orange)">${b.txRef || "—"}</span>
+        `;
+        document.getElementById("bkMoNotes").textContent =
+          b.notes ? `“${b.notes}”` : "No additional notes provided.";
+        const apprBtn = document.getElementById("bkMoAppr");
+        const rejBtn = document.getElementById("bkMoRej");
+        apprBtn.style.display = b.status === "paid" ? "none" : "inline-flex";
+        rejBtn.style.display = "inline-flex";
+        rejBtn.textContent = b.status === "paid" ? "Revoke" : "Reject";
+        apprBtn.onclick = () => confirmBooking(id);
+        rejBtn.onclick = () => rejectBooking(id);
+        document.getElementById("bkMo").classList.add("open");
+      };
+      window.closeBkMo = () => {
+        document.getElementById("bkMo").classList.remove("open");
+        modalBookId = null;
+      };
+      document.getElementById("bkMo").addEventListener("click", (e) => {
+        if (e.target === document.getElementById("bkMo")) closeBkMo();
+      });
+
+      window.confirmBooking = async (id) => {
+        if (!confirm("Mark this booking's payment as manually verified?")) return;
+        try {
+          await updateDoc(doc(db, "bookings", id), {
+            status: "paid",
+            manuallyConfirmedAt: serverTimestamp(),
+          });
+          toast("Booking marked paid ✓", "gold");
+          closeBkMo();
+        } catch (e) {
+          toast("Failed — check Firestore rules", "error");
+        }
+      };
+      window.rejectBooking = async (id) => {
+        if (!confirm("Mark this booking as rejected?")) return;
+        try {
+          await updateDoc(doc(db, "bookings", id), { status: "rejected" });
+          toast("Booking rejected", "info");
+          closeBkMo();
+        } catch (e) {
+          toast("Failed", "error");
+        }
+      };
 
       /* ── QUICK CREDIT ── */
       window.quickCredit = (uid, name) => {

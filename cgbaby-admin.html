@@ -2616,6 +2616,7 @@
                   <option value="all">All Status</option>
                   <option value="pending">Awaiting Transfer</option>
                   <option value="paid">Paid</option>
+                  <option value="quote_requested">Quote Requested</option>
                   <option value="amount_mismatch">Amount Mismatch</option>
                   <option value="rejected">Rejected</option>
                 </select>
@@ -3000,7 +3001,10 @@
           });
 
           const pending = allBookings.filter(
-            (b) => b.status === "pending" || b.status === "amount_mismatch",
+            (b) =>
+              b.status === "pending" ||
+              b.status === "amount_mismatch" ||
+              b.status === "quote_requested",
           ).length;
           const confirmed = allBookings.filter((b) => b.status === "paid");
           const awaiting = allBookings.filter(
@@ -3521,6 +3525,10 @@
           return `<span class="badge rej"><div class="bd"></div>Rejected</span>`;
         if (s === "amount_mismatch")
           return `<span class="badge conf"><div class="bd"></div>Amount Mismatch</span>`;
+        if (s === "quote_requested")
+          return `<span class="badge conf"><div class="bd"></div>Quote Requested</span>`;
+        if (s === "contacted")
+          return `<span class="badge appr"><div class="bd"></div>Contacted</span>`;
         return `<span class="badge pend"><div class="bd"></div>Awaiting Transfer</span>`;
       };
       const bkFmtDate = (v) => {
@@ -3552,6 +3560,13 @@
         return data;
       };
       const bkActions = (b) => {
+        if (b.status === "quote_requested") {
+          return `<button class="abtn view" onclick="openBkMo('${b.id}')">View</button>
+            <button class="abtn gd" onclick="markContacted('${b.id}')">Mark Contacted</button>`;
+        }
+        if (b.status === "contacted") {
+          return `<button class="abtn view" onclick="openBkMo('${b.id}')">View</button>`;
+        }
         if (b.status === "paid") {
           return `<button class="abtn view" onclick="openBkMo('${b.id}')">View</button>
             <button class="abtn rej" onclick="rejectBooking('${b.id}')">Revoke</button>`;
@@ -3579,7 +3594,7 @@
       <td><div class="nm">${b.fullName || "—"}</div><div class="nm-sub">${b.contact || ""}</div></td>
       <td style="color:var(--muted);font-size:.82rem;text-transform:capitalize">${b.sessionFor || "—"}</td>
       <td style="color:var(--muted);font-size:.82rem">${b.serviceType || "—"}</td>
-      <td style="color:var(--bright);font-weight:700;font-size:.82rem;text-transform:capitalize">${b.package || "—"}</td>
+      <td style="color:var(--bright);font-weight:700;font-size:.82rem">${b.packageLabel || b.package || "—"}</td>
       <td style="color:var(--muted);font-size:.78rem">${bkFmtDate(b.bookingDate)}</td>
       <td style="color:var(--muted);font-size:.78rem">${bkFmtDate(b.deliveryDate)}${b.express ? ' <span style="color:var(--gold)">⚡</span>' : ""}</td>
       <td style="color:var(--gold);font-weight:800">₦${(b.amount || 0).toLocaleString()}</td>
@@ -3606,7 +3621,7 @@
           <div class="mob-card-name">${b.fullName || "—"}</div>
           <div class="mob-card-age">${b.contact || ""}</div>
           <div class="mob-card-meta">
-            <div class="mob-meta-row">📸 ${b.package || "—"} · ${b.serviceType || "—"}</div>
+            <div class="mob-meta-row">📸 ${b.packageLabel || b.package || "—"} · ${b.serviceType || "—"}</div>
             <div class="mob-meta-row">📅 ${bkFmtDate(b.bookingDate)} → ${bkFmtDate(b.deliveryDate)}${b.express ? " ⚡ Express" : ""}</div>
           </div>
         </div>
@@ -3627,22 +3642,46 @@
         if (!b) return;
         modalBookId = id;
         document.getElementById("bkMoName").textContent = b.fullName || "—";
+
+        const isQuote = b.status === "quote_requested" || b.status === "contacted";
+        const amountLine = isQuote
+          ? `Amount: <strong style="color:var(--gold)">Custom Quote (no payment yet)</strong>`
+          : `Amount: <strong style="color:var(--gold)">₦${(b.amount || 0).toLocaleString()}</strong>${
+              b.depositPercent && b.depositPercent < 100
+                ? ` <span style="color:var(--muted)">(${b.depositPercent}% deposit of ₦${(b.packagePrice || 0).toLocaleString()})</span>`
+                : ""
+            }`;
+
         document.getElementById("bkMoMeta").innerHTML = `
           Contact: <strong>${b.contact || "—"}</strong><br/>
           Session for: <strong style="text-transform:capitalize">${b.sessionFor || "—"}</strong> &nbsp;·&nbsp; Service: <strong>${b.serviceType || "—"}</strong><br/>
-          Package: <strong style="color:var(--gold);text-transform:capitalize">${b.package || "—"}</strong> &nbsp;·&nbsp; Amount: <strong style="color:var(--gold)">₦${(b.amount || 0).toLocaleString()}</strong><br/>
+          Package: <strong style="color:var(--gold)">${b.packageLabel || b.package || "—"}</strong> &nbsp;·&nbsp; ${amountLine}<br/>
           Session Date: <strong>${bkFmtDate(b.bookingDate)}</strong> &nbsp;·&nbsp; Delivery: <strong>${bkFmtDate(b.deliveryDate)}</strong>${b.express ? " <strong style='color:var(--gold)'>(Express +₦5,000)</strong>" : ""}<br/>
           Ref: <span style="font-family:monospace;font-size:.75rem;color:var(--orange)">${b.txRef || "—"}</span>
         `;
         document.getElementById("bkMoNotes").textContent =
           b.notes ? `“${b.notes}”` : "No additional notes provided.";
+
         const apprBtn = document.getElementById("bkMoAppr");
         const rejBtn = document.getElementById("bkMoRej");
-        apprBtn.style.display = b.status === "paid" ? "none" : "inline-flex";
-        rejBtn.style.display = "inline-flex";
-        rejBtn.textContent = b.status === "paid" ? "Revoke" : "Reject";
-        apprBtn.onclick = () => confirmBooking(id);
-        rejBtn.onclick = () => rejectBooking(id);
+
+        if (b.status === "quote_requested") {
+          apprBtn.style.display = "inline-flex";
+          apprBtn.textContent = "Mark Contacted";
+          rejBtn.style.display = "none";
+          apprBtn.onclick = () => markContacted(id);
+        } else if (b.status === "contacted") {
+          apprBtn.style.display = "none";
+          rejBtn.style.display = "none";
+        } else {
+          apprBtn.style.display = b.status === "paid" ? "none" : "inline-flex";
+          apprBtn.textContent = "Mark Paid";
+          rejBtn.style.display = "inline-flex";
+          rejBtn.textContent = b.status === "paid" ? "Revoke" : "Reject";
+          apprBtn.onclick = () => confirmBooking(id);
+          rejBtn.onclick = () => rejectBooking(id);
+        }
+
         document.getElementById("bkMo").classList.add("open");
       };
       window.closeBkMo = () => {
@@ -3674,6 +3713,20 @@
           closeBkMo();
         } catch (e) {
           toast("Failed", "error");
+        }
+      };
+
+      window.markContacted = async (id) => {
+        if (!confirm("Mark this quote request as contacted?")) return;
+        try {
+          await updateDoc(doc(db, "bookings", id), {
+            status: "contacted",
+            contactedAt: serverTimestamp(),
+          });
+          toast("Marked as contacted ✓", "gold");
+          closeBkMo();
+        } catch (e) {
+          toast("Failed — check Firestore rules", "error");
         }
       };
 

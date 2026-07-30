@@ -3,35 +3,190 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Booking Confirmed · CG Pixels</title>
+  <title>Complete Payment · CG Pixels Booking</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
     :root {
-      --black:#000; --deep-black:#0a0a0a;
-      --orange:#ff8c00; --bright-orange:#ffa500;
-      --gold:#ffd700; --green:#00e676;
-      --muted:rgba(255,255,255,.5);
-      --sf:-apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
-      --disp:'Space Grotesk', sans-serif;
-      --mono:'JetBrains Mono', monospace;
+      --black:#000; --deep:#06060a; --card:#0e0e14; --card2:#13131b;
+      --orange:#ff8c00; --bright:#ffa500; --gold:#ffd700;
+      --green:#00e676; --red:#ff4757; --blue:#00b4d8;
+      --muted:rgba(255,255,255,.45); --border:rgba(255,140,0,.15);
+      --sf:'Space Grotesk',sans-serif; --mono:'JetBrains Mono',monospace;
     }
     body {
-      font-family:var(--sf); background:var(--black); color:#fff; min-height:100vh;
-      display:flex; flex-direction:column; align-items:center; justify-content:center;
-      padding:2.5rem 1rem; line-height:1.6;
+      font-family:var(--sf); background:var(--deep); color:#fff;
+      min-height:100vh; display:flex; flex-direction:column; align-items:center;
+      justify-content:flex-start; padding:2.5rem 1rem;
       background-image:
-        radial-gradient(ellipse 60% 50% at 20% 10%, rgba(255,140,0,.08) 0%, transparent 60%),
-        radial-gradient(ellipse 40% 40% at 85% 90%, rgba(255,215,0,.05) 0%, transparent 60%);
+        radial-gradient(ellipse 60% 50% at 20% 10%, rgba(255,140,0,.06) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 85% 90%, rgba(0,180,216,.04) 0%, transparent 60%);
     }
+    .hidden { display:none !important; }
+
+    .logo {
+      font-size:1.1rem; font-weight:800; letter-spacing:.1em;
+      background:linear-gradient(135deg,var(--orange),var(--bright));
+      -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+      margin-bottom:2rem; text-align:center;
+    }
+
+    /* ═══ WAITING VIEW ═══ */
+    .pay-card {
+      width:100%; max-width:480px;
+      background:var(--card); border:1px solid rgba(255,140,0,.2);
+      border-radius:28px; overflow:hidden; position:relative;
+    }
+    .pay-card::before {
+      content:""; position:absolute; top:0; left:0; right:0; height:3px;
+      background:linear-gradient(90deg,var(--gold),var(--orange),var(--bright),var(--gold));
+      background-size:300% 100%; animation:shimmer 4s linear infinite;
+    }
+    @keyframes shimmer { 0%{background-position:-300% 0} 100%{background-position:300% 0} }
+
+    .pay-hdr {
+      padding:2rem 2rem 1.2rem;
+      background:linear-gradient(180deg,rgba(255,140,0,.07) 0%,transparent 100%);
+      border-bottom:1px solid rgba(255,255,255,.05);
+    }
+    .pay-hdr-tag {
+      display:inline-flex; align-items:center; gap:.4rem;
+      padding:.25rem .75rem; border-radius:50px; margin-bottom:.9rem;
+      background:rgba(0,230,118,.08); border:1px solid rgba(0,230,118,.25);
+      font-size:.62rem; font-weight:700; color:var(--green);
+      text-transform:uppercase; letter-spacing:.12em;
+    }
+    .pay-hdr-tag .dot { width:6px; height:6px; border-radius:50%; background:var(--green); animation:blink 1.2s ease-in-out infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
+    .pay-hdr h1 { font-size:1.5rem; font-weight:800; margin-bottom:.25rem; }
+    .pay-hdr p { font-size:.82rem; color:var(--muted); line-height:1.6; }
+
+    .countdown-wrap {
+      margin:1.5rem 2rem; padding:1.2rem 1.5rem;
+      background:rgba(255,71,87,.07); border:1px solid rgba(255,71,87,.25);
+      border-radius:16px; display:flex; align-items:center; gap:1rem;
+    }
+    .countdown-icon {
+      width:48px; height:48px; flex-shrink:0;
+      border-radius:14px; background:rgba(255,71,87,.12);
+      display:flex; align-items:center; justify-content:center; font-size:1.5rem;
+    }
+    .countdown-info { flex:1; }
+    .countdown-label { font-size:.68rem; color:rgba(255,71,87,.75); text-transform:uppercase; letter-spacing:.1em; margin-bottom:.2rem; }
+    .countdown-time { font-family:var(--mono); font-size:2rem; font-weight:700; color:#fff; line-height:1; transition:color .3s; }
+    .countdown-time.urgent { color:var(--red); animation:pulse 1s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.6} }
+    .countdown-sub { font-size:.72rem; color:var(--muted); margin-top:.2rem; }
+
+    .amount-banner {
+      margin:0 2rem 1.5rem; padding:1.1rem 1.5rem;
+      background:linear-gradient(135deg,rgba(255,215,0,.08),rgba(255,140,0,.06));
+      border:1.5px solid rgba(255,215,0,.28); border-radius:16px;
+      display:flex; align-items:center; justify-content:space-between; gap:1rem;
+    }
+    .amount-lbl { font-size:.7rem; color:rgba(255,215,0,.65); text-transform:uppercase; letter-spacing:.1em; }
+    .amount-val { font-family:var(--mono); font-size:2.2rem; font-weight:700; color:var(--gold); line-height:1; }
+    .booking-badge {
+      display:flex; flex-direction:column; align-items:flex-end; gap:.15rem;
+      padding:.35rem .8rem; border-radius:12px;
+      background:rgba(255,215,0,.1); border:1px solid rgba(255,215,0,.25);
+      font-size:.72rem; font-weight:700; color:var(--gold); text-align:right;
+    }
+
+    .summary-section { padding:0 2rem 1.2rem; }
+    .summary-row { display:flex; justify-content:space-between; align-items:center; padding:.5rem 0; border-bottom:1px solid rgba(255,255,255,.05); font-size:.82rem; }
+    .summary-row:last-child { border-bottom:none; }
+    .summary-row .lbl { color:var(--muted); }
+    .summary-row .val { color:#fff; font-weight:700; text-align:right; }
+
+    .bank-section { padding:0 2rem 1.5rem; }
+    .bank-title { font-size:.7rem; color:var(--muted); text-transform:uppercase; letter-spacing:.12em; margin-bottom:.9rem; }
+    .bank-row {
+      display:flex; align-items:center; justify-content:space-between; gap:.8rem;
+      padding:.95rem 1.1rem; background:var(--card2); border:1px solid rgba(255,255,255,.06);
+      border-radius:13px; margin-bottom:.65rem; position:relative; overflow:hidden;
+    }
+    .bank-row::before { content:""; position:absolute; left:0; top:0; bottom:0; width:3px; }
+    .bank-row.bank-name-row::before { background:var(--blue); }
+    .bank-row.acct-row::before { background:var(--orange); }
+    .bank-row.acct-name-row::before { background:var(--green); }
+    .bank-field-lbl { font-size:.62rem; color:var(--muted); text-transform:uppercase; letter-spacing:.1em; margin-bottom:.2rem; }
+    .bank-field-val { font-size:.95rem; font-weight:700; color:#fff; }
+    .bank-field-val.mono { font-family:var(--mono); font-size:1.3rem; letter-spacing:.08em; color:var(--gold); }
+
+    .copy-btn {
+      display:flex; align-items:center; gap:.3rem; padding:.35rem .75rem; border-radius:8px;
+      background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1);
+      color:var(--muted); font-size:.68rem; font-weight:700; text-transform:uppercase;
+      letter-spacing:.07em; cursor:pointer; transition:all .2s; white-space:nowrap;
+    }
+    .copy-btn:hover { background:rgba(255,140,0,.12); border-color:var(--orange); color:var(--orange); }
+    .copy-btn.copied { background:rgba(0,230,118,.1); border-color:var(--green); color:var(--green); }
+
+    .steps-wrap { margin:0 2rem 1.8rem; }
+    .step { display:flex; align-items:flex-start; gap:.9rem; padding:.75rem 0; border-bottom:1px solid rgba(255,255,255,.04); }
+    .step:last-child { border-bottom:none; }
+    .step-num {
+      width:26px; height:26px; border-radius:50%; flex-shrink:0;
+      background:rgba(255,140,0,.1); border:1px solid rgba(255,140,0,.3);
+      display:flex; align-items:center; justify-content:center; font-size:.68rem; font-weight:800; color:var(--orange);
+    }
+    .step-txt { font-size:.82rem; color:rgba(255,255,255,.7); line-height:1.6; padding-top:.05rem; }
+    .step-txt strong { color:#fff; }
+
+    .status-bar {
+      margin:0 2rem 2rem; padding:1rem 1.2rem; border-radius:14px;
+      border:1px solid rgba(255,255,255,.07); background:rgba(255,255,255,.03);
+      display:flex; align-items:center; gap:.8rem;
+    }
+    .status-spinner {
+      width:20px; height:20px; border-radius:50%;
+      border:2px solid rgba(255,140,0,.2); border-top-color:var(--orange);
+      animation:spin .9s linear infinite; flex-shrink:0;
+    }
+    @keyframes spin { to{transform:rotate(360deg)} }
+    .status-txt { font-size:.82rem; color:var(--muted); }
+    .status-txt strong { color:#fff; }
+
+    .cancel-btn {
+      display:block; width:calc(100% - 4rem); margin:0 2rem 2rem;
+      padding:.85rem; background:none; border:1px solid rgba(255,255,255,.08);
+      border-radius:50px; color:var(--muted); font-size:.82rem; font-weight:600;
+      cursor:pointer; transition:all .2s; text-align:center;
+    }
+    .cancel-btn:hover { border-color:var(--red); color:var(--red); }
+
+    .expired-overlay {
+      display:none; position:absolute; inset:0; z-index:50;
+      background:rgba(6,6,10,.95); backdrop-filter:blur(8px);
+      flex-direction:column; align-items:center; justify-content:center;
+      text-align:center; padding:2.5rem;
+    }
+    .expired-overlay.show { display:flex; }
+    .expired-ico { font-size:3.5rem; margin-bottom:1rem; }
+    .expired-h { font-size:1.4rem; font-weight:800; margin-bottom:.5rem; color:var(--red); }
+    .expired-p { font-size:.85rem; color:var(--muted); line-height:1.7; margin-bottom:1.5rem; }
+    .btn-retry {
+      padding:.9rem 2.5rem; border-radius:50px;
+      background:linear-gradient(135deg,var(--orange),var(--bright));
+      color:#000; border:none; font-size:.88rem; font-weight:800;
+      text-transform:uppercase; letter-spacing:.09em; cursor:pointer; transition:all .3s;
+    }
+    .btn-retry:hover { transform:translateY(-3px); box-shadow:0 12px 30px rgba(255,140,0,.4); }
+
+    .badges { display:flex; align-items:center; justify-content:center; gap:1.5rem; margin-top:2rem; flex-wrap:wrap; }
+    .badge { display:flex; align-items:center; gap:.35rem; font-size:.68rem; color:rgba(255,255,255,.3); font-weight:500; }
+    .badge svg { fill:rgba(255,255,255,.3); display:block; }
+
+    /* ═══ SUCCESS / RECEIPT VIEW ═══ */
     .success-badge {
       width:64px; height:64px; border-radius:50%; margin-bottom:1.3rem;
       background:rgba(0,230,118,.1); border:2px solid var(--green);
       display:flex; align-items:center; justify-content:center; font-size:2rem;
       box-shadow:0 0 30px rgba(0,230,118,.3);
     }
-    .success-title { font-family:var(--disp); font-size:1.6rem; font-weight:800; margin-bottom:.4rem; text-align:center; }
+    .success-title { font-family:var(--sf); font-size:1.6rem; font-weight:800; margin-bottom:.4rem; text-align:center; }
     .success-sub { color:var(--muted); font-size:.9rem; text-align:center; margin-bottom:2rem; max-width:420px; }
 
     .receipt-card {
@@ -41,12 +196,11 @@
     }
     .receipt-card::before {
       content:""; position:absolute; top:0; left:0; right:0; height:4px;
-      background:linear-gradient(90deg,var(--gold),var(--orange),var(--bright-orange),var(--gold));
+      background:linear-gradient(90deg,var(--gold),var(--orange),var(--bright),var(--gold));
       background-size:300% 100%; animation:shimmer 4s linear infinite;
     }
-    @keyframes shimmer { 0% { background-position:-300% 0; } 100% { background-position:300% 0; } }
     .receipt-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1.8rem; flex-wrap:wrap; gap:1rem; }
-    .receipt-brand { font-family:var(--disp); font-size:1.25rem; font-weight:800; color:var(--orange); }
+    .receipt-brand { font-family:var(--sf); font-size:1.25rem; font-weight:800; color:var(--orange); }
     .receipt-status {
       display:inline-flex; align-items:center; gap:.4rem; padding:.4rem 1rem; border-radius:50px;
       background:rgba(0,230,118,.1); border:1px solid rgba(0,230,118,.35); color:var(--green);
@@ -68,11 +222,107 @@
       font-size:.85rem; cursor:pointer; transition:all .3s; border:1.5px solid var(--orange); color:var(--orange);
       background:rgba(255,140,0,.08); text-transform:uppercase; letter-spacing:.04em;
     }
-    .r-btn.primary { background:linear-gradient(135deg,var(--orange),var(--bright-orange)); color:#000; border:none; }
+    .r-btn.primary { background:linear-gradient(135deg,var(--orange),var(--bright)); color:#000; border:none; }
     .r-btn:hover { transform:translateY(-3px); box-shadow:0 12px 30px rgba(255,140,0,.3); }
+
+    @media (max-width:480px) {
+      body { padding:1rem .75rem; }
+      .pay-hdr { padding:1.5rem 1.5rem 1rem; }
+      .countdown-wrap, .bank-section, .steps-wrap, .status-bar, .summary-section { margin-left:1.5rem; margin-right:1.5rem; }
+      .bank-section, .summary-section { padding-left:1.5rem; padding-right:1.5rem; }
+      .cancel-btn { width:calc(100% - 3rem); margin:0 1.5rem 1.5rem; }
+      .countdown-time { font-size:1.6rem; }
+    }
   </style>
 </head>
 <body>
+
+<div class="logo">CG PIXELS</div>
+
+<!-- ═══════════ WAITING VIEW ═══════════ -->
+<div id="waitingView">
+  <div class="pay-card" id="payCard">
+    <div class="expired-overlay" id="expiredOverlay">
+      <div class="expired-ico">⏰</div>
+      <div class="expired-h">Account Expired</div>
+      <div class="expired-p">This virtual account has expired. No payment was made. You can go back and book again to try a fresh transfer.</div>
+      <button class="btn-retry" onclick="goBack()">← Book Again</button>
+    </div>
+
+    <div class="pay-hdr">
+      <div class="pay-hdr-tag"><div class="dot"></div>Awaiting Transfer</div>
+      <h1>Transfer to this account</h1>
+      <p>Send the exact amount below to secure your booking. Your slot is confirmed <strong style="color:#fff">automatically</strong> once the transfer lands.</p>
+    </div>
+
+    <div class="countdown-wrap">
+      <div class="countdown-icon">⏱</div>
+      <div class="countdown-info">
+        <div class="countdown-label">Account expires in</div>
+        <div class="countdown-time" id="cdTime">10:00</div>
+        <div class="countdown-sub">Transfer before this timer runs out</div>
+      </div>
+    </div>
+
+    <div class="amount-banner">
+      <div>
+        <div class="amount-lbl">Transfer Exactly</div>
+        <div class="amount-val" id="amtVal">₦—</div>
+      </div>
+      <div class="booking-badge">
+        <span id="pkgVal">—</span>
+        <span id="expressVal"></span>
+      </div>
+    </div>
+
+    <div class="summary-section">
+      <div class="summary-row"><span class="lbl">Client</span><span class="val" id="sumClient">—</span></div>
+      <div class="summary-row"><span class="lbl">Service Type</span><span class="val" id="sumService">—</span></div>
+      <div class="summary-row"><span class="lbl">Session Date</span><span class="val" id="sumBdate">—</span></div>
+      <div class="summary-row"><span class="lbl">Delivery Date</span><span class="val" id="sumDdate">—</span></div>
+    </div>
+
+    <div class="bank-section">
+      <div class="bank-title">Virtual Account Details</div>
+      <div class="bank-row bank-name-row">
+        <div><div class="bank-field-lbl">Bank Name</div><div class="bank-field-val" id="bankName">—</div></div>
+      </div>
+      <div class="bank-row acct-row">
+        <div><div class="bank-field-lbl">Account Number</div><div class="bank-field-val mono" id="acctNum">—</div></div>
+        <button class="copy-btn" id="copyAcct" onclick="copyField('acctNum','copyAcct')">
+          <svg width="12" height="12" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+          Copy
+        </button>
+      </div>
+      <div class="bank-row acct-name-row">
+        <div><div class="bank-field-lbl">Account Name</div><div class="bank-field-val" id="acctName">—</div></div>
+      </div>
+    </div>
+
+    <div class="steps-wrap">
+      <div class="step"><div class="step-num">1</div><div class="step-txt">Open your <strong>bank app</strong> or USSD and go to Transfer</div></div>
+      <div class="step"><div class="step-num">2</div><div class="step-txt">Select the bank above, enter the account number above</div></div>
+      <div class="step"><div class="step-num">3</div><div class="step-txt">Enter the <strong>exact amount</strong> shown — wrong amounts may fail</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-txt">Stay on this page — your booking confirms <strong>automatically</strong></div></div>
+    </div>
+
+    <div class="status-bar">
+      <div class="status-spinner" id="statusSpinner"></div>
+      <div class="status-txt" id="statusTxt"><strong>Listening for payment…</strong> This page updates automatically</div>
+    </div>
+
+    <button class="cancel-btn" onclick="goBack()">← Cancel &amp; go back</button>
+  </div>
+
+  <div class="badges">
+    <div class="badge"><svg width="12" height="12" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>Secured by Flutterwave</div>
+    <div class="badge"><svg width="12" height="12" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>End-to-end encrypted</div>
+    <div class="badge"><svg width="12" height="12" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>CBN Regulated</div>
+  </div>
+</div>
+
+<!-- ═══════════ SUCCESS / RECEIPT VIEW (hidden until Firestore confirms status:"paid") ═══════════ -->
+<div id="successView" class="hidden">
   <div class="success-badge">✓</div>
   <div class="success-title">Booking Confirmed!</div>
   <div class="success-sub">Your payment landed and your session is locked in. Save your receipt below.</div>
@@ -103,53 +353,166 @@
     <div class="r-btn" id="btnDownloadPdf">⬇ Download as PDF</div>
     <div class="r-btn" id="btnHome">🏠 Back to Site</div>
   </div>
+</div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script>
-    const params = new URLSearchParams(location.search);
-    const ref      = params.get('ref') || '—';
-    const amt      = parseInt(params.get('amt') || '0');
-    const cname    = params.get('cname') || '—';
-    const contact  = params.get('contact') || '—';
-    const stype    = params.get('stype') || '—';
-    const pkglabel = params.get('pkglabel') || '—';
-    const bdate    = params.get('bdate') || '—';
-    const ddate    = params.get('ddate') || '—';
-    const express  = params.get('express') === '1';
+<!-- FIREBASE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
-    document.getElementById('rcRef').textContent = ref;
-    document.getElementById('rcName').textContent = cname;
-    document.getElementById('rcContact').textContent = contact;
-    document.getElementById('rcService').textContent = stype;
-    document.getElementById('rcPkg').textContent = pkglabel;
-    document.getElementById('rcExpress').textContent = express ? 'Yes (+₦5,000)' : 'No — standard 3 working days';
-    document.getElementById('rcDate').textContent = bdate;
-    document.getElementById('rcDelivery').textContent = ddate;
-    document.getElementById('rcTotal').textContent = `₦${amt.toLocaleString()}`;
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyCTptvNojix0zW9fES8Ms7F6qo3T5YkzxA",
+  authDomain: "cg-pixels.firebaseapp.com",
+  projectId: "cg-pixels",
+  storageBucket: "cg-pixels.firebasestorage.app",
+  messagingSenderId: "214403536099",
+  appId: "1:214403536099:web:d9acacb847a16754a661d6",
+};
 
-    document.getElementById('btnDownloadImg').addEventListener('click', () => {
-      html2canvas(document.getElementById('receiptCard'), { backgroundColor:'#0a0a0a', scale:2 }).then(canvas => {
-        const link = document.createElement('a');
-        link.download = `CGPixels-Receipt-${ref}.png`;
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-      });
+const app = initializeApp(FIREBASE_CONFIG);
+const db  = getFirestore(app);
+
+const params    = new URLSearchParams(location.search);
+const txRef     = params.get('ref');
+const acctNum   = params.get('acct');
+const acctName  = params.get('name');
+const bankNm    = params.get('bank') || 'Bank';
+const amount    = parseInt(params.get('amt') || '0');
+const expiresAt = parseInt(params.get('exp') || '0');
+const cname     = params.get('cname') || '';
+const contact   = params.get('contact') || '';
+const stype     = params.get('stype') || '';
+const pkglabel  = params.get('pkglabel') || '';
+const bdate     = params.get('bdate') || '';
+const ddate     = params.get('ddate') || '';
+const express   = params.get('express') === '1';
+
+if (!txRef || !acctNum) {
+  document.body.innerHTML = `<div style="color:#fff;text-align:center;padding:4rem">
+    <h2>Invalid payment session</h2>
+    <p style="margin-top:1rem;opacity:.6">Please go back and try booking again.</p>
+    <button onclick="history.back()" style="margin-top:1.5rem;padding:.8rem 2rem;border-radius:50px;background:#ff8c00;border:none;color:#000;font-weight:800;cursor:pointer">← Go Back</button>
+  </div>`;
+  throw new Error('missing params');
+}
+
+/* populate waiting view */
+document.getElementById('amtVal').textContent    = `₦${amount.toLocaleString()}`;
+document.getElementById('pkgVal').textContent    = pkglabel;
+document.getElementById('expressVal').textContent = express ? '⚡ Express' : '';
+document.getElementById('acctNum').textContent   = acctNum;
+document.getElementById('acctName').textContent  = acctName || 'CG PIXELS';
+document.getElementById('bankName').textContent  = bankNm;
+document.getElementById('sumClient').textContent = cname;
+document.getElementById('sumService').textContent = stype;
+document.getElementById('sumBdate').textContent  = bdate;
+document.getElementById('sumDdate').textContent  = ddate;
+
+/* countdown */
+const cdEl = document.getElementById('cdTime');
+function tick() {
+  const left = expiresAt - Date.now();
+  if (left <= 0) {
+    cdEl.textContent = '00:00';
+    cdEl.classList.add('urgent');
+    document.getElementById('expiredOverlay').classList.add('show');
+    clearInterval(timer);
+    return;
+  }
+  const m = Math.floor(left / 60000);
+  const s = Math.floor((left % 60000) / 1000);
+  cdEl.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  if (left < 120000) cdEl.classList.add('urgent');
+}
+tick();
+const timer = setInterval(tick, 1000);
+
+/* ── the ONLY thing that can trigger the success view: a real Firestore
+     doc for this exact ref, with status === 'paid', written by the
+     server's webhook after Flutterwave verifies a real transfer ── */
+onSnapshot(doc(db, 'bookings', txRef), (snap) => {
+  if (!snap.exists()) return;
+  const data = snap.data();
+
+  if (data.status === 'paid') {
+    clearInterval(timer);
+    showSuccess({
+      ref: txRef,
+      amt: data.amount || amount,
+      cname: data.fullName || cname,
+      contact: data.contact || contact,
+      stype: data.serviceType || stype,
+      pkglabel: data.packageLabel || pkglabel,
+      bdate: bdate,
+      ddate: ddate,
+      express: !!data.express,
     });
+  } else if (data.status === 'amount_mismatch') {
+    document.getElementById('statusTxt').innerHTML = `<strong style="color:var(--red)">Amount mismatch detected.</strong> Please contact us with your reference: ${txRef}`;
+    document.getElementById('statusSpinner').style.display = 'none';
+  }
+});
 
-    document.getElementById('btnDownloadPdf').addEventListener('click', () => {
-      html2canvas(document.getElementById('receiptCard'), { backgroundColor:'#0a0a0a', scale:2 }).then(canvas => {
-        const { jsPDF } = window.jspdf;
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF({ orientation:'portrait', unit:'px', format:[canvas.width, canvas.height] });
-        pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
-        pdf.save(`CGPixels-Receipt-${ref}.pdf`);
-      });
-    });
+function showSuccess(d) {
+  document.getElementById('waitingView').classList.add('hidden');
+  const view = document.getElementById('successView');
+  view.classList.remove('hidden');
 
-    document.getElementById('btnHome').addEventListener('click', () => {
-      window.location.href = 'index.html';
+  document.getElementById('rcRef').textContent = d.ref;
+  document.getElementById('rcName').textContent = d.cname;
+  document.getElementById('rcContact').textContent = d.contact;
+  document.getElementById('rcService').textContent = d.stype;
+  document.getElementById('rcPkg').textContent = d.pkglabel;
+  document.getElementById('rcExpress').textContent = d.express ? 'Yes (+₦5,000)' : 'No — standard 3 working days';
+  document.getElementById('rcDate').textContent = d.bdate;
+  document.getElementById('rcDelivery').textContent = d.ddate;
+  document.getElementById('rcTotal').textContent = `₦${d.amt.toLocaleString()}`;
+
+  view.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+/* copy button (waiting view) */
+window.copyField = (fieldId, btnId) => {
+  const val = document.getElementById(fieldId).textContent.trim();
+  navigator.clipboard.writeText(val).then(() => {
+    const btn = document.getElementById(btnId);
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg> Copy`; btn.classList.remove('copied'); }, 2500);
+  });
+};
+
+window.goBack = () => { window.location.href = 'book.html'; };
+</script>
+
+<!-- Download libraries only needed for the receipt buttons -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+  document.getElementById('btnDownloadImg').addEventListener('click', () => {
+    const ref = document.getElementById('rcRef').textContent;
+    html2canvas(document.getElementById('receiptCard'), { backgroundColor:'#0a0a0a', scale:2 }).then(canvas => {
+      const link = document.createElement('a');
+      link.download = `CGPixels-Receipt-${ref}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
     });
-  </script>
+  });
+
+  document.getElementById('btnDownloadPdf').addEventListener('click', () => {
+    const ref = document.getElementById('rcRef').textContent;
+    html2canvas(document.getElementById('receiptCard'), { backgroundColor:'#0a0a0a', scale:2 }).then(canvas => {
+      const { jsPDF } = window.jspdf;
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF({ orientation:'portrait', unit:'px', format:[canvas.width, canvas.height] });
+      pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+      pdf.save(`CGPixels-Receipt-${ref}.pdf`);
+    });
+  });
+
+  document.getElementById('btnHome').addEventListener('click', () => {
+    window.location.href = 'index.html';
+  });
+</script>
 </body>
 </html>

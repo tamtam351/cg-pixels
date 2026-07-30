@@ -745,16 +745,8 @@
         /* Your frontend (cgstudios.ng) and backend (Render) are separate hosts,
            so this must be the FULL Render URL, not a relative path. */
         const API_BASE = "https://cgbaby-server.onrender.com";
-
-        /* ══════════════ FORMSPREE (backup email notification) ══════════════ */
-        const FORMSPREE_ENDPOINT = "https://formspree.io/f/xkgdzroe";
-        function notifyFormspree(data) {
-            fetch(FORMSPREE_ENDPOINT, {
-                method: "POST",
-                headers: { "Content-Type": "application/json", Accept: "application/json" },
-                body: JSON.stringify(data)
-            }).catch(() => { /* non-blocking — booking still saved on the server either way */ });
-        }
+        /* Booking notifications now email you directly from server.js (Nodemailer)
+           the moment a booking or quote request is saved — no third-party form service. */
 
         function validateAll() {
             let ok = true;
@@ -791,14 +783,6 @@
                 express: p.quoteOnly ? false : state.express,
                 notes: document.getElementById('notes').value.trim(),
             };
-
-            notifyFormspree({
-                ...bookingPayload,
-                packageLabel: p.label,
-                bookingDate: fmtDate(state.bookingDate),
-                deliveryDate: fmtDate(state.deliveryDate),
-                amount: p.quoteOnly ? 'Quote requested' : calcTotal(),
-            });
 
             /* ── QUOTE-ONLY PATH: no payment, just an inquiry ── */
             if (p.quoteOnly) {

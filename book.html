@@ -613,6 +613,11 @@
             document.getElementById('sumTotal').textContent = `₦${calcTotal().toLocaleString()}`;
         }
 
+        /* ══════════════ BACKEND API BASE ══════════════ */
+        /* Your frontend (cgstudios.ng) and backend (Render) are separate hosts,
+           so this must be the FULL Render URL, not a relative path. */
+        const API_BASE = "https://cgbaby-server.onrender.com";
+
         /* ══════════════ FORMSPREE (backup email notification) ══════════════ */
         const FORMSPREE_ENDPOINT = "https://formspree.io/f/xkgdzroe";
         function notifyFormspree(data) {
@@ -667,7 +672,7 @@
             });
 
             try {
-                const res = await fetch('/api/create-booking-account', {
+                const res = await fetch(`${API_BASE}/api/create-booking-account`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(bookingPayload),

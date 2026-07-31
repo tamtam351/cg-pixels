@@ -215,9 +215,23 @@
   .timeline-progress .label{ font-size:.68rem; letter-spacing:.1em; color:var(--concrete); white-space:nowrap; }
 
   .h-hint{
-    position:absolute; bottom:1.8rem; right:2rem; font-size:.65rem; letter-spacing:.1em;
-    color:var(--concrete); display:flex; align-items:center; gap:.4rem; z-index:6;
+    position:absolute; bottom:4.4rem; left:50%; transform:translateX(-50%);
+    font-size:.65rem; letter-spacing:.1em; color:var(--concrete);
+    display:flex; align-items:center; gap:.5rem; z-index:6; white-space:nowrap;
+    text-transform:uppercase;
   }
+  .h-hint .arrow{ display:inline-block; animation:hhintBob 1.4s ease-in-out infinite; }
+  .h-hint .swipe-only{ display:none; }
+  @keyframes hhintBob{ 0%,100%{ transform:translateX(0) } 50%{ transform:translateX(5px) } }
+
+  .clip-dots{
+    position:absolute; bottom:.9rem; left:50%; transform:translateX(-50%); z-index:6;
+    display:none; gap:.5rem;
+  }
+  .clip-dots .dot{
+    width:6px; height:6px; border-radius:50%; background:rgba(228,225,216,.3); transition:all .3s;
+  }
+  .clip-dots .dot.active{ background:var(--signal); width:18px; border-radius:4px; }
 
   /* ═══ ABOUT ═══ */
   .about{ padding:9rem 2rem; max-width:1100px; margin:0 auto; position:relative; }
@@ -276,20 +290,38 @@
     .timeline-head{ top:1.4rem; left:1.2rem; right:1.2rem; }
     .timeline-progress{ left:1.2rem; right:1.2rem; }
   }
+  @media (max-width:700px){
+    /* nav links removed for now on small screens — logo only */
+    .nav-links{ display:none; }
+    nav{ justify-content:flex-start; }
+  }
   @media (max-width:600px){
     body{ font-size:14px; }
     nav{ padding:1rem 1.2rem; }
-    .nav-links{ gap:1.2rem; }
     .hero{ padding:6rem 1.2rem 2rem; }
     .marquee-wrap{ width:110%; margin-left:-5%; }
     .about{ padding:6rem 1.2rem; }
     .contact{ padding:6rem 1.2rem 2rem; }
     .contact-grid{ grid-template-columns:1fr; }
-    .timeline-section{ height:auto; min-height:100vh; padding:8rem 0 6rem; }
-    .timeline-viewport{ position:relative; inset:auto; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; padding-bottom:1rem; }
+
+    .timeline-section{ height:auto; min-height:auto; padding:7.5rem 0 3rem; overflow:visible; }
+    .timeline-head{ position:relative; top:auto; left:auto; right:auto; padding:0 1.2rem; margin-bottom:1.6rem; flex-direction:column; align-items:flex-start; gap:.4rem; }
+    .timeline-viewport{
+      position:relative; inset:auto; display:block; overflow-x:auto; overscroll-behavior-x:contain;
+      touch-action:pan-x; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
+      padding-bottom:.5rem;
+    }
     .timeline-track{ padding:0 1.2rem; }
-    .clip-card{ width:80vw; scroll-snap-align:center; transform:scale(1); }
-    .h-hint{ display:none; }
+    .clip-card{ width:82vw; height:auto; min-height:340px; scroll-snap-align:center; transform:scale(1); }
+    .clip-card.active{ transform:scale(1); }
+    .timeline-progress{ position:relative; left:auto; right:auto; bottom:auto; margin:1.4rem 1.2rem 0; }
+    .h-hint{
+      position:relative; bottom:auto; left:auto; right:auto; transform:none;
+      justify-content:center; margin:0 1.2rem 1rem; font-size:.62rem;
+    }
+    .h-hint .swipe-only{ display:inline; }
+    .h-hint .scrub-only{ display:none; }
+    .clip-dots{ position:relative; bottom:auto; left:auto; transform:none; display:flex; justify-content:center; margin-top:1.2rem; }
   }
   @media (prefers-reduced-motion: reduce){
     .marquee{ animation:none !important; }
@@ -371,7 +403,13 @@
     <div class="track-line"><div class="fill" id="tlFill"></div></div>
     <span class="label">END</span>
   </div>
-  <div class="h-hint">↓ Keep scrolling — this plays like a timeline ↓</div>
+  <div class="h-hint" id="hHint">
+    <span class="arrow">↓</span>
+    <span class="scrub-only">Keep scrolling — this plays like a timeline</span>
+    <span class="swipe-only">Swipe to scrub through the reel</span>
+    <span class="arrow">↓</span>
+  </div>
+  <div class="clip-dots" id="clipDots"></div>
 </section>
 
 <!-- ABOUT / PROCESS -->
@@ -511,29 +549,68 @@ const tlFill = document.getElementById('tlFill');
 const tcNow = document.getElementById('tcNow');
 const cards = gsap.utils.toArray('.clip-card');
 
-function updateActiveCard(progress) {
-  const idx = Math.min(CLIPS.length - 1, Math.round(progress * (CLIPS.length - 1)));
+/* dot pagination (shown on mobile via CSS) */
+const dotsWrap = document.getElementById('clipDots');
+CLIPS.forEach((c, i) => {
+  const dot = document.createElement('div');
+  dot.className = 'dot';
+  dot.dataset.i = i;
+  dotsWrap.appendChild(dot);
+});
+const dots = gsap.utils.toArray('.clip-dots .dot');
+function setActiveIndex(idx) {
   cards.forEach((c, i) => c.classList.toggle('active', i === idx));
+  dots.forEach((d, i) => d.classList.toggle('active', i === idx));
   tcNow.textContent = CLIPS[idx].tc;
 }
 
+function updateActiveCard(progress) {
+  const idx = Math.min(CLIPS.length - 1, Math.round(progress * (CLIPS.length - 1)));
+  setActiveIndex(idx);
+}
+
+let mobileListenerAttached = false;
+
 function initTimeline() {
   if (window.innerWidth <= 600) {
-    /* mobile: no pin/scrub, just let it scroll horizontally, activate by view proximity */
+    /* mobile: no pin/scrub — native horizontal swipe with scroll-snap,
+       activation is driven by whichever card is nearest the viewport center */
     const viewport = document.getElementById('tlViewport');
-    updateActiveCard(0);
-    viewport.addEventListener('scroll', () => {
-      const center = viewport.scrollLeft + viewport.clientWidth / 2;
-      let closest = 0, min = Infinity;
-      cards.forEach((c, i) => {
-        const cCenter = c.offsetLeft + c.offsetWidth / 2;
-        const d = Math.abs(cCenter - center);
-        if (d < min) { min = d; closest = i; }
-      });
-      cards.forEach((c, i) => c.classList.toggle('active', i === closest));
-      tcNow.textContent = CLIPS[closest].tc;
-      tlFill.style.width = `${(closest / (CLIPS.length - 1)) * 100}%`;
-    }, { passive: true });
+    setActiveIndex(0);
+    tlFill.style.width = '0%';
+
+    if (!mobileListenerAttached) {
+      mobileListenerAttached = true;
+
+      viewport.addEventListener('scroll', () => {
+        const center = viewport.scrollLeft + viewport.clientWidth / 2;
+        let closest = 0, min = Infinity;
+        cards.forEach((c, i) => {
+          const cCenter = c.offsetLeft + c.offsetWidth / 2;
+          const d = Math.abs(cCenter - center);
+          if (d < min) { min = d; closest = i; }
+        });
+        setActiveIndex(closest);
+        tlFill.style.width = `${(closest / (CLIPS.length - 1)) * 100}%`;
+      }, { passive: true });
+
+      /* one-time "peek" nudge so it's obvious this scrolls sideways —
+         only fires once, and skipped entirely for reduced-motion users */
+      if (!reduceMotion) {
+        const nudgeObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              nudgeObserver.disconnect();
+              setTimeout(() => {
+                viewport.scrollTo({ left: 60, behavior: 'smooth' });
+                setTimeout(() => viewport.scrollTo({ left: 0, behavior: 'smooth' }), 500);
+              }, 500);
+            }
+          });
+        }, { threshold: .4 });
+        nudgeObserver.observe(viewport);
+      }
+    }
     return;
   }
 

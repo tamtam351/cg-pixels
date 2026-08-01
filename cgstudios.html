@@ -755,50 +755,68 @@ const tcNow = document.getElementById('tcNow');
 const cards = gsap.utils.toArray('.clip-card');
 
 /* ══════════════ ROUGH-NOTATION HIGHLIGHTS (replaces the old hand-drawn arrow) ══════════════
-   Each clip title gets circled/underlined/highlighted once it scrolls into view — on desktop
-   that happens as the pinned track scrubs it into frame, on mobile as the page scrolls past
-   the stacked card. Ported from the Magic UI Highlighter pattern (rough-notation + inView),
-   just without React/framer-motion.
+   Ported from the Magic UI Highlighter pattern (rough-notation + inView), without React.
 
-   Important: .clip-card scales from .94 -> 1 over .4s when it becomes active. Rough Notation
-   measures the target once and draws a fixed SVG overlay — if that measurement happens mid
-   scale-transition, the ink freezes at the wrong spot as the card keeps growing underneath it
-   (this is what caused the misaligned lines/circles/highlights). So we wait until the card's
-   transform transition has actually finished before annotating. */
-if (window.RoughNotation && !reduceMotion) {
+   Two things needed fixing beyond just wiring it up:
+   1) On desktop several cards sit side by side in the pinned carousel and are all >60%
+      visible at once, so a plain "annotate when visible" observer fired on multiple cards
+      simultaneously the moment the section came into frame — that's the inconsistency.
+      Desktop now annotates exactly one card at a time, driven by it becoming the *active*
+      card (same moment its scale settles from .94 -> 1), matching the design's own idea of
+      "the current clip." Mobile (plain stacked column, no active concept) keeps the simpler
+      IntersectionObserver approach, since there's naturally only ~one card in frame anyway.
+   2) The library's default vertical placement doesn't line up well with this display font's
+      metrics — underline lands mid-glyph, highlight/circle sit high. Nudging the drawn SVG
+      down afterward compensates for that. */
+const annotatedIdx = new Set();
+function annotateClip(idx) {
+  if (!window.RoughNotation || reduceMotion) return;
+  if (annotatedIdx.has(idx)) return;
+  const card = cards[idx];
+  const el = card && card.querySelector('.rn-target');
+  if (!el) return;
+  annotatedIdx.add(idx);
+
+  const draw = () => {
+    const cfg = ANNOTATIONS[idx % ANNOTATIONS.length];
+    const rn = RoughNotation.annotate(el, {
+      type: cfg.type,
+      color: cfg.color,
+      strokeWidth: cfg.type === 'circle' ? 1.75 : 1.2,
+      animationDuration: 700,
+      iterations: 2,
+      multiline: true,
+      padding: cfg.padding,
+    });
+    rn.show();
+    requestAnimationFrame(() => {
+      const svg = el.querySelector(':scope > svg');
+      if (!svg) return;
+      const h = el.offsetHeight;
+      const nudgeFrac = cfg.type === 'underline' ? 0.32 : cfg.type === 'highlight' ? 0.26 : 0.15;
+      svg.style.transform = `translateY(${Math.round(h * nudgeFrac)}px)`;
+    });
+  };
+
+  let settled = false;
+  const onSettled = (e) => {
+    if (e && e.propertyName !== 'transform') return;
+    if (settled) return;
+    settled = true;
+    card.removeEventListener('transitionend', onSettled);
+    draw();
+  };
+  card.addEventListener('transitionend', onSettled);
+  setTimeout(() => onSettled(null), 500); // safety net if the card was already at rest
+}
+
+if (window.innerWidth <= 600) {
   const rnObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (!entry.isIntersecting) return;
-      const el = entry.target;
-      const card = el.closest('.clip-card');
-      rnObserver.unobserve(el);
-
-      const draw = () => {
-        const idx = Number(card.dataset.i);
-        const cfg = ANNOTATIONS[idx % ANNOTATIONS.length];
-        const rn = RoughNotation.annotate(el, {
-          type: cfg.type,
-          color: cfg.color,
-          strokeWidth: cfg.type === 'circle' ? 1.75 : 1.2,
-          animationDuration: 700,
-          iterations: 2,
-          multiline: true,
-          padding: cfg.padding,
-        });
-        rn.show();
-      };
-
-      let settled = false;
-      const onSettled = (e) => {
-        if (e && e.propertyName !== 'transform') return;
-        if (settled) return;
-        settled = true;
-        card.removeEventListener('transitionend', onSettled);
-        draw();
-      };
-      card.addEventListener('transitionend', onSettled);
-      // safety net in case the card is already at rest (no transition fires)
-      setTimeout(() => onSettled(null), 500);
+      rnObserver.unobserve(entry.target);
+      const idx = Number(entry.target.closest('.clip-card').dataset.i);
+      annotateClip(idx);
     });
   }, { threshold: .6 });
   document.querySelectorAll('.rn-target').forEach((el) => rnObserver.observe(el));
@@ -807,6 +825,7 @@ if (window.RoughNotation && !reduceMotion) {
 function setActiveIndex(idx) {
   cards.forEach((c, i) => c.classList.toggle('active', i === idx));
   tcNow.textContent = CLIPS[idx].tc;
+  if (window.innerWidth > 600) annotateClip(idx);
 }
 
 function updateActiveCard(progress) {

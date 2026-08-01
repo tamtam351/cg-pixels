@@ -82,6 +82,14 @@
     position:fixed; top:0; left:0; right:0; z-index:200;
     display:flex; justify-content:space-between; align-items:center;
     padding:1.4rem 2rem; opacity:0; mix-blend-mode:difference;
+    transition:background-color .35s ease, backdrop-filter .35s ease, padding .35s ease, box-shadow .35s ease;
+  }
+  nav.scrolled{
+    mix-blend-mode:normal;
+    background:rgba(18,17,15,.86);
+    backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+    box-shadow:0 1px 0 rgba(228,225,216,.08);
+    padding:1.05rem 2rem;
   }
   .nav-mark{ font-family:var(--disp); font-size:1rem; color:var(--paper); letter-spacing:.02em; }
   .nav-links{ display:flex; gap:2.2rem; }
@@ -189,20 +197,24 @@
   }
 
   .scribble{
-    position:absolute; inset:0; width:100%; height:100%; pointer-events:none;
-    opacity:0; transition:opacity .3s;
+    position:absolute; top:-.4rem; right:-.2rem; width:24%; min-width:76px; max-width:112px;
+    height:auto; pointer-events:none; opacity:0; transition:opacity .3s; overflow:visible; z-index:2;
   }
   .clip-card.active .scribble{ opacity:1; }
-  .scribble path{
-    fill:none; stroke:var(--signal); stroke-width:3; stroke-linecap:round;
-    stroke-dasharray:900; stroke-dashoffset:900;
-    transition:stroke-dashoffset 1.1s cubic-bezier(.16,1,.3,1);
+  .scribble-line{
+    fill:none; stroke:var(--signal); stroke-width:6; stroke-linecap:round; stroke-linejoin:round;
+    stroke-dasharray:120; stroke-dashoffset:120; vector-effect:non-scaling-stroke;
+    transition:stroke-dashoffset .75s cubic-bezier(.16,1,.3,1);
   }
-  .clip-card.active .scribble path{ stroke-dashoffset:0; }
+  .clip-card.active .scribble-line{ stroke-dashoffset:0; }
+  .scribble-arrowhead{
+    fill:var(--signal); opacity:0; transition:opacity .25s .6s;
+  }
+  .clip-card.active .scribble-arrowhead{ opacity:1; }
 
   .clip-note{
-    position:absolute; top:-1.2rem; right:-.6rem; font-family:var(--hand); font-size:1.3rem;
-    color:var(--signal); transform:rotate(-6deg); opacity:0; transition:opacity .3s .5s;
+    position:absolute; top:-.5rem; right:-.15rem; font-family:var(--hand); font-size:1.2rem;
+    color:var(--signal); transform:rotate(-5deg); opacity:0; transition:opacity .25s .6s;
   }
   .clip-card.active .clip-note{ opacity:1; }
 
@@ -230,8 +242,76 @@
   }
   .clip-dots .dot{
     width:6px; height:6px; border-radius:50%; background:rgba(228,225,216,.3); transition:all .3s;
+    cursor:pointer;
   }
   .clip-dots .dot.active{ background:var(--signal); width:18px; border-radius:4px; }
+
+  /* ═══ STATS / COUNTER ═══ */
+  .stats{ background:var(--ink); color:var(--paper); padding:6.5rem 2rem; position:relative; overflow:hidden; }
+  .stats::before{
+    content:""; position:absolute; top:0; left:0; right:0; height:1px; background:rgba(228,225,216,.15);
+  }
+  .stats-inner{ max-width:1100px; margin:0 auto; }
+  .stats-eyebrow{ font-size:.72rem; letter-spacing:.2em; text-transform:uppercase; color:var(--concrete); margin-bottom:2.6rem; }
+  .stats-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:2rem; }
+  .stat-card{ position:relative; padding-right:1.4rem; }
+  .stat-card:not(:last-child){ border-right:1px solid rgba(228,225,216,.12); }
+  .stat-num{
+    font-family:var(--disp); font-size:clamp(2.4rem,5.2vw,4.2rem); line-height:1; display:flex; align-items:flex-start;
+  }
+  .stat-num .suffix{ font-size:.45em; color:var(--signal); margin-left:.15em; margin-top:.2em; }
+  .stat-bar{ width:28px; height:2px; background:var(--signal); margin:.9rem 0 .8rem; }
+  .stat-label{ font-size:.78rem; color:var(--concrete); line-height:1.5; max-width:20ch; }
+  @media (max-width:900px){
+    .stats-grid{ grid-template-columns:1fr 1fr; row-gap:2.6rem; }
+    .stat-card:nth-child(2){ border-right:none; }
+  }
+  @media (max-width:600px){
+    .stats{ padding:5rem 1.2rem; }
+    .stats-grid{ grid-template-columns:1fr 1fr; gap:1.6rem; }
+  }
+
+  /* ═══ TESTIMONIALS ═══ */
+  .testimonials{ padding:8rem 2rem 9rem; max-width:1150px; margin:0 auto; position:relative; }
+  .testimonials-eyebrow{ font-size:.72rem; letter-spacing:.2em; text-transform:uppercase; color:var(--concrete); margin-bottom:2.6rem; }
+  .testi-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1.6rem; }
+  .testi-card{
+    background:var(--paper-dim); border-radius:4px; padding:1.8rem 1.6rem 1.5rem; position:relative;
+    box-shadow:0 14px 34px rgba(18,17,15,.08); transition:transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s;
+  }
+  .testi-card:nth-child(1){ transform:rotate(-1.4deg); }
+  .testi-card:nth-child(2){ transform:rotate(1deg); margin-top:1.6rem; }
+  .testi-card:nth-child(3){ transform:rotate(-.6deg); }
+  .testi-card:hover{ transform:rotate(0deg) translateY(-6px); box-shadow:0 24px 50px rgba(18,17,15,.15); }
+  .testi-card::before{
+    content:""; position:absolute; top:-10px; left:50%; transform:translateX(-50%) rotate(-3deg);
+    width:52px; height:18px; background:var(--signal-dim); border:1px solid rgba(255,59,31,.3);
+  }
+  .testi-quote{ font-family:var(--hand); font-size:1.5rem; line-height:1.35; color:var(--ink); }
+  .testi-quote::before{ content:"\201C"; color:var(--signal); }
+  .testi-quote::after{ content:"\201D"; color:var(--signal); }
+  .testi-who{ margin-top:1.2rem; font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; color:#4a4842; }
+  .testi-who b{ color:var(--ink); }
+  @media (max-width:900px){
+    .testimonials{ padding:6rem 1.2rem 7rem; }
+    .testi-grid{ grid-template-columns:1fr; gap:1.4rem; }
+    .testi-card, .testi-card:nth-child(2), .testi-card:nth-child(3){ transform:rotate(0); margin-top:0; }
+  }
+
+  /* ═══ ORBIT BADGE (hero) ═══ */
+  .orbit-badge{
+    position:absolute; top:6.4rem; right:2.4rem; width:118px; height:118px; pointer-events:none; z-index:2;
+  }
+  .orbit-badge svg{ width:100%; height:100%; animation:orbitspin 16s linear infinite; }
+  .orbit-badge text{ fill:var(--ink); }
+  .orbit-center{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-size:1.3rem; color:var(--signal);
+  }
+  @keyframes orbitspin{ to{ transform:rotate(360deg); } }
+  @media (max-width:900px){ .orbit-badge{ width:88px; height:88px; top:5.6rem; right:1.4rem; } }
+  @media (max-width:600px){ .orbit-badge{ display:none; } }
+  @media (prefers-reduced-motion: reduce){ .orbit-badge svg{ animation:none; } }
 
   /* ═══ ABOUT ═══ */
   .about{ padding:9rem 2rem; max-width:1100px; margin:0 auto; position:relative; }
@@ -298,21 +378,24 @@
   @media (max-width:600px){
     body{ font-size:14px; }
     nav{ padding:1rem 1.2rem; }
+    nav.scrolled{ padding:.85rem 1.2rem; }
     .hero{ padding:6rem 1.2rem 2rem; }
     .marquee-wrap{ width:110%; margin-left:-5%; }
     .about{ padding:6rem 1.2rem; }
     .contact{ padding:6rem 1.2rem 2rem; }
     .contact-grid{ grid-template-columns:1fr; }
 
-    .timeline-section{ height:auto; min-height:auto; padding:7.5rem 0 3rem; overflow:visible; }
-    .timeline-head{ position:relative; top:auto; left:auto; right:auto; padding:0 1.2rem; margin-bottom:1.6rem; flex-direction:column; align-items:flex-start; gap:.4rem; }
+    .timeline-section{ height:auto; min-height:auto; padding:8rem 0 3rem; overflow:visible; }
+    .timeline-head{ position:relative; top:auto; left:auto; right:auto; padding:0 1.2rem; margin-bottom:1.8rem; flex-direction:column; align-items:flex-start; gap:.4rem; }
     .timeline-viewport{
       position:relative; inset:auto; display:block; overflow-x:auto; overscroll-behavior-x:contain;
       touch-action:pan-x; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
       padding-bottom:.5rem;
+      -webkit-mask-image:linear-gradient(to right, transparent 0, black 20px, black calc(100% - 20px), transparent 100%);
+      mask-image:linear-gradient(to right, transparent 0, black 20px, black calc(100% - 20px), transparent 100%);
     }
-    .timeline-track{ padding:0 1.2rem; }
-    .clip-card{ width:82vw; height:auto; min-height:340px; scroll-snap-align:center; transform:scale(1); }
+    .timeline-track{ padding:0 1.2rem; gap:1rem; }
+    .clip-card{ width:84vw; height:auto; min-height:340px; scroll-snap-align:center; transform:scale(1); }
     .clip-card.active{ transform:scale(1); }
     .timeline-progress{ position:relative; left:auto; right:auto; bottom:auto; margin:1.4rem 1.2rem 0; }
     .h-hint{
@@ -322,6 +405,11 @@
     .h-hint .swipe-only{ display:inline; }
     .h-hint .scrub-only{ display:none; }
     .clip-dots{ position:relative; bottom:auto; left:auto; transform:none; display:flex; justify-content:center; margin-top:1.2rem; }
+  }
+  @media (max-width:420px){
+    .wordmark .letter{ font-size:clamp(2.6rem, 16vw, 6rem); }
+    .stats-grid{ grid-template-columns:1fr 1fr; gap:1.2rem; }
+    .stat-num{ font-size:clamp(1.9rem,9vw,2.6rem); }
   }
   @media (prefers-reduced-motion: reduce){
     .marquee{ animation:none !important; }
@@ -386,12 +474,22 @@
     <div class="marquee" id="marqueeTrack"></div>
   </div>
   <div class="scroll-cue"><div class="line"></div>Scroll to play</div>
+
+  <div class="orbit-badge" aria-hidden="true">
+    <svg viewBox="0 0 120 120">
+      <path id="orbitPath" d="M60,60 m-48,0 a48,48 0 1,1 96,0 a48,48 0 1,1 -96,0" fill="none"/>
+      <text font-family="monospace" font-size="9" letter-spacing="2.4">
+        <textPath href="#orbitPath" startOffset="0%">AVAILABLE FOR PROJECTS • AVAILABLE FOR PROJECTS •</textPath>
+      </text>
+    </svg>
+    <div class="orbit-center">↗</div>
+  </div>
 </section>
 
 <!-- TIMELINE / WORK -->
 <section class="timeline-section" id="work">
   <div class="timeline-head">
-    <h2>What we cut together</h2>
+    <h2>01 — What we cut together</h2>
     <div class="tc">TIMECODE <b id="tcNow">00:00</b> / 00:30</div>
   </div>
   <div class="ruler" id="ruler"></div>
@@ -416,7 +514,7 @@
 <section class="about" id="studio">
   <div class="about-grid">
     <div>
-      <div class="about-eyebrow">The Studio</div>
+      <div class="about-eyebrow">02 — The Studio</div>
       <h3 class="about-lede">We treat every brief like <span class="hl">a rough cut</span> — then we edit until it's unmistakably yours.</h3>
       <p class="about-copy">
         CG Studios is a Lagos-based creative studio working across branding, print, illustration, and motion
@@ -435,10 +533,24 @@
   </div>
 </section>
 
+<!-- STATS / COUNTER -->
+<section class="stats" id="numbers">
+  <div class="stats-inner">
+    <div class="stats-eyebrow">03 — By The Numbers</div>
+    <div class="stats-grid" id="statsGrid"></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="voices">
+  <div class="testimonials-eyebrow">04 — In Their Words</div>
+  <div class="testi-grid" id="testiGrid"></div>
+</section>
+
 <!-- CONTACT -->
 <section class="contact" id="contact">
   <div class="contact-inner">
-    <div class="contact-eyebrow">Start a project</div>
+    <div class="contact-eyebrow">05 — Start a project</div>
     <h2 class="contact-big"><a href="mailto:cgstudios.ng@gmail.com">Let's cut<br>something great.</a></h2>
     <div class="contact-grid">
       <div class="contact-col">
@@ -474,7 +586,7 @@ if (!isTouch) {
   window.addEventListener('mousemove', (e) => {
     gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: .45, ease: 'power3.out' });
   });
-  document.querySelectorAll('a, button, .clip-card').forEach(el => {
+  document.querySelectorAll('a, button, .clip-card, .testi-card').forEach(el => {
     el.addEventListener('mouseenter', () => cursor.classList.add('grow'));
     el.addEventListener('mouseleave', () => cursor.classList.remove('grow'));
   });
@@ -532,8 +644,9 @@ CLIPS.forEach((c, i) => {
       <div class="clip-title">${c.title}</div>
       <div class="clip-desc">${c.desc}</div>
     </div>
-    <svg class="scribble" viewBox="0 0 400 500" preserveAspectRatio="none">
-      <path d="M40,60 C10,180 10,340 60,430 C140,500 300,480 360,400 C400,320 380,150 330,70 C260,-10 90,-10 40,60 Z"/>
+    <svg class="scribble" viewBox="0 0 110 66" preserveAspectRatio="xMidYMid meet">
+      <path class="scribble-line" d="M7,59 C6,37 18,19 35,12 C43,9 49,7 54,8"/>
+      <polygon class="scribble-arrowhead" points="45,2 68,6 51,20"/>
     </svg>
     <div class="clip-note">${c.note}</div>
   `;
@@ -568,6 +681,24 @@ function updateActiveCard(progress) {
   const idx = Math.min(CLIPS.length - 1, Math.round(progress * (CLIPS.length - 1)));
   setActiveIndex(idx);
 }
+
+/* jump to a given clip index — works in both desktop (pinned/scrubbed)
+   and mobile (native horizontal swipe) modes. Powers the dot buttons. */
+function jumpToClip(i) {
+  if (window.innerWidth <= 600) {
+    const viewport = document.getElementById('tlViewport');
+    const card = cards[i];
+    const target = card.offsetLeft - (viewport.clientWidth - card.offsetWidth) / 2;
+    viewport.scrollTo({ left: target, behavior: 'smooth' });
+    setActiveIndex(i);
+  } else {
+    const st = ScrollTrigger.getById('timelineST');
+    if (!st) return;
+    const target = st.start + (i / (CLIPS.length - 1)) * (st.end - st.start);
+    window.scrollTo({ top: target, behavior: 'smooth' });
+  }
+}
+dots.forEach((dot, i) => dot.addEventListener('click', () => jumpToClip(i)));
 
 let mobileListenerAttached = false;
 
@@ -619,17 +750,102 @@ function initTimeline() {
     x: -scrollLength,
     ease: 'none',
     scrollTrigger: {
+      id: 'timelineST',
       trigger: '.timeline-section',
       start: 'top top',
-      end: () => '+=' + (scrollLength * 1.15),
+      end: () => '+=' + scrollLength,
       scrub: .6,
       pin: true,
+      anticipatePin: 1,
       invalidateOnRefresh: true,
       onUpdate: (self) => {
         tlFill.style.width = `${self.progress * 100}%`;
         updateActiveCard(self.progress);
       },
     },
+  });
+}
+
+/* ══════════════ NAV SOLID-ON-SCROLL ══════════════ */
+const mainNavEl = document.getElementById('mainNav');
+function syncNavState() {
+  mainNavEl.classList.toggle('scrolled', window.scrollY > 72);
+}
+window.addEventListener('scroll', syncNavState, { passive: true });
+syncNavState();
+
+/* ══════════════ STATS / COUNTER ══════════════ */
+const STATS = [
+  { value: 120, suffix: '+', label: 'Projects shipped for real clients' },
+  { value: 45,  suffix: '+', label: 'Brands built from the ground up' },
+  { value: 6,   suffix: 'yrs', label: 'Cutting type & pixels professionally' },
+  { value: 98,  suffix: '%', label: 'Clients who come back for more' },
+];
+const statsGrid = document.getElementById('statsGrid');
+STATS.forEach(s => {
+  const card = document.createElement('div');
+  card.className = 'stat-card';
+  card.innerHTML = `
+    <div class="stat-num"><span class="count" data-target="${s.value}">0</span><span class="suffix">${s.suffix}</span></div>
+    <div class="stat-bar"></div>
+    <div class="stat-label">${s.label}</div>
+  `;
+  statsGrid.appendChild(card);
+});
+
+function animateCounters() {
+  document.querySelectorAll('.stat-num .count').forEach(el => {
+    const target = parseFloat(el.dataset.target);
+    const obj = { val: 0 };
+    gsap.to(obj, {
+      val: target,
+      duration: 1.8,
+      ease: 'power2.out',
+      onUpdate: () => { el.textContent = Math.round(obj.val); },
+    });
+  });
+}
+ScrollTrigger.create({
+  trigger: '.stats',
+  start: 'top 75%',
+  once: true,
+  onEnter: animateCounters,
+});
+
+/* ══════════════ TESTIMONIALS ══════════════ */
+const TESTIMONIALS = [
+  { quote: "They turned a brief I could barely explain into a brand that finally looked like us.", who: 'Amaka O.', role: 'Founder, skincare line' },
+  { quote: "Fast, sharp, and the motion work made our launch post actually stop the scroll.", who: 'Tunde A.', role: 'Marketing lead, fintech' },
+  { quote: "The SME Package felt like hiring a whole creative team for a fraction of the cost.", who: 'Ifeoma K.', role: 'Owner, event studio' },
+];
+const testiGrid = document.getElementById('testiGrid');
+TESTIMONIALS.forEach(t => {
+  const card = document.createElement('div');
+  card.className = 'testi-card';
+  card.innerHTML = `
+    <div class="testi-quote">${t.quote}</div>
+    <div class="testi-who"><b>${t.who}</b> — ${t.role}</div>
+  `;
+  testiGrid.appendChild(card);
+});
+gsap.utils.toArray('.testi-card').forEach((card, i) => {
+  gsap.from(card, {
+    opacity: 0, y: 40, duration: .7, delay: i * .08, ease: 'power3.out',
+    scrollTrigger: { trigger: '.testimonials', start: 'top 78%' },
+  });
+});
+
+/* ══════════════ MAGNETIC HOVER ══════════════ */
+if (!isTouch && !reduceMotion) {
+  document.querySelectorAll('.nav-links a, .skip-btn, .contact-big a').forEach(el => {
+    const xTo = gsap.quickTo(el, 'x', { duration: .5, ease: 'power3' });
+    const yTo = gsap.quickTo(el, 'y', { duration: .5, ease: 'power3' });
+    el.addEventListener('mousemove', (e) => {
+      const r = el.getBoundingClientRect();
+      xTo((e.clientX - r.left - r.width / 2) * .3);
+      yTo((e.clientY - r.top - r.height / 2) * .3);
+    });
+    el.addEventListener('mouseleave', () => { xTo(0); yTo(0); });
   });
 }
 
@@ -679,7 +895,11 @@ function playIntro() {
     .from('.hero-eyebrow, .hero-sub', { opacity: 0, y: 14, duration: .6, stagger: .1 }, '-=.5')
     .from('.marquee-wrap', { opacity: 0, y: 20, duration: .6 }, '-=.3')
     .from('.scroll-cue', { opacity: 0, duration: .5 }, '-=.2')
-    .call(() => { ScrollTrigger.refresh(); initTimeline(); });
+    .call(() => {
+      ScrollTrigger.refresh();
+      initTimeline();
+      document.fonts.ready.then(() => ScrollTrigger.refresh());
+    });
 }
 
 skipBtn.addEventListener('click', () => {
@@ -712,9 +932,21 @@ window.addEventListener('load', () => {
   gsap.from('.process li', { opacity: 0, x: 20, duration: .6, stagger: .08, scrollTrigger: { trigger: '.process', start: 'top 80%' } });
   gsap.from('.contact-big', { opacity: 0, y: 30, duration: .9, scrollTrigger: { trigger: '.contact', start: 'top 80%' } });
   gsap.from('.contact-grid .contact-col', { opacity: 0, y: 16, duration: .6, stagger: .1, scrollTrigger: { trigger: '.contact-grid', start: 'top 85%' } });
+  gsap.from('.stats-eyebrow', { opacity: 0, y: 16, duration: .6, scrollTrigger: { trigger: '.stats', start: 'top 80%' } });
+  gsap.from('.stat-card', { opacity: 0, y: 24, duration: .7, stagger: .1, scrollTrigger: { trigger: '.stats-grid', start: 'top 85%' } });
+  gsap.from('.testimonials-eyebrow', { opacity: 0, y: 16, duration: .6, scrollTrigger: { trigger: '.testimonials', start: 'top 82%' } });
 });
 
+/* Only re-init the pinned timeline on a genuine width change (breakpoint
+   crossing, orientation change, window resize) — NOT on the height-only
+   changes mobile browsers fire when the address bar hides/shows while
+   scrolling. That false trigger was killing and rebuilding the pin mid-
+   scroll, which is what made everything below the reel (About, Contact,
+   footer) appear to vanish. */
+let lastWidth = window.innerWidth;
 window.addEventListener('resize', () => {
+  if (window.innerWidth === lastWidth) return;
+  lastWidth = window.innerWidth;
   ScrollTrigger.getAll().forEach(st => st.kill());
   if (introDone) initTimeline();
 });

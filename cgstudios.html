@@ -74,15 +74,17 @@
   }
   .skip-btn:hover{ color:var(--signal); border-color:var(--signal); }
 
-  .bars{ position:fixed; inset:0; z-index:390; display:flex; }
+  .bars{ position:fixed; inset:0; z-index:390; display:flex; pointer-events:none; }
+  .bars.done{ display:none; visibility:hidden; }
   .bar{ flex:1; height:100%; background:var(--ink); }
 
   /* ═══ NAV ═══ */
   nav{
-    position:fixed; top:0; left:0; right:0; z-index:200;
+    position:fixed; top:0; left:0; right:0; z-index:500;
     display:flex; justify-content:space-between; align-items:center;
     padding:1.4rem 2rem; opacity:0; mix-blend-mode:difference;
     transition:background-color .35s ease, backdrop-filter .35s ease, padding .35s ease, box-shadow .35s ease;
+    pointer-events:auto;
   }
   nav.scrolled{
     mix-blend-mode:normal;
@@ -91,17 +93,86 @@
     box-shadow:0 1px 0 rgba(228,225,216,.08);
     padding:1.05rem 2rem;
   }
-  .nav-mark{ height:32px; width:auto; display:block; mix-blend-mode:normal; }
-  .nav-links{ display:flex; gap:2.2rem; }
+  .nav-mark{
+    height:32px; width:auto; max-width:160px; display:block;
+    mix-blend-mode:normal; flex-shrink:0; position:relative; z-index:1;
+    pointer-events:none; /* logo must not steal clicks from links */
+  }
+  .nav-links{
+    display:flex; gap:2.2rem; align-items:center;
+    position:relative; z-index:2; pointer-events:auto;
+  }
   .nav-links a{
     font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:var(--paper);
-    position:relative;
+    position:relative; z-index:2;
+    pointer-events:auto; cursor:pointer;
   }
   .nav-links a::after{
     content:""; position:absolute; left:0; bottom:-4px; width:0; height:1px; background:var(--paper);
     transition:width .3s;
   }
   .nav-links a:hover::after{ width:100%; }
+
+  /* hamburger */
+  .nav-toggle{
+    display:none; background:none; border:none; cursor:pointer; padding:.4rem;
+    width:40px; height:40px; position:relative; z-index:520;
+    flex-direction:column; justify-content:center; align-items:center; gap:6px;
+  }
+  .nav-toggle span{
+    display:block; width:22px; height:1.5px; background:var(--paper);
+    transition:transform .3s cubic-bezier(.4,0,.2,1), opacity .25s;
+    transform-origin:center;
+  }
+  .nav-toggle.open span:nth-child(1){ transform:translateY(7.5px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2){ opacity:0; transform:scaleX(0); }
+  .nav-toggle.open span:nth-child(3){ transform:translateY(-7.5px) rotate(-45deg); }
+
+  /* mobile menu panel */
+  .nav-mobile{
+    display:none; position:fixed; inset:0; z-index:510;
+    background:rgba(18,17,15,.96); backdrop-filter:blur(12px);
+    flex-direction:column; justify-content:center; align-items:center; gap:1.8rem;
+    opacity:0; pointer-events:none; transition:opacity .35s ease;
+  }
+  .nav-mobile.open{ opacity:1; pointer-events:auto; }
+  .nav-mobile a{
+    font-family:var(--disp); font-size:clamp(1.6rem,6vw,2.4rem);
+    color:var(--paper); letter-spacing:.04em;
+    position:relative;
+  }
+  .nav-mobile a:hover{ color:var(--signal); }
+  .nav-mobile .mobile-meta{
+    margin-top:2rem; font-size:.7rem; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--concrete); display:flex; flex-direction:column; align-items:center; gap:.6rem;
+  }
+  .nav-mobile .mobile-meta a{ font-family:var(--mono); font-size:.7rem; color:var(--concrete); }
+  .nav-mobile .mobile-meta a:hover{ color:var(--signal); }
+
+  /* explicit close (X) button inside the mobile menu */
+  .nav-close{
+    position:absolute; top:1.2rem; right:1.2rem;
+    width:44px; height:44px; border:none; background:none; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    z-index:2; padding:0;
+  }
+  .nav-close::before,
+  .nav-close::after{
+    content:""; position:absolute; width:22px; height:1.5px; background:var(--paper);
+    transition:background .2s;
+  }
+  .nav-close::before{ transform:rotate(45deg); }
+  .nav-close::after{ transform:rotate(-45deg); }
+  .nav-close:hover::before,
+  .nav-close:hover::after{ background:var(--signal); }
+  .nav-close:focus-visible{ outline:1px solid var(--signal); outline-offset:4px; }
+
+  /* when menu is open, lift the whole nav (and its hamburger) above the panel */
+  body.menu-open nav{
+    z-index:520;
+    mix-blend-mode:normal;
+  }
+  body.menu-open .nav-toggle span{ background:var(--paper); }
 
   /* ═══ HERO ═══ */
   .hero{
@@ -364,7 +435,7 @@
   .contact-big a:hover::after{ transform:scaleX(1); }
 
   .contact-grid{
-    display:grid; grid-template-columns:repeat(3,1fr); gap:2rem; margin-top:3rem;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:2rem; margin-top:3rem;
     padding-top:2rem; border-top:1px solid rgba(228,225,216,.15);
   }
   .contact-col .lbl{ font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; color:var(--concrete); margin-bottom:.6rem; }
@@ -375,19 +446,24 @@
     margin-top:3rem; padding-top:1.4rem; border-top:1px solid rgba(228,225,216,.1);
     display:flex; justify-content:space-between; font-size:.68rem; color:var(--concrete); flex-wrap:wrap; gap:.6rem;
   }
+  footer a{ color:var(--concrete); }
+  footer a:hover{ color:var(--signal); }
 
   /* ═══ RESPONSIVE ═══ */
   @media (max-width:900px){
     .about-grid{ grid-template-columns:1fr; gap:2.5rem; }
     .contact-grid{ grid-template-columns:1fr 1fr; }
+    .contact-grid .contact-col:nth-child(3){ border:none; }
     .ruler{ display:none; }
     .timeline-head{ top:1.4rem; left:1.2rem; right:1.2rem; }
     .timeline-progress{ left:1.2rem; right:1.2rem; }
   }
   @media (max-width:700px){
-    /* nav links removed for now on small screens — logo only */
     .nav-links{ display:none; }
-    nav{ justify-content:flex-start; }
+    .nav-toggle{ display:flex; }
+    .nav-mobile{ display:flex; }
+    nav{ justify-content:space-between; }
+    nav.scrolled .nav-toggle span{ background:var(--paper); }
   }
   @media (max-width:600px){
     body{ font-size:14px; }
@@ -465,7 +541,24 @@
     <a href="/index.html">CG Pixels</a>
     <a href="https://www.instagram.com/cgstudios.ng" target="_blank" rel="noopener">Instagram</a>
   </div>
+  <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<div class="nav-mobile" id="navMobile" aria-hidden="true">
+  <button class="nav-close" id="navClose" type="button" aria-label="Close menu"></button>
+  <a href="#work">Work</a>
+  <a href="#studio">Studio</a>
+  <a href="#contact">Contact</a>
+  <a href="/index.html">CG Pixels</a>
+  <a href="https://www.instagram.com/cgstudios.ng" target="_blank" rel="noopener">Instagram</a>
+  <a href="https://www.facebook.com/cgstudios.ng" target="_blank" rel="noopener">Facebook</a>
+  <div class="mobile-meta">
+    <a href="mailto:cgstudios.ng@gmail.com">cgstudios.ng@gmail.com</a>
+    <span>Lagos, Nigeria</span>
+  </div>
+</div>
 
 <!-- HERO -->
 <section class="hero" id="hero">
@@ -584,13 +677,23 @@
         <div class="val"><a href="https://www.instagram.com/cgstudios.ng" target="_blank" rel="noopener">@cgstudios.ng</a></div>
       </div>
       <div class="contact-col">
+        <div class="lbl">Facebook</div>
+        <div class="val"><a href="https://www.facebook.com/cgstudios.ng" target="_blank" rel="noopener">/cgstudios.ng</a></div>
+      </div>
+      <div class="contact-col">
         <div class="lbl">Based in</div>
         <div class="val">Lagos, Nigeria</div>
       </div>
     </div>
     <footer>
       <span>© 2026 CG Studios. All rights reserved.</span>
-      <span>Design &amp; Motion — sister studio to CG Pixels</span>
+      <span>
+        <a href="https://www.instagram.com/cgstudios.ng" target="_blank" rel="noopener">Instagram</a>
+        &nbsp;·&nbsp;
+        <a href="https://www.facebook.com/cgstudios.ng" target="_blank" rel="noopener">Facebook</a>
+        &nbsp;·&nbsp;
+        Design &amp; Motion — sister studio to CG Pixels
+      </span>
     </footer>
   </div>
 </section>
@@ -941,13 +1044,101 @@ if (!isTouch && !reduceMotion) {
   });
 }
 
+/* ══════════════ MOBILE NAV (hamburger) ══════════════ */
+(function initMobileNav() {
+  const toggle = document.getElementById('navToggle');
+  const panel = document.getElementById('navMobile');
+  const closeBtn = document.getElementById('navClose');
+  if (!toggle || !panel) return;
+
+  function closeMenu() {
+    toggle.classList.remove('open');
+    panel.classList.remove('open');
+    document.body.classList.remove('menu-open');
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', 'Open menu');
+    panel.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  function openMenu() {
+    toggle.classList.add('open');
+    panel.classList.add('open');
+    document.body.classList.add('menu-open');
+    toggle.setAttribute('aria-expanded', 'true');
+    toggle.setAttribute('aria-label', 'Close menu');
+    panel.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  toggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (panel.classList.contains('open')) closeMenu();
+    else openMenu();
+  });
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeMenu();
+    });
+  }
+
+  panel.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      // slight delay so hash navigation can start before we unlock scroll
+      setTimeout(closeMenu, 50);
+    });
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 700) closeMenu();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeMenu();
+  });
+})();
+
+/* ══════════════ SMOOTH ANCHOR SCROLL (fixes pin interference) ══════════════ */
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    const id = this.getAttribute('href');
+    if (id.length < 2) return;
+    const target = document.querySelector(id);
+    if (!target) return;
+    e.preventDefault();
+    // close mobile menu if open
+    const panel = document.getElementById('navMobile');
+    const toggle = document.getElementById('navToggle');
+    if (panel && panel.classList.contains('open')) {
+      toggle.classList.remove('open');
+      panel.classList.remove('open');
+      document.body.classList.remove('menu-open');
+      document.body.style.overflow = '';
+    }
+    const y = target.getBoundingClientRect().top + window.pageYOffset - 60;
+    window.scrollTo({ top: y, behavior: reduceMotion ? 'auto' : 'smooth' });
+  });
+});
+
 /* ══════════════ INTRO SEQUENCE ══════════════ */
 const counterEl = document.getElementById('counterVal');
 const loaderMsg = document.getElementById('loaderMsg');
 const loaderEl = document.getElementById('loader');
+const barsWrap = document.getElementById('bars');
 const barsEl = document.querySelectorAll('.bar');
 const skipBtn = document.getElementById('skipBtn');
 let introDone = false;
+
+function killBarsOverlay() {
+  barsEl.forEach(b => { b.style.height = '0'; });
+  if (barsWrap) {
+    barsWrap.classList.add('done');
+    barsWrap.style.pointerEvents = 'none';
+    barsWrap.style.display = 'none';
+  }
+}
 
 function playIntro() {
   if (introDone) return;
@@ -979,6 +1170,7 @@ function playIntro() {
       stagger: { amount: .4, from: 'edges' },
     }, '-=.1')
     .set(loaderEl, { display: 'none' })
+    .call(killBarsOverlay)
     .to('#mainNav', { opacity: 1, duration: .5 }, '-=.6')
     .from('.wordmark .letter', {
       yPercent: 130, rotate: 6, duration: 1, ease: 'power4.out',
@@ -997,7 +1189,7 @@ function playIntro() {
 skipBtn.addEventListener('click', () => {
   gsap.killTweensOf('*');
   loaderEl.style.display = 'none';
-  barsEl.forEach(b => b.style.height = '0');
+  killBarsOverlay();
   gsap.set('#mainNav', { opacity: 1 });
   gsap.set('.wordmark .letter', { yPercent: 0, rotate: 0 });
   gsap.set('.hero-eyebrow, .hero-sub, .marquee-wrap, .scroll-cue', { opacity: 1, y: 0 });
@@ -1008,7 +1200,7 @@ skipBtn.addEventListener('click', () => {
 
 if (reduceMotion) {
   loaderEl.style.display = 'none';
-  barsEl.forEach(b => b.style.height = '0');
+  killBarsOverlay();
   gsap.set('#mainNav', { opacity: 1 });
   introDone = true;
   window.addEventListener('load', initTimeline);

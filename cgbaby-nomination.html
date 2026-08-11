@@ -554,7 +554,7 @@
     }
     .terms-note a { color: var(--orange); text-decoration: underline; }
 
-    /* ── NOMINEES ────────────────────────────────────────────────── */
+    /* ── NOMINEES / LEADERBOARD ─────────────────────────────────── */
     .nominees-section { padding: 6rem 2rem; background: var(--deep); }
     .nominees-grid {
       display: grid;
@@ -582,6 +582,41 @@
       text-transform: uppercase; padding: .2rem .55rem;
       border-radius: 50px; letter-spacing: .08em;
     }
+
+    /* ── LIVE LEADERBOARD ────────────────────────────────────────── */
+    .lb-live-badge {
+      display: inline-flex; align-items: center; gap: .4rem;
+      padding: .3rem .85rem; border-radius: 50px; margin-bottom: .8rem;
+      background: rgba(0,230,118,.08); border: 1px solid rgba(0,230,118,.35);
+      font-size: .72rem; font-weight: 800; color: #00e676;
+      text-transform: uppercase; letter-spacing: .12em;
+    }
+    .lb-live-dot {
+      width: 7px; height: 7px; border-radius: 50%; background: #00e676;
+      box-shadow: 0 0 8px #00e676; animation: lbPulse 1.4s ease-in-out infinite;
+    }
+    @keyframes lbPulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+
+    .rank-badge {
+      position: absolute; top: .65rem; left: .65rem; z-index: 3;
+      display: flex; align-items: center; justify-content: center;
+      width: 34px; height: 34px; border-radius: 50%;
+      font-size: .8rem; font-weight: 900;
+      background: rgba(0,0,0,.75); backdrop-filter: blur(6px);
+      border: 1.5px solid var(--orange); color: var(--orange);
+    }
+    .rank-badge.gold   { border-color: #ffd700; color: #ffd700; box-shadow: 0 0 14px rgba(255,215,0,.5); }
+    .rank-badge.silver { border-color: #c0c0c0; color: #c0c0c0; }
+    .rank-badge.bronze { border-color: #cd7f32; color: #cd7f32; }
+
+    .lb-vote-pill {
+      position: absolute; bottom: .65rem; right: .65rem; z-index: 3;
+      display: flex; align-items: center; gap: .28rem;
+      background: rgba(0,0,0,.75); backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,140,0,.3); border-radius: 18px;
+      padding: .26rem .6rem; font-size: .74rem; font-weight: 700; color: var(--orange);
+    }
+    .lb-vote-pill svg { fill: var(--orange); display: block; }
 
     /* skeletons */
     .skeleton { background: rgba(255,140,0,.04); border-radius: 18px; overflow: hidden; border: 1px solid rgba(255,140,0,.09); }
@@ -961,14 +996,15 @@
   </div>
 </section>
 
-<!-- ── CURRENT NOMINEES ───────────────────────────────────────────────── -->
-<!-- <section class="nominees-section">
+<!-- ── LIVE LEADERBOARD ───────────────────────────────────────────────── -->
+<section class="nominees-section" id="leaderboard">
   <div class="section-header">
-    <h2>Current Nominees</h2>
-    <p>Voting opens when nominations close — share and build your community!</p>
+    <div class="lb-live-badge"><span class="lb-live-dot"></span>Live · Updates in Real Time</div>
+    <h2>Current Standings</h2>
+    <p>See how nominees are ranking so far &mdash; share your favourite's link!</p>
   </div>
 
-  <div class="nominees-grid" id="nomineesGrid">
+  <div class="nominees-grid" id="leaderboardGrid">
     <div class="skeleton"><div class="skel-img"></div><div class="skel-line" style="width:62%"></div><div class="skel-line" style="width:40%;margin-top:.4rem"></div></div>
     <div class="skeleton"><div class="skel-img"></div><div class="skel-line" style="width:70%"></div><div class="skel-line" style="width:35%;margin-top:.4rem"></div></div>
     <div class="skeleton"><div class="skel-img"></div><div class="skel-line" style="width:55%"></div><div class="skel-line" style="width:48%;margin-top:.4rem"></div></div>
@@ -983,7 +1019,7 @@
       </svg>
     </a>
   </div>
-</section> -->
+</section>
 
 <!-- FOOTER -->
 <footer>
@@ -1234,7 +1270,7 @@ document.getElementById('nomForm').addEventListener('submit', async e => {
     selectedFile = null;
     document.getElementById('uploadPreview').style.display = 'none';
     document.getElementById('charCount').textContent = '0';
-    loadNominees();
+    // leaderboard updates automatically via the onSnapshot listener — no manual refresh needed
 
   } catch(err) {
     console.error(err);
@@ -1260,44 +1296,54 @@ document.addEventListener('click', (e) => {
     nav.classList.remove('active');
   }
 });
-/* ── LOAD NOMINEES (modular v12) ─────────────────────────────────── */
-async function loadNominees() {
-  const grid = document.getElementById('nomineesGrid');
-  let nominations = [];
 
-  try {
-    const q    = query(collection(db, 'nominations'), where('approved','==',true), orderBy('createdAt','desc'), limit(12));
-    const snap = await getDocs(q);
-    snap.forEach(d => nominations.push({ id: d.id, ...d.data() }));
-  } catch(e) { console.warn('Firestore read error', e); }
+/* ── LIVE LEADERBOARD (real-time, ranked by votes) ───────────────── */
+let lbUnsub = null;
 
-  if (!nominations.length) {
-    grid.innerHTML = `
-      <div class="nominees-empty">
-        <div class="empty-icon-wrap">
-          <svg width="38" height="38" viewBox="0 0 24 24"><path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15a5 5 0 110-10 5 5 0 010 10zm0-8a3 3 0 100 6 3 3 0 000-6z"/></svg>
+function startLeaderboard() {
+  const grid = document.getElementById('leaderboardGrid');
+  const q = query(collection(db, 'nominations'), where('approved', '==', true));
+
+  if (lbUnsub) lbUnsub(); // avoid duplicate listeners
+  lbUnsub = onSnapshot(q, snap => {
+    let list = [];
+    snap.forEach(d => list.push({ id: d.id, ...d.data() }));
+
+    // rank by votes, highest first
+    list.sort((a, b) => (b.votes || 0) - (a.votes || 0));
+
+    if (!list.length) {
+      grid.innerHTML = `
+        <div class="nominees-empty">
+          <div class="empty-icon-wrap">
+            <svg width="38" height="38" viewBox="0 0 24 24"><path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15a5 5 0 110-10 5 5 0 010 10zm0-8a3 3 0 100 6 3 3 0 000-6z"/></svg>
+          </div>
+          No nominees yet — be the first to nominate!
+        </div>`;
+      return;
+    }
+
+    const rankClass = i => i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : '';
+    const heart = `<svg width="12" height="12" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`;
+
+    grid.innerHTML = list.slice(0, 12).map((n, i) => `
+      <div class="nominee-card">
+        <div class="rank-badge ${rankClass(i)}">${i + 1}</div>
+        <img class="nominee-img" src="${n.photoURL || ''}" alt="${n.childName}" loading="lazy"
+             onerror="this.src='https://placehold.co/300x300/0d0d0d/ff8c00?text=CG+Champ'" />
+        <div class="lb-vote-pill">${heart} ${(n.votes || 0).toLocaleString()}</div>
+        <div class="nominee-info">
+          <div class="nominee-name">${n.childName}</div>
+          <div class="nominee-age">${n.childAge}</div>
         </div>
-        No nominees yet — be the first to nominate!
-      </div>`;
-    return;
-  }
-
-  grid.innerHTML = nominations.map((n, i) => `
-    <div class="nominee-card">
-      ${i < 3 ? '<span class="nominee-badge">New</span>' : ''}
-      <img class="nominee-img" src="${n.photoURL}" alt="${n.childName}" loading="lazy" />
-      <div class="nominee-info">
-        <div class="nominee-name">${n.childName}</div>
-        <div class="nominee-age">${n.childAge}</div>
-      </div>
-    </div>`).join('');
+      </div>`).join('');
+  }, err => {
+    console.error('Leaderboard listener error:', err);
+    grid.innerHTML = `<div class="nominees-empty">Couldn't load standings — refresh to try again.</div>`;
+  });
 }
 
-loadNominees();
-
-/* Real-time listener: refresh nominees grid whenever Firestore changes */
-const nqListener = query(collection(db, 'nominations'), where('approved','==',true));
-onSnapshot(nqListener, () => loadNominees());
+startLeaderboard();
 
 /* spinner keyframe */
 const ss = document.createElement('style');

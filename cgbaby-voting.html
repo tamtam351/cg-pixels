@@ -710,7 +710,7 @@ function startNomineesListener() {
 /* LEADERBOARD */
 function renderLeaderboard() {
   const wrap = document.getElementById('lbWrap');
-  const top  = nominees.slice(0,10);
+  const top  = nominees;
   const maxV = top[0]?.votes || 1;
 
   if (!top.length) {

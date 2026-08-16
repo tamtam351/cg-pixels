@@ -892,9 +892,13 @@ document.getElementById('vGrid').addEventListener('click', async e => {
 
 /* SHARE A NOMINEE'S UNIQUE LINK */
 async function shareNominee(id, name) {
-  const url = new URL('cgbaby-voting.html', window.location.href);
-  url.searchParams.set('ref', id);
-  const shareUrl = url.toString();
+  /* the backend's /share/:id route serves a tiny HTML page with this
+     nominee's photo baked into the Open Graph tags, then redirects a
+     real visitor straight into the voting page. Social apps read the
+     tags without running JS, so this is what makes the photo actually
+     show up in link previews — pointing directly at cgbaby-voting.html
+     would only ever show one generic preview for every nominee. */
+  const shareUrl = `${CLOUD_FUNCTIONS_BASE_URL}/share/${id}`;
 
   const shareData = {
     title: `Vote for ${name} — CG Champ of the Year`,

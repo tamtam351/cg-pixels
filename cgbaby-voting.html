@@ -279,6 +279,24 @@
     .v-share-btn:hover { background:rgba(255,140,0,.12); border-color:var(--orange); transform:translateY(-2px); }
     .v-share-btn svg { fill:var(--bright); display:block; flex-shrink:0; }
 
+    /* VOTE QUANTITY ROW */
+    .v-vote-row { display:flex; gap:.5rem; }
+    .v-qty-input {
+      width:78px; flex-shrink:0; padding:.85rem .6rem; text-align:center;
+      background:rgba(255,255,255,.05); border:1.5px solid rgba(255,140,0,.25);
+      border-radius:14px; color:#fff; font-size:.95rem; font-weight:800;
+      font-family:var(--sf); transition:border-color .3s, box-shadow .3s;
+      -moz-appearance:textfield;
+    }
+    .v-qty-input::-webkit-outer-spin-button,
+    .v-qty-input::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
+    .v-qty-input::placeholder { color:rgba(255,255,255,.28); font-weight:600; }
+    .v-qty-input:focus {
+      outline:none; border-color:var(--orange);
+      box-shadow:0 0 0 3px rgba(255,140,0,.15);
+    }
+    .v-vote-row .v-btn { flex:1; }
+
     /* REFERRAL HIGHLIGHT */
     .v-card.v-highlighted {
       border-color:var(--bright) !important;
@@ -457,6 +475,26 @@
         <span id="payTxt">Generate Account · ₦500</span>
       </button>
       <button class="btn-cancel-mo" onclick="closeMo()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM VOTE MODAL -->
+<div class="mo" id="confirmMo">
+  <div class="mo-box" style="max-width:400px">
+    <div class="mo-head">
+      <h2>Confirm Your Vote</h2>
+      <p>Are you sure you want to spend <strong id="confirmQty" style="color:var(--orange)"></strong> credit<span id="confirmPlural">s</span> voting for <strong id="confirmName" style="color:var(--bright)"></strong>?</p>
+    </div>
+    <div class="mo-body">
+      <div style="background:rgba(255,140,0,.05);border:1px solid rgba(255,140,0,.18);border-radius:9px;padding:.75rem .9rem;margin-bottom:1.1rem;font-size:.78rem;color:rgba(255,255,255,.6);line-height:1.6">
+        This will use up <strong id="confirmQty2" style="color:var(--orange)"></strong> of your <strong id="confirmAvail" style="color:var(--bright)"></strong> available credits. Votes can't be undone once cast.
+      </div>
+      <button class="btn-pay" id="confirmYesBtn">
+        <svg width="17" height="17" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+        <span>Yes, Cast My Vote</span>
+      </button>
+      <button class="btn-cancel-mo" onclick="closeConfirmMo()">Cancel</button>
     </div>
   </div>
 </div>
@@ -840,10 +878,18 @@ function renderGrid() {
       if (myC < 1)
         action = `<button class="v-btn locked" disabled>${SVG.lock} No Credits · <span style="color:var(--gold);cursor:pointer" onclick="openMo()">Buy More</span></button>`;
       else
-        action = `<button class="v-btn cast" data-id="${n.id}">${SVG.heart} Vote (1 Credit)</button>`;
+        action = `
+          <div class="v-vote-row">
+            <input type="number" class="v-qty-input" id="qty_${n.id}" min="1" step="1" placeholder="Qty" inputmode="numeric" />
+            <button class="v-btn cast" data-id="${n.id}" data-name="${n.childName}">${SVG.heart} Vote</button>
+          </div>`;
     } else if (curPhase === 'finals') {
       action = isTop5
-        ? `<button class="v-btn cast" style="background:linear-gradient(135deg,var(--gold),#e6a000);color:#000" data-id="${n.id}" data-finals="1">${SVG.coin} Spend 1 Credit</button>`
+        ? `
+          <div class="v-vote-row">
+            <input type="number" class="v-qty-input" id="qty_${n.id}" min="1" step="1" placeholder="Qty" inputmode="numeric" style="border-color:rgba(255,215,0,.35)" />
+            <button class="v-btn cast" style="background:linear-gradient(135deg,var(--gold),#e6a000);color:#000" data-id="${n.id}" data-name="${n.childName}" data-finals="1">${SVG.coin} Vote</button>
+          </div>`
         : `<button class="v-btn locked" disabled style="opacity:.3">Not a Finalist</button>`;
     } else {
       action = `<button class="v-btn locked" disabled>Voting Closed</button>`;
@@ -887,7 +933,81 @@ document.getElementById('vGrid').addEventListener('click', async e => {
   }
   const btn = e.target.closest('.v-btn.cast[data-id]');
   if (!btn || btn.disabled) return;
-  await castVote(btn.dataset.id, btn, !!btn.dataset.finals);
+  attemptVote(btn);
+});
+
+/* Enter key inside the quantity input triggers the same flow as clicking Vote */
+document.getElementById('vGrid').addEventListener('keydown', e => {
+  if (e.key !== 'Enter') return;
+  const input = e.target.closest('.v-qty-input');
+  if (!input) return;
+  e.preventDefault();
+  const btn = input.parentElement.querySelector('.v-btn.cast[data-id]');
+  if (btn && !btn.disabled) attemptVote(btn);
+});
+
+/* ── VOTE QUANTITY FLOW ──
+   Reads however many credits the person typed in, then either:
+   - asks them to confirm the spend (enough credits), or
+   - tells them how many more credits they need and sends them
+     straight to the buy-credits modal with that amount pre-filled. */
+let pendingVote = null;
+
+function attemptVote(btn) {
+  const id       = btn.dataset.id;
+  const name     = btn.dataset.name || 'this nominee';
+  const isFinals = !!btn.dataset.finals;
+  const input    = document.getElementById(`qty_${id}`);
+  const raw      = input ? input.value.trim() : '';
+  const qty      = Math.floor(Number(raw));
+
+  if (!raw || !Number.isFinite(qty) || qty < 1) {
+    toast('Enter how many credits you want to vote with', 'error');
+    input?.focus();
+    return;
+  }
+
+  const myC = profile?.credits ?? 0;
+
+  if (qty > myC) {
+    const shortBy = qty - myC;
+    toast(`You need ${shortBy.toLocaleString()} more credit${shortBy === 1 ? '' : 's'} for that — taking you to top up`, 'info');
+    setTimeout(() => {
+      const suggested = Math.max(500, Math.ceil(shortBy / 100) * 100);
+      const customInput = document.getElementById('custC');
+      if (customInput) {
+        customInput.value = suggested;
+        onCustomFn();
+      }
+      openMo();
+    }, 1400);
+    return;
+  }
+
+  /* enough credits — confirm before spending */
+  pendingVote = { id, name, qty, isFinals, btn, input };
+  document.getElementById('confirmQty').textContent  = qty.toLocaleString();
+  document.getElementById('confirmQty2').textContent = qty.toLocaleString();
+  document.getElementById('confirmName').textContent = name;
+  document.getElementById('confirmAvail').textContent = `${myC.toLocaleString()}`;
+  document.getElementById('confirmPlural').textContent = qty === 1 ? '' : 's';
+  document.getElementById('confirmMo').classList.add('open');
+}
+
+window.closeConfirmMo = () => {
+  document.getElementById('confirmMo').classList.remove('open');
+  pendingVote = null;
+};
+document.getElementById('confirmMo').addEventListener('click', e => {
+  if (e.target === document.getElementById('confirmMo')) closeConfirmMo();
+});
+document.getElementById('confirmYesBtn').addEventListener('click', async () => {
+  if (!pendingVote) return;
+  const { id, btn, isFinals, qty, input } = pendingVote;
+  document.getElementById('confirmMo').classList.remove('open');
+  pendingVote = null;
+  await castVote(id, btn, isFinals, qty);
+  if (input) input.value = '';
 });
 
 /* SHARE A NOMINEE'S UNIQUE LINK */
@@ -920,10 +1040,10 @@ async function shareNominee(id, name) {
 }
 
 /* CAST VOTE */
-async function castVote(nid, btn, isFinals=false) {
+async function castVote(nid, btn, isFinals=false, qty=1) {
   if (!me) return;
   const myC = profile?.credits ?? 0;
-  if (myC < 1) { toast('No credits left — buy more!','error'); openMo(); return; }
+  if (myC < qty) { toast('No credits left — buy more!','error'); openMo(); return; }
 
   btn.disabled = true;
   btn.style.opacity = '.6';
@@ -931,10 +1051,10 @@ async function castVote(nid, btn, isFinals=false) {
 
   try {
     await Promise.all([
-      updateDoc(doc(db,'users',me.uid),    { credits:increment(-1), creditsUsed:increment(1) }),
-      updateDoc(doc(db,'nominations',nid), { votes:increment(1) })
+      updateDoc(doc(db,'users',me.uid),    { credits:increment(-qty), creditsUsed:increment(qty) }),
+      updateDoc(doc(db,'nominations',nid), { votes:increment(qty) })
     ]);
-    toast('Vote cast! 1 credit used 🎉');
+    toast(`Vote cast! ${qty.toLocaleString()} credit${qty === 1 ? '' : 's'} used 🎉`);
     btn.className     = 'v-btn voted';
     btn.disabled      = true;
     btn.style.opacity = '1';

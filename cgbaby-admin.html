@@ -3395,31 +3395,45 @@
 
       /* ── CONFIRM / REJECT PAYMENT ── */
       window.confirmPayment = async (payId, uid, credits) => {
+        const safeCredits = Number(credits) || 0;
+
         if (!uid) {
           toast("No UID on payment — credit manually", "error");
           return;
         }
-        if (
-          !confirm(
-            `Confirm payment and add ${credits.toLocaleString()} credits?`,
-          )
-        )
+        if (!safeCredits) {
+          toast("This payment has no credit amount recorded — credit manually", "error");
           return;
+        }
+        if (!confirm(`Confirm payment and add ${safeCredits.toLocaleString()} credits?`)) return;
+
         try {
-          await updateDoc(doc(db, "users", uid), {
-            credits: increment(credits),
-            totalBought: increment(credits),
-          });
+          /* setDoc + merge instead of updateDoc: updateDoc throws if the
+             target user document doesn't exist yet (e.g. the payment's
+             uid is stale, mismatched, or the user doc was never created
+             for some reason). setDoc with merge:true creates it if
+             missing and merges onto it if present — either way the
+             credit lands, instead of silently failing with a generic
+             "Firestore error" toast. */
+          await setDoc(
+            doc(db, "users", uid),
+            {
+              credits: increment(safeCredits),
+              totalBought: increment(safeCredits),
+            },
+            { merge: true },
+          );
           await updateDoc(doc(db, "payments", payId), {
             status: "confirmed",
             confirmedAt: serverTimestamp(),
           });
           toast(
-            `${credits.toLocaleString()} credits added! Payment confirmed.`,
+            `${safeCredits.toLocaleString()} credits added! Payment confirmed.`,
             "gold",
           );
         } catch (e) {
-          toast("Failed — check Firestore rules", "error");
+          console.error("confirmPayment error:", e);
+          toast(`Failed: ${e.message}`, "error");
         }
       };
       window.rejectPayment = async (payId) => {

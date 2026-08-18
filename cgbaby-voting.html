@@ -615,7 +615,8 @@ import { initializeApp }                               from "https://www.gstatic
 import { getAnalytics }                                from "https://www.gstatic.com/firebasejs/12.13.0/firebase-analytics.js";
 import { getFirestore, collection, query, where,
          onSnapshot, doc, getDoc, updateDoc,
-         setDoc, increment, serverTimestamp }          from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+         setDoc, increment, serverTimestamp,
+         runTransaction }                               from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 import { getAuth, onAuthStateChanged, signOut }        from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
 const FIREBASE_CONFIG = {
@@ -1004,10 +1005,13 @@ document.getElementById('confirmMo').addEventListener('click', e => {
 document.getElementById('confirmYesBtn').addEventListener('click', async () => {
   if (!pendingVote) return;
   const { id, btn, isFinals, qty, input } = pendingVote;
+  const confirmBtn = document.getElementById('confirmYesBtn');
+  confirmBtn.disabled = true;
   document.getElementById('confirmMo').classList.remove('open');
   pendingVote = null;
   await castVote(id, btn, isFinals, qty);
   if (input) input.value = '';
+  confirmBtn.disabled = false;
 });
 
 /* SHARE A NOMINEE'S UNIQUE LINK */
@@ -1042,18 +1046,34 @@ async function shareNominee(id, name) {
 /* CAST VOTE */
 async function castVote(nid, btn, isFinals=false, qty=1) {
   if (!me) return;
-  const myC = profile?.credits ?? 0;
-  if (myC < qty) { toast('No credits left — buy more!','error'); openMo(); return; }
 
   btn.disabled = true;
   btn.style.opacity = '.6';
   btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" style="animation:spin .8s linear infinite"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46A7.93 7.93 0 0020 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74A7.93 7.93 0 004 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg> Voting…`;
 
+  const userRef = doc(db, 'users', me.uid);
+  const nomRef  = doc(db, 'nominations', nid);
+
   try {
-    await Promise.all([
-      updateDoc(doc(db,'users',me.uid),    { credits:increment(-qty), creditsUsed:increment(qty) }),
-      updateDoc(doc(db,'nominations',nid), { votes:increment(qty) })
-    ]);
+    /* runTransaction re-reads the live balance at write time and retries
+       automatically on conflict, so two near-simultaneous votes (double
+       tap, two open tabs, slow network) can never both pass a stale
+       balance check the way separate updateDoc calls could — this is
+       what was letting credits go negative. */
+    await runTransaction(db, async (tx) => {
+      const userSnap = await tx.get(userRef);
+      if (!userSnap.exists()) throw new Error('USER_NOT_FOUND');
+
+      const currentCredits = userSnap.data().credits ?? 0;
+      if (currentCredits < qty) throw new Error('INSUFFICIENT_CREDITS');
+
+      tx.update(userRef, {
+        credits:     currentCredits - qty,
+        creditsUsed: increment(qty),
+      });
+      tx.update(nomRef, { votes: increment(qty) });
+    });
+
     toast(`Vote cast! ${qty.toLocaleString()} credit${qty === 1 ? '' : 's'} used 🎉`);
     btn.className     = 'v-btn voted';
     btn.disabled      = true;
@@ -1061,11 +1081,16 @@ async function castVote(nid, btn, isFinals=false, qty=1) {
     btn.innerHTML     = `<svg width="16" height="16" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg> Voted`;
   } catch(err) {
     console.error('Vote error:', err);
-    toast('Vote failed — try again','error');
+    if (err.message === 'INSUFFICIENT_CREDITS') {
+      toast('Not enough credits right now — your balance may have just changed', 'error');
+    } else {
+      toast('Vote failed — try again','error');
+    }
     btn.disabled      = false;
     btn.style.opacity = '1';
     renderGrid();
   }
+
 }
 
 /* MODAL */

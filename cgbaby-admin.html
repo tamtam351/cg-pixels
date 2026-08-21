@@ -2204,6 +2204,7 @@
                   <th>Child</th>
                   <th>Parent</th>
                   <th>Phone</th>
+                  <th>Instagram</th>
                   <th>Votes</th>
                   <th>Status</th>
                   <th>Actions</th>
@@ -3095,9 +3096,15 @@
           data = data.filter((n) => n.phase === "rejected");
 
         if (!data.length) {
-          tbody.innerHTML = `<tr class="erow"><td colspan="7"><div class="eico"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></div>No nominations match.</td></tr>`;
+          tbody.innerHTML = `<tr class="erow"><td colspan="8"><div class="eico"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></div>No nominations match.</td></tr>`;
           return;
         }
+
+        const igLink = (handle) => {
+          if (!handle) return `<span style="color:var(--muted)">—</span>`;
+          const clean = handle.trim().replace(/^@/, "");
+          return `<a href="https://instagram.com/${encodeURIComponent(clean)}" target="_blank" rel="noopener" style="color:var(--orange);font-size:.82rem" onclick="event.stopPropagation()">@${clean}</a>`;
+        };
 
         tbody.innerHTML = data
           .map(
@@ -3107,6 +3114,7 @@
       <td><div class="nm">${n.childName || "—"}</div><div class="nm-sub">${n.childAge || ""}</div></td>
       <td style="color:var(--muted);font-size:.82rem">${n.parentName || "—"}</td>
       <td style="color:var(--muted);font-size:.82rem">${n.parentPhone || "—"}</td>
+      <td>${igLink(n.instagram)}</td>
       <td><div class="vbar"><div class="vbar-track"><div class="vbar-fill" style="width:${(((n.votes || 0) / maxV) * 100).toFixed(1)}%"></div></div><span class="vbar-num">${n.votes || 0}</span></div></td>
       <td>${sb(n)}</td>
       <td><div class="arow">
@@ -3163,6 +3171,11 @@
           <div class="mob-card-meta">
             <div class="mob-meta-row"><svg width="12" height="12" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>Parent: ${n.parentName || "—"}</div>
             <div class="mob-meta-row"><svg width="12" height="12" viewBox="0 0 24 24"><path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.61 21 3 13.39 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>${n.parentPhone || "—"}</div>
+            <div class="mob-meta-row"><svg width="12" height="12" viewBox="0 0 24 24"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 01-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 017.8 2m-.2 2A3.6 3.6 0 004 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 003.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 011.25 1.25A1.25 1.25 0 0117.25 8 1.25 1.25 0 0116 6.75a1.25 1.25 0 011.25-1.25M12 7a5 5 0 015 5 5 5 0 01-5 5 5 5 0 01-5-5 5 5 0 015-5m0 2a3 3 0 00-3 3 3 3 0 003 3 3 3 0 003-3 3 3 0 00-3-3z"/></svg>${
+              n.instagram
+                ? `<a href="https://instagram.com/${encodeURIComponent(n.instagram.trim().replace(/^@/, ""))}" target="_blank" rel="noopener" style="color:var(--orange)" onclick="event.stopPropagation()">@${n.instagram.trim().replace(/^@/, "")}</a>`
+                : "—"
+            }</div>
           </div>
         </div>
         <div class="mob-card-right">${sb(n)}</div>
@@ -3812,8 +3825,12 @@
         modalNomId = id;
         document.getElementById("moImg").src = n.photoURL || "";
         document.getElementById("moName").textContent = n.childName || "";
+        const igHandle = n.instagram ? n.instagram.trim().replace(/^@/, "") : "";
+        const igMeta = igHandle
+          ? `<a href="https://instagram.com/${encodeURIComponent(igHandle)}" target="_blank" rel="noopener" style="color:var(--orange)">@${igHandle}</a>`
+          : "—";
         document.getElementById("moMeta").innerHTML =
-          `Age: <strong>${n.childAge || "—"}</strong> &nbsp;·&nbsp; Parent: ${n.parentName || "—"} &nbsp;·&nbsp; Phone: ${n.parentPhone || "—"} &nbsp;·&nbsp; Votes: <strong style="color:var(--orange)">${n.votes || 0}</strong>`;
+          `Age: <strong>${n.childAge || "—"}</strong> &nbsp;·&nbsp; Parent: ${n.parentName || "—"} &nbsp;·&nbsp; Phone: ${n.parentPhone || "—"} &nbsp;·&nbsp; Instagram: ${igMeta} &nbsp;·&nbsp; Votes: <strong style="color:var(--orange)">${n.votes || 0}</strong>`;
         document.getElementById("moDesc").textContent = n.description || "";
         const apprBtn = document.getElementById("moAppr");
         const rejBtn = document.getElementById("moRej");

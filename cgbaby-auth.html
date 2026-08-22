@@ -971,13 +971,13 @@
           <div id="formRegister" class="form-section">
             <div class="field-row">
               <div class="field">
-                <label>
+                <label id="lblParent">
                   <svg width="11" height="11" viewBox="0 0 24 24">
                     <path
                       d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v2h20v-2c0-3.33-6.67-5-10-5z"
                     />
                   </svg>
-                  Parent Name *
+                  <span id="lblParentTxt">Parent Name *</span>
                 </label>
                 <input
                   type="text"
@@ -987,13 +987,13 @@
                 />
               </div>
               <div class="field">
-                <label>
+                <label id="lblChild">
                   <svg width="11" height="11" viewBox="0 0 24 24">
                     <path
                       d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"
                     />
                   </svg>
-                  Child's Name *
+                  <span id="lblChildTxt">Child's Name *</span>
                 </label>
                 <input
                   type="text"
@@ -1213,6 +1213,24 @@
       const _ref = _urlParams.get('ref') || sessionStorage.getItem('cg_ref_nominee') || '';
       if (_urlParams.get('ref')) sessionStorage.setItem('cg_ref_nominee', _urlParams.get('ref'));
 
+      /* ── INVITED-VOTER FORM ──
+         Someone who followed a share link is here to support a
+         Champ they didn't nominate. Asking them for a "Child's Name"
+         doesn't apply to them and made them feel unseen — they were
+         typing a stranger's info into a form when they just wanted
+         to register under their own name. If we have a ref, relabel
+         the fields so "Parent Name" becomes "Your Name" and the
+         child field becomes optional instead of required. */
+      const isInvited = !!_ref;
+
+      if (isInvited) {
+        document.getElementById('lblParentTxt').textContent = 'Your Name *';
+        document.getElementById('rParent').placeholder = 'Your full name';
+
+        document.getElementById('lblChildTxt').textContent = "Child's Name (optional)";
+        document.getElementById('rChild').placeholder = "Leave blank if you're just voting";
+      }
+
       function voteUrl() {
         return _ref ? `cgbaby-voting.html?ref=${encodeURIComponent(_ref)}` : 'cgbaby-voting.html';
       }
@@ -1306,8 +1324,11 @@
         const phone = document.getElementById("rPhone").value.trim();
         const password = document.getElementById("rPass").value;
 
-        if (!parentName) return showErr("Enter your name");
-        if (!childName) return showErr("Enter your child's name");
+        if (!parentName) return showErr(isInvited ? "Enter your name" : "Enter your name");
+        /* invited voters don't have a nominee of their own — child
+           name is optional for them, still required for a direct
+           (non-referred) sign-up nominating their own child */
+        if (!childName && !isInvited) return showErr("Enter your child's name");
         if (!email.includes("@")) return showErr("Enter a valid email");
         if (phone.length < 7) return showErr("Enter your WhatsApp number");
         if (password.length < 6)
@@ -1342,6 +1363,7 @@
             totalBought: 0,
             termsAccepted: true,
             termsAcceptedAt: new Date().toISOString(),
+            referredNominee: _ref || null,
             createdAt: serverTimestamp(),
           };
 

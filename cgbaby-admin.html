@@ -2310,12 +2310,14 @@
             1. User sends money with their
             <strong style="color: #fff">unique reference</strong> as
             narration.<br />
-            2. Check your bank app or
+            2. Cross-check the <strong style="color:#fff">email shown below</strong>
+            against your bank app or
             <strong style="color: #fff"
               >Flutterwave dashboard → Transactions</strong
             >.<br />
-            3. Click <strong style="color: var(--green)">Confirm</strong> —
-            credits land instantly.<br />
+            3. Click <strong style="color: var(--green)">Confirm</strong> only
+            after you've verified the transfer actually landed — credits are
+            added instantly and can't be auto-reversed.<br />
             4. If no transfer within 10 minutes, click
             <strong style="color: var(--red)">Reject</strong>.
           </div>
@@ -2342,6 +2344,7 @@
                 <tr>
                   <th>Reference</th>
                   <th>User</th>
+                  <th>Email</th>
                   <th>Credits</th>
                   <th>Amount</th>
                   <th>Date</th>
@@ -2426,6 +2429,7 @@
                   <th>Credits</th>
                   <th>Used</th>
                   <th>Joined</th>
+                  <th>Status</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -2755,6 +2759,7 @@
         where,
         increment,
         serverTimestamp,
+        runTransaction,
       } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
 
       const FIREBASE_CONFIG = {
@@ -3127,6 +3132,7 @@
             : ""
         }
         ${n.approved ? `<button class="abtn rej" onclick="setNomStatus('${n.id}',false)"><svg width="11" height="11" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>Revoke</button>` : ""}
+        <button class="abtn bl" onclick="adjustVotes('${n.id}', ${JSON.stringify(n.childName || "this nominee")})"><svg width="11" height="11" viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></svg>Adjust Votes</button>
       </div></td>
     </tr>`,
           )
@@ -3194,6 +3200,7 @@
             : ""
         }
         ${n.approved ? `<button class="abtn rej" onclick="setNomStatus('${n.id}',false)"><svg width="11" height="11" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>Revoke</button>` : ""}
+        <button class="abtn bl" onclick="adjustVotes('${n.id}', ${JSON.stringify(n.childName || "this nominee")})"><svg width="11" height="11" viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></svg>Adjust Votes</button>
       </div>
     </div>`,
           )
@@ -3214,6 +3221,33 @@
           closeMo();
         } catch (e) {
           toast("Update failed", "error");
+        }
+      };
+
+      /* ── ADJUST VOTES (manual correction, e.g. reversing fraudulent votes) ── */
+      window.adjustVotes = async (id, name) => {
+        const deltaStr = prompt(
+          `Adjust votes for ${name}.\nEnter a number to ADD, or a negative number to SUBTRACT (e.g. -50).`,
+        );
+        if (deltaStr === null) return;
+        const delta = parseInt(deltaStr, 10);
+        if (!delta || Number.isNaN(delta)) {
+          toast("Enter a valid non-zero number", "error");
+          return;
+        }
+        try {
+          await runTransaction(db, async (tx) => {
+            const nRef = doc(db, "nominations", id);
+            const snap = await tx.get(nRef);
+            if (!snap.exists()) throw new Error("NOT_FOUND");
+            const current = snap.data().votes ?? 0;
+            const newVotes = Math.max(0, current + delta);
+            tx.update(nRef, { votes: newVotes });
+          });
+          toast(`Votes adjusted for ${name} (${delta > 0 ? "+" : ""}${delta})`, "info");
+        } catch (e) {
+          console.error("adjustVotes error:", e);
+          toast("Vote adjustment failed", "error");
         }
       };
 
@@ -3313,7 +3347,7 @@
         let data = allPayments;
         if (filter !== "all") data = data.filter((p) => p.status === filter);
         if (!data.length) {
-          tbody.innerHTML = `<tr class="erow"><td colspan="7"><div class="eico"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg></div>No payments found.</td></tr>`;
+          tbody.innerHTML = `<tr class="erow"><td colspan="8"><div class="eico"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg></div>No payments found.</td></tr>`;
           return;
         }
         const sbp = (s) =>
@@ -3327,7 +3361,8 @@
             (p) => `
     <tr>
       <td><div style="font-size:.78rem;color:var(--orange);font-family:monospace;cursor:pointer" onclick="navigator.clipboard.writeText('${p.reference}');toast('Copied!','info')" title="Click to copy">${p.reference?.slice(0, 22) || "—"}…</div></td>
-      <td><div class="nm" style="font-size:.85rem">${p.parentName || "—"}</div><div class="nm-sub">${p.email || "—"}</div></td>
+      <td><div class="nm" style="font-size:.85rem">${p.parentName || "—"}</div></td>
+      <td><div style="font-size:.8rem;color:var(--blue);cursor:pointer" onclick="navigator.clipboard.writeText('${p.email || ""}');toast('Email copied!','info')" title="Click to copy — compare against Flutterwave">${p.email || "—"}</div></td>
       <td style="color:var(--gold);font-weight:700">${(p.credits || 0).toLocaleString()}</td>
       <td style="color:var(--green);font-weight:700">₦${(p.amount || 0).toLocaleString()}</td>
       <td style="color:var(--muted);font-size:.75rem">${fmt(p.createdAt)}</td>
@@ -3377,6 +3412,10 @@
         <span class="mob-pay-val">${p.parentName || "—"}</span>
       </div>
       <div class="mob-pay-row">
+        <span class="mob-pay-label">Email</span>
+        <span class="mob-pay-val" style="font-size:.75rem;color:var(--blue);cursor:pointer" onclick="navigator.clipboard.writeText('${p.email || ""}');toast('Copied!','info')">${p.email || "—"}</span>
+      </div>
+      <div class="mob-pay-row">
         <span class="mob-pay-label">Credits</span>
         <span class="mob-pay-val gold">${(p.credits || 0).toLocaleString()}</span>
       </div>
@@ -3409,6 +3448,7 @@
       /* ── CONFIRM / REJECT PAYMENT ── */
       window.confirmPayment = async (payId, uid, credits) => {
         const safeCredits = Number(credits) || 0;
+        const p = allPayments.find((x) => x.id === payId);
 
         if (!uid) {
           toast("No UID on payment — credit manually", "error");
@@ -3418,7 +3458,12 @@
           toast("This payment has no credit amount recorded — credit manually", "error");
           return;
         }
-        if (!confirm(`Confirm payment and add ${safeCredits.toLocaleString()} credits?`)) return;
+        if (
+          !confirm(
+            `Confirm payment for ${p?.email || "this user"} and add ${safeCredits.toLocaleString()} credits?\n\nOnly do this after verifying the transfer actually landed in your bank / Flutterwave dashboard.`,
+          )
+        )
+          return;
 
         try {
           /* setDoc + merge instead of updateDoc: updateDoc throws if the
@@ -3474,7 +3519,7 @@
               u.phone?.toLowerCase().includes(search),
           );
         if (!data.length) {
-          tbody.innerHTML = `<tr class="erow"><td colspan="8"><div class="eico"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v2h20v-2c0-3.33-6.67-5-10-5z"/></svg></div>No users found.</td></tr>`;
+          tbody.innerHTML = `<tr class="erow"><td colspan="9"><div class="eico"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v2h20v-2c0-3.33-6.67-5-10-5z"/></svg></div>No users found.</td></tr>`;
           return;
         }
         tbody.innerHTML = data
@@ -3488,7 +3533,16 @@
       <td><span style="font-size:1.1rem;font-weight:900;color:var(--gold)">${(u.credits || 0).toLocaleString()}</span></td>
       <td style="color:var(--muted);font-size:.82rem">${(u.creditsUsed || 0).toLocaleString()}</td>
       <td style="color:var(--muted);font-size:.75rem">${fmtD(u.createdAt)}</td>
-      <td><div class="arow"><button class="abtn gd" onclick="quickCredit('${u.id}','${u.parentName || ""}')"><svg width="11" height="11" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>Add Credits</button></div></td>
+      <td>${u.banned ? `<span class="badge rej"><div class="bd"></div>Banned</span>` : `<span class="badge appr"><div class="bd"></div>Active</span>`}</td>
+      <td><div class="arow">
+        <button class="abtn gd" onclick="quickCredit('${u.id}', ${JSON.stringify(u.parentName || "")})"><svg width="11" height="11" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>Add</button>
+        <button class="abtn rej" onclick="deductCredit('${u.id}', ${JSON.stringify(u.parentName || "")})"><svg width="11" height="11" viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></svg>Deduct</button>
+        ${
+          u.banned
+            ? `<button class="abtn appr" onclick="toggleBan('${u.id}', ${JSON.stringify(u.parentName || "")}, true)"><svg width="11" height="11" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>Unban</button>`
+            : `<button class="abtn rej" onclick="toggleBan('${u.id}', ${JSON.stringify(u.parentName || "")}, false)"><svg width="11" height="11" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>Ban</button>`
+        }
+      </div></td>
     </tr>`,
           )
           .join("");
@@ -3520,7 +3574,7 @@
     <div class="mob-user-card">
       <div class="mob-user-top">
         <div>
-          <div class="mob-user-name">${u.parentName || "—"}</div>
+          <div class="mob-user-name">${u.parentName || "—"} ${u.banned ? '<span class="badge rej" style="margin-left:.4rem"><div class="bd"></div>Banned</span>' : ""}</div>
           <div class="mob-user-child">${u.childName ? `👶 ${u.childName}` : ""}</div>
         </div>
         <div style="text-align:right">
@@ -3534,15 +3588,76 @@
         <div class="mob-user-detail"><svg width="11" height="11" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg><span>Used: ${(u.creditsUsed || 0).toLocaleString()}</span></div>
         <div class="mob-user-detail"><svg width="11" height="11" viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg><span>Joined: ${fmtD(u.createdAt)}</span></div>
       </div>
-      <div class="mob-user-actions">
-        <button class="abtn gd" onclick="quickCredit('${u.id}','${u.parentName || ""}')">
-          <svg width="11" height="11" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>Add Credits
+      <div class="mob-user-actions" style="display:flex;gap:.5rem;flex-wrap:wrap">
+        <button class="abtn gd" style="flex:1" onclick="quickCredit('${u.id}', ${JSON.stringify(u.parentName || "")})">
+          <svg width="11" height="11" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>Add
         </button>
+        <button class="abtn rej" style="flex:1" onclick="deductCredit('${u.id}', ${JSON.stringify(u.parentName || "")})">
+          <svg width="11" height="11" viewBox="0 0 24 24"><path d="M19 13H5v-2h14v2z"/></svg>Deduct
+        </button>
+        ${
+          u.banned
+            ? `<button class="abtn appr" style="flex:1" onclick="toggleBan('${u.id}', ${JSON.stringify(u.parentName || "")}, true)">Unban</button>`
+            : `<button class="abtn rej" style="flex:1" onclick="toggleBan('${u.id}', ${JSON.stringify(u.parentName || "")}, false)">Ban</button>`
+        }
       </div>
     </div>`,
           )
           .join("");
       }
+
+      /* ── BAN / UNBAN ── */
+      window.toggleBan = async (uid, name, currentlyBanned) => {
+        const label = name || uid;
+        const action = currentlyBanned ? "unban" : "ban";
+        const msg = currentlyBanned
+          ? `Unban ${label}? They'll be able to sign in and vote again.`
+          : `Ban ${label}? They'll be signed out immediately and blocked from voting or buying credits.`;
+        if (!confirm(msg)) return;
+        try {
+          await updateDoc(doc(db, "users", uid), {
+            banned: !currentlyBanned,
+            bannedAt: !currentlyBanned ? serverTimestamp() : null,
+          });
+          toast(
+            `${label} ${action}ned.`,
+            currentlyBanned ? "success" : "error",
+          );
+        } catch (e) {
+          console.error("toggleBan error:", e);
+          toast("Action failed", "error");
+        }
+      };
+
+      /* ── DEDUCT CREDITS (correcting fraudulent/mistaken credits) ── */
+      window.deductCredit = async (uid, name) => {
+        const label = name || uid;
+        const amtStr = prompt(`How many credits to deduct from ${label}?`);
+        if (amtStr === null) return;
+        const amt = parseInt(amtStr, 10);
+        if (!amt || amt < 1) {
+          toast("Enter a valid number", "error");
+          return;
+        }
+        try {
+          let finalBalance = null;
+          await runTransaction(db, async (tx) => {
+            const uRef = doc(db, "users", uid);
+            const snap = await tx.get(uRef);
+            if (!snap.exists()) throw new Error("USER_NOT_FOUND");
+            const current = snap.data().credits ?? 0;
+            finalBalance = Math.max(0, current - amt);
+            tx.update(uRef, { credits: finalBalance });
+          });
+          toast(
+            `Deducted ${amt.toLocaleString()} credits from ${label} (new balance: ${finalBalance.toLocaleString()})`,
+            "info",
+          );
+        } catch (e) {
+          console.error("deductCredit error:", e);
+          toast("Deduction failed", "error");
+        }
+      };
 
       /* ── BOOKINGS ── */
       const bkStatusBadge = (s) => {

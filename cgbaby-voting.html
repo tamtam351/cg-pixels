@@ -1,827 +1,2088 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Dashboard · CG Champ of the Year | CGPIXELS</title>
-  <style>
-    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-    :root {
-      --black:#000; --deep:#070709; --card:#0d0d0d; --card2:#111;
-      --orange:#ff8c00; --bright:#ffa500; --dim:#ff5e00;
-      --gold:#ffd700; --green:#00e676; --red:#ff5252;
-      --muted:rgba(255,255,255,.52); --border:rgba(255,140,0,.16);
-      --sf:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif;
-    }
-    html { scroll-behavior:smooth; }
-    body { font-family:var(--sf); background:var(--black); color:#fff; overflow-x:hidden; }
-    a { text-decoration:none; color:inherit; }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Dashboard · CG Champ of the Year | CGPIXELS</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      :root {
+        --black: #000;
+        --deep: #070709;
+        --card: #0d0d0d;
+        --card2: #111;
+        --orange: #ff8c00;
+        --bright: #ffa500;
+        --dim: #ff5e00;
+        --gold: #ffd700;
+        --green: #00e676;
+        --red: #ff5252;
+        --muted: rgba(255, 255, 255, 0.52);
+        --border: rgba(255, 140, 0, 0.16);
+        --sf:
+          -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue",
+          Arial, sans-serif;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: var(--sf);
+        background: var(--black);
+        color: #fff;
+        overflow-x: hidden;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
 
-    /* NAV */
-    nav {
-      position:fixed; top:0; left:0; right:0; z-index:1000;
-      backdrop-filter:blur(24px); background:rgba(0,0,0,.88);
-      border-bottom:1px solid rgba(255,140,0,.1);
-    }
-    nav.scrolled { box-shadow:0 4px 30px rgba(255,140,0,.08); }
-    .nav-c {
-      max-width:1400px; margin:0 auto; padding:.9rem 2rem;
-      display:flex; justify-content:space-between; align-items:center; gap:1rem;
-    }
-    .logo {
-      font-size:1.25rem; font-weight:900; letter-spacing:.08em;
-      background:linear-gradient(135deg,var(--orange),var(--bright));
-      -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
-    }
-    .nav-r { display:flex; align-items:center; gap:.8rem; flex-wrap:wrap; }
-    .nav-credit-pill {
-      display:flex; align-items:center; gap:.4rem;
-      padding:.38rem .9rem; border-radius:50px;
-      background:rgba(255,215,0,.08); border:1px solid rgba(255,215,0,.28);
-      cursor:pointer; transition:all .25s;
-    }
-    .nav-credit-pill:hover { background:rgba(255,215,0,.15); }
-    .nav-credit-pill svg { fill:var(--gold); display:block; }
-    .nav-credit-val { font-size:.95rem; font-weight:900; color:var(--gold); }
-    .nav-credit-lbl { font-size:.68rem; color:rgba(255,215,0,.65); }
-    .nav-name { font-size:.82rem; color:var(--muted); }
-    .nav-name strong { color:#fff; }
-    .btn-out {
-      display:flex; align-items:center; gap:.3rem;
-      padding:.38rem .85rem; border-radius:8px;
-      background:rgba(255,82,82,.08); border:1px solid rgba(255,82,82,.2);
-      color:var(--red); font-size:.72rem; font-weight:700;
-      text-transform:uppercase; letter-spacing:.08em; cursor:pointer; transition:all .2s;
-    }
-    .btn-out:hover { background:rgba(255,82,82,.18); }
-    .btn-out svg { fill:var(--red); display:block; }
+      /* NAV */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        backdrop-filter: blur(24px);
+        background: rgba(0, 0, 0, 0.88);
+        border-bottom: 1px solid rgba(255, 140, 0, 0.1);
+      }
+      nav.scrolled {
+        box-shadow: 0 4px 30px rgba(255, 140, 0, 0.08);
+      }
+      .nav-c {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0.9rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+      }
+      .logo {
+        font-size: 1.25rem;
+        font-weight: 900;
+        letter-spacing: 0.08em;
+        background: linear-gradient(135deg, var(--orange), var(--bright));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .nav-r {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+      }
+      .nav-credit-pill {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.38rem 0.9rem;
+        border-radius: 50px;
+        background: rgba(255, 215, 0, 0.08);
+        border: 1px solid rgba(255, 215, 0, 0.28);
+        cursor: pointer;
+        transition: all 0.25s;
+      }
+      .nav-credit-pill:hover {
+        background: rgba(255, 215, 0, 0.15);
+      }
+      .nav-credit-pill svg {
+        fill: var(--gold);
+        display: block;
+      }
+      .nav-credit-val {
+        font-size: 0.95rem;
+        font-weight: 900;
+        color: var(--gold);
+      }
+      .nav-credit-lbl {
+        font-size: 0.68rem;
+        color: rgba(255, 215, 0, 0.65);
+      }
+      .nav-name {
+        font-size: 0.82rem;
+        color: var(--muted);
+      }
+      .nav-name strong {
+        color: #fff;
+      }
+      .btn-out {
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.38rem 0.85rem;
+        border-radius: 8px;
+        background: rgba(255, 82, 82, 0.08);
+        border: 1px solid rgba(255, 82, 82, 0.2);
+        color: var(--red);
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .btn-out:hover {
+        background: rgba(255, 82, 82, 0.18);
+      }
+      .btn-out svg {
+        fill: var(--red);
+        display: block;
+      }
 
-    /* DASHBOARD HERO */
-    .dash-hero { padding-top:72px; background:var(--deep); position:relative; overflow:hidden; }
-    .dash-hero::before {
-      content:""; position:absolute; inset:0;
-      background:
-        radial-gradient(ellipse 70% 60% at 15% 40%, rgba(255,140,0,.14) 0%, transparent 65%),
-        radial-gradient(ellipse 40% 40% at 85% 70%, rgba(255,94,0,.08) 0%, transparent 60%);
-    }
-    .dash-hero-grid {
-      position:absolute; inset:0; pointer-events:none;
-      background-image:linear-gradient(rgba(255,140,0,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,140,0,.025) 1px,transparent 1px);
-      background-size:70px 70px; animation:gm 28s linear infinite;
-    }
-    @keyframes gm { 0%{transform:translate(0,0)} 100%{transform:translate(70px,70px)} }
-    .dash-hero-inner {
-      position:relative; z-index:1;
-      max-width:1400px; margin:0 auto; padding:2.5rem 2rem;
-    }
-    .welcome-row {
-      display:flex; align-items:flex-start; justify-content:space-between;
-      gap:1.5rem; flex-wrap:wrap; margin-bottom:2rem;
-    }
-    .champ-emblem-mini{
-      width: clamp(72px, 9vw, 110px); height:auto; display:block; margin-bottom:.9rem;
-      filter: drop-shadow(0 8px 22px rgba(255,140,0,.4));
-    }
-    .nav-emblem{ width:30px; height:auto; display:block; }
+      /* DASHBOARD HERO */
+      .dash-hero {
+        padding-top: 72px;
+        background: var(--deep);
+        position: relative;
+        overflow: hidden;
+      }
+      .dash-hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(
+            ellipse 70% 60% at 15% 40%,
+            rgba(255, 140, 0, 0.14) 0%,
+            transparent 65%
+          ),
+          radial-gradient(
+            ellipse 40% 40% at 85% 70%,
+            rgba(255, 94, 0, 0.08) 0%,
+            transparent 60%
+          );
+      }
+      .dash-hero-grid {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+          linear-gradient(rgba(255, 140, 0, 0.025) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 140, 0, 0.025) 1px, transparent 1px);
+        background-size: 70px 70px;
+        animation: gm 28s linear infinite;
+      }
+      @keyframes gm {
+        0% {
+          transform: translate(0, 0);
+        }
+        100% {
+          transform: translate(70px, 70px);
+        }
+      }
+      .dash-hero-inner {
+        position: relative;
+        z-index: 1;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2.5rem 2rem;
+      }
+      .welcome-row {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        margin-bottom: 2rem;
+      }
+      .champ-emblem-mini {
+        width: clamp(72px, 9vw, 110px);
+        height: auto;
+        display: block;
+        margin-bottom: 0.9rem;
+        filter: drop-shadow(0 8px 22px rgba(255, 140, 0, 0.4));
+      }
+      .nav-emblem {
+        width: 30px;
+        height: auto;
+        display: block;
+      }
+      /* ── STATS + COUNTDOWN LAYOUT ── */
+      .stats-countdown-wrap {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 1.5rem;
+        align-items: stretch;
+      }
+      @media (max-width: 960px) {
+        .stats-countdown-wrap {
+          grid-template-columns: 1fr;
+        }
+      }
 
-    .welcome-tag {
-      display:inline-flex; align-items:center; gap:.4rem;
-      padding:.3rem .9rem; border-radius:50px; margin-bottom:.8rem;
-      background:rgba(255,140,0,.09); border:1px solid rgba(255,140,0,.3);
-      font-size:.68rem; font-weight:800; color:var(--bright);
-      text-transform:uppercase; letter-spacing:.12em;
-    }
-    .welcome-tag svg { fill:var(--bright); display:block; }
-    .welcome-name {
-      font-size:clamp(1.8rem,4vw,2.8rem); font-weight:900;
-      letter-spacing:-.02em; line-height:1.1; margin-bottom:.4rem;
-    }
-    .welcome-name span {
-      background:linear-gradient(135deg,var(--bright),var(--orange));
-      -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
-    }
-    .welcome-child { font-size:.9rem; color:var(--muted); display:flex; align-items:center; gap:.4rem; }
-    .welcome-child svg { fill:var(--muted); display:block; }
-    .phase-pill {
-      display:inline-flex; align-items:center; gap:.45rem;
-      padding:.5rem 1.2rem; border-radius:50px;
-      font-size:.72rem; font-weight:800; text-transform:uppercase; letter-spacing:.12em;
-      border:1px solid; animation:pPulse 3s ease-in-out infinite;
-      align-self:flex-start; margin-top:.5rem;
-    }
-    .phase-pill svg { display:block; }
-    .phase-pill.free   { background:rgba(255,140,0,.09); border-color:rgba(255,140,0,.4); color:var(--bright); }
-    .phase-pill.finals { background:rgba(255,215,0,.09); border-color:rgba(255,215,0,.4); color:var(--gold); }
-    .phase-pill.closed { background:rgba(255,255,255,.05); border-color:rgba(255,255,255,.12); color:var(--muted); }
-    @keyframes pPulse { 0%,100%{box-shadow:0 0 10px rgba(255,140,0,.15)} 50%{box-shadow:0 0 22px rgba(255,140,0,.4)} }
+      /* COUNTDOWN CARD */
+      .countdown-card {
+        background: rgba(255, 255, 255, 0.025);
+        border: 1px solid rgba(255, 140, 0, 0.18);
+        border-radius: 20px;
+        padding: 1.4rem 1.5rem 1.3rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-width: 220px;
+        position: relative;
+        overflow: hidden;
+      }
+      .countdown-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--orange), var(--bright));
+      }
+      .cd-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.28rem 0.85rem;
+        border-radius: 50px;
+        background: rgba(255, 140, 0, 0.1);
+        border: 1px solid rgba(255, 140, 0, 0.28);
+        font-size: 0.65rem;
+        font-weight: 800;
+        color: var(--bright);
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        margin-bottom: 1.1rem;
+      }
+      .cd-tag svg {
+        fill: var(--bright);
+        display: block;
+      }
+      .cd-blocks {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.65rem;
+        width: 100%;
+      }
+      .cd-block {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 140, 0, 0.07);
+        border: 1px solid rgba(255, 140, 0, 0.2);
+        border-radius: 14px;
+        padding: 0.85rem 0.6rem;
+        transition: all 0.3s;
+        min-width: 0;
+      }
+      .cd-block:hover {
+        background: rgba(255, 140, 0, 0.13);
+        border-color: var(--orange);
+        transform: translateY(-3px);
+      }
+      .cd-num {
+        font-size: clamp(1.6rem, 3.5vw, 2.1rem);
+        font-weight: 900;
+        color: var(--orange);
+        font-variant-numeric: tabular-nums;
+        filter: drop-shadow(0 0 10px rgba(255, 140, 0, 0.45));
+        line-height: 1;
+      }
+      .cd-label {
+        font-size: 0.62rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--muted);
+        margin-top: 0.35rem;
+      }
+      .cd-msg {
+        margin-top: 1rem;
+        color: var(--muted);
+        font-size: 0.78rem;
+        text-align: center;
+        line-height: 1.4;
+        max-width: 200px;
+      }
 
-    /* STATS ROW */
-    .stats-row {
-      display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
-      gap:1.1rem; margin-bottom:0; min-width:0;
-    }
-    .stat-card {
-      padding:1.3rem 1.5rem; border-radius:18px;
-      background:rgba(255,255,255,.025); border:1px solid rgba(255,255,255,.07);
-      transition:all .3s; position:relative; overflow:hidden; cursor:default; min-width:0;
-    }
-    .stat-card::before { content:""; position:absolute; top:0; left:0; right:0; height:2px; }
-    .stat-card.orange-card::before { background:linear-gradient(90deg,var(--orange),var(--bright)); }
-    .stat-card.green-card::before  { background:linear-gradient(90deg,#00897b,var(--green)); }
-    .stat-card:hover { border-color:rgba(255,140,0,.25); transform:translateY(-3px); box-shadow:0 10px 28px rgba(0,0,0,.4); }
+      .welcome-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.3rem 0.9rem;
+        border-radius: 50px;
+        margin-bottom: 0.8rem;
+        background: rgba(255, 140, 0, 0.09);
+        border: 1px solid rgba(255, 140, 0, 0.3);
+        font-size: 0.68rem;
+        font-weight: 800;
+        color: var(--bright);
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+      }
+      .welcome-tag svg {
+        fill: var(--bright);
+        display: block;
+      }
+      .welcome-name {
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+        margin-bottom: 0.4rem;
+      }
+      .welcome-name span {
+        background: linear-gradient(135deg, var(--bright), var(--orange));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .welcome-child {
+        font-size: 0.9rem;
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+      .welcome-child svg {
+        fill: var(--muted);
+        display: block;
+      }
+      .phase-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.5rem 1.2rem;
+        border-radius: 50px;
+        font-size: 0.72rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        border: 1px solid;
+        animation: pPulse 3s ease-in-out infinite;
+        align-self: flex-start;
+        margin-top: 0.5rem;
+      }
+      .phase-pill svg {
+        display: block;
+      }
+      .phase-pill.free {
+        background: rgba(255, 140, 0, 0.09);
+        border-color: rgba(255, 140, 0, 0.4);
+        color: var(--bright);
+      }
+      .phase-pill.finals {
+        background: rgba(255, 215, 0, 0.09);
+        border-color: rgba(255, 215, 0, 0.4);
+        color: var(--gold);
+      }
+      .phase-pill.closed {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.12);
+        color: var(--muted);
+      }
+      @keyframes pPulse {
+        0%,
+        100% {
+          box-shadow: 0 0 10px rgba(255, 140, 0, 0.15);
+        }
+        50% {
+          box-shadow: 0 0 22px rgba(255, 140, 0, 0.4);
+        }
+      }
 
-    /* CREDIT DISPLAY CARD */
-    .credit-display-card {
-      padding:1.5rem 1.8rem; border-radius:20px;
-      background:linear-gradient(135deg,rgba(255,215,0,.08) 0%,rgba(255,140,0,.06) 100%);
-      border:1.5px solid rgba(255,215,0,.28);
-      cursor:pointer; transition:all .35s; position:relative; overflow:hidden; min-width:0;
-    }
-    .credit-display-card::before {
-      content:""; position:absolute; top:0; left:0; right:0; height:2px;
-      background:linear-gradient(90deg,var(--gold),#e6a000,var(--gold));
-      background-size:200% 100%; animation:shimmer 3s linear infinite;
-    }
-    @keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
-    .credit-display-card:hover { border-color:var(--gold); box-shadow:0 0 30px rgba(255,215,0,.15); transform:translateY(-3px); }
-    .credit-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:.6rem; gap:.5rem; }
-    .credit-icon-wrap {
-      width:42px; height:42px; border-radius:50%; flex-shrink:0;
-      background:rgba(255,215,0,.15); border:1.5px solid rgba(255,215,0,.35);
-      display:flex; align-items:center; justify-content:center;
-    }
-    .credit-icon-wrap svg { fill:var(--gold); display:block; }
-    .credit-add-btn {
-      display:flex; align-items:center; gap:.3rem;
-      padding:.32rem .8rem; border-radius:50px; flex-shrink:0;
-      background:linear-gradient(135deg,var(--gold),#e6a000);
-      color:#000; border:none; font-size:.7rem; font-weight:800;
-      text-transform:uppercase; letter-spacing:.08em; cursor:pointer; transition:all .25s;
-    }
-    .credit-add-btn:hover { transform:scale(1.05); box-shadow:0 4px 16px rgba(255,215,0,.4); }
-    .credit-add-btn svg { fill:#000; display:block; }
+      /* STATS ROW */
+      .stats-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.1rem;
+        margin-bottom: 0;
+        min-width: 0;
+        align-items: stretch;
+      }
+      @media (max-width: 700px) {
+        .stats-row {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media (min-width: 701px) and (max-width: 960px) {
+        .stats-row {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+      .stat-card {
+        padding: 1.3rem 1.5rem;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.025);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        transition: all 0.3s;
+        position: relative;
+        overflow: hidden;
+        cursor: default;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+      .stat-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+      }
+      .stat-card.orange-card::before {
+        background: linear-gradient(90deg, var(--orange), var(--bright));
+      }
+      .stat-card.green-card::before {
+        background: linear-gradient(90deg, #00897b, var(--green));
+      }
+      .stat-card:hover {
+        border-color: rgba(255, 140, 0, 0.25);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
+      }
 
-    /* ── THE FIX: dynamic font size via JS, no truncation ── */
-    .credit-num {
-      font-weight:900; color:var(--gold); line-height:1;
-      filter:drop-shadow(0 0 15px rgba(255,215,0,.45));
-      font-size:2.8rem; /* default — overridden by JS for large numbers */
-      transition:font-size .3s;
-      word-break:break-all;
-    }
-    .credit-label { font-size:.72rem; color:rgba(255,215,0,.6); text-transform:uppercase; letter-spacing:.1em; margin-top:.25rem; }
+      /* CREDIT DISPLAY CARD */
+      .credit-display-card {
+        padding: 1.4rem 1.5rem;
+        border-radius: 18px;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 215, 0, 0.08) 0%,
+          rgba(255, 140, 0, 0.06) 100%
+        );
+        border: 1.5px solid rgba(255, 215, 0, 0.28);
+        cursor: pointer;
+        transition: all 0.35s;
+        position: relative;
+        overflow: hidden;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+      .credit-display-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, var(--gold), #e6a000, var(--gold));
+        background-size: 200% 100%;
+        animation: shimmer 3s linear infinite;
+      }
+      @keyframes shimmer {
+        0% {
+          background-position: -200% 0;
+        }
+        100% {
+          background-position: 200% 0;
+        }
+      }
+      .credit-display-card:hover {
+        border-color: var(--gold);
+        box-shadow: 0 0 30px rgba(255, 215, 0, 0.15);
+        transform: translateY(-3px);
+      }
+      .credit-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0.6rem;
+        gap: 0.5rem;
+      }
+      .credit-icon-wrap {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        background: rgba(255, 215, 0, 0.15);
+        border: 1.5px solid rgba(255, 215, 0, 0.35);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .credit-icon-wrap svg {
+        fill: var(--gold);
+        display: block;
+      }
+      .credit-add-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.32rem 0.8rem;
+        border-radius: 50px;
+        flex-shrink: 0;
+        background: linear-gradient(135deg, var(--gold), #e6a000);
+        color: #000;
+        border: none;
+        font-size: 0.7rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        cursor: pointer;
+        transition: all 0.25s;
+      }
+      .credit-add-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 16px rgba(255, 215, 0, 0.4);
+      }
+      .credit-add-btn svg {
+        fill: #000;
+        display: block;
+      }
 
-    .stat-icon { width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; margin-bottom:.8rem; }
-    .orange-card .stat-icon { background:rgba(255,140,0,.1); }
-    .orange-card .stat-icon svg { fill:var(--orange); }
-    .green-card  .stat-icon { background:rgba(0,230,118,.08); }
-    .green-card  .stat-icon svg { fill:var(--green); }
-    .stat-val { font-size:1.9rem; font-weight:900; color:#fff; line-height:1; margin-bottom:.25rem; }
-    .stat-lbl { font-size:.72rem; color:var(--muted); text-transform:uppercase; letter-spacing:.1em; }
+      /* ── THE FIX: dynamic font size via JS, no truncation ── */
+      .credit-num {
+        font-weight: 900;
+        color: var(--gold);
+        line-height: 1;
+        filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.45));
+        font-size: 2.4rem; /* default — overridden by JS for large numbers */
+        transition: font-size 0.3s;
+        word-break: break-all;
+        margin-top: 0.15rem;
+      }
+      .credit-label {
+        font-size: 0.7rem;
+        color: rgba(255, 215, 0, 0.6);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-top: 0.35rem;
+      }
 
-    /* SECTION HEADERS */
-    .sec-hdr { text-align:center; margin-bottom:2.2rem; }
-    .sec-hdr h2 {
-      font-size:clamp(1.7rem,4vw,2.6rem); font-weight:900;
-      background:linear-gradient(135deg,#fff,var(--orange));
-      -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
-      margin-bottom:.45rem;
-    }
-    .sec-hdr p { color:var(--muted); font-size:.9rem; }
+      .stat-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 0.8rem;
+      }
+      .orange-card .stat-icon {
+        background: rgba(255, 140, 0, 0.1);
+      }
+      .orange-card .stat-icon svg {
+        fill: var(--orange);
+      }
+      .green-card .stat-icon {
+        background: rgba(0, 230, 118, 0.08);
+      }
+      .green-card .stat-icon svg {
+        fill: var(--green);
+      }
+      .stat-val {
+        font-size: 1.85rem;
+        font-weight: 900;
+        color: #fff;
+        line-height: 1;
+        margin-bottom: 0.3rem;
+      }
+      .stat-lbl {
+        font-size: 0.7rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
 
-    /* LEADERBOARD */
-    .lb-sec { padding:3.5rem 2rem; background:var(--deep); }
-    .lb-wrap { max-width:680px; margin:0 auto; }
-    .lb-row {
-      display:flex; align-items:center; gap:1rem; padding:.95rem 1.2rem;
-      background:var(--card); border:1px solid var(--border);
-      border-radius:13px; margin-bottom:.75rem; transition:all .3s;
-      position:relative; overflow:hidden;
-    }
-    .lb-row::before { content:""; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--orange); transform:scaleY(0); transition:transform .3s; }
-    .lb-row:hover { border-color:var(--orange); transform:translateX(4px); box-shadow:0 6px 24px rgba(255,140,0,.12); }
-    .lb-row:hover::before { transform:scaleY(1); }
-    .lb-rank { font-size:1.1rem; font-weight:900; min-width:32px; text-align:center; }
-    .r1 { color:var(--gold); filter:drop-shadow(0 0 8px rgba(255,215,0,.6)); }
-    .r2 { color:#c0c0c0; }
-    .r3 { color:#cd7f32; }
-    .rn { color:var(--muted); font-size:.88rem; }
-    .lb-av { width:44px; height:44px; border-radius:50%; object-fit:cover; border:2px solid var(--border); flex-shrink:0; }
-    .lb-info { flex:1; min-width:0; }
-    .lb-n { font-size:.93rem; font-weight:700; color:#fff; }
-    .lb-a { font-size:.72rem; color:var(--muted); }
-    .lb-v { display:flex; align-items:center; gap:.3rem; font-weight:700; color:var(--orange); font-size:.9rem; }
-    .lb-v svg { fill:var(--orange); display:block; }
-    .lb-bar-wrap { position:absolute; bottom:0; left:0; right:0; height:2px; background:rgba(255,255,255,.04); }
-    .lb-bar { height:100%; background:linear-gradient(90deg,var(--dim),var(--bright)); transition:width 1s; }
+      /* SECTION HEADERS */
+      .sec-hdr {
+        text-align: center;
+        margin-bottom: 2.2rem;
+      }
+      .sec-hdr h2 {
+        font-size: clamp(1.7rem, 4vw, 2.6rem);
+        font-weight: 900;
+        background: linear-gradient(135deg, #fff, var(--orange));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 0.45rem;
+      }
+      .sec-hdr p {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
 
-    /* VOTING GRID */
-    .vote-sec { padding:3.5rem 2rem 5rem; background:var(--black); }
-    .vote-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.8rem; max-width:1300px; margin:0 auto; }
-    .v-card {
-      background:var(--card); border:1px solid var(--border);
-      border-radius:20px; overflow:hidden; transition:all .4s; position:relative;
-    }
-    .v-card:hover { transform:translateY(-7px); border-color:rgba(255,140,0,.4); box-shadow:0 18px 45px rgba(255,140,0,.15); }
-    .r-crown { position:absolute; top:.75rem; left:.75rem; z-index:3; width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
-    .r-crown svg { fill:currentColor; display:block; }
-    .r-crown.gold   { background:rgba(255,215,0,.2);   border:1.5px solid var(--gold);   color:var(--gold); }
-    .r-crown.silver { background:rgba(192,192,192,.15); border:1.5px solid #c0c0c0;       color:#c0c0c0; }
-    .r-crown.bronze { background:rgba(205,127,50,.15);  border:1.5px solid #cd7f32;       color:#cd7f32; }
-    .fin-badge {
-      position:absolute; top:.75rem; right:.75rem; z-index:3;
-      display:flex; align-items:center; gap:.25rem; padding:.2rem .6rem;
-      border-radius:50px; font-size:.62rem; font-weight:800;
-      background:rgba(255,215,0,.15); border:1px solid rgba(255,215,0,.4); color:var(--gold);
-      text-transform:uppercase; letter-spacing:.07em;
-    }
-    .fin-badge svg { fill:var(--gold); display:block; }
-    .v-img-wrap { position:relative; aspect-ratio:1; overflow:hidden; }
-    .v-img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .6s; }
-    .v-card:hover .v-img { transform:scale(1.06); }
-    .v-cnt {
-      position:absolute; bottom:.65rem; right:.65rem;
-      display:flex; align-items:center; gap:.28rem;
-      background:rgba(0,0,0,.75); backdrop-filter:blur(6px);
-      border:1px solid rgba(255,140,0,.25); border-radius:18px;
-      padding:.26rem .6rem; font-size:.75rem; font-weight:700; color:var(--orange);
-    }
-    .v-cnt svg { fill:var(--orange); display:block; }
-    .v-prog-wrap { height:3px; background:rgba(255,255,255,.05); }
-    .v-prog { height:100%; background:linear-gradient(90deg,var(--dim),var(--bright)); transition:width 1s; }
-    .v-body { padding:1.2rem; }
-    .v-name { font-size:1rem; font-weight:700; color:#fff; margin-bottom:.2rem; }
-    .v-age  { font-size:.75rem; color:var(--muted); margin-bottom:.85rem; display:flex; align-items:center; gap:.3rem; }
-    .v-age svg { fill:var(--muted); display:block; }
-    .v-desc { font-size:.82rem; color:var(--muted); line-height:1.6; margin-bottom:1rem; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
-    .v-btn {
-      width:100%; padding:.85rem; border:none; border-radius:50px;
-      font-size:.85rem; font-weight:800; text-transform:uppercase; letter-spacing:.09em;
-      cursor:pointer; display:flex; align-items:center; justify-content:center; gap:.5rem;
-      transition:all .35s cubic-bezier(.68,-.55,.265,1.55);
-    }
-    .v-btn svg { fill:currentColor; display:block; flex-shrink:0; }
-    .v-btn.cast  { background:linear-gradient(135deg,var(--orange),var(--bright)); color:#000; box-shadow:0 8px 22px rgba(255,140,0,.3); }
-    .v-btn.cast:hover:not(:disabled) { transform:translateY(-3px) scale(1.02); box-shadow:0 14px 34px rgba(255,140,0,.5); }
-    .v-btn.voted { background:rgba(0,230,118,.07); border:2px solid rgba(0,230,118,.28); color:var(--green); }
-    .v-btn.locked{ background:rgba(255,255,255,.03); border:2px solid rgba(255,255,255,.07); color:var(--muted); }
-    .v-btn:disabled { opacity:.5; cursor:not-allowed; transform:none !important; }
+      /* LEADERBOARD */
+      .lb-sec {
+        padding: 3.5rem 2rem;
+        background: var(--deep);
+      }
+      .lb-wrap {
+        max-width: 680px;
+        margin: 0 auto;
+      }
+      .lb-row {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.95rem 1.2rem;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 13px;
+        margin-bottom: 0.75rem;
+        transition: all 0.3s;
+        position: relative;
+        overflow: hidden;
+      }
+      .lb-row::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: var(--orange);
+        transform: scaleY(0);
+        transition: transform 0.3s;
+      }
+      .lb-row:hover {
+        border-color: var(--orange);
+        transform: translateX(4px);
+        box-shadow: 0 6px 24px rgba(255, 140, 0, 0.12);
+      }
+      .lb-row:hover::before {
+        transform: scaleY(1);
+      }
+      .lb-rank {
+        font-size: 1.1rem;
+        font-weight: 900;
+        min-width: 32px;
+        text-align: center;
+      }
+      .r1 {
+        color: var(--gold);
+        filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6));
+      }
+      .r2 {
+        color: #c0c0c0;
+      }
+      .r3 {
+        color: #cd7f32;
+      }
+      .rn {
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+      .lb-av {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--border);
+        flex-shrink: 0;
+      }
+      .lb-info {
+        flex: 1;
+        min-width: 0;
+      }
+      .lb-n {
+        font-size: 0.93rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      .lb-a {
+        font-size: 0.72rem;
+        color: var(--muted);
+      }
+      .lb-v {
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+        font-weight: 700;
+        color: var(--orange);
+        font-size: 0.9rem;
+      }
+      .lb-v svg {
+        fill: var(--orange);
+        display: block;
+      }
+      .lb-bar-wrap {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: rgba(255, 255, 255, 0.04);
+      }
+      .lb-bar {
+        height: 100%;
+        background: linear-gradient(90deg, var(--dim), var(--bright));
+        transition: width 1s;
+      }
 
-    /* SHARE BUTTON */
-    .v-share-btn {
-      width:100%; padding:.65rem; margin-bottom:.65rem;
-      background:rgba(255,140,0,.05); border:1.5px solid rgba(255,140,0,.22);
-      border-radius:50px; color:var(--bright); font-size:.75rem; font-weight:700;
-      text-transform:uppercase; letter-spacing:.06em; cursor:pointer;
-      display:flex; align-items:center; justify-content:center; gap:.45rem;
-      transition:all .3s;
-    }
-    .v-share-btn:hover { background:rgba(255,140,0,.12); border-color:var(--orange); transform:translateY(-2px); }
-    .v-share-btn svg { fill:var(--bright); display:block; flex-shrink:0; }
+      /* VOTING GRID */
+      .vote-sec {
+        padding: 3.5rem 2rem 5rem;
+        background: var(--black);
+      }
+      .vote-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 1.8rem;
+        max-width: 1300px;
+        margin: 0 auto;
+      }
+      .v-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        overflow: hidden;
+        transition: all 0.4s;
+        position: relative;
+      }
+      .v-card:hover {
+        transform: translateY(-7px);
+        border-color: rgba(255, 140, 0, 0.4);
+        box-shadow: 0 18px 45px rgba(255, 140, 0, 0.15);
+      }
+      .r-crown {
+        position: absolute;
+        top: 0.75rem;
+        left: 0.75rem;
+        z-index: 3;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .r-crown svg {
+        fill: currentColor;
+        display: block;
+      }
+      .r-crown.gold {
+        background: rgba(255, 215, 0, 0.2);
+        border: 1.5px solid var(--gold);
+        color: var(--gold);
+      }
+      .r-crown.silver {
+        background: rgba(192, 192, 192, 0.15);
+        border: 1.5px solid #c0c0c0;
+        color: #c0c0c0;
+      }
+      .r-crown.bronze {
+        background: rgba(205, 127, 50, 0.15);
+        border: 1.5px solid #cd7f32;
+        color: #cd7f32;
+      }
+      .fin-badge {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+        z-index: 3;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0.2rem 0.6rem;
+        border-radius: 50px;
+        font-size: 0.62rem;
+        font-weight: 800;
+        background: rgba(255, 215, 0, 0.15);
+        border: 1px solid rgba(255, 215, 0, 0.4);
+        color: var(--gold);
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+      }
+      .fin-badge svg {
+        fill: var(--gold);
+        display: block;
+      }
+      .v-img-wrap {
+        position: relative;
+        aspect-ratio: 1;
+        overflow: hidden;
+      }
+      .v-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.6s;
+      }
+      .v-card:hover .v-img {
+        transform: scale(1.06);
+      }
+      .v-cnt {
+        position: absolute;
+        bottom: 0.65rem;
+        right: 0.65rem;
+        display: flex;
+        align-items: center;
+        gap: 0.28rem;
+        background: rgba(0, 0, 0, 0.75);
+        backdrop-filter: blur(6px);
+        border: 1px solid rgba(255, 140, 0, 0.25);
+        border-radius: 18px;
+        padding: 0.26rem 0.6rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--orange);
+      }
+      .v-cnt svg {
+        fill: var(--orange);
+        display: block;
+      }
+      .v-prog-wrap {
+        height: 3px;
+        background: rgba(255, 255, 255, 0.05);
+      }
+      .v-prog {
+        height: 100%;
+        background: linear-gradient(90deg, var(--dim), var(--bright));
+        transition: width 1s;
+      }
+      .v-body {
+        padding: 1.2rem;
+      }
+      .v-name {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 0.2rem;
+      }
+      .v-age {
+        font-size: 0.75rem;
+        color: var(--muted);
+        margin-bottom: 0.85rem;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+      }
+      .v-age svg {
+        fill: var(--muted);
+        display: block;
+      }
+      .v-desc {
+        font-size: 0.82rem;
+        color: var(--muted);
+        line-height: 1.6;
+        margin-bottom: 1rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .v-btn {
+        width: 100%;
+        padding: 0.85rem;
+        border: none;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        transition: all 0.35s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      }
+      .v-btn svg {
+        fill: currentColor;
+        display: block;
+        flex-shrink: 0;
+      }
+      .v-btn.cast {
+        background: linear-gradient(135deg, var(--orange), var(--bright));
+        color: #000;
+        box-shadow: 0 8px 22px rgba(255, 140, 0, 0.3);
+      }
+      .v-btn.cast:hover:not(:disabled) {
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 14px 34px rgba(255, 140, 0, 0.5);
+      }
+      .v-btn.voted {
+        background: rgba(0, 230, 118, 0.07);
+        border: 2px solid rgba(0, 230, 118, 0.28);
+        color: var(--green);
+      }
+      .v-btn.locked {
+        background: rgba(255, 255, 255, 0.03);
+        border: 2px solid rgba(255, 255, 255, 0.07);
+        color: var(--muted);
+      }
+      .v-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none !important;
+      }
 
-    /* VOTE QUANTITY ROW */
-    .v-vote-row { display:flex; gap:.5rem; }
-    .v-qty-input {
-      width:78px; flex-shrink:0; padding:.85rem .6rem; text-align:center;
-      background:rgba(255,255,255,.05); border:1.5px solid rgba(255,140,0,.25);
-      border-radius:14px; color:#fff; font-size:.95rem; font-weight:800;
-      font-family:var(--sf); transition:border-color .3s, box-shadow .3s;
-      -moz-appearance:textfield;
-    }
-    .v-qty-input::-webkit-outer-spin-button,
-    .v-qty-input::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
-    .v-qty-input::placeholder { color:rgba(255,255,255,.28); font-weight:600; }
-    .v-qty-input:focus {
-      outline:none; border-color:var(--orange);
-      box-shadow:0 0 0 3px rgba(255,140,0,.15);
-    }
-    .v-vote-row .v-btn { flex:1; }
+      /* SHARE BUTTON */
+      .v-share-btn {
+        width: 100%;
+        padding: 0.65rem;
+        margin-bottom: 0.65rem;
+        background: rgba(255, 140, 0, 0.05);
+        border: 1.5px solid rgba(255, 140, 0, 0.22);
+        border-radius: 50px;
+        color: var(--bright);
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.45rem;
+        transition: all 0.3s;
+      }
+      .v-share-btn:hover {
+        background: rgba(255, 140, 0, 0.12);
+        border-color: var(--orange);
+        transform: translateY(-2px);
+      }
+      .v-share-btn svg {
+        fill: var(--bright);
+        display: block;
+        flex-shrink: 0;
+      }
 
-    /* REFERRAL HIGHLIGHT */
-    .v-card.v-highlighted {
-      border-color:var(--bright) !important;
-      animation:refPulse 1.5s ease-in-out 2;
-    }
-    @keyframes refPulse {
-      0%,100% { box-shadow:0 0 0 rgba(255,140,0,0); }
-      50%      { box-shadow:0 0 46px rgba(255,140,0,.65); }
-    }
+      /* VOTE QUANTITY ROW */
+      .v-vote-row {
+        display: flex;
+        gap: 0.5rem;
+      }
+      .v-qty-input {
+        width: 78px;
+        flex-shrink: 0;
+        padding: 0.85rem 0.6rem;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1.5px solid rgba(255, 140, 0, 0.25);
+        border-radius: 14px;
+        color: #fff;
+        font-size: 0.95rem;
+        font-weight: 800;
+        font-family: var(--sf);
+        transition:
+          border-color 0.3s,
+          box-shadow 0.3s;
+        -moz-appearance: textfield;
+      }
+      .v-qty-input::-webkit-outer-spin-button,
+      .v-qty-input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      .v-qty-input::placeholder {
+        color: rgba(255, 255, 255, 0.28);
+        font-weight: 600;
+      }
+      .v-qty-input:focus {
+        outline: none;
+        border-color: var(--orange);
+        box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.15);
+      }
+      .v-vote-row .v-btn {
+        flex: 1;
+      }
 
-    .empty-st { grid-column:1/-1; text-align:center; padding:4.5rem 1rem; color:var(--muted); }
-    .empty-ico { width:68px; height:68px; border-radius:50%; background:rgba(255,140,0,.07); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; margin:0 auto 1rem; }
-    .empty-ico svg { fill:rgba(255,140,0,.4); display:block; }
-    .skel { border-radius:20px; overflow:hidden; border:1px solid rgba(255,140,0,.07); }
-    .skel-i { aspect-ratio:1; background:linear-gradient(90deg,rgba(255,140,0,.04) 25%,rgba(255,140,0,.09) 50%,rgba(255,140,0,.04) 75%); background-size:200% 100%; animation:sk 1.5s infinite; }
-    .skel-b { padding:1.1rem; }
-    .skel-l { height:11px; border-radius:6px; margin-bottom:.55rem; background:linear-gradient(90deg,rgba(255,255,255,.03) 25%,rgba(255,255,255,.06) 50%,rgba(255,255,255,.03) 75%); background-size:200% 100%; animation:sk 1.5s infinite; }
-    @keyframes sk { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+      /* REFERRAL HIGHLIGHT */
+      .v-card.v-highlighted {
+        border-color: var(--bright) !important;
+        animation: refPulse 1.5s ease-in-out 2;
+      }
+      @keyframes refPulse {
+        0%,
+        100% {
+          box-shadow: 0 0 0 rgba(255, 140, 0, 0);
+        }
+        50% {
+          box-shadow: 0 0 46px rgba(255, 140, 0, 0.65);
+        }
+      }
 
-    /* BUY CREDITS MODAL */
-    .mo {
-      position:fixed; inset:0; z-index:9000;
-      background:rgba(0,0,0,.92); backdrop-filter:blur(12px);
-      display:flex; align-items:center; justify-content:center; padding:1.5rem;
-      opacity:0; pointer-events:none; transition:opacity .3s;
-    }
-    .mo.open { opacity:1; pointer-events:all; }
-    .mo-box {
-      background:var(--card); border:2px solid rgba(255,215,0,.22);
-      border-radius:24px; width:100%; max-width:430px;
-      transform:scale(.92); transition:transform .35s cubic-bezier(.68,-.55,.265,1.55);
-      position:relative; overflow:hidden; max-height:90vh; overflow-y:auto;
-    }
-    .mo.open .mo-box { transform:scale(1); }
-    .mo-box::before { content:""; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--gold),#e6a000,var(--gold)); background-size:200% 100%; animation:shimmer 3s linear infinite; }
-    .mo-head { padding:1.6rem 1.8rem .8rem; }
-    .mo-head h2 { font-size:1.3rem; font-weight:900; margin-bottom:.3rem; }
-    .mo-head p  { font-size:.82rem; color:var(--muted); line-height:1.55; }
-    .mo-body { padding:.8rem 1.8rem 1.8rem; }
-    .packs { display:grid; grid-template-columns:1fr 1fr; gap:.75rem; margin-bottom:1.2rem; }
-    .pack {
-      padding:1rem; border-radius:13px; cursor:pointer; text-align:center;
-      background:rgba(255,255,255,.04); border:2px solid rgba(255,255,255,.07); transition:all .25s;
-    }
-    .pack:hover { border-color:var(--gold); background:rgba(255,215,0,.06); }
-    .pack.sel   { border-color:var(--gold); background:rgba(255,215,0,.1); box-shadow:0 0 16px rgba(255,215,0,.2); }
-    .pack-c  { font-size:1.5rem; font-weight:900; color:var(--gold); line-height:1; }
-    .pack-cl { font-size:.62rem; color:rgba(255,215,0,.55); text-transform:uppercase; letter-spacing:.1em; margin-bottom:.2rem; }
-    .pack-p  { font-size:.85rem; font-weight:700; color:#fff; }
-    .pack-b  { font-size:.6rem; color:var(--green); font-weight:700; margin-top:.15rem; }
-    .custom-row { display:flex; align-items:center; gap:.7rem; margin-bottom:1.1rem; }
-    .custom-row label { font-size:.68rem; color:var(--orange); font-weight:800; text-transform:uppercase; letter-spacing:.1em; white-space:nowrap; }
-    .custom-row input {
-      flex:1; padding:.6rem .85rem;
-      background:rgba(255,255,255,.05); border:1.5px solid rgba(255,215,0,.18);
-      border-radius:9px; color:#fff; font-size:.88rem; font-family:var(--sf);
-    }
-    .custom-row input:focus { outline:none; border-color:var(--gold); }
-    .custom-row input::placeholder { color:rgba(255,255,255,.2); }
-    .how-box {
-      background:rgba(0,180,216,.06); border:1px solid rgba(0,180,216,.2);
-      border-radius:9px; padding:.75rem .9rem; margin-bottom:1rem;
-      font-size:.78rem; color:rgba(255,255,255,.7); line-height:1.7;
-    }
-    .how-box strong { color:#00b4d8; }
-    .disclaimer {
-      background:rgba(255,82,82,.06); border:1px solid rgba(255,82,82,.2);
-      border-radius:9px; padding:.75rem .9rem; margin-bottom:1.1rem;
-      font-size:.75rem; color:rgba(255,255,255,.6); line-height:1.6;
-    }
-    .disclaimer strong { color:var(--red); }
-    .btn-pay {
-      width:100%; padding:1rem; background:linear-gradient(135deg,var(--gold),#e6a000);
-      color:#000; border:none; border-radius:50px; font-weight:900; font-size:.9rem;
-      text-transform:uppercase; letter-spacing:.1em; cursor:pointer;
-      display:flex; align-items:center; justify-content:center; gap:.55rem;
-      box-shadow:0 10px 28px rgba(255,215,0,.32); transition:all .3s;
-    }
-    .btn-pay:hover:not(:disabled) { transform:translateY(-3px); box-shadow:0 18px 45px rgba(255,215,0,.5); }
-    .btn-pay:disabled { opacity:.5; cursor:not-allowed; transform:none; }
-    .btn-pay svg { fill:#000; display:block; }
-    .btn-cancel-mo { width:100%; background:none; border:none; color:var(--muted); font-size:.8rem; cursor:pointer; padding:.6rem; margin-top:.5rem; transition:color .2s; }
-    .btn-cancel-mo:hover { color:#fff; }
+      .empty-st {
+        grid-column: 1/-1;
+        text-align: center;
+        padding: 4.5rem 1rem;
+        color: var(--muted);
+      }
+      .empty-ico {
+        width: 68px;
+        height: 68px;
+        border-radius: 50%;
+        background: rgba(255, 140, 0, 0.07);
+        border: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+      }
+      .empty-ico svg {
+        fill: rgba(255, 140, 0, 0.4);
+        display: block;
+      }
+      .skel {
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 140, 0, 0.07);
+      }
+      .skel-i {
+        aspect-ratio: 1;
+        background: linear-gradient(
+          90deg,
+          rgba(255, 140, 0, 0.04) 25%,
+          rgba(255, 140, 0, 0.09) 50%,
+          rgba(255, 140, 0, 0.04) 75%
+        );
+        background-size: 200% 100%;
+        animation: sk 1.5s infinite;
+      }
+      .skel-b {
+        padding: 1.1rem;
+      }
+      .skel-l {
+        height: 11px;
+        border-radius: 6px;
+        margin-bottom: 0.55rem;
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.03) 25%,
+          rgba(255, 255, 255, 0.06) 50%,
+          rgba(255, 255, 255, 0.03) 75%
+        );
+        background-size: 200% 100%;
+        animation: sk 1.5s infinite;
+      }
+      @keyframes sk {
+        0% {
+          background-position: 200% 0;
+        }
+        100% {
+          background-position: -200% 0;
+        }
+      }
 
-    /* TOAST */
-    .toast {
-      position:fixed; bottom:1.8rem; left:50%;
-      transform:translateX(-50%) translateY(100px);
-      display:flex; align-items:center; gap:.6rem;
-      padding:.85rem 1.7rem; border-radius:60px;
-      font-weight:700; font-size:.88rem; z-index:99999;
-      transition:transform .4s cubic-bezier(.68,-.55,.265,1.55);
-      pointer-events:none; white-space:nowrap;
-    }
-    .toast svg { fill:currentColor; display:block; flex-shrink:0; }
-    .toast.success { background:linear-gradient(135deg,var(--orange),var(--bright)); color:#000; box-shadow:0 10px 36px rgba(255,140,0,.5); }
-    .toast.error   { background:linear-gradient(135deg,#b71c1c,var(--red)); color:#fff; }
-    .toast.info    { background:linear-gradient(135deg,#1565c0,#42a5f5); color:#fff; }
-    .toast.show    { transform:translateX(-50%) translateY(0); }
+      /* BUY CREDITS MODAL */
+      .mo {
+        position: fixed;
+        inset: 0;
+        z-index: 9000;
+        background: rgba(0, 0, 0, 0.92);
+        backdrop-filter: blur(12px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s;
+      }
+      .mo.open {
+        opacity: 1;
+        pointer-events: all;
+      }
+      .mo-box {
+        background: var(--card);
+        border: 2px solid rgba(255, 215, 0, 0.22);
+        border-radius: 24px;
+        width: 100%;
+        max-width: 430px;
+        transform: scale(0.92);
+        transition: transform 0.35s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        position: relative;
+        overflow: hidden;
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+      .mo.open .mo-box {
+        transform: scale(1);
+      }
+      .mo-box::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--gold), #e6a000, var(--gold));
+        background-size: 200% 100%;
+        animation: shimmer 3s linear infinite;
+      }
+      .mo-head {
+        padding: 1.6rem 1.8rem 0.8rem;
+      }
+      .mo-head h2 {
+        font-size: 1.3rem;
+        font-weight: 900;
+        margin-bottom: 0.3rem;
+      }
+      .mo-head p {
+        font-size: 0.82rem;
+        color: var(--muted);
+        line-height: 1.55;
+      }
+      .mo-body {
+        padding: 0.8rem 1.8rem 1.8rem;
+      }
+      .packs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+        margin-bottom: 1.2rem;
+      }
+      .pack {
+        padding: 1rem;
+        border-radius: 13px;
+        cursor: pointer;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.04);
+        border: 2px solid rgba(255, 255, 255, 0.07);
+        transition: all 0.25s;
+      }
+      .pack:hover {
+        border-color: var(--gold);
+        background: rgba(255, 215, 0, 0.06);
+      }
+      .pack.sel {
+        border-color: var(--gold);
+        background: rgba(255, 215, 0, 0.1);
+        box-shadow: 0 0 16px rgba(255, 215, 0, 0.2);
+      }
+      .pack-c {
+        font-size: 1.5rem;
+        font-weight: 900;
+        color: var(--gold);
+        line-height: 1;
+      }
+      .pack-cl {
+        font-size: 0.62rem;
+        color: rgba(255, 215, 0, 0.55);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 0.2rem;
+      }
+      .pack-p {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #fff;
+      }
+      .pack-b {
+        font-size: 0.6rem;
+        color: var(--green);
+        font-weight: 700;
+        margin-top: 0.15rem;
+      }
+      .custom-row {
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        margin-bottom: 1.1rem;
+      }
+      .custom-row label {
+        font-size: 0.68rem;
+        color: var(--orange);
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        white-space: nowrap;
+      }
+      .custom-row input {
+        flex: 1;
+        padding: 0.6rem 0.85rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1.5px solid rgba(255, 215, 0, 0.18);
+        border-radius: 9px;
+        color: #fff;
+        font-size: 0.88rem;
+        font-family: var(--sf);
+      }
+      .custom-row input:focus {
+        outline: none;
+        border-color: var(--gold);
+      }
+      .custom-row input::placeholder {
+        color: rgba(255, 255, 255, 0.2);
+      }
+      .how-box {
+        background: rgba(0, 180, 216, 0.06);
+        border: 1px solid rgba(0, 180, 216, 0.2);
+        border-radius: 9px;
+        padding: 0.75rem 0.9rem;
+        margin-bottom: 1rem;
+        font-size: 0.78rem;
+        color: rgba(255, 255, 255, 0.7);
+        line-height: 1.7;
+      }
+      .how-box strong {
+        color: #00b4d8;
+      }
+      .disclaimer {
+        background: rgba(255, 82, 82, 0.06);
+        border: 1px solid rgba(255, 82, 82, 0.2);
+        border-radius: 9px;
+        padding: 0.75rem 0.9rem;
+        margin-bottom: 1.1rem;
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.6);
+        line-height: 1.6;
+      }
+      .disclaimer strong {
+        color: var(--red);
+      }
+      .btn-pay {
+        width: 100%;
+        padding: 1rem;
+        background: linear-gradient(135deg, var(--gold), #e6a000);
+        color: #000;
+        border: none;
+        border-radius: 50px;
+        font-weight: 900;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.55rem;
+        box-shadow: 0 10px 28px rgba(255, 215, 0, 0.32);
+        transition: all 0.3s;
+      }
+      .btn-pay:hover:not(:disabled) {
+        transform: translateY(-3px);
+        box-shadow: 0 18px 45px rgba(255, 215, 0, 0.5);
+      }
+      .btn-pay:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+      }
+      .btn-pay svg {
+        fill: #000;
+        display: block;
+      }
+      .btn-cancel-mo {
+        width: 100%;
+        background: none;
+        border: none;
+        color: var(--muted);
+        font-size: 0.8rem;
+        cursor: pointer;
+        padding: 0.6rem;
+        margin-top: 0.5rem;
+        transition: color 0.2s;
+      }
+      .btn-cancel-mo:hover {
+        color: #fff;
+      }
 
-    footer { background:var(--deep); border-top:1px solid rgba(255,140,0,.08); padding:2rem; text-align:center; }
-    .footer-t { color:rgba(255,255,255,.28); font-size:.78rem; line-height:2; }
-    .footer-t a { color:rgba(255,140,0,.6); text-decoration:none; }
-    .footer-t a:hover { color:var(--orange); }
+      /* TOAST */
+      .toast {
+        position: fixed;
+        bottom: 1.8rem;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.85rem 1.7rem;
+        border-radius: 60px;
+        font-weight: 700;
+        font-size: 0.88rem;
+        z-index: 99999;
+        transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        pointer-events: none;
+        white-space: nowrap;
+      }
+      .toast svg {
+        fill: currentColor;
+        display: block;
+        flex-shrink: 0;
+      }
+      .toast.success {
+        background: linear-gradient(135deg, var(--orange), var(--bright));
+        color: #000;
+        box-shadow: 0 10px 36px rgba(255, 140, 0, 0.5);
+      }
+      .toast.error {
+        background: linear-gradient(135deg, #b71c1c, var(--red));
+        color: #fff;
+      }
+      .toast.info {
+        background: linear-gradient(135deg, #1565c0, #42a5f5);
+        color: #fff;
+      }
+      .toast.show {
+        transform: translateX(-50%) translateY(0);
+      }
 
-    @media (max-width:768px) {
-      .welcome-row { flex-direction:column; gap:1rem; }
-      .stats-row   { grid-template-columns:1fr 1fr; }
-      .vote-grid   { grid-template-columns:1fr; }
-      .packs       { grid-template-columns:1fr; }
-      .nav-name    { display:none; }
-    }
-    @media (max-width:420px) { .stats-row { grid-template-columns:1fr; } }
-  </style>
-</head>
-<body>
+      footer {
+        background: var(--deep);
+        border-top: 1px solid rgba(255, 140, 0, 0.08);
+        padding: 2rem;
+        text-align: center;
+      }
+      .footer-t {
+        color: rgba(255, 255, 255, 0.28);
+        font-size: 0.78rem;
+        line-height: 2;
+      }
+      .footer-t a {
+        color: rgba(255, 140, 0, 0.6);
+        text-decoration: none;
+      }
+      .footer-t a:hover {
+        color: var(--orange);
+      }
 
-<!-- TOAST -->
-<div class="toast" id="toast">
-  <svg width="15" height="15" viewBox="0 0 24 24" id="toastIcon"></svg>
-  <span id="toastMsg"></span>
-</div>
-
-<!-- BUY CREDITS MODAL -->
-<div class="mo" id="buyMo">
-  <div class="mo-box">
-    <div class="mo-head">
-      <h2>🏦 Buy Vote Credits</h2>
-      <p>Minimum <strong style="color:var(--gold)">500 credits for ₦500</strong>. Pay via instant bank transfer — credits added <strong style="color:var(--green)">automatically</strong> once confirmed.</p>
+      @media (max-width: 768px) {
+        .welcome-row {
+          flex-direction: column;
+          gap: 1rem;
+        }
+        .vote-grid {
+          grid-template-columns: 1fr;
+        }
+        .packs {
+          grid-template-columns: 1fr;
+        }
+        .nav-name {
+          display: none;
+        }
+        .countdown-card {
+          min-width: 0;
+          width: 100%;
+        }
+        .cd-blocks {
+          grid-template-columns: repeat(4, 1fr);
+          gap: 0.5rem;
+        }
+        .cd-block {
+          padding: 0.7rem 0.4rem;
+        }
+        .cd-num {
+          font-size: 1.45rem;
+        }
+        .cd-msg {
+          max-width: none;
+        }
+      }
+      @media (max-width: 480px) {
+        .cd-blocks {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- TOAST -->
+    <div class="toast" id="toast">
+      <svg width="15" height="15" viewBox="0 0 24 24" id="toastIcon"></svg>
+      <span id="toastMsg"></span>
     </div>
-    <div class="mo-body">
-      <div class="packs">
-        <div class="pack sel" data-c="500" data-p="500" onclick="selPackFn(this)">
-          <div class="pack-cl">Credits</div>
-          <div class="pack-c">500</div>
-          <div class="pack-p">₦500</div>
+
+    <!-- BUY CREDITS MODAL -->
+    <div class="mo" id="buyMo">
+      <div class="mo-box">
+        <div class="mo-head">
+          <h2>🏦 Buy Vote Credits</h2>
+          <p>
+            Minimum
+            <strong style="color: var(--gold)">500 credits for ₦500</strong>.
+            Pay via instant bank transfer — credits added
+            <strong style="color: var(--green)">automatically</strong> once
+            confirmed.
+          </p>
         </div>
-        <div class="pack" data-c="1000" data-p="1000" onclick="selPackFn(this)">
-          <div class="pack-cl">Credits</div>
-          <div class="pack-c">1,000</div>
-          <div class="pack-p">₦1,000</div>
-        </div>
-        <div class="pack" data-c="2550" data-p="2500" onclick="selPackFn(this)">
-          <div class="pack-cl">Credits</div>
-          <div class="pack-c">2,550</div>
-          <div class="pack-p">₦2,500</div>
-          <div class="pack-b">+50 Credits</div>
-        </div>
-        <div class="pack" data-c="5100" data-p="5000" onclick="selPackFn(this)">
-          <div class="pack-cl">Credits</div>
-          <div class="pack-c">5,100</div>
-          <div class="pack-p">₦5,000</div>
-          <div class="pack-b">+100 credits</div>
-        </div>
-      </div>
-
-      <div class="custom-row">
-        <label>Custom (min 500)</label>
-        <input type="number" id="custC" placeholder="e.g. 3000" min="500" step="100" oninput="onCustomFn()"/>
-      </div>
-
-      <div class="how-box">
-        <strong>⚡ How it works:</strong><br>
-        1. Click <em>Generate Account</em> below<br>
-        2. Transfer exactly ₦<span id="moAmtPreview">500</span> to the Wema Bank account shown<br>
-        3. A 10-minute countdown starts — complete transfer before it expires<br>
-        4. Credits appear in your wallet <strong style="color:var(--green)">automatically</strong>
-      </div>
-
-      <div class="disclaimer">
-        <strong>⚠ No Refunds Policy:</strong> All credit purchases are completely final and non-refundable. Credits hold no monetary value and expire when the contest ends.
-      </div>
-
-      <button class="btn-pay" id="btnPay" onclick="doPayFn()">
-        <svg width="17" height="17" viewBox="0 0 24 24"><path d="M4 10h16v2H4zm0-4h16v2H4zm10 8H4v2h10zm4 0l-1 4-3-1 2-2-1-4 3 1-1 2z"/></svg>
-        <span id="payTxt">Generate Account · ₦500</span>
-      </button>
-      <button class="btn-cancel-mo" onclick="closeMo()">Cancel</button>
-    </div>
-  </div>
-</div>
-
-<!-- CONFIRM VOTE MODAL -->
-<div class="mo" id="confirmMo">
-  <div class="mo-box" style="max-width:400px">
-    <div class="mo-head">
-      <h2>Confirm Your Vote</h2>
-      <p>Are you sure you want to spend <strong id="confirmQty" style="color:var(--orange)"></strong> credit<span id="confirmPlural">s</span> voting for <strong id="confirmName" style="color:var(--bright)"></strong>?</p>
-    </div>
-    <div class="mo-body">
-      <div style="background:rgba(255,140,0,.05);border:1px solid rgba(255,140,0,.18);border-radius:9px;padding:.75rem .9rem;margin-bottom:1.1rem;font-size:.78rem;color:rgba(255,255,255,.6);line-height:1.6">
-        This will use up <strong id="confirmQty2" style="color:var(--orange)"></strong> of your <strong id="confirmAvail" style="color:var(--bright)"></strong> available credits. Votes can't be undone once cast.
-      </div>
-      <button class="btn-pay" id="confirmYesBtn">
-        <svg width="17" height="17" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
-        <span>Yes, Cast My Vote</span>
-      </button>
-      <button class="btn-cancel-mo" onclick="closeConfirmMo()">Cancel</button>
-    </div>
-  </div>
-</div>
-
-<!-- NAV -->
-<nav id="navbar">
-  <div class="nav-c">
-    <a href="index.html" class="logo" style="display:flex; align-items:center; gap:.6rem;">
-      <img src="./media/cg-champ-emblem.png" alt="" class="nav-emblem">
-      CG PIXELS
-    </a>
-    <div class="nav-r">
-      <div class="nav-credit-pill" onclick="openMo()" id="navPill">
-        <svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.41 16.09V20h-2.67v-1.93c-1.71-.36-3.16-1.46-3.27-3.4h1.96c.1 1.05.82 1.87 2.65 1.87 1.96 0 2.4-.98 2.4-1.59 0-.83-.44-1.61-2.67-2.14-2.48-.6-4.18-1.62-4.18-3.67 0-1.72 1.39-2.84 3.11-3.21V4h2.67v1.95c1.86.45 2.79 1.86 2.85 3.39H14.3c-.05-1.11-.64-1.87-2.22-1.87-1.5 0-2.4.68-2.4 1.64 0 .84.65 1.39 2.67 1.91s4.18 1.39 4.18 3.91c-.01 1.83-1.38 2.83-3.12 3.16z"/></svg>
-        <span class="nav-credit-val" id="navCred">—</span>
-        <span class="nav-credit-lbl">credits</span>
-      </div>
-      <div class="nav-name" id="navName"></div>
-      <button class="btn-out" onclick="doOut()">
-        <svg width="12" height="12" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
-        Sign Out
-      </button>
-    </div>
-  </div>
-</nav>
-
-<!-- DASHBOARD HERO -->
-<div class="dash-hero">
-  <div class="dash-hero-grid"></div>
-  <div class="dash-hero-inner">
-    <div class="welcome-row">
-      <div class="welcome-left">
-        <img src="./media/cg-champ-emblem.png" alt="CG Champ of the Year" class="champ-emblem-mini">
-        <div class="welcome-tag">
-          <svg width="12" height="12" viewBox="0 0 24 24"><path d="M19 5h-2V3H7v2H5C3.9 5 3 5.9 3 7v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0011 15.9V18H7v2h10v-2h-4v-2.1a5.01 5.01 0 003.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.86 10.4 5 9.3 5 8zm14 0c0 1.3-.86 2.4-2 2.82V7h2v1z"/></svg>
-          CG Champ of the Year · 2026
-        </div>
-        <h1 class="welcome-name">Welcome back, <span id="wName">—</span></h1>
-        <div class="welcome-child" id="wChild">
-          <svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v2h20v-2c0-3.33-6.67-5-10-5z"/></svg>
-          Loading…
-        </div>
-      </div>
-      <div class="phase-pill free" id="phasePill">
-        <svg width="12" height="12" viewBox="0 0 24 24"><path d="M18 3v2h-2V3H8v2H6V3H4v18h2v-2h2v2h8v-2h2v2h2V3h-2z"/></svg>
-        <span id="phaseText">Free Voting · Open</span>
-      </div>
-    </div>
-
-    <div class="stats-row">
-      <!-- CREDITS CARD -->
-      <div class="credit-display-card" onclick="openMo()">
-        <div class="credit-top">
-          <div class="credit-icon-wrap">
-            <svg width="22" height="22" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.41 16.09V20h-2.67v-1.93c-1.71-.36-3.16-1.46-3.27-3.4h1.96c.1 1.05.82 1.87 2.65 1.87 1.96 0 2.4-.98 2.4-1.59 0-.83-.44-1.61-2.67-2.14-2.48-.6-4.18-1.62-4.18-3.67 0-1.72 1.39-2.84 3.11-3.21V4h2.67v1.95c1.86.45 2.79 1.86 2.85 3.39H14.3c-.05-1.11-.64-1.87-2.22-1.87-1.5 0-2.4.68-2.4 1.64 0 .84.65 1.39 2.67 1.91s4.18 1.39 4.18 3.91c-.01 1.83-1.38 2.83-3.12 3.16z"/></svg>
+        <div class="mo-body">
+          <div class="packs">
+            <div
+              class="pack sel"
+              data-c="500"
+              data-p="500"
+              onclick="selPackFn(this)"
+            >
+              <div class="pack-cl">Credits</div>
+              <div class="pack-c">500</div>
+              <div class="pack-p">₦500</div>
+            </div>
+            <div
+              class="pack"
+              data-c="1000"
+              data-p="1000"
+              onclick="selPackFn(this)"
+            >
+              <div class="pack-cl">Credits</div>
+              <div class="pack-c">1,000</div>
+              <div class="pack-p">₦1,000</div>
+            </div>
+            <div
+              class="pack"
+              data-c="2550"
+              data-p="2500"
+              onclick="selPackFn(this)"
+            >
+              <div class="pack-cl">Credits</div>
+              <div class="pack-c">2,550</div>
+              <div class="pack-p">₦2,500</div>
+              <div class="pack-b">+50 Credits</div>
+            </div>
+            <div
+              class="pack"
+              data-c="5100"
+              data-p="5000"
+              onclick="selPackFn(this)"
+            >
+              <div class="pack-cl">Credits</div>
+              <div class="pack-c">5,100</div>
+              <div class="pack-p">₦5,000</div>
+              <div class="pack-b">+100 credits</div>
+            </div>
           </div>
-          <button class="credit-add-btn" onclick="event.stopPropagation();openMo()">
-            <svg width="11" height="11" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
-            Top Up
+
+          <div class="custom-row">
+            <label>Custom (min 500)</label>
+            <input
+              type="number"
+              id="custC"
+              placeholder="e.g. 3000"
+              min="500"
+              step="100"
+              oninput="onCustomFn()"
+            />
+          </div>
+
+          <div class="how-box">
+            <strong>⚡ How it works:</strong><br />
+            1. Click <em>Generate Account</em> below<br />
+            2. Transfer exactly ₦<span id="moAmtPreview">500</span> to the Wema
+            Bank account shown<br />
+            3. A 10-minute countdown starts — complete transfer before it
+            expires<br />
+            4. Credits appear in your wallet
+            <strong style="color: var(--green)">automatically</strong>
+          </div>
+
+          <div class="disclaimer">
+            <strong>⚠ No Refunds Policy:</strong> All credit purchases are
+            completely final and non-refundable. Credits hold no monetary value
+            and expire when the contest ends.
+          </div>
+
+          <button class="btn-pay" id="btnPay" onclick="doPayFn()">
+            <svg width="17" height="17" viewBox="0 0 24 24">
+              <path
+                d="M4 10h16v2H4zm0-4h16v2H4zm10 8H4v2h10zm4 0l-1 4-3-1 2-2-1-4 3 1-1 2z"
+              />
+            </svg>
+            <span id="payTxt">Generate Account · ₦500</span>
+          </button>
+          <button class="btn-cancel-mo" onclick="closeMo()">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONFIRM VOTE MODAL -->
+    <div class="mo" id="confirmMo">
+      <div class="mo-box" style="max-width: 400px">
+        <div class="mo-head">
+          <h2>Confirm Your Vote</h2>
+          <p>
+            Are you sure you want to spend
+            <strong id="confirmQty" style="color: var(--orange)"></strong>
+            credit<span id="confirmPlural">s</span> voting for
+            <strong id="confirmName" style="color: var(--bright)"></strong>?
+          </p>
+        </div>
+        <div class="mo-body">
+          <div
+            style="
+              background: rgba(255, 140, 0, 0.05);
+              border: 1px solid rgba(255, 140, 0, 0.18);
+              border-radius: 9px;
+              padding: 0.75rem 0.9rem;
+              margin-bottom: 1.1rem;
+              font-size: 0.78rem;
+              color: rgba(255, 255, 255, 0.6);
+              line-height: 1.6;
+            "
+          >
+            This will use up
+            <strong id="confirmQty2" style="color: var(--orange)"></strong> of
+            your
+            <strong id="confirmAvail" style="color: var(--bright)"></strong>
+            available credits. Votes can't be undone once cast.
+          </div>
+          <button class="btn-pay" id="confirmYesBtn">
+            <svg width="17" height="17" viewBox="0 0 24 24">
+              <path
+                d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"
+              />
+            </svg>
+            <span>Yes, Cast My Vote</span>
+          </button>
+          <button class="btn-cancel-mo" onclick="closeConfirmMo()">
+            Cancel
           </button>
         </div>
-        <div class="credit-num" id="bigCred">—</div>
-        <div class="credit-label">Credits Available · tap to buy more</div>
-      </div>
-
-      <!-- VOTES CAST -->
-      <div class="stat-card orange-card">
-        <div class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
-        <div class="stat-val" id="usedCred">0</div>
-        <div class="stat-lbl">Votes Cast</div>
-      </div>
-
-      <!-- NOMINEES -->
-      <div class="stat-card green-card">
-        <div class="stat-icon"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15a5 5 0 110-10 5 5 0 010 10zm0-8a3 3 0 100 6 3 3 0 000-6z"/></svg></div>
-        <div class="stat-val" id="nomCount">0</div>
-        <div class="stat-lbl">Total Nominees</div>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- VOTING GRID -->
-<section class="vote-sec">
-  <div class="sec-hdr">
-    <h2>All Nominees</h2>
-    <p id="gridSub">Cast your vote — 1 credit = 1 vote</p>
-  </div>
-  <div class="vote-grid" id="vGrid">
-    <div class="skel"><div class="skel-i"></div><div class="skel-b"><div class="skel-l" style="width:60%"></div><div class="skel-l" style="width:40%"></div></div></div>
-    <div class="skel"><div class="skel-i"></div><div class="skel-b"><div class="skel-l" style="width:70%"></div><div class="skel-l" style="width:35%"></div></div></div>
-    <div class="skel"><div class="skel-i"></div><div class="skel-b"><div class="skel-l" style="width:55%"></div><div class="skel-l" style="width:45%"></div></div></div>
-  </div>
-</section>
+    <!-- NAV -->
+    <nav id="navbar">
+      <div class="nav-c">
+        <a
+          href="index.html"
+          class="logo"
+          style="display: flex; align-items: center; gap: 0.6rem"
+        >
+          <img src="./media/cg-champ-emblem.png" alt="" class="nav-emblem" />
+          CG PIXELS
+        </a>
+        <div class="nav-r">
+          <div class="nav-credit-pill" onclick="openMo()" id="navPill">
+            <svg width="16" height="16" viewBox="0 0 24 24">
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.41 16.09V20h-2.67v-1.93c-1.71-.36-3.16-1.46-3.27-3.4h1.96c.1 1.05.82 1.87 2.65 1.87 1.96 0 2.4-.98 2.4-1.59 0-.83-.44-1.61-2.67-2.14-2.48-.6-4.18-1.62-4.18-3.67 0-1.72 1.39-2.84 3.11-3.21V4h2.67v1.95c1.86.45 2.79 1.86 2.85 3.39H14.3c-.05-1.11-.64-1.87-2.22-1.87-1.5 0-2.4.68-2.4 1.64 0 .84.65 1.39 2.67 1.91s4.18 1.39 4.18 3.91c-.01 1.83-1.38 2.83-3.12 3.16z"
+              />
+            </svg>
+            <span class="nav-credit-val" id="navCred">—</span>
+            <span class="nav-credit-lbl">credits</span>
+          </div>
+          <div class="nav-name" id="navName"></div>
+          <button class="btn-out" onclick="doOut()">
+            <svg width="12" height="12" viewBox="0 0 24 24">
+              <path
+                d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"
+              />
+            </svg>
+            Sign Out
+          </button>
+        </div>
+      </div>
+    </nav>
 
-<!-- LEADERBOARD -->
-<section class="lb-sec">
-  <div class="sec-hdr">
-    <h2>Live Leaderboard</h2>
-    <p>Updates in real time as votes pour in</p>
-  </div>
-  <div class="lb-wrap" id="lbWrap">
-    <div style="text-align:center;color:var(--muted);padding:2.5rem">Loading rankings…</div>
-  </div>
-</section>
+    <!-- DASHBOARD HERO -->
+    <div class="dash-hero">
+      <div class="dash-hero-grid"></div>
+      <div class="dash-hero-inner">
+        <div class="welcome-row">
+          <div class="welcome-left">
+            <img
+              src="./media/cg-champ-emblem.png"
+              alt="CG Champ of the Year"
+              class="champ-emblem-mini"
+            />
+            <div class="welcome-tag">
+              <svg width="12" height="12" viewBox="0 0 24 24">
+                <path
+                  d="M19 5h-2V3H7v2H5C3.9 5 3 5.9 3 7v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0011 15.9V18H7v2h10v-2h-4v-2.1a5.01 5.01 0 003.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.86 10.4 5 9.3 5 8zm14 0c0 1.3-.86 2.4-2 2.82V7h2v1z"
+                />
+              </svg>
+              CG Champ of the Year · 2026
+            </div>
+            <h1 class="welcome-name">
+              Welcome back, <span id="wName">—</span>
+            </h1>
+            <div class="welcome-child" id="wChild">
+              <svg width="14" height="14" viewBox="0 0 24 24">
+                <path
+                  d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v2h20v-2c0-3.33-6.67-5-10-5z"
+                />
+              </svg>
+              Loading…
+            </div>
+          </div>
+          <div class="phase-pill free" id="phasePill">
+            <svg width="12" height="12" viewBox="0 0 24 24">
+              <path d="M18 3v2h-2V3H8v2H6V3H4v18h2v-2h2v2h8v-2h2v2h2V3h-2z" />
+            </svg>
+            <span id="phaseText">Free Voting · Open</span>
+          </div>
+        </div>
 
-<footer>
-  <p class="footer-t">
-    © 2026 CGPIXELS · CG Champ of the Year · All credit purchases are final and non-refundable<br>
-    <a href="legal.html">Terms & Conditions</a> &nbsp;·&nbsp;
-    <a href="legal.html#refund">Refund Policy</a> &nbsp;·&nbsp;
-    <a href="legal.html#privacy">Privacy Policy</a>
-  </p>
-</footer>
+        <div class="stats-countdown-wrap">
+          <div class="stats-row">
+            <!-- CREDITS CARD -->
+            <div class="credit-display-card" onclick="openMo()">
+              <div class="credit-top">
+                <div class="credit-icon-wrap">
+                  <svg width="22" height="22" viewBox="0 0 24 24">
+                    <path
+                      d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.41 16.09V20h-2.67v-1.93c-1.71-.36-3.16-1.46-3.27-3.4h1.96c.1 1.05.82 1.87 2.65 1.87 1.96 0 2.4-.98 2.4-1.59 0-.83-.44-1.61-2.67-2.14-2.48-.6-4.18-1.62-4.18-3.67 0-1.72 1.39-2.84 3.11-3.21V4h2.67v1.95c1.86.45 2.79 1.86 2.85 3.39H14.3c-.05-1.11-.64-1.87-2.22-1.87-1.5 0-2.4.68-2.4 1.64 0 .84.65 1.39 2.67 1.91s4.18 1.39 4.18 3.91c-.01 1.83-1.38 2.83-3.12 3.16z"
+                    />
+                  </svg>
+                </div>
+                <button
+                  class="credit-add-btn"
+                  onclick="
+                    event.stopPropagation();
+                    openMo();
+                  "
+                >
+                  <svg width="11" height="11" viewBox="0 0 24 24">
+                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                  </svg>
+                  Top Up
+                </button>
+              </div>
+              <div class="credit-num" id="bigCred">—</div>
+              <div class="credit-label">Credits Available · tap to buy more</div>
+            </div>
 
-<script type="module">
-import { initializeApp }                               from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
-import { getAnalytics }                                from "https://www.gstatic.com/firebasejs/12.13.0/firebase-analytics.js";
-import { getFirestore, collection, query, where,
-         onSnapshot, doc, getDoc, updateDoc,
-         setDoc, increment, serverTimestamp,
-         runTransaction }                               from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
-import { getAuth, onAuthStateChanged, signOut }        from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+            <!-- VOTES CAST -->
+            <div class="stat-card orange-card">
+              <div class="stat-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24">
+                  <path
+                    d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                  />
+                </svg>
+              </div>
+              <div class="stat-val" id="usedCred">0</div>
+              <div class="stat-lbl">Votes Cast</div>
+            </div>
 
-const FIREBASE_CONFIG = {
-  apiKey:            "AIzaSyCTptvNojix0zW9fES8Ms7F6qo3T5YkzxA",
-  authDomain:        "cg-pixels.firebaseapp.com",
-  projectId:         "cg-pixels",
-  storageBucket:     "cg-pixels.firebasestorage.app",
-  messagingSenderId: "214403536099",
-  appId:             "1:214403536099:web:d9acacb847a16754a661d6",
-  measurementId:     "G-LFHZHQ0404"
-};
+            <!-- NOMINEES -->
+            <div class="stat-card green-card">
+              <div class="stat-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24">
+                  <path
+                    d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15a5 5 0 110-10 5 5 0 010 10zm0-8a3 3 0 100 6 3 3 0 000-6z"
+                  />
+                </svg>
+              </div>
+              <div class="stat-val" id="nomCount">0</div>
+              <div class="stat-lbl">Total Nominees</div>
+            </div>
+          </div>
 
-const CLOUD_FUNCTIONS_BASE_URL = "https://serveerrrr.onrender.com";
+          <!-- VOTING COUNTDOWN -->
+          <div class="countdown-card">
+            <div class="cd-tag">
+              <svg width="12" height="12" viewBox="0 0 24 24">
+                <path
+                  d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm.01 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67V7z"
+                />
+              </svg>
+              Voting Ends In
+            </div>
+            <div class="cd-blocks">
+              <div class="cd-block">
+                <span class="cd-num" id="vcd-days">--</span>
+                <span class="cd-label">Days</span>
+              </div>
+              <div class="cd-block">
+                <span class="cd-num" id="vcd-hours">--</span>
+                <span class="cd-label">Hours</span>
+              </div>
+              <div class="cd-block">
+                <span class="cd-num" id="vcd-mins">--</span>
+                <span class="cd-label">Mins</span>
+              </div>
+              <div class="cd-block">
+                <span class="cd-num" id="vcd-secs">--</span>
+                <span class="cd-label">Secs</span>
+              </div>
+            </div>
+            <div class="cd-msg" id="vcd-msg">
+              Voting closes soon — cast your votes!
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-const app  = initializeApp(FIREBASE_CONFIG);
-getAnalytics(app);
-const db   = getFirestore(app);
-const auth = getAuth(app);
+    <!-- VOTING GRID -->
+    <section class="vote-sec">
+      <div class="sec-hdr">
+        <h2>All Nominees</h2>
+        <p id="gridSub">Cast your vote — 1 credit = 1 vote</p>
+      </div>
+      <div class="vote-grid" id="vGrid">
+        <div class="skel">
+          <div class="skel-i"></div>
+          <div class="skel-b">
+            <div class="skel-l" style="width: 60%"></div>
+            <div class="skel-l" style="width: 40%"></div>
+          </div>
+        </div>
+        <div class="skel">
+          <div class="skel-i"></div>
+          <div class="skel-b">
+            <div class="skel-l" style="width: 70%"></div>
+            <div class="skel-l" style="width: 35%"></div>
+          </div>
+        </div>
+        <div class="skel">
+          <div class="skel-i"></div>
+          <div class="skel-b">
+            <div class="skel-l" style="width: 55%"></div>
+            <div class="skel-l" style="width: 45%"></div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-let me       = null;
-let profile  = null;
-let nominees = [];
-let curPhase = 'free';
-let selPack  = { c:500, p:500 };
+    <!-- LEADERBOARD -->
+    <section class="lb-sec">
+      <div class="sec-hdr">
+        <h2>Live Leaderboard</h2>
+        <p>Updates in real time as votes pour in</p>
+      </div>
+      <div class="lb-wrap" id="lbWrap">
+        <div style="text-align: center; color: var(--muted); padding: 2.5rem">
+          Loading rankings…
+        </div>
+      </div>
+    </section>
 
-/* ── REFERRAL LINK CAPTURE ──
+    <footer>
+      <p class="footer-t">
+        © 2026 CGPIXELS · CG Champ of the Year · All credit purchases are final
+        and non-refundable<br />
+        <a href="legal.html">Terms & Conditions</a> &nbsp;·&nbsp;
+        <a href="legal.html#refund">Refund Policy</a> &nbsp;·&nbsp;
+        <a href="legal.html#privacy">Privacy Policy</a>
+      </p>
+    </footer>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-analytics.js";
+      import {
+        getFirestore,
+        collection,
+        query,
+        where,
+        onSnapshot,
+        doc,
+        getDoc,
+        updateDoc,
+        setDoc,
+        increment,
+        serverTimestamp,
+        runTransaction,
+      } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+      import {
+        getAuth,
+        onAuthStateChanged,
+        signOut,
+      } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
+
+      const FIREBASE_CONFIG = {
+        apiKey: "AIzaSyCTptvNojix0zW9fES8Ms7F6qo3T5YkzxA",
+        authDomain: "cg-pixels.firebaseapp.com",
+        projectId: "cg-pixels",
+        storageBucket: "cg-pixels.firebasestorage.app",
+        messagingSenderId: "214403536099",
+        appId: "1:214403536099:web:d9acacb847a16754a661d6",
+        measurementId: "G-LFHZHQ0404",
+      };
+
+      const CLOUD_FUNCTIONS_BASE_URL = "https://serveerrrr.onrender.com";
+
+      const app = initializeApp(FIREBASE_CONFIG);
+      getAnalytics(app);
+      const db = getFirestore(app);
+      const auth = getAuth(app);
+
+      let me = null;
+      let profile = null;
+      let nominees = [];
+      let curPhase = "free";
+      let selPack = { c: 500, p: 500 };
+      let bannedHandled = false; // prevents double sign-out/redirect races
+
+      /* ── REFERRAL LINK CAPTURE ──
    If someone arrived via a shared nominee link (?ref=<nomineeId>),
    stash it before the auth redirect wipes the query string, so it
    survives the trip through sign-up and back. */
-const _urlParams = new URLSearchParams(window.location.search);
-const _incomingRef = _urlParams.get('ref');
-if (_incomingRef) sessionStorage.setItem('cg_ref_nominee', _incomingRef);
-let didScrollToRef = false;
+      const _urlParams = new URLSearchParams(window.location.search);
+      const _incomingRef = _urlParams.get("ref");
+      if (_incomingRef) sessionStorage.setItem("cg_ref_nominee", _incomingRef);
+      let didScrollToRef = false;
 
-window.addEventListener('scroll', () =>
-  document.getElementById('navbar').classList.toggle('scrolled', scrollY > 50));
+      window.addEventListener("scroll", () =>
+        document
+          .getElementById("navbar")
+          .classList.toggle("scrolled", scrollY > 50),
+      );
 
-/* TOAST */
-const P = {
-  ok:   'M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z',
-  err:  'M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z',
-  info: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z'
-};
-function toast(msg, type='success') {
-  const t = document.getElementById('toast');
-  document.getElementById('toastMsg').textContent = msg;
-  document.getElementById('toastIcon').innerHTML  = `<path d="${type==='error'?P.err:type==='info'?P.info:P.ok}"/>`;
-  t.className = `toast ${type} show`;
-  setTimeout(() => t.classList.remove('show'), 4200);
-}
+      /* TOAST */
+      const P = {
+        ok: "M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z",
+        err: "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z",
+        info: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z",
+      };
+      function toast(msg, type = "success") {
+        const t = document.getElementById("toast");
+        document.getElementById("toastMsg").textContent = msg;
+        document.getElementById("toastIcon").innerHTML =
+          `<path d="${type === "error" ? P.err : type === "info" ? P.info : P.ok}"/>`;
+        t.className = `toast ${type} show`;
+        setTimeout(() => t.classList.remove("show"), 4200);
+      }
 
-/* ── CREDIT NUMBER FONT SIZE FIX ──
-   Shrinks font automatically for large numbers so it never overflows */
-function setCreditDisplay(c) {
-  const el        = document.getElementById('bigCred');
-  const formatted = c.toLocaleString();
-  el.textContent  = formatted;
+      /* ── BANNED-ACCOUNT ENFORCEMENT ──
+   Signs the person out immediately and sends them to the auth page
+   with an on-screen message, whether the ban happened before they
+   arrived (checked right after login) or while they were already
+   using the site (checked continuously via the live profile listener). */
+      async function handleBanned() {
+        if (bannedHandled) return;
+        bannedHandled = true;
+        try {
+          await signOut(auth);
+        } catch (e) {
+          /* ignore */
+        }
+        sessionStorage.setItem("cg_banned_notice", "1");
+        window.location.href = "cgbaby-auth.html?banned=1";
+      }
 
-  const digits = String(c).length;
-  el.style.fontSize = digits <= 5  ? '2.8rem'
-                    : digits <= 7  ? '2.1rem'
-                    : digits <= 9  ? '1.6rem'
-                    : digits <= 11 ? '1.25rem'
-                    : '1rem';
-}
+      /* AUTH GATE */
+      onAuthStateChanged(auth, async (user) => {
+        if (!user) {
+          const ref = sessionStorage.getItem("cg_ref_nominee");
+          window.location.href = ref
+            ? `cgbaby-auth.html?ref=${encodeURIComponent(ref)}`
+            : "cgbaby-auth.html";
+          return;
+        }
+        me = user;
 
-/* AUTH GATE */
-onAuthStateChanged(auth, async user => {
-  if (!user) {
-    const ref = sessionStorage.getItem('cg_ref_nominee');
-    window.location.href = ref ? `cgbaby-auth.html?ref=${encodeURIComponent(ref)}` : 'cgbaby-auth.html';
-    return;
-  }
-  me = user;
+        const snap = await getDoc(doc(db, "users", user.uid));
+        if (snap.exists()) {
+          profile = snap.data();
+        } else {
+          profile = {
+            parentName: "Voter",
+            childName: "",
+            credits: 0,
+            creditsUsed: 0,
+          };
+          await setDoc(doc(db, "users", user.uid), {
+            ...profile,
+            email: user.email,
+            createdAt: serverTimestamp(),
+          });
+        }
 
-  const snap = await getDoc(doc(db,'users',user.uid));
-  if (snap.exists()) {
-    profile = snap.data();
-  } else {
-    profile = { parentName:'Voter', childName:'', credits:0, creditsUsed:0 };
-    await setDoc(doc(db,'users',user.uid), { ...profile, email:user.email, createdAt:serverTimestamp() });
-  }
+        /* checked right at login — covers the case where they were banned
+     before this session ever started */
+        if (profile.banned) {
+          await handleBanned();
+          return;
+        }
 
-  renderProfile();
+        renderProfile();
 
-  onSnapshot(doc(db,'users',user.uid), s => {
-    if (s.exists()) {
-      profile = s.data();
-      renderProfile();
-      if (nominees.length) renderGrid();
-    }
-  });
+        onSnapshot(doc(db, "users", user.uid), (s) => {
+          if (s.exists()) {
+            profile = s.data();
+            /* checked on every live update — covers the case where an admin
+         bans them while they're actively using the site right now */
+            if (profile.banned) {
+              handleBanned();
+              return;
+            }
+            renderProfile();
+            if (nominees.length) renderGrid();
+          }
+        });
 
-  await loadConfig();
-  startNomineesListener();
-});
+        await loadConfig();
+        startNomineesListener();
+      });
 
-function renderProfile() {
-  const firstName = profile.parentName?.split(' ')[0] || 'Voter';
-  document.getElementById('wName').textContent   = firstName;
-  document.getElementById('navName').innerHTML   = `Hi, <strong>${firstName}</strong>`;
-  document.getElementById('wChild').innerHTML    = `
+      function renderProfile() {
+        const firstName = profile.parentName?.split(" ")[0] || "Voter";
+        document.getElementById("wName").textContent = firstName;
+        document.getElementById("navName").innerHTML =
+          `Hi, <strong>${firstName}</strong>`;
+        document.getElementById("wChild").innerHTML = `
     <svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v2h20v-2c0-3.33-6.67-5-10-5z"/></svg>
-    ${profile.childName
-      ? `Voting for: <strong style="color:var(--bright)">${profile.childName}</strong>`
-      : 'Nominate your child to join the contest'}`;
+    ${
+      profile.childName
+        ? `Voting for: <strong style="color:var(--bright)">${profile.childName}</strong>`
+        : "Nominate your child to join the contest"
+    }`;
 
-  const c = profile.credits ?? 0;
+        const c = profile.credits ?? 0;
 
-  /* use the dynamic font-size function */
-  setCreditDisplay(c);
+        /* use the dynamic font-size function */
+        setCreditDisplay(c);
 
-  document.getElementById('navCred').textContent  = c.toLocaleString();
-  document.getElementById('usedCred').textContent = (profile.creditsUsed ?? 0).toLocaleString();
-}
+        document.getElementById("navCred").textContent = c.toLocaleString();
+        document.getElementById("usedCred").textContent = (
+          profile.creditsUsed ?? 0
+        ).toLocaleString();
+      }
 
-window.doOut = async () => { await signOut(auth); window.location.href = 'cgbaby-auth.html'; };
+      /* ── CREDIT NUMBER FONT SIZE FIX ──
+   Shrinks font automatically for large numbers so it never overflows */
+      function setCreditDisplay(c) {
+        const el = document.getElementById("bigCred");
+        const formatted = c.toLocaleString();
+        el.textContent = formatted;
 
-/* PHASE CONFIG */
-async function loadConfig() {
-  try {
-    const snap = await getDoc(doc(db,'config','contest'));
-    if (!snap.exists()) return;
-    const cfg = snap.data();
-    const now = Date.now();
-    const fve = cfg.freeVoteEnd?.toDate ? cfg.freeVoteEnd.toDate() : null;
-    const fe  = cfg.finalsEnd?.toDate   ? cfg.finalsEnd.toDate()   : null;
+        const digits = String(c).length;
+        el.style.fontSize =
+          digits <= 5
+            ? "2.4rem"
+            : digits <= 7
+              ? "1.9rem"
+              : digits <= 9
+                ? "1.5rem"
+                : digits <= 11
+                  ? "1.2rem"
+                  : "1rem";
+      }
 
-    curPhase = !fve || now < fve.getTime() ? 'free'
-             : !fe  || now < fe.getTime()  ? 'finals'
-             : 'closed';
+      window.doOut = async () => {
+        await signOut(auth);
+        window.location.href = "cgbaby-auth.html";
+      };
+      /* ── VOTING COUNTDOWN ── */
+const VOTING_END = new Date('2026-08-28T23:59:00'); // tomorrow 11:59pm
+const vpad = n => String(n).padStart(2,'0');
 
-    const pill = document.getElementById('phasePill');
-    const ptxt = document.getElementById('phaseText');
-    const gsub = document.getElementById('gridSub');
-
-    if (curPhase === 'finals') {
-      pill.className = 'phase-pill finals';
-      ptxt.textContent = 'Grand Finals · Active';
-      pill.querySelector('svg').innerHTML = '<path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/>';
-      gsub.textContent = 'Use credits to vote for your finalist — highest votes at deadline wins!';
-    } else if (curPhase === 'closed') {
-      pill.className = 'phase-pill closed';
-      ptxt.textContent = 'Contest Closed';
-    }
-  } catch(e) { console.warn('Config load:', e.message); }
-}
-
-/* NOMINEES */
-function startNomineesListener() {
-  const q = query(collection(db,'nominations'), where('approved','==',true));
-  onSnapshot(q, snap => {
-    nominees = [];
-    snap.forEach(d => nominees.push({ id:d.id, ...d.data() }));
-    nominees.sort((a,b) => (b.votes||0) - (a.votes||0));
-    document.getElementById('nomCount').textContent = nominees.length;
-    renderLeaderboard();
-    renderGrid();
-    scrollToRefNomineeOnce();
-  }, err => {
-    console.error('Nominees snapshot error:', err);
-    toast('Error loading nominees','error');
-  });
-}
-
-/* ── SCROLL TO REFERRED NOMINEE (once per session) ── */
-function scrollToRefNomineeOnce() {
-  if (didScrollToRef) return;
-  const ref = sessionStorage.getItem('cg_ref_nominee');
-  if (!ref) return;
-
-  const card = document.getElementById(`vc_${ref}`);
-  if (!card) return; // grid may not have this nominee rendered yet — retry on next snapshot
-
-  didScrollToRef = true;
-  sessionStorage.removeItem('cg_ref_nominee');
-
-  setTimeout(() => {
-    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    card.classList.add('v-highlighted');
-    setTimeout(() => card.classList.remove('v-highlighted'), 3200);
-  }, 400);
-
-  const name = card.querySelector('.v-name')?.textContent || 'this nominee';
-  toast(`You were invited to support ${name}! 🎉`);
-}
-
-/* LEADERBOARD */
-function renderLeaderboard() {
-  const wrap = document.getElementById('lbWrap');
-  const top  = nominees;
-  const maxV = top[0]?.votes || 1;
-
-  if (!top.length) {
-    wrap.innerHTML = `<p style="text-align:center;color:var(--muted);padding:2.5rem">No nominees yet — check back soon!</p>`;
+function tickVoting() {
+  const diff = VOTING_END - Date.now();
+  if (diff <= 0) {
+    ['vcd-days','vcd-hours','vcd-mins','vcd-secs'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = '00';
+    });
+    const msg = document.getElementById('vcd-msg');
+    if (msg) msg.innerHTML = `<strong style="color:var(--red)">Voting has closed!</strong>`;
+    clearInterval(votingInterval);
+    curPhase = 'closed';
+    if (nominees.length) renderGrid();
     return;
   }
+  document.getElementById('vcd-days').textContent  = vpad(Math.floor(diff / 86400000));
+  document.getElementById('vcd-hours').textContent = vpad(Math.floor((diff % 86400000) / 3600000));
+  document.getElementById('vcd-mins').textContent  = vpad(Math.floor((diff % 3600000) / 60000));
+  document.getElementById('vcd-secs').textContent  = vpad(Math.floor((diff % 60000) / 1000));
+}
 
-  const rc = i => i===0?'r1':i===1?'r2':i===2?'r3':'rn';
-  const rl = i => i===0?'1st':i===1?'2nd':i===2?'3rd':`${i+1}th`;
+tickVoting();
+const votingInterval = setInterval(tickVoting, 1000);
 
-  wrap.innerHTML = top.map((n,i) => `
+      /* PHASE CONFIG */
+      async function loadConfig() {
+        try {
+          const snap = await getDoc(doc(db, "config", "contest"));
+          if (!snap.exists()) return;
+          const cfg = snap.data();
+          const now = Date.now();
+          const fve = cfg.freeVoteEnd?.toDate ? cfg.freeVoteEnd.toDate() : null;
+          const fe = cfg.finalsEnd?.toDate ? cfg.finalsEnd.toDate() : null;
+
+          curPhase =
+            !fve || now < fve.getTime()
+              ? "free"
+              : !fe || now < fe.getTime()
+                ? "finals"
+                : "closed";
+
+          const pill = document.getElementById("phasePill");
+          const ptxt = document.getElementById("phaseText");
+          const gsub = document.getElementById("gridSub");
+
+          if (curPhase === "finals") {
+            pill.className = "phase-pill finals";
+            ptxt.textContent = "Grand Finals · Active";
+            pill.querySelector("svg").innerHTML =
+              '<path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/>';
+            gsub.textContent =
+              "Use credits to vote for your finalist — highest votes at deadline wins!";
+          } else if (curPhase === "closed") {
+            pill.className = "phase-pill closed";
+            ptxt.textContent = "Contest Closed";
+          }
+        } catch (e) {
+          console.warn("Config load:", e.message);
+        }
+      }
+
+      /* NOMINEES */
+      function startNomineesListener() {
+        const q = query(
+          collection(db, "nominations"),
+          where("approved", "==", true),
+        );
+        onSnapshot(
+          q,
+          (snap) => {
+            nominees = [];
+            snap.forEach((d) => nominees.push({ id: d.id, ...d.data() }));
+            nominees.sort((a, b) => (b.votes || 0) - (a.votes || 0));
+            document.getElementById("nomCount").textContent = nominees.length;
+            renderLeaderboard();
+            renderGrid();
+            scrollToRefNomineeOnce();
+          },
+          (err) => {
+            console.error("Nominees snapshot error:", err);
+            toast("Error loading nominees", "error");
+          },
+        );
+      }
+
+      /* ── SCROLL TO REFERRED NOMINEE (once per session) ── */
+      function scrollToRefNomineeOnce() {
+        if (didScrollToRef) return;
+        const ref = sessionStorage.getItem("cg_ref_nominee");
+        if (!ref) return;
+
+        const card = document.getElementById(`vc_${ref}`);
+        if (!card) return; // grid may not have this nominee rendered yet — retry on next snapshot
+
+        didScrollToRef = true;
+        sessionStorage.removeItem("cg_ref_nominee");
+
+        setTimeout(() => {
+          card.scrollIntoView({ behavior: "smooth", block: "center" });
+          card.classList.add("v-highlighted");
+          setTimeout(() => card.classList.remove("v-highlighted"), 3200);
+        }, 400);
+
+        const name =
+          card.querySelector(".v-name")?.textContent || "this nominee";
+        toast(`You were invited to support ${name}! 🎉`);
+      }
+
+      /* LEADERBOARD */
+      function renderLeaderboard() {
+        const wrap = document.getElementById("lbWrap");
+        const top = nominees;
+        const maxV = top[0]?.votes || 1;
+
+        if (!top.length) {
+          wrap.innerHTML = `<p style="text-align:center;color:var(--muted);padding:2.5rem">No nominees yet — check back soon!</p>`;
+          return;
+        }
+
+        const rc = (i) =>
+          i === 0 ? "r1" : i === 1 ? "r2" : i === 2 ? "r3" : "rn";
+        const rl = (i) =>
+          i === 0 ? "1st" : i === 1 ? "2nd" : i === 2 ? "3rd" : `${i + 1}th`;
+
+        wrap.innerHTML = top
+          .map(
+            (n, i) => `
     <div class="lb-row">
       <div class="lb-rank ${rc(i)}">${rl(i)}</div>
-      <img class="lb-av" src="${n.photoURL||''}" alt="${n.childName}"
+      <img class="lb-av" src="${n.photoURL || ""}" alt="${n.childName}"
            loading="lazy" onerror="this.src='https://placehold.co/44x44/0d0d0d/ff8c00?text=?'"/>
       <div class="lb-info">
         <div class="lb-n">${n.childName}</div>
@@ -829,83 +2090,86 @@ function renderLeaderboard() {
       </div>
       <div class="lb-v">
         <svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-        ${(n.votes||0).toLocaleString()}
+        ${(n.votes || 0).toLocaleString()}
       </div>
-      <div class="lb-bar-wrap"><div class="lb-bar" style="width:${((n.votes||0)/maxV*100).toFixed(1)}%"></div></div>
-    </div>`).join('');
-}
+      <div class="lb-bar-wrap"><div class="lb-bar" style="width:${(((n.votes || 0) / maxV) * 100).toFixed(1)}%"></div></div>
+    </div>`,
+          )
+          .join("");
+      }
 
-/* VOTING GRID */
-function renderGrid() {
-  const grid = document.getElementById('vGrid');
-  const maxV = nominees[0]?.votes || 1;
-  const top5 = nominees.slice(0,5).map(n=>n.id);
-  const myC  = profile?.credits ?? 0;
+      /* VOTING GRID */
+      function renderGrid() {
+        const grid = document.getElementById("vGrid");
+        const maxV = nominees[0]?.votes || 1;
+        const top5 = nominees.slice(0, 5).map((n) => n.id);
+        const myC = profile?.credits ?? 0;
 
-  if (!nominees.length) {
-    grid.innerHTML = `
+        if (!nominees.length) {
+          grid.innerHTML = `
       <div class="empty-st">
         <div class="empty-ico"><svg width="32" height="32" viewBox="0 0 24 24"><path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15a5 5 0 110-10 5 5 0 010 10zm0-8a3 3 0 100 6 3 3 0 000-6z"/></svg></div>
         <p style="margin-bottom:.8rem;font-size:1rem">No approved nominees yet.</p>
         <p style="font-size:.85rem">Nominations are being reviewed — check back soon!</p>
         <a href="cgbaby-nomination.html" style="color:var(--orange);text-decoration:underline;display:inline-block;margin-top:.8rem">Nominate a Child →</a>
       </div>`;
-    return;
-  }
+          return;
+        }
 
-  const SVG = {
-    star:  `<svg width="13" height="13" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>`,
-    heart: `<svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`,
-    check: `<svg width="16" height="16" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>`,
-    lock:  `<svg width="16" height="16" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>`,
-    coin:  `<svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.41 16.09V20h-2.67v-1.93c-1.71-.36-3.16-1.46-3.27-3.4h1.96c.1 1.05.82 1.87 2.65 1.87 1.96 0 2.4-.98 2.4-1.59 0-.83-.44-1.61-2.67-2.14-2.48-.6-4.18-1.62-4.18-3.67 0-1.72 1.39-2.84 3.11-3.21V4h2.67v1.95c1.86.45 2.79 1.86 2.85 3.39H14.3c-.05-1.11-.64-1.87-2.22-1.87-1.5 0-2.4.68-2.4 1.64 0 .84.65 1.39 2.67 1.91s4.18 1.39 4.18 3.91c-.01 1.83-1.38 2.83-3.12 3.16z"/></svg>`,
-    share: `<svg width="14" height="14" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L7.04 9.81C6.5 9.31 5.79 9 5 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>`
-  };
+        const SVG = {
+          star: `<svg width="13" height="13" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>`,
+          heart: `<svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`,
+          check: `<svg width="16" height="16" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>`,
+          lock: `<svg width="16" height="16" viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>`,
+          coin: `<svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.41 16.09V20h-2.67v-1.93c-1.71-.36-3.16-1.46-3.27-3.4h1.96c.1 1.05.82 1.87 2.65 1.87 1.96 0 2.4-.98 2.4-1.59 0-.83-.44-1.61-2.67-2.14-2.48-.6-4.18-1.62-4.18-3.67 0-1.72 1.39-2.84 3.11-3.21V4h2.67v1.95c1.86.45 2.79 1.86 2.85 3.39H14.3c-.05-1.11-.64-1.87-2.22-1.87-1.5 0-2.4.68-2.4 1.64 0 .84.65 1.39 2.67 1.91s4.18 1.39 4.18 3.91c-.01 1.83-1.38 2.83-3.12 3.16z"/></svg>`,
+          share: `<svg width="14" height="14" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L7.04 9.81C6.5 9.31 5.79 9 5 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>`,
+        };
 
-  const crown = r => {
-    if (r===1) return `<div class="r-crown gold">${SVG.star}</div>`;
-    if (r===2) return `<div class="r-crown silver">${SVG.star}</div>`;
-    if (r===3) return `<div class="r-crown bronze">${SVG.star}</div>`;
-    return '';
-  };
+        const crown = (r) => {
+          if (r === 1) return `<div class="r-crown gold">${SVG.star}</div>`;
+          if (r === 2) return `<div class="r-crown silver">${SVG.star}</div>`;
+          if (r === 3) return `<div class="r-crown bronze">${SVG.star}</div>`;
+          return "";
+        };
 
-  grid.innerHTML = nominees.map((n,i) => {
-    const rank   = i+1;
-    const isTop5 = top5.includes(n.id);
-    const pct    = ((n.votes||0)/maxV*100).toFixed(1);
-    let action   = '';
+        grid.innerHTML = nominees
+          .map((n, i) => {
+            const rank = i + 1;
+            const isTop5 = top5.includes(n.id);
+            const pct = (((n.votes || 0) / maxV) * 100).toFixed(1);
+            let action = "";
 
-    if (curPhase === 'free') {
-      if (myC < 1)
-        action = `<button class="v-btn locked" disabled>${SVG.lock} No Credits · <span style="color:var(--gold);cursor:pointer" onclick="openMo()">Buy More</span></button>`;
-      else
-        action = `
+            if (curPhase === "free") {
+              if (myC < 1)
+                action = `<button class="v-btn locked" disabled>${SVG.lock} No Credits · <span style="color:var(--gold);cursor:pointer" onclick="openMo()">Buy More</span></button>`;
+              else
+                action = `
           <div class="v-vote-row">
             <input type="number" class="v-qty-input" id="qty_${n.id}" min="1" step="1" placeholder="Qty" inputmode="numeric" />
             <button class="v-btn cast" data-id="${n.id}" data-name="${n.childName}">${SVG.heart} Vote</button>
           </div>`;
-    } else if (curPhase === 'finals') {
-      action = isTop5
-        ? `
+            } else if (curPhase === "finals") {
+              action = isTop5
+                ? `
           <div class="v-vote-row">
             <input type="number" class="v-qty-input" id="qty_${n.id}" min="1" step="1" placeholder="Qty" inputmode="numeric" style="border-color:rgba(255,215,0,.35)" />
             <button class="v-btn cast" style="background:linear-gradient(135deg,var(--gold),#e6a000);color:#000" data-id="${n.id}" data-name="${n.childName}" data-finals="1">${SVG.coin} Vote</button>
           </div>`
-        : `<button class="v-btn locked" disabled style="opacity:.3">Not a Finalist</button>`;
-    } else {
-      action = `<button class="v-btn locked" disabled>Voting Closed</button>`;
-    }
+                : `<button class="v-btn locked" disabled style="opacity:.3">Not a Finalist</button>`;
+            } else {
+              action = `<button class="v-btn locked" disabled>Voting Closed</button>`;
+            }
 
-    return `
+            return `
       <div class="v-card" id="vc_${n.id}">
         ${crown(rank)}
-        ${isTop5 && curPhase==='finals' ? `<div class="fin-badge">${SVG.star} Top 5</div>` : ''}
+        ${isTop5 && curPhase === "finals" ? `<div class="fin-badge">${SVG.star} Top 5</div>` : ""}
         <div class="v-img-wrap">
-          <img class="v-img" src="${n.photoURL||''}" alt="${n.childName}" loading="lazy"
+          <img class="v-img" src="${n.photoURL || ""}" alt="${n.childName}" loading="lazy"
                onerror="this.src='https://placehold.co/400x400/0d0d0d/ff8c00?text=CG+Baby'"/>
           <div class="v-cnt">
             <svg width="11" height="11" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-            ${(n.votes||0).toLocaleString()}
+            ${(n.votes || 0).toLocaleString()}
           </div>
         </div>
         <div class="v-prog-wrap"><div class="v-prog" style="width:${pct}%"></div></div>
@@ -915,261 +2179,307 @@ function renderGrid() {
             <svg width="11" height="11" viewBox="0 0 24 24"><path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg>
             ${n.childAge}
           </div>
-          <div class="v-desc">${n.description||''}</div>
+          <div class="v-desc">${n.description || ""}</div>
           <button class="v-share-btn" data-share-id="${n.id}" data-share-name="${n.childName}">
-            ${SVG.share} Share ${n.childName.split(' ')[0]}'s Link
+            ${SVG.share} Share ${n.childName.split(" ")[0]}'s Link
           </button>
           ${action}
         </div>
       </div>`;
-  }).join('');
-}
+          })
+          .join("");
+      }
 
-/* VOTE + SHARE BUTTON CLICKS */
-document.getElementById('vGrid').addEventListener('click', async e => {
-  const shareBtn = e.target.closest('.v-share-btn[data-share-id]');
-  if (shareBtn) {
-    await shareNominee(shareBtn.dataset.shareId, shareBtn.dataset.shareName);
-    return;
-  }
-  const btn = e.target.closest('.v-btn.cast[data-id]');
-  if (!btn || btn.disabled) return;
-  attemptVote(btn);
-});
+      /* VOTE + SHARE BUTTON CLICKS */
+      document.getElementById("vGrid").addEventListener("click", async (e) => {
+        const shareBtn = e.target.closest(".v-share-btn[data-share-id]");
+        if (shareBtn) {
+          await shareNominee(
+            shareBtn.dataset.shareId,
+            shareBtn.dataset.shareName,
+          );
+          return;
+        }
+        const btn = e.target.closest(".v-btn.cast[data-id]");
+        if (!btn || btn.disabled) return;
+        attemptVote(btn);
+      });
 
-/* Enter key inside the quantity input triggers the same flow as clicking Vote */
-document.getElementById('vGrid').addEventListener('keydown', e => {
-  if (e.key !== 'Enter') return;
-  const input = e.target.closest('.v-qty-input');
-  if (!input) return;
-  e.preventDefault();
-  const btn = input.parentElement.querySelector('.v-btn.cast[data-id]');
-  if (btn && !btn.disabled) attemptVote(btn);
-});
+      /* Enter key inside the quantity input triggers the same flow as clicking Vote */
+      document.getElementById("vGrid").addEventListener("keydown", (e) => {
+        if (e.key !== "Enter") return;
+        const input = e.target.closest(".v-qty-input");
+        if (!input) return;
+        e.preventDefault();
+        const btn = input.parentElement.querySelector(".v-btn.cast[data-id]");
+        if (btn && !btn.disabled) attemptVote(btn);
+      });
 
-/* ── VOTE QUANTITY FLOW ──
+      /* ── VOTE QUANTITY FLOW ──
    Reads however many credits the person typed in, then either:
    - asks them to confirm the spend (enough credits), or
    - tells them how many more credits they need and sends them
      straight to the buy-credits modal with that amount pre-filled. */
-let pendingVote = null;
+      let pendingVote = null;
 
-function attemptVote(btn) {
-  const id       = btn.dataset.id;
-  const name     = btn.dataset.name || 'this nominee';
-  const isFinals = !!btn.dataset.finals;
-  const input    = document.getElementById(`qty_${id}`);
-  const raw      = input ? input.value.trim() : '';
-  const qty      = Math.floor(Number(raw));
+      function attemptVote(btn) {
+        const id = btn.dataset.id;
+        const name = btn.dataset.name || "this nominee";
+        const isFinals = !!btn.dataset.finals;
+        const input = document.getElementById(`qty_${id}`);
+        const raw = input ? input.value.trim() : "";
+        const qty = Math.floor(Number(raw));
 
-  if (!raw || !Number.isFinite(qty) || qty < 1) {
-    toast('Enter how many credits you want to vote with', 'error');
-    input?.focus();
-    return;
-  }
+        if (!raw || !Number.isFinite(qty) || qty < 1) {
+          toast("Enter how many credits you want to vote with", "error");
+          input?.focus();
+          return;
+        }
 
-  const myC = profile?.credits ?? 0;
+        const myC = profile?.credits ?? 0;
 
-  if (qty > myC) {
-    const shortBy = qty - myC;
-    toast(`You need ${shortBy.toLocaleString()} more credit${shortBy === 1 ? '' : 's'} for that — taking you to top up`, 'info');
-    setTimeout(() => {
-      const suggested = Math.max(500, Math.ceil(shortBy / 100) * 100);
-      const customInput = document.getElementById('custC');
-      if (customInput) {
-        customInput.value = suggested;
-        onCustomFn();
+        if (qty > myC) {
+          const shortBy = qty - myC;
+          toast(
+            `You need ${shortBy.toLocaleString()} more credit${shortBy === 1 ? "" : "s"} for that — taking you to top up`,
+            "info",
+          );
+          setTimeout(() => {
+            const suggested = Math.max(500, Math.ceil(shortBy / 100) * 100);
+            const customInput = document.getElementById("custC");
+            if (customInput) {
+              customInput.value = suggested;
+              onCustomFn();
+            }
+            openMo();
+          }, 1400);
+          return;
+        }
+
+        /* enough credits — confirm before spending */
+        pendingVote = { id, name, qty, isFinals, btn, input };
+        document.getElementById("confirmQty").textContent =
+          qty.toLocaleString();
+        document.getElementById("confirmQty2").textContent =
+          qty.toLocaleString();
+        document.getElementById("confirmName").textContent = name;
+        document.getElementById("confirmAvail").textContent =
+          `${myC.toLocaleString()}`;
+        document.getElementById("confirmPlural").textContent =
+          qty === 1 ? "" : "s";
+        document.getElementById("confirmMo").classList.add("open");
       }
-      openMo();
-    }, 1400);
-    return;
-  }
 
-  /* enough credits — confirm before spending */
-  pendingVote = { id, name, qty, isFinals, btn, input };
-  document.getElementById('confirmQty').textContent  = qty.toLocaleString();
-  document.getElementById('confirmQty2').textContent = qty.toLocaleString();
-  document.getElementById('confirmName').textContent = name;
-  document.getElementById('confirmAvail').textContent = `${myC.toLocaleString()}`;
-  document.getElementById('confirmPlural').textContent = qty === 1 ? '' : 's';
-  document.getElementById('confirmMo').classList.add('open');
-}
+      window.closeConfirmMo = () => {
+        document.getElementById("confirmMo").classList.remove("open");
+        pendingVote = null;
+      };
+      document.getElementById("confirmMo").addEventListener("click", (e) => {
+        if (e.target === document.getElementById("confirmMo")) closeConfirmMo();
+      });
+      document
+        .getElementById("confirmYesBtn")
+        .addEventListener("click", async () => {
+          if (!pendingVote) return;
+          const { id, btn, isFinals, qty, input } = pendingVote;
+          const confirmBtn = document.getElementById("confirmYesBtn");
+          confirmBtn.disabled = true;
+          document.getElementById("confirmMo").classList.remove("open");
+          pendingVote = null;
+          await castVote(id, btn, isFinals, qty);
+          if (input) input.value = "";
+          confirmBtn.disabled = false;
+        });
 
-window.closeConfirmMo = () => {
-  document.getElementById('confirmMo').classList.remove('open');
-  pendingVote = null;
-};
-document.getElementById('confirmMo').addEventListener('click', e => {
-  if (e.target === document.getElementById('confirmMo')) closeConfirmMo();
-});
-document.getElementById('confirmYesBtn').addEventListener('click', async () => {
-  if (!pendingVote) return;
-  const { id, btn, isFinals, qty, input } = pendingVote;
-  const confirmBtn = document.getElementById('confirmYesBtn');
-  confirmBtn.disabled = true;
-  document.getElementById('confirmMo').classList.remove('open');
-  pendingVote = null;
-  await castVote(id, btn, isFinals, qty);
-  if (input) input.value = '';
-  confirmBtn.disabled = false;
-});
-
-/* SHARE A NOMINEE'S UNIQUE LINK */
-async function shareNominee(id, name) {
-  /* the backend's /share/:id route serves a tiny HTML page with this
+      /* SHARE A NOMINEE'S UNIQUE LINK */
+      async function shareNominee(id, name) {
+        /* the backend's /share/:id route serves a tiny HTML page with this
      nominee's photo baked into the Open Graph tags, then redirects a
      real visitor straight into the voting page. Social apps read the
      tags without running JS, so this is what makes the photo actually
      show up in link previews — pointing directly at cgbaby-voting.html
      would only ever show one generic preview for every nominee. */
-  const shareUrl = `${CLOUD_FUNCTIONS_BASE_URL}/share/${id}`;
+        const shareUrl = `${CLOUD_FUNCTIONS_BASE_URL}/share/${id}`;
 
-  const shareData = {
-    title: `Vote for ${name} — CG Champ of the Year`,
-    text:  `Support ${name} in the CG Champ of the Year contest! Sign up free and vote 🏆`,
-    url:   shareUrl,
-  };
+        const shareData = {
+          title: `Vote for ${name} — CG Champ of the Year`,
+          text: `Support ${name} in the CG Champ of the Year contest! Sign up free and vote 🏆`,
+          url: shareUrl,
+        };
 
-  if (navigator.share) {
-    try { await navigator.share(shareData); }
-    catch (e) { /* user cancelled the share sheet — no error toast needed */ }
-  } else {
-    try {
-      await navigator.clipboard.writeText(shareUrl);
-      toast('Link copied! Share it with friends & family 🎉');
-    } catch (e) {
-      toast('Could not copy link','error');
-    }
-  }
-}
+        if (navigator.share) {
+          try {
+            await navigator.share(shareData);
+          } catch (e) {
+            /* user cancelled the share sheet — no error toast needed */
+          }
+        } else {
+          try {
+            await navigator.clipboard.writeText(shareUrl);
+            toast("Link copied! Share it with friends & family 🎉");
+          } catch (e) {
+            toast("Could not copy link", "error");
+          }
+        }
+      }
 
-/* CAST VOTE */
-async function castVote(nid, btn, isFinals=false, qty=1) {
-  if (!me) return;
+      /* CAST VOTE */
+      async function castVote(nid, btn, isFinals = false, qty = 1) {
+        if (!me) return;
 
-  btn.disabled = true;
-  btn.style.opacity = '.6';
-  btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" style="animation:spin .8s linear infinite"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46A7.93 7.93 0 0020 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74A7.93 7.93 0 004 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg> Voting…`;
+        btn.disabled = true;
+        btn.style.opacity = ".6";
+        btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" style="animation:spin .8s linear infinite"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46A7.93 7.93 0 0020 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74A7.93 7.93 0 004 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg> Voting…`;
 
-  const userRef = doc(db, 'users', me.uid);
-  const nomRef  = doc(db, 'nominations', nid);
+        const userRef = doc(db, "users", me.uid);
+        const nomRef = doc(db, "nominations", nid);
 
-  try {
-    /* runTransaction re-reads the live balance at write time and retries
+        try {
+          /* runTransaction re-reads the live balance at write time and retries
        automatically on conflict, so two near-simultaneous votes (double
        tap, two open tabs, slow network) can never both pass a stale
        balance check the way separate updateDoc calls could — this is
        what was letting credits go negative. */
-    await runTransaction(db, async (tx) => {
-      const userSnap = await tx.get(userRef);
-      if (!userSnap.exists()) throw new Error('USER_NOT_FOUND');
+          await runTransaction(db, async (tx) => {
+            const userSnap = await tx.get(userRef);
+            if (!userSnap.exists()) throw new Error("USER_NOT_FOUND");
 
-      const currentCredits = userSnap.data().credits ?? 0;
-      if (currentCredits < qty) throw new Error('INSUFFICIENT_CREDITS');
+            if (userSnap.data().banned) throw new Error("BANNED");
 
-      tx.update(userRef, {
-        credits:     currentCredits - qty,
-        creditsUsed: increment(qty),
+            const currentCredits = userSnap.data().credits ?? 0;
+            if (currentCredits < qty) throw new Error("INSUFFICIENT_CREDITS");
+
+            tx.update(userRef, {
+              credits: currentCredits - qty,
+              creditsUsed: increment(qty),
+            });
+            tx.update(nomRef, { votes: increment(qty) });
+          });
+
+          toast(
+            `Vote cast! ${qty.toLocaleString()} credit${qty === 1 ? "" : "s"} used 🎉`,
+          );
+          btn.className = "v-btn voted";
+          btn.disabled = true;
+          btn.style.opacity = "1";
+          btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg> Voted`;
+        } catch (err) {
+          console.error("Vote error:", err);
+          if (err.message === "BANNED") {
+            await handleBanned();
+            return;
+          } else if (err.message === "INSUFFICIENT_CREDITS") {
+            toast(
+              "Not enough credits right now — your balance may have just changed",
+              "error",
+            );
+          } else {
+            toast("Vote failed — try again", "error");
+          }
+          btn.disabled = false;
+          btn.style.opacity = "1";
+          renderGrid();
+        }
+      }
+
+      /* MODAL */
+      window.openMo = () =>
+        document.getElementById("buyMo").classList.add("open");
+      window.closeMo = () =>
+        document.getElementById("buyMo").classList.remove("open");
+      document.getElementById("buyMo").addEventListener("click", (e) => {
+        if (e.target === document.getElementById("buyMo")) closeMo();
       });
-      tx.update(nomRef, { votes: increment(qty) });
-    });
 
-    toast(`Vote cast! ${qty.toLocaleString()} credit${qty === 1 ? '' : 's'} used 🎉`);
-    btn.className     = 'v-btn voted';
-    btn.disabled      = true;
-    btn.style.opacity = '1';
-    btn.innerHTML     = `<svg width="16" height="16" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg> Voted`;
-  } catch(err) {
-    console.error('Vote error:', err);
-    if (err.message === 'INSUFFICIENT_CREDITS') {
-      toast('Not enough credits right now — your balance may have just changed', 'error');
-    } else {
-      toast('Vote failed — try again','error');
-    }
-    btn.disabled      = false;
-    btn.style.opacity = '1';
-    renderGrid();
-  }
+      window.selPackFn = (card) => {
+        document
+          .querySelectorAll(".pack")
+          .forEach((c) => c.classList.remove("sel"));
+        card.classList.add("sel");
+        selPack = { c: parseInt(card.dataset.c), p: parseInt(card.dataset.p) };
+        document.getElementById("custC").value = "";
+        updPayBtnFn();
+      };
 
-}
+      window.onCustomFn = () => {
+        document
+          .querySelectorAll(".pack")
+          .forEach((c) => c.classList.remove("sel"));
+        const v = parseInt(document.getElementById("custC").value) || 0;
+        if (v >= 500) selPack = { c: v, p: v };
+        updPayBtnFn();
+      };
 
-/* MODAL */
-window.openMo  = () => document.getElementById('buyMo').classList.add('open');
-window.closeMo = () => document.getElementById('buyMo').classList.remove('open');
-document.getElementById('buyMo').addEventListener('click', e => {
-  if (e.target === document.getElementById('buyMo')) closeMo();
-});
+      function updPayBtnFn() {
+        document.getElementById("payTxt").textContent =
+          `Generate Account · ₦${selPack.p.toLocaleString()}`;
+        document.getElementById("moAmtPreview").textContent =
+          selPack.p.toLocaleString();
+      }
 
-window.selPackFn = (card) => {
-  document.querySelectorAll('.pack').forEach(c => c.classList.remove('sel'));
-  card.classList.add('sel');
-  selPack = { c: parseInt(card.dataset.c), p: parseInt(card.dataset.p) };
-  document.getElementById('custC').value = '';
-  updPayBtnFn();
-};
+      window.doPayFn = async () => {
+        if (!me) {
+          toast("Please sign in first", "error");
+          return;
+        }
+        if (profile?.banned) {
+          await handleBanned();
+          return;
+        }
+        if (selPack.c < 500) {
+          toast("Minimum is 500 credits", "error");
+          return;
+        }
 
-window.onCustomFn = () => {
-  document.querySelectorAll('.pack').forEach(c => c.classList.remove('sel'));
-  const v = parseInt(document.getElementById('custC').value) || 0;
-  if (v >= 500) selPack = { c:v, p:v };
-  updPayBtnFn();
-};
+        const btn = document.getElementById("btnPay");
+        btn.disabled = true;
+        document.getElementById("payTxt").textContent = "Generating account…";
 
-function updPayBtnFn() {
-  document.getElementById('payTxt').textContent      = `Generate Account · ₦${selPack.p.toLocaleString()}`;
-  document.getElementById('moAmtPreview').textContent = selPack.p.toLocaleString();
-}
+        try {
+          const res = await fetch(
+            `${CLOUD_FUNCTIONS_BASE_URL}/api/create-virtual-account`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                uid: me.uid,
+                email: me.email,
+                parentName: profile?.parentName || "",
+                credits: selPack.c,
+                amount: selPack.p,
+              }),
+            },
+          );
 
-window.doPayFn = async () => {
-  if (!me) { toast('Please sign in first','error'); return; }
-  if (selPack.c < 500) { toast('Minimum is 500 credits','error'); return; }
+          const data = await res.json();
+          if (!res.ok || !data.success)
+            throw new Error(data.error || "Could not generate account");
 
-  const btn = document.getElementById('btnPay');
-  btn.disabled = true;
-  document.getElementById('payTxt').textContent = 'Generating account…';
+          closeMo();
 
-  try {
-    const res = await fetch(`${CLOUD_FUNCTIONS_BASE_URL}/api/create-virtual-account`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        uid:        me.uid,
-        email:      me.email,
-        parentName: profile?.parentName || '',
-        credits:    selPack.c,
-        amount:     selPack.p,
-      })
-    });
+          const params = new URLSearchParams({
+            ref: data.txRef,
+            uid: me.uid,
+            amt: data.amount,
+            cred: data.credits,
+            acct: data.accountNumber,
+            name: data.accountName,
+            bank: data.bankName,
+            exp: data.expiresAt,
+          });
 
-    const data = await res.json();
-    if (!res.ok || !data.success) throw new Error(data.error || 'Could not generate account');
+          window.location.href = `cgbaby-pay.html?${params.toString()}`;
+        } catch (err) {
+          console.error("createVirtualAccount error:", err);
+          toast(`Failed: ${err.message}`, "error");
+          btn.disabled = false;
+          updPayBtnFn();
+        }
+      };
 
-    closeMo();
-
-    const params = new URLSearchParams({
-      ref:  data.txRef,
-      uid:  me.uid,
-      amt:  data.amount,
-      cred: data.credits,
-      acct: data.accountNumber,
-      name: data.accountName,
-      bank: data.bankName,
-      exp:  data.expiresAt,
-    });
-
-    window.location.href = `cgbaby-pay.html?${params.toString()}`;
-
-  } catch (err) {
-    console.error('createVirtualAccount error:', err);
-    toast(`Failed: ${err.message}`, 'error');
-    btn.disabled = false;
-    updPayBtnFn();
-  }
-};
-
-const ss = document.createElement('style');
-ss.textContent = '@keyframes spin{to{transform:rotate(360deg)}}';
-document.head.appendChild(ss);
-</script>
-</body>
+      const ss = document.createElement("style");
+      ss.textContent = "@keyframes spin{to{transform:rotate(360deg)}}";
+      document.head.appendChild(ss);
+    </script>
+  </body>
 </html>

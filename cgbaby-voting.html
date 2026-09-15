@@ -75,6 +75,33 @@
         background-clip: text;
         -webkit-text-fill-color: transparent;
       }
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+        flex-wrap: wrap;
+      }
+      .nav-link {
+        padding: 0.4rem 0.95rem;
+        border-radius: 50px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+        transition: all 0.25s;
+        border: 1px solid transparent;
+      }
+      .nav-link:hover {
+        color: var(--bright);
+        background: rgba(255, 140, 0, 0.08);
+        border-color: rgba(255, 140, 0, 0.25);
+      }
+      .nav-link.active {
+        color: var(--orange);
+        background: rgba(255, 140, 0, 0.12);
+        border-color: rgba(255, 140, 0, 0.35);
+      }
       .nav-r {
         display: flex;
         align-items: center;
@@ -1355,6 +1382,15 @@
         .nav-name {
           display: none;
         }
+        .nav-links {
+          order: 3;
+          width: 100%;
+          justify-content: center;
+          margin-top: 0.35rem;
+        }
+        .nav-c {
+          flex-wrap: wrap;
+        }
         .countdown-card {
           min-width: 0;
           width: 100%;
@@ -1545,6 +1581,11 @@
           <img src="./media/cg-champ-emblem.png" alt="" class="nav-emblem" />
           CG PIXELS
         </a>
+        <div class="nav-links">
+          <a href="cgbaby-voting.html" class="nav-link active">Voting</a>
+          <a href="cgchamp-gallery.html" class="nav-link">Gallery</a>
+          <a href="cgbaby-nomination.html" class="nav-link">Nominate</a>
+        </div>
         <div class="nav-r">
           <div class="nav-credit-pill" onclick="openMo()" id="navPill">
             <svg width="16" height="16" viewBox="0 0 24 24">

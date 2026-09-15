@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CG Champ 2026 Gallery · CGPIXELS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+    <style>
+      *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+      :root {
+        --black: #000; --deep: #070709; --card: #0d0d0d;
+        --orange: #ff8c00; --bright: #ffa500; --dim: #ff5e00; --gold: #ffd700;
+        --green: #00e676; --red: #ff5252; --muted: rgba(255,255,255,0.52);
+        --border: rgba(255,140,0,0.16);
+        --sf: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+      }
+      html { scroll-behavior: smooth; }
+      body { font-family: var(--sf); background: var(--black); color: #fff; overflow-x: hidden; }
+      a { text-decoration: none; color: inherit; }
+
+      /* NAV */
+      nav {
+        position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+        backdrop-filter: blur(24px); background: rgba(0,0,0,0.88);
+        border-bottom: 1px solid rgba(255,140,0,0.1);
+      }
+      nav.scrolled { box-shadow: 0 4px 30px rgba(255,140,0,0.08); }
+      .nav-c {
+        max-width: 1400px; margin: 0 auto; padding: 0.9rem 2rem;
+        display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+      }
+      .logo {
+        font-size: 1.25rem; font-weight: 900; letter-spacing: 0.08em;
+        background: linear-gradient(135deg, var(--orange), var(--bright));
+        -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+        display: flex; align-items: center; gap: 0.6rem;
+      }
+      .nav-emblem { width: 30px; height: auto; display: block; }
+      .nav-links { display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap; }
+      .nav-link {
+        padding: 0.4rem 0.95rem; border-radius: 50px; font-size: 0.75rem; font-weight: 700;
+        text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted);
+        transition: all 0.25s; border: 1px solid transparent;
+      }
+      .nav-link:hover { color: var(--bright); background: rgba(255,140,0,0.08); border-color: rgba(255,140,0,0.25); }
+      .nav-link.active { color: var(--orange); background: rgba(255,140,0,0.12); border-color: rgba(255,140,0,0.35); }
+      .nav-r { display: flex; align-items: center; gap: 0.8rem; }
+      .btn-back {
+        display: flex; align-items: center; gap: 0.35rem; padding: 0.4rem 0.95rem; border-radius: 8px;
+        background: rgba(255,140,0,0.1); border: 1px solid rgba(255,140,0,0.28);
+        color: var(--bright); font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+        letter-spacing: 0.08em; cursor: pointer; transition: all 0.2s;
+      }
+      .btn-back:hover { background: rgba(255,140,0,0.2); }
+      .btn-back svg { fill: var(--bright); display: block; }
+
+      /* HERO */
+      .gallery-hero {
+        position: relative; min-height: 70vh; display: flex; align-items: center;
+        justify-content: center; overflow: hidden; padding-top: 72px; background: var(--deep);
+      }
+      .gallery-hero::before {
+        content: ""; position: absolute; inset: 0;
+        background:
+          radial-gradient(ellipse 70% 60% at 20% 40%, rgba(255,140,0,0.18) 0%, transparent 65%),
+          radial-gradient(ellipse 50% 50% at 80% 70%, rgba(255,94,0,0.1) 0%, transparent 60%);
+        pointer-events: none;
+      }
+      .hero-grid {
+        position: absolute; inset: 0; pointer-events: none;
+        background-image:
+          linear-gradient(rgba(255,140,0,0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,140,0,0.03) 1px, transparent 1px);
+        background-size: 70px 70px; animation: gm 28s linear infinite;
+      }
+      @keyframes gm { 0% { transform: translate(0,0); } 100% { transform: translate(70px,70px); } }
+      .parallax-layer {
+        position: absolute; inset: -20%;
+        background: radial-gradient(circle at 50% 50%, rgba(255,140,0,0.06) 0%, transparent 50%);
+        will-change: transform; pointer-events: none;
+      }
+      .hero-inner {
+        position: relative; z-index: 2; text-align: center;
+        max-width: 900px; padding: 3.5rem 1.5rem 4rem;
+      }
+      .hero-tag {
+        display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.35rem 1rem;
+        border-radius: 50px; margin-bottom: 1.4rem; background: rgba(255,140,0,0.1);
+        border: 1px solid rgba(255,140,0,0.3); font-size: 0.7rem; font-weight: 800;
+        color: var(--bright); text-transform: uppercase; letter-spacing: 0.14em;
+      }
+      .hero-tag svg { fill: var(--bright); }
+      .hero-title {
+        font-size: clamp(2.4rem, 7vw, 4.2rem); font-weight: 900; letter-spacing: -0.03em;
+        line-height: 1.08; margin-bottom: 1.35rem; color: #fff;
+      }
+      .hero-title .grad {
+        background: linear-gradient(135deg, #fff 15%, var(--orange), var(--gold));
+        -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+      }
+      .hero-sub {
+        font-size: clamp(0.95rem, 2.2vw, 1.1rem); color: var(--muted); line-height: 1.65;
+        max-width: 520px; margin: 0 auto 2.75rem;
+      }
+      .hero-stats {
+        display: flex; justify-content: center; align-items: flex-start;
+        gap: 2.75rem; flex-wrap: wrap;
+      }
+      .h-stat { text-align: center; min-width: 76px; }
+      .h-stat-num {
+        font-size: 1.75rem; font-weight: 900; color: var(--orange); line-height: 1.15;
+        filter: drop-shadow(0 0 12px rgba(255,140,0,0.4));
+      }
+      .h-stat-lbl {
+        font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em;
+        color: var(--muted); margin-top: 0.35rem;
+      }
+
+      /* SECTION */
+      .gallery-sec { padding: 4rem 1.5rem 5rem; background: var(--black); }
+      .sec-hdr { text-align: center; margin-bottom: 2.8rem; }
+      .sec-hdr h2 {
+        font-size: clamp(1.7rem, 4vw, 2.6rem); font-weight: 900;
+        background: linear-gradient(135deg, #fff, var(--orange));
+        -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+        margin-bottom: 0.45rem;
+      }
+      .sec-hdr p { color: var(--muted); font-size: 0.9rem; }
+
+      .filter-bar {
+        display: flex; justify-content: center; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 2.5rem;
+      }
+      .filter-btn {
+        padding: 0.5rem 1.15rem; border-radius: 50px; font-size: 0.75rem; font-weight: 700;
+        text-transform: uppercase; letter-spacing: 0.08em; background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.08); color: var(--muted); cursor: pointer; transition: all 0.25s;
+      }
+      .filter-btn:hover, .filter-btn.active {
+        background: rgba(255,140,0,0.12); border-color: rgba(255,140,0,0.4); color: var(--bright);
+      }
+
+      .gallery-grid {
+        display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 1.4rem; max-width: 1400px; margin: 0 auto;
+      }
+      @media (min-width: 900px) { .gallery-grid { grid-template-columns: repeat(3, 1fr); } }
+      @media (min-width: 1200px) { .gallery-grid { grid-template-columns: repeat(4, 1fr); } }
+
+      .g-card {
+        position: relative; border-radius: 18px; overflow: hidden; background: var(--card);
+        border: 1px solid var(--border); aspect-ratio: 1; cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      }
+      .g-card:hover {
+        transform: translateY(-8px) scale(1.02); border-color: rgba(255,140,0,0.45);
+        box-shadow: 0 20px 50px rgba(255,140,0,0.18);
+      }
+      .g-card img {
+        width: 100%; height: 100%; object-fit: cover; display: block;
+        transition: transform 0.7s cubic-bezier(0.25, 0.8, 0.25, 1); background: #111;
+      }
+      .g-card:hover img { transform: scale(1.08); }
+      .g-overlay {
+        position: absolute; inset: 0;
+        background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.25) 45%, transparent 70%);
+        opacity: 0; transition: opacity 0.35s; display: flex; flex-direction: column;
+        justify-content: flex-end; padding: 1.1rem; pointer-events: none;
+      }
+      .g-card:hover .g-overlay { opacity: 1; }
+      .g-name {
+        font-size: 0.82rem; font-weight: 700; color: #fff; margin-bottom: 0.55rem;
+        white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      }
+      .g-actions { display: flex; gap: 0.5rem; pointer-events: all; }
+      .g-btn {
+        flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.35rem;
+        padding: 0.55rem 0.6rem; border-radius: 50px; font-size: 0.68rem; font-weight: 800;
+        text-transform: uppercase; letter-spacing: 0.06em; border: none; cursor: pointer; transition: all 0.25s;
+      }
+      .g-btn svg { fill: currentColor; display: block; flex-shrink: 0; }
+      .g-btn.view { background: rgba(255,255,255,0.12); color: #fff; border: 1px solid rgba(255,255,255,0.2); }
+      .g-btn.view:hover { background: rgba(255,255,255,0.22); }
+      .g-btn.dl {
+        background: linear-gradient(135deg, var(--orange), var(--bright)); color: #000;
+        box-shadow: 0 4px 16px rgba(255,140,0,0.35);
+      }
+      .g-btn.dl:hover { transform: scale(1.04); box-shadow: 0 6px 22px rgba(255,140,0,0.5); }
+
+      /* LIGHTBOX */
+      .lightbox {
+        position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.94);
+        backdrop-filter: blur(16px); display: flex; align-items: center; justify-content: center;
+        opacity: 0; pointer-events: none; transition: opacity 0.3s; padding: 1.5rem;
+      }
+      .lightbox.open { opacity: 1; pointer-events: all; }
+      .lb-inner {
+        position: relative; max-width: 95vw; max-height: 90vh;
+        display: flex; flex-direction: column; align-items: center; gap: 1rem;
+      }
+      .lb-img {
+        max-width: 100%; max-height: 78vh; object-fit: contain; border-radius: 12px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.6); border: 1px solid rgba(255,140,0,0.2); background: #111;
+      }
+      .lb-bar { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+      .lb-name { font-size: 0.9rem; font-weight: 700; color: var(--muted); }
+      .lb-dl {
+        display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.6rem 1.3rem;
+        border-radius: 50px; background: linear-gradient(135deg, var(--orange), var(--bright));
+        color: #000; font-size: 0.78rem; font-weight: 800; text-transform: uppercase;
+        letter-spacing: 0.08em; border: none; cursor: pointer; transition: all 0.25s;
+      }
+      .lb-dl:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,140,0,0.45); }
+      .lb-dl svg { fill: #000; }
+      .lb-close {
+        position: absolute; top: -2.5rem; right: 0; width: 40px; height: 40px; border-radius: 50%;
+        background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+        color: #fff; font-size: 1.4rem; cursor: pointer; display: flex; align-items: center;
+        justify-content: center; transition: all 0.2s;
+      }
+      .lb-close:hover { background: rgba(255,82,82,0.25); border-color: var(--red); }
+      .lb-nav {
+        position: absolute; top: 50%; transform: translateY(-50%); width: 48px; height: 48px;
+        border-radius: 50%; background: rgba(255,140,0,0.15); border: 1px solid rgba(255,140,0,0.35);
+        color: var(--bright); font-size: 1.5rem; cursor: pointer; display: flex;
+        align-items: center; justify-content: center; transition: all 0.2s;
+      }
+      .lb-nav:hover { background: rgba(255,140,0,0.3); }
+      .lb-prev { left: -3.5rem; }
+      .lb-next { right: -3.5rem; }
+      @media (max-width: 700px) {
+        .lb-prev { left: 0.5rem; } .lb-next { right: 0.5rem; }
+        .lb-close { top: -3rem; right: 0.5rem; }
+        .nav-links { order: 3; width: 100%; justify-content: center; }
+        .nav-c { flex-wrap: wrap; }
+        .hero-stats { gap: 1.75rem; }
+      }
+
+      footer {
+        background: var(--deep); border-top: 1px solid rgba(255,140,0,0.08);
+        padding: 2rem; text-align: center;
+      }
+      .footer-t { color: rgba(255,255,255,0.28); font-size: 0.78rem; line-height: 2; }
+      .footer-t a { color: rgba(255,140,0,0.6); }
+      .footer-t a:hover { color: var(--orange); }
+
+      .dl-all-fab {
+        position: fixed; bottom: 1.8rem; right: 1.8rem; z-index: 800;
+        display: flex; align-items: center; gap: 0.5rem; padding: 0.85rem 1.4rem;
+        border-radius: 50px; background: linear-gradient(135deg, var(--gold), #e6a000);
+        color: #000; font-size: 0.78rem; font-weight: 800; text-transform: uppercase;
+        letter-spacing: 0.07em; border: none; cursor: pointer;
+        box-shadow: 0 10px 30px rgba(255,215,0,0.35); transition: all 0.3s;
+      }
+      .dl-all-fab:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 14px 40px rgba(255,215,0,0.5); }
+      .dl-all-fab svg { fill: #000; }
+      @media (max-width: 600px) {
+        .dl-all-fab span { display: none; }
+        .dl-all-fab { padding: 0.9rem; border-radius: 50%; }
+      }
+    </style>
+  </head>
+  <body>
+    <nav id="navbar">
+      <div class="nav-c">
+        <a href="index.html" class="logo">
+          <img src="./media/cg-champ-emblem.png" alt="" class="nav-emblem" onerror="this.style.display='none'" />
+          CG PIXELS
+        </a>
+        <div class="nav-links">
+          <a href="cgbaby-voting.html" class="nav-link">Voting</a>
+          <a href="cgchamp-gallery.html" class="nav-link active">Gallery</a>
+          <a href="cgbaby-nomination.html" class="nav-link">Nominate</a>
+        </div>
+        <div class="nav-r">
+          <a href="cgbaby-voting.html" class="btn-back">
+            <svg width="12" height="12" viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+            Back to Voting
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <section class="gallery-hero" id="hero">
+      <div class="hero-grid"></div>
+      <div class="parallax-layer" id="parallaxLayer"></div>
+      <div class="hero-inner">
+        <div class="hero-tag" data-aos="fade-down">
+          <svg width="13" height="13" viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+          Official Media
+        </div>
+        <h1 class="hero-title" data-aos="fade-up" data-aos-delay="80">
+          <span class="grad">CG Champ 2026</span><br />Gallery
+        </h1>
+        <p class="hero-sub" data-aos="fade-up" data-aos-delay="160">
+          Relive the magic of CG Champ of the Year. Browse exclusive photos,
+          download your favourites, and share the moments.
+        </p>
+        <div class="hero-stats" data-aos="fade-up" data-aos-delay="240">
+          <div class="h-stat">
+            <div class="h-stat-num" id="photoCount">50</div>
+            <div class="h-stat-lbl">Photos</div>
+          </div>
+          <div class="h-stat">
+            <div class="h-stat-num">2026</div>
+            <div class="h-stat-lbl">Edition</div>
+          </div>
+          <div class="h-stat">
+            <div class="h-stat-num">HD</div>
+            <div class="h-stat-lbl">Quality</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="gallery-sec">
+      <div class="sec-hdr" data-aos="fade-up">
+        <h2>Event Photos</h2>
+        <p>Click any image to view full size · Download in original quality</p>
+      </div>
+      <div class="filter-bar" data-aos="fade-up" data-aos-delay="60">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="izz">Stage &amp; Portraits</button>
+        <button class="filter-btn" data-filter="cgs">Crowd &amp; Moments</button>
+      </div>
+      <div class="gallery-grid" id="galleryGrid"></div>
+    </section>
+
+    <div class="lightbox" id="lightbox">
+      <div class="lb-inner">
+        <button class="lb-close" id="lbClose" aria-label="Close">&times;</button>
+        <button class="lb-nav lb-prev" id="lbPrev" aria-label="Previous">‹</button>
+        <button class="lb-nav lb-next" id="lbNext" aria-label="Next">›</button>
+        <img class="lb-img" id="lbImg" src="" alt="" />
+        <div class="lb-bar">
+          <span class="lb-name" id="lbName"></span>
+          <button class="lb-dl" id="lbDl">
+            <svg width="14" height="14" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            Download
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <button class="dl-all-fab" id="dlAllFab" title="Open full Drive folder">
+      <svg width="16" height="16" viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/></svg>
+      <span>Open Drive Folder</span>
+    </button>
+
+    <footer>
+      <p class="footer-t">
+        © 2026 CGPIXELS · CG Champ of the Year · Official Gallery<br />
+        <a href="legal.html">Terms &amp; Conditions</a> &nbsp;·&nbsp;
+        <a href="cgbaby-voting.html">Back to Voting</a>
+      </p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script>
+      const MEDIA = [
+        { id: "1yJBumzL6Y0mgRC-1KYpPCpteFZwSE18f", name: "_IZZ6954.jpg", cat: "izz" },
+        { id: "1-0f_ymLUp0V6tvvDGTSzUhZMqgS2C_cj", name: "_IZZ6955.jpg", cat: "izz" },
+        { id: "1WJ6l-0dhfnq8uV-9jyuQHw5HdbHu_i1Z", name: "_IZZ6956.jpg", cat: "izz" },
+        { id: "1HRQPdE8vdDqJo-F7b0JOJlUPAuBiDI62", name: "_IZZ6957.jpg", cat: "izz" },
+        { id: "1rMjXyYEMLU2PUaDP6gEo3uXKh06W40i5", name: "_IZZ6958.jpg", cat: "izz" },
+        { id: "1yc0l8ONh-RRV0xabgXCrsh5BmoZEDUxt", name: "_IZZ6960.jpg", cat: "izz" },
+        { id: "1eZ09rI3ffGlR3056Fd_y4Rc_gqOs6ugh", name: "_IZZ6961.jpg", cat: "izz" },
+        { id: "13xdW0lzMBlrsprTWX9FE9kTAc3SR5Upp", name: "_IZZ6968.jpg", cat: "izz" },
+        { id: "1rohzdUb9w9mSLDH_3VNdqQEzFLt9WsKe", name: "_IZZ6969.jpg", cat: "izz" },
+        { id: "1mS4OFfL1PYy-1otvAIgNXscR5pfZknRA", name: "_IZZ6970.jpg", cat: "izz" },
+        { id: "1iltK9EahKwNQbNDRvEqRE2colIJdtRBy", name: "_IZZ6972.jpg", cat: "izz" },
+        { id: "1gt372uO4e6txFSkKVp-Lrql6Z_DaZdeQ", name: "_IZZ6973.jpg", cat: "izz" },
+        { id: "1b0-BOWcI5wiPDFIzNGevgKDpqvjFJI7e", name: "_IZZ6974.jpg", cat: "izz" },
+        { id: "1x16KzLTypFTwJhbf9pNhCRkDufJlZA6j", name: "_IZZ6975.jpg", cat: "izz" },
+        { id: "1AT2DoB9MZnbCO-WfqSO1m3ZWailjeRUf", name: "_IZZ6976.jpg", cat: "izz" },
+        { id: "1QLiWJHEyYfOldOdDg_Bsi1jNbPzrSido", name: "_IZZ6978.jpg", cat: "izz" },
+        { id: "14l-Iknh7DJVTiCfNl_zBKdNxiDNpFjQ-", name: "_IZZ6980.jpg", cat: "izz" },
+        { id: "15Uy4oLT7WiWtg3HZFGLNfTQLdqet0_ok", name: "_IZZ6981.jpg", cat: "izz" },
+        { id: "1BsEGnMru_gKxIYF6NeWZla4R_7ZBaOxt", name: "_IZZ6982.jpg", cat: "izz" },
+        { id: "1htkZHS40bO2uN-2zxnwv2GFOaNfIGYEG", name: "_IZZ6984.jpg", cat: "izz" },
+        { id: "1s8EuhVWqHTKRxwSVOyPdqR56rCONv1PX", name: "_IZZ6987.jpg", cat: "izz" },
+        { id: "14kb2oaeNuG7yvucI3Ir9h6yteQKlK-YM", name: "_IZZ6988.jpg", cat: "izz" },
+        { id: "10JqGpcNd5QAWrr4QgUCyXz2X_7agC4nR", name: "_IZZ6989.jpg", cat: "izz" },
+        { id: "1GSOiD5H-jtiitz6Hxtv6AaCxrHjyyeO1", name: "_IZZ6990.jpg", cat: "izz" },
+        { id: "1LZCB-_yC3p4F1Zg21Nad32b1ZfS8k2Et", name: "_IZZ6991.jpg", cat: "izz" },
+        { id: "1ts_u595I1roAP6BWpWr6aKGif6aPWXu7", name: "_IZZ6992.jpg", cat: "izz" },
+        { id: "1CdNfgL0gUy7-wE0sdCzFBM8BmKRXYsxK", name: "_IZZ6993.jpg", cat: "izz" },
+        { id: "1V592WY1i9cxshtAG2STQADPI5cngNwLR", name: "_IZZ6994.jpg", cat: "izz" },
+        { id: "15laVVbJ6HuyGyYLJdbVKpE39On4ex2C9", name: "_IZZ6995.jpg", cat: "izz" },
+        { id: "1VfMRMpvgkcsaNG5WyKQJ4l4fatCVG3EG", name: "_IZZ6997.jpg", cat: "izz" },
+        { id: "1BG8PecK-zSWMzw8g8KoKcbw3Sv84RDjC", name: "_IZZ6998.jpg", cat: "izz" },
+        { id: "1ipZB9-aKes8NI902uq64fnIVPxOPZuVe", name: "_IZZ6999.jpg", cat: "izz" },
+        { id: "1DVpMlgAXiiLK6qt3jIP_u7Hr1LWOhI1s", name: "_IZZ7001.jpg", cat: "izz" },
+        { id: "1jm69rmFKubdTDf8Pvc7cBpSHMffpLJei", name: "_IZZ7002.jpg", cat: "izz" },
+        { id: "1LnZAFb_7I6r93SKkU-B1NjlhD28AMWLF", name: "CGS_0758.jpg", cat: "cgs" },
+        { id: "162A8poXge1mt0F7kOYSj8YWe8VWAPsJQ", name: "CGS_0760.jpg", cat: "cgs" },
+        { id: "1b5pZYoeyJ-dBlRFAcr7ctqGcfWhTuvnW", name: "CGS_0761-2.jpg", cat: "cgs" },
+        { id: "1iiIuf910bW-Zs3Lu-zXA971APaD0NcmU", name: "CGS_0762-2.jpg", cat: "cgs" },
+        { id: "1hFJ4vxuizJMv4Q95yNXNuh1xKUf9On07", name: "CGS_0763.jpg", cat: "cgs" },
+        { id: "1ZZoj6QIvZcw4vJ63WoSq7qCaiZvxnO0G", name: "CGS_0765-2.jpg", cat: "cgs" },
+        { id: "1-NOWg1WErGaKGt0wr5UycJDXT8t2mun7", name: "CGS_0766-2.jpg", cat: "cgs" },
+        { id: "15z1kgyBcTw1n71sDVQtewVW4ye0nYBIq", name: "CGS_0767-2.jpg", cat: "cgs" },
+        { id: "1SqTowE8Idtznc1N5_HUPhNwpoRyKTco-", name: "CGS_0770-2.jpg", cat: "cgs" },
+        { id: "1jp1qY-9aqJcLfkTiECyt5YPYeL_i4J1X", name: "CGS_0772.jpg", cat: "cgs" },
+        { id: "1Zzq_9lixBIAfaeB3Gvuwjo6yLCwZzjBE", name: "CGS_0773-2.jpg", cat: "cgs" },
+        { id: "1UiNuBmjFBQUy-mqygZO0_HlnTSSlJYBa", name: "CGS_0775-2.jpg", cat: "cgs" },
+        { id: "1_v16Soza5ThV20iJsNoZ_TNIwkLg6g5A", name: "CGS_0777-2.jpg", cat: "cgs" },
+        { id: "1knkfrlcIJoR_kLtQ_SmFa9BNylvXa3P2", name: "CGS_0778.jpg", cat: "cgs" },
+        { id: "1WVdXiZmingsRZAMLILK4B8u0vpmW7v4F", name: "CGS_0779-2.jpg", cat: "cgs" },
+        { id: "1K04IB2i7Q7a_SQQwVHpni0L8drS4QL1d", name: "CGS_0780.jpg", cat: "cgs" },
+      ];
+
+      const thumb = (id, w = 1200) => `https://drive.google.com/thumbnail?id=${id}&sz=w${w}`;
+      const full  = (id) => `https://drive.google.com/thumbnail?id=${id}&sz=w2400`;
+      const dlUrl = (id) => `https://drive.google.com/uc?export=download&id=${id}`;
+
+      let currentFilter = "all";
+      let currentIndex = 0;
+      let visibleItems = [...MEDIA];
+
+      window.addEventListener("scroll", () =>
+        document.getElementById("navbar").classList.toggle("scrolled", scrollY > 40)
+      );
+
+      function renderGrid() {
+        const grid = document.getElementById("galleryGrid");
+        visibleItems = currentFilter === "all" ? MEDIA : MEDIA.filter((m) => m.cat === currentFilter);
+        document.getElementById("photoCount").textContent = MEDIA.length;
+
+        grid.innerHTML = visibleItems.map((m, i) => `
+          <div class="g-card" data-aos="fade-up" data-aos-delay="${(i % 8) * 40}" data-idx="${i}">
+            <img
+              src="${thumb(m.id, 800)}"
+              alt="${m.name}"
+              loading="lazy"
+              referrerpolicy="no-referrer"
+              onerror="this.onerror=null; this.src='${thumb(m.id, 1000)}';"
+            />
+            <div class="g-overlay">
+              <div class="g-name">${m.name}</div>
+              <div class="g-actions">
+                <button class="g-btn view" type="button">
+                  <svg width="12" height="12" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+                  View
+                </button>
+                <a class="g-btn dl" href="${dlUrl(m.id)}" download="${m.name}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+                  <svg width="12" height="12" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                  Download
+                </a>
+              </div>
+            </div>
+          </div>`).join("");
+
+        if (window.AOS) AOS.refresh();
+      }
+
+      document.querySelectorAll(".filter-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".filter-btn").forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          currentFilter = btn.dataset.filter;
+          renderGrid();
+        });
+      });
+
+      const lb = document.getElementById("lightbox");
+      const lbImg = document.getElementById("lbImg");
+      const lbName = document.getElementById("lbName");
+      const lbDl = document.getElementById("lbDl");
+
+      function openLightbox(idx) {
+        currentIndex = idx;
+        const m = visibleItems[idx];
+        if (!m) return;
+        lbImg.src = full(m.id);
+        lbImg.alt = m.name;
+        lbName.textContent = m.name;
+        lbDl.onclick = () => window.open(dlUrl(m.id), "_blank");
+        lb.classList.add("open");
+        document.body.style.overflow = "hidden";
+      }
+      function closeLightbox() {
+        lb.classList.remove("open");
+        document.body.style.overflow = "";
+      }
+      function navLightbox(dir) {
+        currentIndex = (currentIndex + dir + visibleItems.length) % visibleItems.length;
+        openLightbox(currentIndex);
+      }
+
+      document.getElementById("galleryGrid").addEventListener("click", (e) => {
+        if (e.target.closest("a.g-btn.dl")) return;
+        const card = e.target.closest(".g-card");
+        if (!card) return;
+        openLightbox(parseInt(card.dataset.idx, 10));
+      });
+
+      document.getElementById("lbClose").addEventListener("click", closeLightbox);
+      document.getElementById("lbPrev").addEventListener("click", () => navLightbox(-1));
+      document.getElementById("lbNext").addEventListener("click", () => navLightbox(1));
+      lb.addEventListener("click", (e) => { if (e.target === lb) closeLightbox(); });
+      document.addEventListener("keydown", (e) => {
+        if (!lb.classList.contains("open")) return;
+        if (e.key === "Escape") closeLightbox();
+        if (e.key === "ArrowLeft") navLightbox(-1);
+        if (e.key === "ArrowRight") navLightbox(1);
+      });
+
+      document.getElementById("dlAllFab").addEventListener("click", () => {
+        window.open("https://drive.google.com/drive/folders/1ILcYGYt8kktVGD_tVf171z0pUAox1AuM", "_blank");
+      });
+
+      AOS.init({ duration: 750, once: true, offset: 40, easing: "ease-out-cubic" });
+
+      if (window.gsap && window.ScrollTrigger) {
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.to("#parallaxLayer", {
+          y: 100, ease: "none",
+          scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true },
+        });
+        gsap.from(".hero-tag", { y: 14, opacity: 0, duration: 0.65, ease: "power2.out" });
+      }
+
+      renderGrid();
+    </script>
+  </body>
+</html>

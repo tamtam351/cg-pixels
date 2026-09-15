@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Photo Migration · Old Cloudinary → New Cloudinary</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: -apple-system, sans-serif; background:#0a0a0a; color:#fff; padding:2rem; }
+    h1 { font-size:1.4rem; margin-bottom:.4rem; color:#ff8c00; }
+    p.sub { color:rgba(255,255,255,.5); font-size:.85rem; margin-bottom:2rem; }
+    .card { background:#111; border:1px solid #222; border-radius:12px; padding:1.5rem; margin-bottom:1rem; }
+    .card h2 { font-size:1rem; margin-bottom:1rem; color:#ffa500; }
+    label { display:block; font-size:.78rem; color:rgba(255,255,255,.5); text-transform:uppercase; letter-spacing:.08em; margin-bottom:.4rem; margin-top:.6rem; }
+    input { width:100%; padding:.7rem 1rem; background:#1a1a1a; border:1px solid #333; border-radius:8px; color:#fff; font-size:.9rem; margin-bottom:.5rem; }
+    input:focus { outline:none; border-color:#ff8c00; }
+    .hint { font-size:.75rem; color:rgba(255,255,255,.35); margin-bottom:1rem; line-height:1.6; }
+    .hint a { color:#ffa500; }
+    button { padding:.8rem 2rem; background:linear-gradient(135deg,#ff8c00,#ffa500); color:#000; border:none; border-radius:8px; font-weight:800; font-size:.9rem; cursor:pointer; transition:all .2s; margin-top:.5rem; }
+    button:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 8px 24px rgba(255,140,0,.4); }
+    button:disabled { opacity:.5; cursor:not-allowed; transform:none; }
+    .progress-wrap { background:#1a1a1a; border-radius:999px; height:10px; margin-top:1.2rem; overflow:hidden; display:none; }
+    .progress-bar  { height:100%; background:linear-gradient(90deg,#ff8c00,#ffa500); border-radius:999px; width:0; transition:width .4s; }
+    .log { margin-top:1.5rem; background:#0d0d0d; border:1px solid #1a1a1a; border-radius:8px; padding:1rem; max-height:420px; overflow-y:auto; font-family:monospace; font-size:.8rem; line-height:1.9; }
+    .log-item { padding:.15rem 0; border-bottom:1px solid rgba(255,255,255,.04); }
+    .log-item.ok   { color:#00e676; }
+    .log-item.err  { color:#ff5252; }
+    .log-item.info { color:#ffa500; }
+    .log-item.skip { color:rgba(255,255,255,.35); }
+    .summary { margin-top:1rem; padding:1.2rem; background:#0d0d0d; border:1px solid #1a1a1a; border-radius:8px; font-size:.88rem; line-height:2.2; display:none; }
+    .summary strong { color:#ffa500; }
+    .badge { display:inline-block; padding:.2rem .7rem; border-radius:50px; font-size:.7rem; font-weight:800; text-transform:uppercase; letter-spacing:.08em; margin-left:.4rem; }
+    .badge.free { background:rgba(0,230,118,.1); border:1px solid rgba(0,230,118,.3); color:#00e676; }
+  </style>
+</head>
+<body>
+
+<h1>📸 Photo Migration Tool <span class="badge free">Free</span></h1>
+<p class="sub">Re-uploads all 43 nominee photos from your old Cloudinary account to your new one, then updates Firestore automatically.</p>
+
+<div class="card">
+  <h2>🆕 New Cloudinary Account Details</h2>
+
+  <label>New Cloud Name</label>
+  <input type="text" id="newCloud" placeholder="e.g. dxyz12abc  (found on your Cloudinary dashboard)"/>
+  <div class="hint">Log into your new Cloudinary account → the Cloud Name is shown top-left on the dashboard home.</div>
+
+  <label>New Upload Preset (Unsigned)</label>
+  <input type="text" id="newPreset" placeholder="e.g. cgbaby_nominations"/>
+  <div class="hint">
+    Settings → Upload → scroll to <strong>Upload presets</strong> → Add upload preset →
+    set Signing Mode to <strong>Unsigned</strong> → Save → copy the preset name.
+  </div>
+
+  <button id="startBtn" onclick="startMigration()">▶ Start Migration</button>
+
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+</div>
+
+<div class="card" id="logCard" style="display:none">
+  <h2>📋 Migration Log</h2>
+  <div class="log" id="log"></div>
+  <div class="summary" id="summary"></div>
+</div>
+
+<script type="module">
+  import { initializeApp }  from "https://www.gstatic.com/firebasejs/12.13.0/firebase-app.js";
+  import { getFirestore,
+           collection, getDocs,
+           doc, updateDoc }  from "https://www.gstatic.com/firebasejs/12.13.0/firebase-firestore.js";
+
+  const FIREBASE_CONFIG = {
+    apiKey:            "AIzaSyCTptvNojix0zW9fES8Ms7F6qo3T5YkzxA",
+    authDomain:        "cg-pixels.firebaseapp.com",
+    projectId:         "cg-pixels",
+    storageBucket:     "cg-pixels.firebasestorage.app",
+    messagingSenderId: "214403536099",
+    appId:             "1:214403536099:web:d9acacb847a16754a661d6",
+  };
+
+  const app = initializeApp(FIREBASE_CONFIG);
+  const db  = getFirestore(app);
+
+  const logEl   = document.getElementById('log');
+  const barEl   = document.getElementById('progressBar');
+  const summary = document.getElementById('summary');
+
+  function addLog(msg, type = 'info') {
+    const div = document.createElement('div');
+    div.className = `log-item ${type}`;
+    div.textContent = msg;
+    logEl.appendChild(div);
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+
+  function setBar(pct) {
+    barEl.style.width = Math.min(pct, 100) + '%';
+  }
+
+  async function uploadToCloudinary(imageUrl, cloudName, preset) {
+    // 1. Fetch the image blob from old Cloudinary URL
+    const fetchRes = await fetch(imageUrl);
+    if (!fetchRes.ok) throw new Error(`Could not fetch image: HTTP ${fetchRes.status}`);
+    const blob = await fetchRes.blob();
+
+    // 2. Upload blob to new Cloudinary account
+    const formData = new FormData();
+    formData.append('file',          blob);
+    formData.append('upload_preset', preset);
+    formData.append('folder',        'cgbaby/nominations');
+
+    const uploadRes = await fetch(
+      `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+      { method: 'POST', body: formData }
+    );
+
+    if (!uploadRes.ok) {
+      const err = await uploadRes.json().catch(() => ({}));
+      throw new Error(err?.error?.message || `Cloudinary HTTP ${uploadRes.status}`);
+    }
+
+    const data = await uploadRes.json();
+    if (!data.secure_url) throw new Error('No secure_url in Cloudinary response');
+    return data.secure_url;
+  }
+
+  window.startMigration = async function () {
+    const newCloud  = document.getElementById('newCloud').value.trim();
+    const newPreset = document.getElementById('newPreset').value.trim();
+
+    if (!newCloud || !newPreset) {
+      alert('Please fill in both the Cloud Name and Upload Preset before starting.');
+      return;
+    }
+
+    const btn = document.getElementById('startBtn');
+    btn.disabled = true;
+    btn.textContent = 'Running…';
+    document.getElementById('logCard').style.display     = 'block';
+    document.getElementById('progressWrap').style.display = 'block';
+    summary.style.display = 'none';
+    logEl.innerHTML = '';
+
+    addLog('🔍 Reading all nominations from Firestore…', 'info');
+
+    let docs;
+    try {
+      const snap = await getDocs(collection(db, 'nominations'));
+      docs = [];
+      snap.forEach(d => docs.push({ id: d.id, ...d.data() }));
+      addLog(`✅ Found ${docs.length} nomination(s)`, 'ok');
+    } catch (e) {
+      addLog(`❌ Firestore read failed: ${e.message}`, 'err');
+      addLog('Make sure you have this file open in the same browser where you are logged into your CG Champ site (so Firestore auth passes).', 'info');
+      btn.disabled = false;
+      btn.textContent = '▶ Start Migration';
+      return;
+    }
+
+    let ok = 0, skipped = 0, failed = 0;
+    const failedNames = [];
+
+    for (let i = 0; i < docs.length; i++) {
+      const nom  = docs[i];
+      const name = nom.childName || nom.id;
+      setBar(Math.round((i / docs.length) * 100));
+
+      // Skip if no URL
+      if (!nom.photoURL) {
+        addLog(`⏭  [${i+1}/${docs.length}] ${name} — no photoURL, skipping`, 'skip');
+        skipped++; continue;
+      }
+
+      // Skip if already on the new Cloudinary account
+      if (nom.photoURL.includes(newCloud)) {
+        addLog(`⏭  [${i+1}/${docs.length}] ${name} — already on new account, skipping`, 'skip');
+        skipped++; continue;
+      }
+
+      addLog(`⬆  [${i+1}/${docs.length}] ${name} — uploading to new Cloudinary…`, 'info');
+
+      try {
+        const newUrl = await uploadToCloudinary(nom.photoURL, newCloud, newPreset);
+        await updateDoc(doc(db, 'nominations', nom.id), { photoURL: newUrl });
+        addLog(`✅ [${i+1}/${docs.length}] ${name} → saved`, 'ok');
+        ok++;
+      } catch (e) {
+        addLog(`❌ [${i+1}/${docs.length}] ${name} — FAILED: ${e.message}`, 'err');
+        failed++;
+        failedNames.push(name);
+      }
+
+      // Delay between uploads to avoid rate limits
+      await new Promise(r => setTimeout(r, 600));
+    }
+
+    setBar(100);
+
+    summary.style.display = 'block';
+    summary.innerHTML = `
+      <strong>Migration complete!</strong><br>
+      ✅ Successfully migrated: <strong>${ok}</strong><br>
+      ⏭ Skipped (no URL or already migrated): <strong>${skipped}</strong><br>
+      ❌ Failed: <strong>${failed}</strong>
+      ${failed > 0
+        ? `<br><br><strong style="color:#ff5252">Failed nominations:</strong> ${failedNames.join(', ')}<br>
+           These still point to old Cloudinary. Run the tool again after fixing — it will skip already-migrated ones and retry only the failed ones.`
+        : '<br><br>🎉 All photos now served from your new Cloudinary account. Your site is safe!'}
+    `;
+
+    btn.disabled = false;
+    btn.textContent = '▶ Start Migration';
+    addLog('🏁 Done.', 'info');
+  };
+</script>
+</body>
+</html>

@@ -263,6 +263,19 @@
         .dl-all-fab span { display: none; }
         .dl-all-fab { padding: 0.9rem; border-radius: 50%; }
       }
+
+      /* LOADING / ERROR STATES */
+      .g-state {
+        grid-column: 1 / -1; text-align: center; padding: 3.5rem 1.5rem;
+        color: var(--muted); font-size: 0.9rem;
+      }
+      .g-state.error { color: var(--red); }
+      .g-spinner {
+        width: 34px; height: 34px; margin: 0 auto 1rem; border-radius: 50%;
+        border: 3px solid rgba(255,140,0,0.15); border-top-color: var(--orange);
+        animation: spin 0.85s linear infinite;
+      }
+      @keyframes spin { to { transform: rotate(360deg); } }
     </style>
   </head>
   <body>
@@ -303,7 +316,7 @@
         </p>
         <div class="hero-stats" data-aos="fade-up" data-aos-delay="240">
           <div class="h-stat">
-            <div class="h-stat-num" id="photoCount">50</div>
+            <div class="h-stat-num" id="photoCount">–</div>
             <div class="h-stat-lbl">Photos</div>
           </div>
           <div class="h-stat">
@@ -323,12 +336,15 @@
         <h2>Event Photos</h2>
         <p>Click any image to view full size · Download in original quality</p>
       </div>
-      <div class="filter-bar" data-aos="fade-up" data-aos-delay="60">
+      <div class="filter-bar" id="filterBar" data-aos="fade-up" data-aos-delay="60">
         <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="izz">Stage &amp; Portraits</button>
-        <button class="filter-btn" data-filter="cgs">Crowd &amp; Moments</button>
       </div>
-      <div class="gallery-grid" id="galleryGrid"></div>
+      <div class="gallery-grid" id="galleryGrid">
+        <div class="g-state" id="initialState">
+          <div class="g-spinner"></div>
+          Loading photos from Drive…
+        </div>
+      </div>
     </section>
 
     <div class="lightbox" id="lightbox">
@@ -364,77 +380,99 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script>
-      const MEDIA = [
-        { id: "1yJBumzL6Y0mgRC-1KYpPCpteFZwSE18f", name: "_IZZ6954.jpg", cat: "izz" },
-        { id: "1-0f_ymLUp0V6tvvDGTSzUhZMqgS2C_cj", name: "_IZZ6955.jpg", cat: "izz" },
-        { id: "1WJ6l-0dhfnq8uV-9jyuQHw5HdbHu_i1Z", name: "_IZZ6956.jpg", cat: "izz" },
-        { id: "1HRQPdE8vdDqJo-F7b0JOJlUPAuBiDI62", name: "_IZZ6957.jpg", cat: "izz" },
-        { id: "1rMjXyYEMLU2PUaDP6gEo3uXKh06W40i5", name: "_IZZ6958.jpg", cat: "izz" },
-        { id: "1yc0l8ONh-RRV0xabgXCrsh5BmoZEDUxt", name: "_IZZ6960.jpg", cat: "izz" },
-        { id: "1eZ09rI3ffGlR3056Fd_y4Rc_gqOs6ugh", name: "_IZZ6961.jpg", cat: "izz" },
-        { id: "13xdW0lzMBlrsprTWX9FE9kTAc3SR5Upp", name: "_IZZ6968.jpg", cat: "izz" },
-        { id: "1rohzdUb9w9mSLDH_3VNdqQEzFLt9WsKe", name: "_IZZ6969.jpg", cat: "izz" },
-        { id: "1mS4OFfL1PYy-1otvAIgNXscR5pfZknRA", name: "_IZZ6970.jpg", cat: "izz" },
-        { id: "1iltK9EahKwNQbNDRvEqRE2colIJdtRBy", name: "_IZZ6972.jpg", cat: "izz" },
-        { id: "1gt372uO4e6txFSkKVp-Lrql6Z_DaZdeQ", name: "_IZZ6973.jpg", cat: "izz" },
-        { id: "1b0-BOWcI5wiPDFIzNGevgKDpqvjFJI7e", name: "_IZZ6974.jpg", cat: "izz" },
-        { id: "1x16KzLTypFTwJhbf9pNhCRkDufJlZA6j", name: "_IZZ6975.jpg", cat: "izz" },
-        { id: "1AT2DoB9MZnbCO-WfqSO1m3ZWailjeRUf", name: "_IZZ6976.jpg", cat: "izz" },
-        { id: "1QLiWJHEyYfOldOdDg_Bsi1jNbPzrSido", name: "_IZZ6978.jpg", cat: "izz" },
-        { id: "14l-Iknh7DJVTiCfNl_zBKdNxiDNpFjQ-", name: "_IZZ6980.jpg", cat: "izz" },
-        { id: "15Uy4oLT7WiWtg3HZFGLNfTQLdqet0_ok", name: "_IZZ6981.jpg", cat: "izz" },
-        { id: "1BsEGnMru_gKxIYF6NeWZla4R_7ZBaOxt", name: "_IZZ6982.jpg", cat: "izz" },
-        { id: "1htkZHS40bO2uN-2zxnwv2GFOaNfIGYEG", name: "_IZZ6984.jpg", cat: "izz" },
-        { id: "1s8EuhVWqHTKRxwSVOyPdqR56rCONv1PX", name: "_IZZ6987.jpg", cat: "izz" },
-        { id: "14kb2oaeNuG7yvucI3Ir9h6yteQKlK-YM", name: "_IZZ6988.jpg", cat: "izz" },
-        { id: "10JqGpcNd5QAWrr4QgUCyXz2X_7agC4nR", name: "_IZZ6989.jpg", cat: "izz" },
-        { id: "1GSOiD5H-jtiitz6Hxtv6AaCxrHjyyeO1", name: "_IZZ6990.jpg", cat: "izz" },
-        { id: "1LZCB-_yC3p4F1Zg21Nad32b1ZfS8k2Et", name: "_IZZ6991.jpg", cat: "izz" },
-        { id: "1ts_u595I1roAP6BWpWr6aKGif6aPWXu7", name: "_IZZ6992.jpg", cat: "izz" },
-        { id: "1CdNfgL0gUy7-wE0sdCzFBM8BmKRXYsxK", name: "_IZZ6993.jpg", cat: "izz" },
-        { id: "1V592WY1i9cxshtAG2STQADPI5cngNwLR", name: "_IZZ6994.jpg", cat: "izz" },
-        { id: "15laVVbJ6HuyGyYLJdbVKpE39On4ex2C9", name: "_IZZ6995.jpg", cat: "izz" },
-        { id: "1VfMRMpvgkcsaNG5WyKQJ4l4fatCVG3EG", name: "_IZZ6997.jpg", cat: "izz" },
-        { id: "1BG8PecK-zSWMzw8g8KoKcbw3Sv84RDjC", name: "_IZZ6998.jpg", cat: "izz" },
-        { id: "1ipZB9-aKes8NI902uq64fnIVPxOPZuVe", name: "_IZZ6999.jpg", cat: "izz" },
-        { id: "1DVpMlgAXiiLK6qt3jIP_u7Hr1LWOhI1s", name: "_IZZ7001.jpg", cat: "izz" },
-        { id: "1jm69rmFKubdTDf8Pvc7cBpSHMffpLJei", name: "_IZZ7002.jpg", cat: "izz" },
-        { id: "1LnZAFb_7I6r93SKkU-B1NjlhD28AMWLF", name: "CGS_0758.jpg", cat: "cgs" },
-        { id: "162A8poXge1mt0F7kOYSj8YWe8VWAPsJQ", name: "CGS_0760.jpg", cat: "cgs" },
-        { id: "1b5pZYoeyJ-dBlRFAcr7ctqGcfWhTuvnW", name: "CGS_0761-2.jpg", cat: "cgs" },
-        { id: "1iiIuf910bW-Zs3Lu-zXA971APaD0NcmU", name: "CGS_0762-2.jpg", cat: "cgs" },
-        { id: "1hFJ4vxuizJMv4Q95yNXNuh1xKUf9On07", name: "CGS_0763.jpg", cat: "cgs" },
-        { id: "1ZZoj6QIvZcw4vJ63WoSq7qCaiZvxnO0G", name: "CGS_0765-2.jpg", cat: "cgs" },
-        { id: "1-NOWg1WErGaKGt0wr5UycJDXT8t2mun7", name: "CGS_0766-2.jpg", cat: "cgs" },
-        { id: "15z1kgyBcTw1n71sDVQtewVW4ye0nYBIq", name: "CGS_0767-2.jpg", cat: "cgs" },
-        { id: "1SqTowE8Idtznc1N5_HUPhNwpoRyKTco-", name: "CGS_0770-2.jpg", cat: "cgs" },
-        { id: "1jp1qY-9aqJcLfkTiECyt5YPYeL_i4J1X", name: "CGS_0772.jpg", cat: "cgs" },
-        { id: "1Zzq_9lixBIAfaeB3Gvuwjo6yLCwZzjBE", name: "CGS_0773-2.jpg", cat: "cgs" },
-        { id: "1UiNuBmjFBQUy-mqygZO0_HlnTSSlJYBa", name: "CGS_0775-2.jpg", cat: "cgs" },
-        { id: "1_v16Soza5ThV20iJsNoZ_TNIwkLg6g5A", name: "CGS_0777-2.jpg", cat: "cgs" },
-        { id: "1knkfrlcIJoR_kLtQ_SmFa9BNylvXa3P2", name: "CGS_0778.jpg", cat: "cgs" },
-        { id: "1WVdXiZmingsRZAMLILK4B8u0vpmW7v4F", name: "CGS_0779-2.jpg", cat: "cgs" },
-        { id: "1K04IB2i7Q7a_SQQwVHpni0L8drS4QL1d", name: "CGS_0780.jpg", cat: "cgs" },
-      ];
+      // ====================== CONFIG ======================
+      // Folder ID pulled from your Drive folder URL.
+      const FOLDER_ID = "1ILcYGYt8kktVGD_tVf171z0pUAox1AuM";
+      // Paste your restricted Google Cloud API key here (Drive API enabled,
+      // HTTP-referrer restricted to your domain). See setup steps provided
+      // alongside this file.
+      const DRIVE_API_KEY = "AIzaSyC9BbZDxjYNyEHowAOXYRb2ey75YW_iQ0o"
+      // =====================================================
+
+      let MEDIA = [];
 
       const thumb = (id, w = 1200) => `https://drive.google.com/thumbnail?id=${id}&sz=w${w}`;
       const full  = (id) => `https://drive.google.com/thumbnail?id=${id}&sz=w2400`;
       const dlUrl = (id) => `https://drive.google.com/uc?export=download&id=${id}`;
 
+      // Derives a simple category from the filename prefix (letters before
+      // the first digit), e.g. "_IZZ6954.jpg" -> "izz", "CGS_0758.jpg" -> "cgs".
+      function getCategory(name) {
+        const base = name.replace(/\.[^/.]+$/, "");
+        const m = base.match(/[A-Za-z]+/);
+        return m ? m[0].toLowerCase() : "other";
+      }
+
+      async function fetchAllDriveFiles(folderId, apiKey) {
+        let files = [];
+        let pageToken = null;
+        do {
+          const url = new URL("https://www.googleapis.com/drive/v3/files");
+          url.searchParams.set(
+            "q",
+            `'${folderId}' in parents and mimeType contains 'image/' and trashed = false`
+          );
+          url.searchParams.set("fields", "nextPageToken, files(id, name)");
+          url.searchParams.set("pageSize", "1000");
+          url.searchParams.set("orderBy", "name");
+          url.searchParams.set("key", apiKey);
+          if (pageToken) url.searchParams.set("pageToken", pageToken);
+
+          const res = await fetch(url.toString());
+          const data = await res.json();
+          if (data.error) throw new Error(data.error.message || "Drive API error");
+
+          files = files.concat(
+            (data.files || []).map((f) => ({ id: f.id, name: f.name, cat: getCategory(f.name) }))
+          );
+          pageToken = data.nextPageToken || null;
+        } while (pageToken);
+        return files;
+      }
+
       let currentFilter = "all";
       let currentIndex = 0;
-      let visibleItems = [...MEDIA];
+      let visibleItems = [];
 
       window.addEventListener("scroll", () =>
         document.getElementById("navbar").classList.toggle("scrolled", scrollY > 40)
       );
+
+      function buildFilterBar() {
+        const bar = document.getElementById("filterBar");
+        const cats = [...new Set(MEDIA.map((m) => m.cat))].sort();
+        bar.innerHTML =
+          `<button class="filter-btn active" data-filter="all">All</button>` +
+          cats
+            .map(
+              (c) =>
+                `<button class="filter-btn" data-filter="${c}">${c.toUpperCase()}</button>`
+            )
+            .join("");
+
+        bar.querySelectorAll(".filter-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            bar.querySelectorAll(".filter-btn").forEach((b) => b.classList.remove("active"));
+            btn.classList.add("active");
+            currentFilter = btn.dataset.filter;
+            renderGrid();
+          });
+        });
+      }
 
       function renderGrid() {
         const grid = document.getElementById("galleryGrid");
         visibleItems = currentFilter === "all" ? MEDIA : MEDIA.filter((m) => m.cat === currentFilter);
         document.getElementById("photoCount").textContent = MEDIA.length;
 
-        grid.innerHTML = visibleItems.map((m, i) => `
+        if (visibleItems.length === 0) {
+          grid.innerHTML = `<div class="g-state">No photos found in this category.</div>`;
+          return;
+        }
+
+        grid.innerHTML = visibleItems
+          .map(
+            (m, i) => `
           <div class="g-card" data-aos="fade-up" data-aos-delay="${(i % 8) * 40}" data-idx="${i}">
             <img
               src="${thumb(m.id, 800)}"
@@ -456,19 +494,12 @@
                 </a>
               </div>
             </div>
-          </div>`).join("");
+          </div>`
+          )
+          .join("");
 
         if (window.AOS) AOS.refresh();
       }
-
-      document.querySelectorAll(".filter-btn").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          document.querySelectorAll(".filter-btn").forEach((b) => b.classList.remove("active"));
-          btn.classList.add("active");
-          currentFilter = btn.dataset.filter;
-          renderGrid();
-        });
-      });
 
       const lb = document.getElementById("lightbox");
       const lbImg = document.getElementById("lbImg");
@@ -514,7 +545,7 @@
       });
 
       document.getElementById("dlAllFab").addEventListener("click", () => {
-        window.open("https://drive.google.com/drive/folders/1ILcYGYt8kktVGD_tVf171z0pUAox1AuM", "_blank");
+        window.open(`https://drive.google.com/drive/folders/${FOLDER_ID}`, "_blank");
       });
 
       AOS.init({ duration: 750, once: true, offset: 40, easing: "ease-out-cubic" });
@@ -528,7 +559,21 @@
         gsap.from(".hero-tag", { y: 14, opacity: 0, duration: 0.65, ease: "power2.out" });
       }
 
-      renderGrid();
+      // Boot: pull the live file list from Drive, then render.
+      (async function init() {
+        try {
+          MEDIA = await fetchAllDriveFiles(FOLDER_ID, DRIVE_API_KEY);
+          buildFilterBar();
+          renderGrid();
+        } catch (err) {
+          document.getElementById("galleryGrid").innerHTML = `
+            <div class="g-state error">
+              Couldn't load photos from Drive (${err.message}).<br />
+              Check that the API key is set and the folder is shared as "Anyone with the link."
+            </div>`;
+          document.getElementById("photoCount").textContent = "0";
+        }
+      })();
     </script>
   </body>
 </html>

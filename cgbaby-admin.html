@@ -1778,6 +1778,20 @@
           padding-bottom: calc(var(--bottom-bar-h) + 0.85rem);
         }
       }
+
+      /* ── CLIENT GALLERIES ── */
+      .g-status { border-radius: 12px; padding: 0.9rem 1.2rem; margin-bottom: 1.2rem; font-size: 0.82rem; line-height: 1.7; border: 1px solid rgba(255,255,255,0.08); background: var(--card); color: var(--muted); }
+      .g-status.ok { border-color: rgba(0,230,118,0.3); background: rgba(0,230,118,0.05); }
+      .g-status.bad { border-color: rgba(255,82,82,0.35); background: rgba(255,82,82,0.06); }
+      .g-status strong { color: #fff; }
+      .g-status code { font-family: monospace; color: var(--orange); cursor: pointer; word-break: break-all; }
+      .gfields { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1rem; }
+      .gfields .fsel { width: 100%; padding: 0.65rem 0.9rem; border-radius: 9px; font-size: 0.88rem; border-width: 1.5px; }
+      .g-btns { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+      .g-btns .abtn { padding: 0.65rem 1.2rem; font-size: 0.8rem; }
+      .g-src { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+      @media (max-width: 900px) { .gfields { grid-template-columns: 1fr 1fr; } }
+      @media (max-width: 600px) { .gfields { grid-template-columns: 1fr; } }
     </style>
   </head>
   <body>
@@ -1891,6 +1905,8 @@
         >Bookings
         <span class="nbadge" id="drawerBookBadge" style="display: none">0</span>
       </button>
+      <div class="mob-drawer-section">Client Photos</div>
+      <button class="nav-item" data-panel="galleries" onclick="navTo('galleries'); closeDrawer();"><svg width="17" height="17" viewBox="0 0 24 24"><path d="M22 16V4c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2zm-11-4l2.03 2.71L16 11l4 5H8l3-4zM2 6v14c0 1.1.9 2 2 2h14v-2H4V6H2z"/></svg>Client Galleries</button>
       <div class="mob-drawer-section">Users & Money</div>
       <button
         class="nav-item"
@@ -2024,6 +2040,8 @@
           >Bookings
           <span class="nbadge" id="pendBookBadge" style="display: none">0</span>
         </button>
+        <div class="sb-section">Client Photos</div>
+        <button class="nav-item" data-panel="galleries"><svg width="17" height="17" viewBox="0 0 24 24"><path d="M22 16V4c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2zm-11-4l2.03 2.71L16 11l4 5H8l3-4zM2 6v14c0 1.1.9 2 2 2h14v-2H4V6H2z"/></svg>Client Galleries</button>
         <div class="sb-section">Users & Money</div>
         <button class="nav-item" data-panel="payments">
           <svg width="17" height="17" viewBox="0 0 24 24">
@@ -2646,6 +2664,53 @@
             <div class="mob-cards" id="bookBodyMob" style="padding: 0.75rem"></div>
           </div>
         </div>
+
+        <!-- CLIENT GALLERIES -->
+        <div class="panel" id="panel-galleries">
+          <div class="g-status" id="gStatus">Checking Google Drive…</div>
+
+          <div class="credit-form">
+            <h3>
+              <svg width="15" height="15" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" /></svg>
+              Add a client gallery
+            </h3>
+            <p>
+              Paid bookings get a Drive folder automatically. Use this for older clients or special cases —
+              create a fresh folder, or link one that already exists. The client sees it under their email
+              in the photo portal.
+            </p>
+            <div class="gfields">
+              <div class="cf"><label>Client email *</label><input type="email" id="gEmail" placeholder="client@email.com" /></div>
+              <div class="cf"><label>Client name *</label><input type="text" id="gName" placeholder="Full name" /></div>
+              <div class="cf"><label>Shoot title</label><input type="text" id="gTitle" placeholder="e.g. Birthday Shoot" /></div>
+              <div class="cf"><label>Shoot date</label><input type="date" id="gDate" /></div>
+              <div class="cf"><label>Existing folder (to link)</label>
+                <select class="fsel" id="gFolderSel"><option value="">— pick a folder —</option></select></div>
+              <div class="cf"><label>…or paste a Drive link / ID</label><input type="text" id="gFolderLink" placeholder="https://drive.google.com/drive/folders/…" /></div>
+            </div>
+            <div class="g-btns">
+              <button class="btn-credit" id="gCreateBtn">Create new folder</button>
+              <button class="abtn view" id="gLinkBtn">Link existing folder</button>
+            </div>
+          </div>
+
+          <div class="tbl-card">
+            <div class="tbl-head">
+              <div class="tbl-head-title"><svg width="17" height="17" viewBox="0 0 24 24"><path d="M22 16V4c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2zm-11-4l2.03 2.71L16 11l4 5H8l3-4zM2 6v14c0 1.1.9 2 2 2h14v-2H4V6H2z"/></svg>All client galleries</div>
+              <div class="tbl-controls">
+                <input class="srch" id="gSrch" type="text" placeholder="Search name, email, title…" />
+                <button class="abtn gd" id="gCopyPortal">Copy portal link</button>
+              </div>
+            </div>
+            <table class="desktop-table">
+              <thead>
+                <tr><th>Client</th><th>Shoot</th><th>Folder</th><th>Created</th><th>Actions</th></tr>
+              </thead>
+              <tbody id="gBody"></tbody>
+            </table>
+            <div class="mob-cards" id="gBodyMob" style="padding: 0.75rem"></div>
+          </div>
+        </div>
       </main>
 
       <!-- BOOKING DETAILS MODAL -->
@@ -2837,6 +2902,7 @@
         users: "Registered Users",
         phases: "Phase Control",
         bookings: "Studio Bookings",
+        galleries: "Client Galleries",
       };
 
       window.navTo = (pId) => {
@@ -2862,6 +2928,7 @@
         document.getElementById("topTitle").textContent = TITLES[pId] || "";
         /* scroll to top */
         document.querySelector(".main")?.scrollTo(0, 0);
+        if (pId === "galleries") loadGalleries();
       };
 
       document.querySelectorAll(".nav-item[data-panel]").forEach((btn) => {
@@ -3716,6 +3783,7 @@
         }
         if (b.status === "paid") {
           return `<button class="abtn view" onclick="openBkMo('${b.id}')">View</button>
+            <button class="abtn bl" onclick="galleryFromBooking('${b.id}')">Gallery</button>
             <button class="abtn rej" onclick="rejectBooking('${b.id}')">Revoke</button>`;
         }
         if (b.status === "rejected") {
@@ -4079,6 +4147,198 @@
           loadPhaseConfig();
         } catch (e) {
           toast("Save failed", "error");
+        }
+      };
+
+      /* ═══════════════════════════════════════════
+         CLIENT GALLERIES (talks to the backend, which holds the Drive access)
+      ═══════════════════════════════════════════ */
+      const API_BASE = "https://api.cgstudios.ng";
+      const PORTAL_URL = "https://www.cgstudios.ng/portal.html";
+      const ADMIN_KEY_STORE = "cgadmin_api_key";
+      let allGalleries = [];
+      const escA = (v) =>
+        String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+      function getAdminKey(force) {
+        let k = sessionStorage.getItem(ADMIN_KEY_STORE);
+        if (!k || force) {
+          k = (prompt("Enter the admin API key (the ADMIN_API_KEY you set on the server):") || "").trim();
+          if (k) sessionStorage.setItem(ADMIN_KEY_STORE, k);
+          else sessionStorage.removeItem(ADMIN_KEY_STORE);
+        }
+        return k;
+      }
+      async function adminApi(path, opts = {}) {
+        const call = (k) =>
+          fetch(API_BASE + path, {
+            method: opts.method || "GET",
+            headers: { "Content-Type": "application/json", "x-admin-key": k },
+            body: opts.body ? JSON.stringify(opts.body) : undefined,
+          });
+        let key = getAdminKey(false);
+        if (!key) throw new Error("Admin key needed");
+        let r = await call(key);
+        if (r.status === 401) {
+          key = getAdminKey(true); // wrong / changed key — ask once more
+          if (!key) throw new Error("Admin key needed");
+          r = await call(key);
+        }
+        const j = await r.json().catch(() => ({}));
+        if (r.status === 401) sessionStorage.removeItem(ADMIN_KEY_STORE);
+        if (!r.ok) throw new Error(j.error || `Request failed (${r.status})`);
+        return j;
+      }
+
+      function renderGStatus(st) {
+        const el = document.getElementById("gStatus");
+        const mail = `<code onclick="navigator.clipboard.writeText('${escA(st.serviceEmail)}');toast('Email copied','info')" title="Click to copy">${escA(st.serviceEmail)}</code>`;
+        if (st.ok) {
+          el.className = "g-status ok";
+          el.innerHTML = `<strong>✓ Google Drive connected.</strong> Root folder: <strong>${escA(st.rootName || "")}</strong>. New client folders are created inside it. Photographers just drop photos into the client's folder.<br>Drive access email: ${mail}`;
+        } else {
+          el.className = "g-status bad";
+          el.innerHTML = `<strong>Google Drive isn't ready yet.</strong> ${escA(st.error || "")}<br>
+            1) Enable the <strong>Google Drive API</strong> for the cg-pixels project &nbsp;·&nbsp;
+            2) Share your Drive folder (as <strong>Editor</strong>) with ${mail} &nbsp;·&nbsp;
+            3) Set <strong>DRIVE_ROOT_FOLDER_ID</strong> on the server.`;
+        }
+      }
+
+      async function loadGalleries() {
+        try {
+          const st = await adminApi("/api/admin/drive/status");
+          renderGStatus(st);
+          const g = await adminApi("/api/admin/galleries");
+          allGalleries = g.galleries || [];
+          renderGalleries();
+          if (st.ok) {
+            const f = await adminApi("/api/admin/drive/folders").catch(() => ({ folders: [] }));
+            const sel = document.getElementById("gFolderSel");
+            const keep = sel.value;
+            sel.innerHTML =
+              `<option value="">— pick a folder —</option>` +
+              (f.folders || []).map((x) => `<option value="${escA(x.id)}">${escA(x.name)}</option>`).join("");
+            sel.value = keep;
+          }
+        } catch (e) {
+          const el = document.getElementById("gStatus");
+          el.className = "g-status bad";
+          el.innerHTML = `<strong>Couldn't reach the server.</strong> ${escA(e.message)}${e.message === "Admin key needed" ? ' <a href="#" onclick="event.preventDefault();loadGalleries()" style="color:var(--orange)">Enter key</a>' : ""}`;
+        }
+      }
+      window.loadGalleries = loadGalleries;
+
+      const gFmtDate = (ms) => (ms ? new Date(ms).toLocaleDateString("en-NG", { day: "2-digit", month: "short", year: "numeric" }) : "—");
+      const gSrcLabel = (x) => (x === "auto" ? "Auto (booking)" : x === "manual-create" ? "Created here" : "Linked");
+      function filteredGalleries() {
+        const q = (document.getElementById("gSrch")?.value || "").toLowerCase();
+        return allGalleries.filter(
+          (g) => !q || [g.clientName, g.clientEmail, g.title].some((v) => String(v || "").toLowerCase().includes(q)),
+        );
+      }
+      function gActions(g) {
+        return `<a class="abtn view" href="${escA(g.folderLink)}" target="_blank" rel="noopener">Open folder</a>
+          <button class="abtn bl" onclick="editGalleryEmail('${escA(g.id)}')">Edit email</button>
+          <button class="abtn rej" onclick="removeGallery('${escA(g.id)}')">Remove</button>`;
+      }
+      function renderGalleries() {
+        const data = filteredGalleries();
+        const tb = document.getElementById("gBody");
+        const mob = document.getElementById("gBodyMob");
+        if (!data.length) {
+          const empty = "No client galleries yet — they appear automatically when a booking is paid.";
+          tb.innerHTML = `<tr class="erow"><td colspan="5">${empty}</td></tr>`;
+          mob.innerHTML = `<div style="text-align:center;padding:2rem;color:var(--muted)">${empty}</div>`;
+          return;
+        }
+        tb.innerHTML = data
+          .map(
+            (g) => `<tr>
+          <td><div class="nm">${escA(g.clientName || "—")}</div><div class="nm-sub">${escA(g.clientEmail)}</div></td>
+          <td><div class="nm" style="font-size:.84rem">${escA(g.title || "—")}</div><div class="nm-sub">${escA(g.sessionDate || "")}</div></td>
+          <td><span class="g-src">${gSrcLabel(g.source)}</span></td>
+          <td style="color:var(--muted);font-size:.78rem">${gFmtDate(g.createdAt)}</td>
+          <td><div class="arow">${gActions(g)}</div></td></tr>`,
+          )
+          .join("");
+        mob.innerHTML = data
+          .map(
+            (g) => `<div class="mob-card">
+          <div class="mob-card-name">${escA(g.clientName || "—")}</div>
+          <div class="mob-card-age">${escA(g.clientEmail)}</div>
+          <div class="mob-meta-row">📸 ${escA(g.title || "—")} ${g.sessionDate ? "· " + escA(g.sessionDate) : ""}</div>
+          <div class="mob-meta-row"><span class="g-src">${gSrcLabel(g.source)}</span> · ${gFmtDate(g.createdAt)}</div>
+          <div class="mob-card-actions">${gActions(g)}</div></div>`,
+          )
+          .join("");
+      }
+      document.getElementById("gSrch").addEventListener("input", renderGalleries);
+      document.getElementById("gCopyPortal").addEventListener("click", () => {
+        navigator.clipboard.writeText(PORTAL_URL);
+        toast("Portal link copied — send it to your client", "info");
+      });
+
+      async function submitGallery(mode) {
+        const body = {
+          clientEmail: document.getElementById("gEmail").value.trim(),
+          clientName: document.getElementById("gName").value.trim(),
+          title: document.getElementById("gTitle").value.trim(),
+          sessionDate: document.getElementById("gDate").value,
+        };
+        if (!body.clientEmail || !body.clientName) return toast("Enter the client's email and name", "error");
+        if (mode === "link") {
+          body.folder = document.getElementById("gFolderLink").value.trim() || document.getElementById("gFolderSel").value;
+          if (!body.folder) return toast("Pick a folder or paste its Drive link", "error");
+        }
+        const btn = document.getElementById(mode === "link" ? "gLinkBtn" : "gCreateBtn");
+        btn.disabled = true;
+        try {
+          await adminApi(`/api/admin/galleries/${mode === "link" ? "link" : "create"}`, { method: "POST", body });
+          toast(mode === "link" ? "Folder linked ✓" : "Folder created in Drive ✓", "gold");
+          ["gEmail", "gName", "gTitle", "gDate", "gFolderLink"].forEach((id) => (document.getElementById(id).value = ""));
+          document.getElementById("gFolderSel").value = "";
+          loadGalleries();
+        } catch (e) {
+          toast(e.message, "error");
+        } finally {
+          btn.disabled = false;
+        }
+      }
+      document.getElementById("gCreateBtn").addEventListener("click", () => submitGallery("create"));
+      document.getElementById("gLinkBtn").addEventListener("click", () => submitGallery("link"));
+
+      window.editGalleryEmail = async (id) => {
+        const g = allGalleries.find((x) => x.id === id);
+        const v = prompt(`Client email for ${g?.clientName || "this gallery"}:`, g?.clientEmail || "");
+        if (v === null) return;
+        try {
+          await adminApi(`/api/admin/galleries/${encodeURIComponent(id)}`, { method: "PATCH", body: { clientEmail: v.trim() } });
+          toast("Email updated ✓", "gold");
+          loadGalleries();
+        } catch (e) {
+          toast(e.message, "error");
+        }
+      };
+      window.removeGallery = async (id) => {
+        const g = allGalleries.find((x) => x.id === id);
+        if (!confirm(`Remove ${g?.clientName || "this"} gallery from the client's portal?\n\nThe Drive folder and photos are NOT deleted.`)) return;
+        try {
+          await adminApi(`/api/admin/galleries/${encodeURIComponent(id)}`, { method: "DELETE" });
+          toast("Gallery removed from portal", "info");
+          loadGalleries();
+        } catch (e) {
+          toast(e.message, "error");
+        }
+      };
+      window.galleryFromBooking = async (bookingId) => {
+        try {
+          toast("Creating gallery…", "info");
+          const r = await adminApi("/api/admin/galleries/from-booking", { method: "POST", body: { bookingId } });
+          toast(r.existing ? "This booking already has a gallery" : "Gallery created — folder is ready in Drive ✓", "gold");
+          navTo("galleries");
+        } catch (e) {
+          toast(e.message, "error");
         }
       };
     </script>

@@ -1991,38 +1991,84 @@
         await signOut(auth);
         window.location.href = "cgbaby-auth.html";
       };
-      /* ── VOTING COUNTDOWN ── */
-const VOTING_END = new Date('2026-08-28T23:59:00'); // tomorrow 11:59pm
-const vpad = n => String(n).padStart(2,'0');
 
-function tickVoting() {
-  const diff = VOTING_END - Date.now();
-  if (diff <= 0) {
-    ['vcd-days','vcd-hours','vcd-mins','vcd-secs'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.textContent = '00';
-    });
-    const msg = document.getElementById('vcd-msg');
-    if (msg) msg.innerHTML = `<strong style="color:var(--red)">Voting has closed!</strong>`;
-    clearInterval(votingInterval);
-    curPhase = 'closed';
-    if (nominees.length) renderGrid();
-    return;
-  }
-  document.getElementById('vcd-days').textContent  = vpad(Math.floor(diff / 86400000));
-  document.getElementById('vcd-hours').textContent = vpad(Math.floor((diff % 86400000) / 3600000));
-  document.getElementById('vcd-mins').textContent  = vpad(Math.floor((diff % 3600000) / 60000));
-  document.getElementById('vcd-secs').textContent  = vpad(Math.floor((diff % 60000) / 1000));
-}
+      /* ── VOTING COUNTDOWN ──
+   The end time now comes from the dates saved in Admin → Phase Control
+   (Free Vote End Date while free voting is open, Grand Finals End during
+   the finals). Nothing is hardcoded here any more.
 
-tickVoting();
-const votingInterval = setInterval(tickVoting, 1000);
+   Previous bug: a fixed end date that had already passed made the first
+   tick call clearInterval() on a variable declared further down the file,
+   which threw an error and stopped the rest of this script from running —
+   so the Top Up / Generate Account buttons were never wired up. All the
+   state is declared up front now, so that can't happen. */
+      let votingEnd = null; // Date or null
+      let votingInterval = null;
+      const vpad = (n) => String(n).padStart(2, "0");
+
+      function setCd(d, h, m, s) {
+        document.getElementById("vcd-days").textContent = d;
+        document.getElementById("vcd-hours").textContent = h;
+        document.getElementById("vcd-mins").textContent = m;
+        document.getElementById("vcd-secs").textContent = s;
+      }
+
+      function tickVoting() {
+        if (!votingEnd) {
+          setCd("--", "--", "--", "--");
+          return;
+        }
+        const diff = votingEnd.getTime() - Date.now();
+        if (diff <= 0) {
+          setCd("00", "00", "00", "00");
+          clearInterval(votingInterval);
+          votingInterval = null;
+          votingEnd = null;
+          /* the phase just ended — re-read the config so the page moves to
+             the next phase (finals / closed) and the grid updates */
+          loadConfig().then(() => {
+            if (nominees.length) renderGrid();
+          });
+          return;
+        }
+        setCd(
+          vpad(Math.floor(diff / 86400000)),
+          vpad(Math.floor((diff % 86400000) / 3600000)),
+          vpad(Math.floor((diff % 3600000) / 60000)),
+          vpad(Math.floor((diff % 60000) / 1000)),
+        );
+      }
+
+      function startCountdown(target, closed) {
+        clearInterval(votingInterval);
+        votingInterval = null;
+        votingEnd = target || null;
+        const msg = document.getElementById("vcd-msg");
+
+        if (closed) {
+          setCd("00", "00", "00", "00");
+          if (msg)
+            msg.innerHTML = `<strong style="color:var(--red)">Voting has closed!</strong>`;
+          return;
+        }
+        if (!votingEnd) {
+          setCd("--", "--", "--", "--");
+          if (msg) msg.textContent = "Voting end date will be announced soon.";
+          return;
+        }
+        if (msg) msg.textContent = "Voting closes soon — cast your votes!";
+        tickVoting();
+        votingInterval = setInterval(tickVoting, 1000);
+      }
 
       /* PHASE CONFIG */
       async function loadConfig() {
         try {
           const snap = await getDoc(doc(db, "config", "contest"));
-          if (!snap.exists()) return;
+          if (!snap.exists()) {
+            startCountdown(null, false);
+            return;
+          }
           const cfg = snap.data();
           const now = Date.now();
           const fve = cfg.freeVoteEnd?.toDate ? cfg.freeVoteEnd.toDate() : null;
@@ -2050,6 +2096,11 @@ const votingInterval = setInterval(tickVoting, 1000);
             pill.className = "phase-pill closed";
             ptxt.textContent = "Contest Closed";
           }
+
+          /* countdown follows the current phase */
+          const target =
+            curPhase === "free" ? fve : curPhase === "finals" ? fe : null;
+          startCountdown(target, curPhase === "closed");
         } catch (e) {
           console.warn("Config load:", e.message);
         }

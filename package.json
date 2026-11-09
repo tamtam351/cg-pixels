@@ -1,10 +1,13 @@
 {
-  "name": "cg-studious",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "cgbaby-server",
+  "version": "2.0.0",
+  "description": "CG Pixels backend: Flutterwave virtual accounts, webhooks, bookings, share links, client photo portal (Google Drive)",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
   },
   "repository": {
     "type": "git",
@@ -19,9 +22,17 @@
   },
   "homepage": "https://github.com/tamtam351/cg-pixels#readme",
   "dependencies": {
-    "axios": "^1.16.1",
-    "cors": "^2.8.6",
-    "express": "^5.2.1",
-    "firebase-admin": "^13.10.0"
+    "@googleapis/drive": "^27.0.0",
+    "archiver": "^8.0.0",
+    "axios": "^1.7.9",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.21.2",
+    "firebase-admin": "^13.0.2",
+    "google-auth-library": "^11.3.2"
+  },
+  "allowScripts": {
+    "@firebase/util@1.15.1": true,
+    "protobufjs@7.6.2": true
   }
 }

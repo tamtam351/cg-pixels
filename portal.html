@@ -6,773 +6,449 @@
     <meta name="theme-color" content="#0a0a0a" />
     <title>My Photos · CG Studios</title>
     <style>
-      *,
-      *::before,
-      *::after {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+      *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
       :root {
-        --bg: #0a0a0a;
-        --bg2: #101010;
-        --card: #151515;
-        --line: rgba(255, 255, 255, 0.09);
-        --text: #f5f1ea;
-        --muted: #9b9890;
-        --accent: #ff8c00;
-        --accent2: #ffa500;
-        --accent-ink: #1a1000;
-        --danger: #ff6b6b;
-        --ok: #3ddc97;
-        --shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
-        --sf: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI",
-          "Helvetica Neue", Arial, sans-serif;
+        --bg: #080808;
+        --bg2: #0f0f0f;
+        --card: #141414;
+        --line: rgba(255,255,255,0.08);
+        --text: #f2efe9;
+        --muted: #8a8680;
+        --accent: #ff7a00;
+        --accent2: #ff9500;
+        --accent-ink: #120a00;
+        --danger: #ff5c5c;
+        --ok: #2fd38a;
+        --shadow: 0 18px 50px rgba(0,0,0,0.65);
+        --sf: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       }
+
       html[data-theme="light"] {
-        --bg: #faf8f4;
-        --bg2: #f1ede6;
+        --bg: #f7f4ef;
+        --bg2: #efebe3;
         --card: #ffffff;
-        --line: rgba(0, 0, 0, 0.1);
-        --text: #151311;
-        --muted: #6f6a60;
-        --accent: #e87a00;
-        --accent2: #ff9a1f;
+        --line: rgba(0,0,0,0.09);
+        --text: #161310;
+        --muted: #6b655c;
+        --accent: #e06c00;
+        --accent2: #f08a10;
         --accent-ink: #ffffff;
-        --shadow: 0 24px 60px rgba(40, 30, 10, 0.18);
+        --shadow: 0 18px 50px rgba(30,20,5,0.14);
       }
-      html {
-        -webkit-text-size-adjust: 100%;
-      }
+
+      html { -webkit-text-size-adjust: 100%; }
       body {
         font-family: var(--sf);
         background: var(--bg);
         color: var(--text);
         min-height: 100vh;
         min-height: 100dvh;
-        line-height: 1.5;
-        transition: background 0.3s, color 0.3s;
+        line-height: 1.45;
+        transition: background .25s, color .25s;
       }
-      a {
-        color: inherit;
-      }
-      button {
-        font-family: inherit;
-        cursor: pointer;
-      }
-      [hidden] {
-        display: none !important;
-      }
-      :focus-visible {
-        outline: 2px solid var(--accent);
-        outline-offset: 3px;
-      }
-      svg {
-        display: block;
-        fill: currentColor;
-      }
+      a { color: inherit; }
+      button { font-family: inherit; cursor: pointer; }
+      [hidden] { display: none !important; }
+      :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+      svg { display: block; fill: currentColor; }
 
-      /* ── brand + shared bits ── */
+      /* ── shared ── */
       .tile {
-        width: 76px;
-        height: 76px;
-        border-radius: 22px;
-        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        width: 64px; height: 64px;
+        border-radius: 16px;
+        background: linear-gradient(145deg, var(--accent), var(--accent2));
         color: var(--accent-ink);
-        display: grid;
-        place-items: center;
-        font-weight: 900;
-        font-size: 1.7rem;
-        letter-spacing: 0.02em;
-        box-shadow: 0 14px 34px rgba(255, 140, 0, 0.32);
+        display: grid; place-items: center;
+        font-weight: 900; font-size: 1.45rem;
+        letter-spacing: -0.02em;
+        box-shadow: 0 10px 28px rgba(255,122,0,.28);
       }
-      .tile.sm {
-        width: 40px;
-        height: 40px;
-        border-radius: 12px;
-        font-size: 0.95rem;
-        box-shadow: none;
-      }
+      .tile.sm { width: 36px; height: 36px; border-radius: 10px; font-size: .85rem; box-shadow: none; }
+
       .icon-btn {
-        width: 42px;
-        height: 42px;
+        width: 40px; height: 40px;
         border-radius: 50%;
         border: 1px solid var(--line);
         background: transparent;
         color: var(--muted);
-        display: grid;
-        place-items: center;
-        transition: all 0.2s;
+        display: grid; place-items: center;
+        transition: all .2s;
       }
-      .icon-btn:hover {
-        color: var(--accent);
-        border-color: var(--accent);
-      }
+      .icon-btn:hover { color: var(--accent); border-color: var(--accent); }
+
       .btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.55rem;
-        padding: 0.95rem 1.4rem;
-        border: none;
-        border-radius: 16px;
+        display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+        padding: .9rem 1.3rem;
+        border: none; border-radius: 12px;
         background: linear-gradient(135deg, var(--accent), var(--accent2));
         color: var(--accent-ink);
-        font-weight: 800;
-        font-size: 1rem;
+        font-weight: 800; font-size: .95rem;
         text-decoration: none;
-        transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
-        box-shadow: 0 10px 28px rgba(255, 140, 0, 0.28);
+        transition: transform .2s, box-shadow .2s, opacity .2s;
+        box-shadow: 0 8px 24px rgba(255,122,0,.25);
       }
-      .btn:hover:not(:disabled) {
-        transform: translateY(-2px);
-        box-shadow: 0 16px 36px rgba(255, 140, 0, 0.4);
-      }
-      .btn:disabled {
-        opacity: 0.55;
-        cursor: not-allowed;
-      }
+      .btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 12px 30px rgba(255,122,0,.35); }
+      .btn:disabled { opacity: .5; cursor: not-allowed; }
       .btn.ghost {
-        background: transparent;
-        color: var(--text);
-        border: 1px solid var(--line);
-        box-shadow: none;
-        font-weight: 700;
+        background: transparent; color: var(--text);
+        border: 1px solid var(--line); box-shadow: none; font-weight: 700;
       }
-      .btn.ghost:hover:not(:disabled) {
-        border-color: var(--accent);
-        color: var(--accent);
-        box-shadow: none;
-      }
-      .btn.sm {
-        padding: 0.65rem 1.05rem;
-        font-size: 0.88rem;
-        border-radius: 12px;
-      }
+      .btn.ghost:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); box-shadow: none; }
+      .btn.sm { padding: .55rem .95rem; font-size: .85rem; border-radius: 10px; }
+
       .spin {
-        width: 18px;
-        height: 18px;
+        width: 16px; height: 16px;
         border: 2.5px solid currentColor;
         border-right-color: transparent;
         border-radius: 50%;
-        animation: rot 0.7s linear infinite;
+        animation: rot .65s linear infinite;
       }
-      @keyframes rot {
-        to {
-          transform: rotate(360deg);
-        }
-      }
+      @keyframes rot { to { transform: rotate(360deg); } }
 
       /* ── LOGIN ── */
       .login {
-        max-width: 560px;
+        max-width: 480px;
         margin: 0 auto;
-        padding: max(2.2rem, env(safe-area-inset-top)) 1.6rem 2rem;
-        min-height: 100vh;
-        min-height: 100dvh;
-        display: flex;
-        flex-direction: column;
+        padding: max(1.8rem, env(safe-area-inset-top)) 1.4rem 2rem;
+        min-height: 100vh; min-height: 100dvh;
+        display: flex; flex-direction: column;
       }
-      .login-top {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-      }
+      .login-top { display: flex; justify-content: space-between; align-items: flex-start; }
       .login h1 {
-        font-size: clamp(2rem, 8vw, 2.9rem);
-        line-height: 1.08;
-        letter-spacing: -0.03em;
+        font-size: clamp(1.85rem, 7vw, 2.5rem);
+        line-height: 1.1;
+        letter-spacing: -0.035em;
         font-weight: 900;
-        margin: 2.2rem 0 1rem;
+        margin: 1.9rem 0 .9rem;
       }
       .login h1 span {
         background: linear-gradient(135deg, var(--accent2), var(--accent));
-        -webkit-background-clip: text;
-        background-clip: text;
+        -webkit-background-clip: text; background-clip: text;
         -webkit-text-fill-color: transparent;
       }
-      .login .lead {
-        color: var(--muted);
-        font-size: 1.08rem;
-        margin-bottom: 2rem;
-        max-width: 34ch;
-      }
-      .field label {
-        display: block;
-        font-weight: 700;
-        font-size: 0.92rem;
-        margin-bottom: 0.55rem;
-      }
+      .login .lead { color: var(--muted); font-size: 1.02rem; margin-bottom: 1.8rem; max-width: 34ch; }
+
+      .field label { display: block; font-weight: 700; font-size: .88rem; margin-bottom: .5rem; }
       .field input {
         width: 100%;
-        padding: 1.05rem 1.15rem;
-        font-size: 1.05rem;
-        font-family: inherit;
+        padding: .95rem 1.05rem;
+        font-size: 1rem; font-family: inherit;
         color: var(--text);
         background: var(--card);
         border: 1.5px solid var(--line);
-        border-radius: 16px;
-        transition: border-color 0.2s, box-shadow 0.2s;
+        border-radius: 12px;
+        transition: border-color .2s, box-shadow .2s;
       }
-      .field input::placeholder {
-        color: var(--muted);
-        opacity: 0.6;
-      }
+      .field input::placeholder { color: var(--muted); opacity: .55; }
       .field input:focus {
         outline: none;
         border-color: var(--accent);
-        box-shadow: 0 0 0 4px rgba(255, 140, 0, 0.15);
+        box-shadow: 0 0 0 3px rgba(255,122,0,.14);
       }
-      .login .btn {
-        width: 100%;
-        margin-top: 1rem;
-      }
-      .fine {
-        color: var(--muted);
-        font-size: 0.86rem;
-        margin-top: 1rem;
-      }
+
+      .login .btn { width: 100%; margin-top: .9rem; }
+      .fine { color: var(--muted); font-size: .84rem; margin-top: .9rem; }
+
       .msg {
-        margin-top: 1rem;
-        padding: 0.85rem 1rem;
-        border-radius: 14px;
-        font-size: 0.92rem;
+        margin-top: .9rem;
+        padding: .8rem 1rem;
+        border-radius: 11px;
+        font-size: .9rem;
         border: 1px solid;
       }
       .msg.err {
         color: var(--danger);
-        border-color: rgba(255, 107, 107, 0.35);
-        background: rgba(255, 107, 107, 0.08);
-      }
-      .sent {
-        margin-top: 2.4rem;
-      }
-      .sent .ring {
-        width: 64px;
-        height: 64px;
-        border-radius: 50%;
-        display: grid;
-        place-items: center;
-        color: var(--ok);
-        background: rgba(61, 220, 151, 0.12);
-        border: 1px solid rgba(61, 220, 151, 0.35);
-        margin-bottom: 1.2rem;
-      }
-      .sent h2 {
-        font-size: 1.8rem;
-        letter-spacing: -0.02em;
-        margin-bottom: 0.5rem;
-      }
-      .sent p {
-        color: var(--muted);
-      }
-      .sent b {
-        color: var(--text);
-        word-break: break-all;
-      }
-      .sent .row {
-        display: flex;
-        gap: 0.7rem;
-        flex-wrap: wrap;
-        margin-top: 1.4rem;
-      }
-      .sent .row .btn {
-        width: auto;
-        margin: 0;
-        flex: 1 1 160px;
-      }
-      .login-foot {
-        margin-top: auto;
-        padding-top: 3rem;
-        text-align: center;
-      }
-      .login-foot a.cta {
-        color: var(--accent);
-        font-weight: 800;
-        text-decoration: none;
-      }
-      .login-foot p {
-        color: var(--muted);
-        font-size: 0.88rem;
-        margin-top: 0.9rem;
-      }
-      .login-foot p a {
-        text-decoration: underline;
+        border-color: rgba(255,92,92,.3);
+        background: rgba(255,92,92,.07);
       }
 
-      /* ── APP SHELL ── */
+      .sent { margin-top: 2rem; }
+      .sent .ring {
+        width: 56px; height: 56px;
+        border-radius: 50%;
+        display: grid; place-items: center;
+        color: var(--ok);
+        background: rgba(47,211,138,.1);
+        border: 1px solid rgba(47,211,138,.3);
+        margin-bottom: 1.1rem;
+      }
+      .sent h2 { font-size: 1.6rem; letter-spacing: -0.02em; margin-bottom: .4rem; }
+      .sent p { color: var(--muted); }
+      .sent b { color: var(--text); word-break: break-all; }
+      .sent .row { display: flex; gap: .65rem; flex-wrap: wrap; margin-top: 1.3rem; }
+      .sent .row .btn { width: auto; margin: 0; flex: 1 1 150px; }
+
+      .login-foot { margin-top: auto; padding-top: 2.5rem; text-align: center; }
+      .login-foot a.cta { color: var(--accent); font-weight: 800; text-decoration: none; }
+      .login-foot p { color: var(--muted); font-size: .85rem; margin-top: .8rem; }
+      .login-foot p a { text-decoration: underline; }
+
+      /* ── APP ── */
       .bar {
-        position: sticky;
-        top: 0;
-        z-index: 30;
-        background: color-mix(in srgb, var(--bg) 86%, transparent);
-        backdrop-filter: blur(18px);
-        -webkit-backdrop-filter: blur(18px);
+        position: sticky; top: 0; z-index: 30;
+        background: color-mix(in srgb, var(--bg) 88%, transparent);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
         border-bottom: 1px solid var(--line);
         padding-top: env(safe-area-inset-top);
       }
       .bar-in {
-        max-width: 1280px;
-        margin: 0 auto;
-        padding: 0.8rem 1.2rem;
-        display: flex;
-        align-items: center;
-        gap: 0.8rem;
+        max-width: 1200px; margin: 0 auto;
+        padding: .75rem 1.1rem;
+        display: flex; align-items: center; gap: .7rem;
       }
-      .bar-title {
-        font-weight: 800;
-        letter-spacing: -0.01em;
-      }
+      .bar-title { font-weight: 800; letter-spacing: -0.01em; }
       .bar-title small {
-        display: block;
-        font-weight: 500;
-        color: var(--muted);
-        font-size: 0.74rem;
-        word-break: break-all;
+        display: block; font-weight: 500; color: var(--muted);
+        font-size: .72rem; word-break: break-all;
       }
-      .bar-sp {
-        flex: 1;
-      }
-      main {
-        max-width: 1280px;
-        margin: 0 auto;
-        padding: 1.6rem 1.2rem 4rem;
-      }
-      h2.page {
-        font-size: clamp(1.7rem, 5vw, 2.4rem);
-        letter-spacing: -0.03em;
-        font-weight: 900;
-      }
-      .sub {
-        color: var(--muted);
-        margin-top: 0.25rem;
-      }
+      .bar-sp { flex: 1; }
 
-      /* gallery cards */
+      main { max-width: 1200px; margin: 0 auto; padding: 1.4rem 1.1rem 3.5rem; }
+      h2.page { font-size: clamp(1.55rem, 4.5vw, 2.15rem); letter-spacing: -0.03em; font-weight: 900; }
+      .sub { color: var(--muted); margin-top: .2rem; }
+
+      /* cards */
       .cards {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 1.2rem;
-        margin-top: 1.6rem;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 1.1rem;
+        margin-top: 1.4rem;
       }
       .gcard {
         text-align: left;
         border: 1px solid var(--line);
         background: var(--card);
-        border-radius: 22px;
+        border-radius: 16px;
         overflow: hidden;
-        color: inherit;
-        padding: 0;
-        transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+        color: inherit; padding: 0;
+        transition: transform .25s, border-color .25s, box-shadow .25s;
       }
       .gcard:hover {
-        transform: translateY(-5px);
+        transform: translateY(-3px);
         border-color: var(--accent);
         box-shadow: var(--shadow);
       }
       .gcover {
-        aspect-ratio: 4 / 3;
-        background: linear-gradient(135deg, var(--bg2), var(--card));
-        position: relative;
-        overflow: hidden;
+        aspect-ratio: 4/3;
+        background: linear-gradient(145deg, var(--bg2), var(--card));
+        position: relative; overflow: hidden;
       }
       .gcover img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        transition: transform 0.6s;
+        width: 100%; height: 100%; object-fit: cover; display: block;
+        transition: transform .5s;
       }
-      .gcard:hover .gcover img {
-        transform: scale(1.05);
-      }
+      .gcard:hover .gcover img { transform: scale(1.04); }
       .gcover .ph-empty {
-        position: absolute;
-        inset: 0;
-        display: grid;
-        place-items: center;
-        color: var(--muted);
-        opacity: 0.55;
+        position: absolute; inset: 0;
+        display: grid; place-items: center;
+        color: var(--muted); opacity: .5;
       }
-      .gbody {
-        padding: 1.05rem 1.2rem 1.2rem;
-      }
-      .gbody h3 {
-        font-size: 1.1rem;
-        letter-spacing: -0.01em;
-      }
-      .gbody p {
-        color: var(--muted);
-        font-size: 0.88rem;
-        margin-top: 0.15rem;
-      }
-      .gbody .go {
-        color: var(--accent);
-        font-weight: 800;
-        font-size: 0.9rem;
-        margin-top: 0.8rem;
-        display: inline-block;
-      }
+      .gbody { padding: .95rem 1.1rem 1.1rem; }
+      .gbody h3 { font-size: 1.05rem; letter-spacing: -0.01em; }
+      .gbody p { color: var(--muted); font-size: .85rem; margin-top: .12rem; }
+      .gbody .go { color: var(--accent); font-weight: 800; font-size: .88rem; margin-top: .7rem; display: inline-block; }
 
-      /* empty / error states */
-      .state {
-        max-width: 480px;
-        margin: 4rem auto 0;
-        text-align: center;
-      }
+      /* states */
+      .state { max-width: 440px; margin: 3.5rem auto 0; text-align: center; }
       .state .ring {
-        width: 84px;
-        height: 84px;
-        margin: 0 auto 1.3rem;
-        border-radius: 50%;
-        display: grid;
-        place-items: center;
+        width: 72px; height: 72px; margin: 0 auto 1.15rem;
+        border-radius: 50%; display: grid; place-items: center;
         color: var(--accent);
-        background: rgba(255, 140, 0, 0.1);
-        border: 1px solid rgba(255, 140, 0, 0.3);
+        background: rgba(255,122,0,.09);
+        border: 1px solid rgba(255,122,0,.25);
       }
-      .state h3 {
-        font-size: 1.5rem;
-        letter-spacing: -0.02em;
-      }
-      .state p {
-        color: var(--muted);
-        margin-top: 0.6rem;
-      }
-      .state .row {
-        display: flex;
-        gap: 0.7rem;
-        justify-content: center;
-        flex-wrap: wrap;
-        margin-top: 1.5rem;
-      }
+      .state h3 { font-size: 1.35rem; letter-spacing: -0.02em; }
+      .state p { color: var(--muted); margin-top: .5rem; }
+      .state .row { display: flex; gap: .65rem; justify-content: center; flex-wrap: wrap; margin-top: 1.35rem; }
 
-      /* skeleton */
       .sk {
         background: linear-gradient(90deg, var(--card) 25%, var(--bg2) 50%, var(--card) 75%);
         background-size: 200% 100%;
-        animation: sh 1.4s infinite;
-        border-radius: 18px;
+        animation: sh 1.35s infinite;
+        border-radius: 14px;
       }
-      @keyframes sh {
-        0% {
-          background-position: 200% 0;
-        }
-        100% {
-          background-position: -200% 0;
-        }
-      }
+      @keyframes sh { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
       /* gallery view */
       .ghead {
-        display: flex;
-        align-items: flex-end;
-        justify-content: space-between;
-        gap: 1rem;
-        flex-wrap: wrap;
-        margin: 0.9rem 0 1.2rem;
+        display: flex; align-items: flex-end; justify-content: space-between;
+        gap: 1rem; flex-wrap: wrap; margin: .8rem 0 1.1rem;
       }
       .back {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        background: none;
-        border: none;
-        color: var(--muted);
-        font-weight: 700;
-        font-size: 0.92rem;
-        padding: 0.3rem 0;
+        display: inline-flex; align-items: center; gap: .35rem;
+        background: none; border: none;
+        color: var(--muted); font-weight: 700; font-size: .9rem;
+        padding: .25rem 0;
       }
-      .back:hover {
-        color: var(--accent);
-      }
-      .chips {
-        display: flex;
-        gap: 0.5rem;
-        flex-wrap: wrap;
-        margin-bottom: 1.1rem;
-      }
-      .chip {
-        padding: 0.45rem 0.95rem;
-        border-radius: 50px;
-        border: 1px solid var(--line);
-        background: transparent;
-        color: var(--muted);
-        font-weight: 700;
-        font-size: 0.84rem;
-      }
-      .chip.on {
-        background: var(--accent);
-        border-color: var(--accent);
-        color: var(--accent-ink);
-      }
-      .masonry {
-        column-count: 2;
-        column-gap: 0.7rem;
-      }
-      @media (min-width: 720px) {
-        .masonry {
-          column-count: 3;
-          column-gap: 0.9rem;
-        }
-      }
-      @media (min-width: 1100px) {
-        .masonry {
-          column-count: 4;
-        }
-      }
-      .ph {
-        position: relative;
-        break-inside: avoid;
-        margin-bottom: 0.7rem;
-        border-radius: 14px;
-        overflow: hidden;
-        background: var(--card);
-        cursor: zoom-in;
-        aspect-ratio: 3 / 4;
-      }
-      @media (min-width: 720px) {
-        .ph {
-          margin-bottom: 0.9rem;
-        }
-      }
-      .ph img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        opacity: 0;
-        transition: opacity 0.5s, transform 0.5s;
-      }
-      .ph img.in {
-        opacity: 1;
-      }
-      .ph:hover img {
-        transform: scale(1.03);
-      }
-      .ph .quick {
-        position: absolute;
-        right: 8px;
-        bottom: 8px;
-        width: 38px;
-        height: 38px;
-        border-radius: 50%;
-        display: grid;
-        place-items: center;
-        background: rgba(0, 0, 0, 0.62);
-        color: #fff;
-        backdrop-filter: blur(6px);
-        -webkit-backdrop-filter: blur(6px);
-        opacity: 0;
-        transform: translateY(4px);
-        transition: all 0.25s;
-        text-decoration: none;
-      }
-      .ph:hover .quick,
-      .ph .quick:focus-visible {
-        opacity: 1;
-        transform: none;
-      }
-      @media (hover: none) {
-        .ph .quick {
-          opacity: 1;
-          transform: none;
-        }
-      }
-      .quick:hover {
-        background: var(--accent);
-        color: var(--accent-ink);
-      }
-      .preparing {
-        border: 1px dashed var(--line);
-        border-radius: 22px;
-        padding: 3rem 1.4rem;
-        text-align: center;
-        color: var(--muted);
-        margin-top: 1.4rem;
-      }
-      .preparing b {
-        display: block;
-        color: var(--text);
-        font-size: 1.2rem;
-        margin-bottom: 0.4rem;
-      }
+      .back:hover { color: var(--accent); }
 
-      /* lightbox */
+      .chips { display: flex; gap: .45rem; flex-wrap: wrap; margin-bottom: 1rem; }
+      .chip {
+        padding: .4rem .85rem; border-radius: 50px;
+        border: 1px solid var(--line); background: transparent;
+        color: var(--muted); font-weight: 700; font-size: .82rem;
+      }
+      .chip.on { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+
+      .masonry { column-count: 2; column-gap: .65rem; }
+      @media (min-width: 720px) { .masonry { column-count: 3; column-gap: .8rem; } }
+      @media (min-width: 1100px) { .masonry { column-count: 4; } }
+
+      .ph {
+        position: relative; break-inside: avoid;
+        margin-bottom: .65rem; border-radius: 11px;
+        overflow: hidden; background: var(--card);
+        cursor: zoom-in; aspect-ratio: 3/4;
+      }
+      @media (min-width: 720px) { .ph { margin-bottom: .8rem; } }
+      .ph img {
+        width: 100%; height: 100%; object-fit: cover; display: block;
+        opacity: 0; transition: opacity .45s, transform .45s;
+      }
+      .ph img.in { opacity: 1; }
+      .ph:hover img { transform: scale(1.03); }
+
+      .ph .quick {
+        position: absolute; right: 7px; bottom: 7px;
+        width: 36px; height: 36px; border-radius: 50%;
+        display: grid; place-items: center;
+        background: rgba(0,0,0,.7); color: #fff;
+        backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+        opacity: 0; transform: translateY(3px);
+        transition: all .22s; text-decoration: none;
+      }
+      .ph:hover .quick, .ph .quick:focus-visible { opacity: 1; transform: none; }
+      @media (hover: none) { .ph .quick { opacity: 1; transform: none; } }
+      .quick:hover { background: var(--accent); color: var(--accent-ink); }
+
+      .preparing {
+        border: 1px dashed var(--line); border-radius: 16px;
+        padding: 2.6rem 1.3rem; text-align: center;
+        color: var(--muted); margin-top: 1.3rem;
+      }
+      .preparing b { display: block; color: var(--text); font-size: 1.1rem; margin-bottom: .35rem; }
+
+      /* ── LIGHTBOX (fixed sizing + scroll) ── */
       .lb {
-        position: fixed;
-        inset: 0;
-        z-index: 100;
-        background: rgba(0, 0, 0, 0.96);
-        display: none;
-        flex-direction: column;
+        position: fixed; inset: 0; z-index: 100;
+        background: rgba(0,0,0,.97);
+        display: none; flex-direction: column;
         touch-action: pan-y;
       }
-      .lb.open {
-        display: flex;
-      }
-      .lb-top,
-      .lb-bot {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: max(0.8rem, env(safe-area-inset-top)) 1rem 0.8rem;
-        color: #fff;
+      .lb.open { display: flex; }
+
+      .lb-top, .lb-bot {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: max(.7rem, env(safe-area-inset-top)) 1rem .7rem;
+        color: #fff; flex-shrink: 0;
       }
       .lb-bot {
-        padding: 0.8rem 1rem max(0.8rem, env(safe-area-inset-bottom));
-        justify-content: center;
-        gap: 0.8rem;
+        padding: .7rem 1rem max(.7rem, env(safe-area-inset-bottom));
+        justify-content: center; gap: .7rem;
       }
-      .lb-count {
-        font-weight: 700;
-        font-size: 0.9rem;
-        opacity: 0.8;
-      }
+      .lb-count { font-weight: 700; font-size: .88rem; opacity: .75; }
+
       .lb-stage {
-        flex: 1;
-        min-height: 0;
+        flex: 1; min-height: 0;
         position: relative;
-        display: grid;
-        place-items: center;
-        padding: 0 0.6rem;
+        display: flex; align-items: center; justify-content: center;
+        padding: 0 .5rem;
+        overflow: auto;                 /* allows scroll if image is huge */
+        -webkit-overflow-scrolling: touch;
       }
       .lb-stage img {
         max-width: 100%;
         max-height: 100%;
+        width: auto; height: auto;
         object-fit: contain;
-        border-radius: 6px;
-        user-select: none;
-        -webkit-user-drag: none;
-        transition: opacity 0.25s;
+        border-radius: 4px;
+        user-select: none; -webkit-user-drag: none;
+        transition: opacity .2s;
       }
-      .lb-spin {
-        position: absolute;
-        color: #fff;
-        opacity: 0.8;
-      }
+      .lb-spin { position: absolute; color: #fff; opacity: .75; }
+
       .lb-nav {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        border: none;
-        background: rgba(255, 255, 255, 0.12);
-        color: #fff;
-        display: grid;
-        place-items: center;
-        transition: background 0.2s;
-        z-index: 2;
+        position: absolute; top: 50%; transform: translateY(-50%);
+        width: 46px; height: 46px; border-radius: 50%;
+        border: none; background: rgba(255,255,255,.12);
+        color: #fff; display: grid; place-items: center;
+        transition: background .2s; z-index: 2;
       }
-      .lb-nav:hover {
-        background: var(--accent);
-        color: var(--accent-ink);
-      }
-      .lb-nav.prev {
-        left: 0.8rem;
-      }
-      .lb-nav.next {
-        right: 0.8rem;
-      }
-      @media (max-width: 640px) {
-        .lb-nav {
-          display: none;
-        }
-      }
-      .lb .icon-btn {
-        color: #fff;
-        border-color: rgba(255, 255, 255, 0.25);
-      }
+      .lb-nav:hover { background: var(--accent); color: var(--accent-ink); }
+      .lb-nav.prev { left: .7rem; }
+      .lb-nav.next { right: .7rem; }
+      @media (max-width: 640px) { .lb-nav { display: none; } }
+
+      .lb .icon-btn { color: #fff; border-color: rgba(255,255,255,.22); }
 
       /* toast */
       .toast {
-        position: fixed;
-        left: 50%;
-        bottom: max(1.4rem, env(safe-area-inset-bottom));
+        position: fixed; left: 50%;
+        bottom: max(1.3rem, env(safe-area-inset-bottom));
         transform: translate(-50%, 140%);
-        background: var(--card);
-        color: var(--text);
+        background: var(--card); color: var(--text);
         border: 1px solid var(--line);
-        padding: 0.85rem 1.3rem;
-        border-radius: 50px;
-        font-weight: 700;
-        font-size: 0.9rem;
-        box-shadow: var(--shadow);
-        z-index: 200;
-        transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.2);
-        max-width: calc(100vw - 2rem);
-        text-align: center;
+        padding: .8rem 1.2rem; border-radius: 50px;
+        font-weight: 700; font-size: .88rem;
+        box-shadow: var(--shadow); z-index: 200;
+        transition: transform .35s cubic-bezier(.2,.9,.3,1.2);
+        max-width: calc(100vw - 2rem); text-align: center;
       }
-      .toast.show {
-        transform: translate(-50%, 0);
-      }
+      .toast.show { transform: translate(-50%, 0); }
+
       footer.pf {
-        text-align: center;
-        color: var(--muted);
-        font-size: 0.82rem;
-        padding: 1.5rem 1rem 2.5rem;
-        border-top: 1px solid var(--line);
+        text-align: center; color: var(--muted); font-size: .8rem;
+        padding: 1.3rem 1rem 2.2rem; border-top: 1px solid var(--line);
       }
-      footer.pf a {
-        color: var(--accent);
-        text-decoration: none;
-      }
+      footer.pf a { color: var(--accent); text-decoration: none; }
     </style>
   </head>
   <body>
-    <!-- splash while we check the session -->
-    <div id="splash" style="min-height: 100dvh; display: grid; place-items: center">
+    <!-- splash -->
+    <div id="splash" style="min-height:100dvh;display:grid;place-items:center">
       <div class="tile">CG</div>
     </div>
 
-    <!-- ═════════ LOGIN ═════════ -->
+    <!-- LOGIN -->
     <div class="login" id="loginView" hidden>
       <div class="login-top">
         <div class="tile">CG</div>
-        <button class="icon-btn themeBtn" aria-label="Switch light / dark theme"></button>
+        <button class="icon-btn themeBtn" aria-label="Switch theme"></button>
       </div>
 
       <div id="loginForm">
         <h1>Your shoots, photos <span>and memories</span> in one place</h1>
         <p class="lead">
-          Sign in to see your galleries, download your photos and relive your
-          day — anytime, no need to call us.
+          Sign in to see your galleries, download your photos and relive your day — anytime.
         </p>
         <form id="emailForm" novalidate>
           <div class="field">
             <label for="emailIn">Email address</label>
-            <input
-              id="emailIn"
-              type="email"
-              inputmode="email"
-              autocomplete="email"
-              placeholder="you@email.com"
-              required
-            />
+            <input id="emailIn" type="email" inputmode="email" autocomplete="email"
+                   placeholder="you@email.com" required />
           </div>
           <button class="btn" id="sendBtn" type="submit">
             <span id="sendTxt">Send me a login link</span>
           </button>
           <div class="msg err" id="loginErr" hidden></div>
           <p class="fine">
-            Use the email you booked with. We'll send you a link — it keeps you
-            signed in on this device. No password needed.
+            Use the email you booked with. We’ll send you a one-time link — no password needed.
           </p>
         </form>
       </div>
 
       <div class="sent" id="sentView" hidden>
         <div class="ring">
-          <svg width="30" height="30" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          <svg width="26" height="26" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
         </div>
         <h2>Check your inbox</h2>
-        <p>We sent a login link to <b id="sentTo"></b>. Open it on this device to see your photos.</p>
-        <p style="margin-top: 0.8rem; font-size: 0.9rem">Can't see it? Look in your spam or promotions folder.</p>
+        <p>We sent a login link to <b id="sentTo"></b>. Open it on this device.</p>
+        <p style="margin-top:.7rem;font-size:.88rem">Can’t see it? Check spam / promotions.</p>
         <div class="row">
           <button class="btn ghost" id="resendBtn" type="button">Resend link</button>
-          <button class="btn ghost" id="otherBtn" type="button">Use a different email</button>
+          <button class="btn ghost" id="otherBtn" type="button">Different email</button>
         </div>
       </div>
 
@@ -782,17 +458,14 @@
       </div>
     </div>
 
-    <!-- ═════════ APP ═════════ -->
+    <!-- APP -->
     <div id="appView" hidden>
       <header class="bar">
         <div class="bar-in">
           <div class="tile sm">CG</div>
-          <div class="bar-title">
-            My Photos
-            <small id="whoEmail"></small>
-          </div>
+          <div class="bar-title">My Photos <small id="whoEmail"></small></div>
           <div class="bar-sp"></div>
-          <button class="icon-btn themeBtn" aria-label="Switch light / dark theme"></button>
+          <button class="icon-btn themeBtn" aria-label="Switch theme"></button>
           <button class="btn ghost sm" id="signOutBtn">Sign out</button>
         </div>
       </header>
@@ -802,27 +475,27 @@
       </footer>
     </div>
 
-    <!-- ═════════ LIGHTBOX ═════════ -->
+    <!-- LIGHTBOX -->
     <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer">
       <div class="lb-top">
         <span class="lb-count" id="lbCount"></span>
         <button class="icon-btn" id="lbClose" aria-label="Close">
-          <svg width="20" height="20" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </button>
       </div>
       <div class="lb-stage" id="lbStage">
         <div class="spin lb-spin" id="lbSpin"></div>
-        <button class="lb-nav prev" id="lbPrev" aria-label="Previous photo">
-          <svg width="24" height="24" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+        <button class="lb-nav prev" id="lbPrev" aria-label="Previous">
+          <svg width="22" height="22" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
         </button>
         <img id="lbImg" alt="" />
-        <button class="lb-nav next" id="lbNext" aria-label="Next photo">
-          <svg width="24" height="24" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+        <button class="lb-nav next" id="lbNext" aria-label="Next">
+          <svg width="22" height="22" viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
         </button>
       </div>
       <div class="lb-bot">
-        <a class="btn sm" id="lbDl" href="#">
-          <svg width="18" height="18" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+        <a class="btn sm" id="lbDl" href="#" download>
+          <svg width="16" height="16" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
           Download
         </a>
       </div>
@@ -835,9 +508,7 @@
       import {
         getAuth,
         onAuthStateChanged,
-        isSignInWithEmailLink,
-        sendSignInLinkToEmail,
-        signInWithEmailLink,
+        signInWithCustomToken,
         signOut,
       } from "https://www.gstatic.com/firebasejs/12.13.0/firebase-auth.js";
 
@@ -852,17 +523,18 @@
       const auth = getAuth(app);
 
       const API = "https://api.cgstudios.ng";
-      const EMAIL_KEY = "cg_portal_email";
       const $ = (id) => document.getElementById(id);
       const esc = (s) =>
-        String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+        String(s ?? "").replace(/[&<>"']/g, (c) =>
+          ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])
+        );
 
-      /* ── theme ── */
-      const SUN = '<svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 7a5 5 0 100 10 5 5 0 000-10zM2 13h2v-2H2v2zm18 0h2v-2h-2v2zM11 2v2h2V2h-2zm0 18v2h2v-2h-2zM5.99 4.58L4.58 5.99l1.41 1.41 1.41-1.41-1.41-1.41zm12.37 12.37l-1.41 1.41 1.41 1.41 1.41-1.41-1.41-1.41zm1.41-10.96l-1.41-1.41-1.41 1.41 1.41 1.41 1.41-1.41zM7.4 18.36l-1.41-1.41-1.41 1.41 1.41 1.41 1.41-1.41z"/></svg>';
-      const MOON = '<svg width="20" height="20" viewBox="0 0 24 24"><path d="M12.3 2.3a9.7 9.7 0 109.4 12.3 7.5 7.5 0 01-9.4-12.3z"/></svg>';
+      /* theme */
+      const SUN = '<svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 7a5 5 0 100 10 5 5 0 000-10zM2 13h2v-2H2v2zm18 0h2v-2h-2v2zM11 2v2h2V2h-2zm0 18v2h2v-2h-2zM5.99 4.58L4.58 5.99l1.41 1.41 1.41-1.41-1.41-1.41zm12.37 12.37l-1.41 1.41 1.41 1.41 1.41-1.41-1.41-1.41zm1.41-10.96l-1.41-1.41-1.41 1.41 1.41 1.41 1.41-1.41zM7.4 18.36l-1.41-1.41-1.41 1.41 1.41 1.41 1.41-1.41z"/></svg>';
+      const MOON = '<svg width="18" height="18" viewBox="0 0 24 24"><path d="M12.3 2.3a9.7 9.7 0 109.4 12.3 7.5 7.5 0 01-9.4-12.3z"/></svg>';
       function applyTheme(t) {
         document.documentElement.dataset.theme = t;
-        document.querySelector('meta[name="theme-color"]').content = t === "dark" ? "#0a0a0a" : "#faf8f4";
+        document.querySelector('meta[name="theme-color"]').content = t === "dark" ? "#080808" : "#f7f4ef";
         document.querySelectorAll(".themeBtn").forEach((b) => (b.innerHTML = t === "dark" ? SUN : MOON));
       }
       applyTheme(localStorage.getItem("cg_portal_theme") || "dark");
@@ -871,20 +543,20 @@
           const t = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
           localStorage.setItem("cg_portal_theme", t);
           applyTheme(t);
-        }),
+        })
       );
 
-      /* ── toast ── */
+      /* toast */
       let toastT;
       function toast(msg) {
         const t = $("toast");
         t.textContent = msg;
         t.classList.add("show");
         clearTimeout(toastT);
-        toastT = setTimeout(() => t.classList.remove("show"), 4200);
+        toastT = setTimeout(() => t.classList.remove("show"), 4000);
       }
 
-      /* ── screens ── */
+      /* screens */
       function show(which) {
         $("splash").hidden = true;
         $("loginView").hidden = which !== "login";
@@ -892,7 +564,7 @@
         window.scrollTo(0, 0);
       }
 
-      /* ── login ── */
+      /* ── LOGIN (Resend magic link) ── */
       function setBusy(b) {
         $("sendBtn").disabled = b;
         $("sendTxt").innerHTML = b ? '<span class="spin"></span>' : "Send me a login link";
@@ -902,39 +574,40 @@
         e.textContent = m;
         e.hidden = !m;
       }
-      async function sendLink(email) {
-        await sendSignInLinkToEmail(auth, email, {
-          url: location.origin + location.pathname,
-          handleCodeInApp: true,
+
+      async function requestLoginLink(email) {
+        const r = await fetch(API + "/api/portal/request-login-link", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
         });
-        localStorage.setItem(EMAIL_KEY, email);
+        const j = await r.json().catch(() => ({}));
+        if (!r.ok) throw new Error(j.error || "Could not send the link");
+        return j;
       }
+
       $("emailForm").addEventListener("submit", async (e) => {
         e.preventDefault();
         showLoginError("");
         const email = $("emailIn").value.trim().toLowerCase();
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showLoginError("Please enter a valid email address.");
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          return showLoginError("Please enter a valid email address.");
+        }
         setBusy(true);
         try {
-          await sendLink(email);
+          await requestLoginLink(email);
           $("sentTo").textContent = email;
           $("loginForm").hidden = true;
           $("sentView").hidden = false;
           startCooldown();
         } catch (err) {
           console.error(err);
-          const map = {
-            "auth/invalid-email": "That email address doesn't look right.",
-            "auth/too-many-requests": "Too many tries. Please wait a few minutes and try again.",
-            "auth/network-request-failed": "No connection. Check your internet and try again.",
-            "auth/unauthorized-continue-uri": "Login links aren't switched on for this website yet. Please contact the studio.",
-            "auth/operation-not-allowed": "Login links aren't switched on yet. Please contact the studio.",
-          };
-          showLoginError(map[err.code] || "We couldn't send the link. Please try again.");
+          showLoginError(err.message || "We couldn’t send the link. Please try again.");
         } finally {
           setBusy(false);
         }
       });
+
       let cdTimer;
       function startCooldown() {
         let left = 30;
@@ -951,21 +624,24 @@
           }
         }, 1000);
       }
+
       $("resendBtn").addEventListener("click", async () => {
         try {
-          await sendLink($("sentTo").textContent);
+          await requestLoginLink($("sentTo").textContent);
           toast("Link sent again ✓");
           startCooldown();
         } catch (e) {
-          toast("Couldn't resend — try again shortly");
+          toast("Couldn’t resend — try again shortly");
         }
       });
+
       $("otherBtn").addEventListener("click", () => {
         $("sentView").hidden = true;
         $("loginForm").hidden = false;
         $("emailIn").value = "";
         $("emailIn").focus();
       });
+
       $("signOutBtn").addEventListener("click", async () => {
         await signOut(auth);
         cur = null;
@@ -975,17 +651,20 @@
         show("login");
       });
 
-      /* ── API ── */
+      /* ── API helpers ── */
       async function api(path) {
         const user = auth.currentUser;
         if (!user) throw Object.assign(new Error("Please sign in"), { auth: true });
         const token = await user.getIdToken();
         const r = await fetch(API + path, { headers: { Authorization: "Bearer " + token } });
         const j = await r.json().catch(() => ({}));
-        if (r.status === 401 || r.status === 403) throw Object.assign(new Error(j.error || "Please sign in again"), { auth: true });
+        if (r.status === 401 || r.status === 403) {
+          throw Object.assign(new Error(j.error || "Please sign in again"), { auth: true });
+        }
         if (!r.ok) throw new Error(j.error || "Something went wrong");
         return j;
       }
+
       async function kickOut(msg) {
         await signOut(auth);
         cur = null;
@@ -993,17 +672,17 @@
         showLoginError(msg || "Please sign in again.");
       }
 
-      /* ── helpers ── */
+      /* helpers */
       function niceDate(d) {
         if (!d) return "";
         const x = /^\d{4}-\d{2}-\d{2}$/.test(d) ? new Date(d + "T12:00:00") : new Date(d);
         return isNaN(x) ? "" : x.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
       }
-      const CAMERA = '<svg width="38" height="38" viewBox="0 0 24 24"><path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15a5 5 0 110-10 5 5 0 010 10zm0-8a3 3 0 100 6 3 3 0 000-6z"/></svg>';
-      const DLICON = '<svg width="18" height="18" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>';
+      const CAMERA = '<svg width="34" height="34" viewBox="0 0 24 24"><path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15a5 5 0 110-10 5 5 0 010 10zm0-8a3 3 0 100 6 3 3 0 000-6z"/></svg>';
+      const DLICON = '<svg width="16" height="16" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>';
 
-      /* ── galleries list ── */
-      let cur = null; // open gallery state
+      /* galleries list */
+      let cur = null;
       async function showGalleries() {
         cur = null;
         const m = $("main");
@@ -1016,8 +695,8 @@
             m.innerHTML = `<div class="state">
               <div class="ring">${CAMERA}</div>
               <h3>No galleries yet</h3>
-              <p>Your photos will appear here after your shoot — usually within a few days of your session.</p>
-              <p style="font-size:.9rem">Signed in as <b>${esc(d.email)}</b>. If you booked with a different email, sign out and use that one.</p>
+              <p>Your photos will appear here after your shoot — usually within a few days.</p>
+              <p style="font-size:.88rem">Signed in as <b>${esc(d.email)}</b>. If you booked with a different email, sign out and try that one.</p>
               <div class="row">
                 <a class="btn" href="book.html">Book a shoot</a>
                 <a class="btn ghost" href="mailto:cgstudios.ng@gmail.com">Ask us</a>
@@ -1032,29 +711,30 @@
                   <div class="gcover">${g.cover ? `<img src="${esc(g.cover)}" alt="" loading="lazy" />` : `<div class="ph-empty">${CAMERA}</div>`}</div>
                   <div class="gbody"><h3>${esc(g.title)}</h3>
                     <p>${esc([g.clientName, niceDate(g.sessionDate)].filter(Boolean).join(" · "))}</p>
-                    <span class="go">View photos →</span></div></button>`,
+                    <span class="go">View photos →</span></div></button>`
               )
               .join("")}</div>`;
           m.querySelectorAll(".gcard").forEach((c) => c.addEventListener("click", () => openGallery(c.dataset.id)));
-          /* only one gallery? jump straight in (once per visit) */
           if (d.galleries.length === 1 && !sessionStorage.getItem("cg_portal_seen_list")) {
             sessionStorage.setItem("cg_portal_seen_list", "1");
             openGallery(d.galleries[0].id, true);
           }
         } catch (err) {
           if (err.auth) return kickOut(err.message);
-          m.innerHTML = `<div class="state"><h3>Couldn't load your galleries</h3><p>${esc(err.message)}</p>
+          m.innerHTML = `<div class="state"><h3>Couldn’t load your galleries</h3><p>${esc(err.message)}</p>
             <div class="row"><button class="btn" id="retryBtn">Try again</button></div></div>`;
           $("retryBtn").onclick = showGalleries;
         }
       }
 
-      /* ── one gallery ── */
+      /* one gallery */
       async function openGallery(id, only) {
         const m = $("main");
         m.innerHTML = `<button class="back" id="backBtn">← All galleries</button>
-          <div class="sk" style="height:52px;margin:.9rem 0 1.4rem;max-width:420px"></div>
-          <div class="masonry">${Array.from({ length: 8 }, (_, i) => `<div class="sk" style="aspect-ratio:3/${i % 2 ? 4 : 3.4};margin-bottom:.8rem"></div>`).join("")}</div>`;
+          <div class="sk" style="height:48px;margin:.8rem 0 1.3rem;max-width:380px"></div>
+          <div class="masonry">${Array.from({ length: 8 }, (_, i) =>
+            `<div class="sk" style="aspect-ratio:3/${i % 2 ? 4 : 3.4};margin-bottom:.75rem"></div>`
+          ).join("")}</div>`;
         $("backBtn").onclick = showGalleries;
         try {
           const d = await api(`/api/portal/galleries/${encodeURIComponent(id)}/photos`);
@@ -1062,7 +742,7 @@
           renderGallery(only);
         } catch (err) {
           if (err.auth) return kickOut(err.message);
-          m.innerHTML = `<div class="state"><h3>Couldn't open this gallery</h3><p>${esc(err.message)}</p>
+          m.innerHTML = `<div class="state"><h3>Couldn’t open this gallery</h3><p>${esc(err.message)}</p>
             <div class="row"><button class="btn" id="retryBtn">Try again</button><button class="btn ghost" id="backBtn2">Back</button></div></div>`;
           $("retryBtn").onclick = () => openGallery(id, only);
           $("backBtn2").onclick = showGalleries;
@@ -1083,14 +763,13 @@
             <div><h2 class="page">${esc(gallery.title)}</h2><p class="sub">${esc(meta)}</p></div>
             ${photos.length ? `<button class="btn" id="zipBtn">${DLICON} Download all</button>` : ""}
           </div>
-          ${albums.length > 1 ? `<div class="chips">${["", ...albums].map((a) => `<button class="chip ${cur.album === a ? "on" : ""}" data-a="${esc(a)}">${a ? esc(a) : "All photos"}</button>`).join("")}</div>` : ""}
+          ${albums.length > 1 ? `<div class="chips">${["", ...albums].map((a) =>
+            `<button class="chip ${cur.album === a ? "on" : ""}" data-a="${esc(a)}">${a ? esc(a) : "All photos"}</button>`
+          ).join("")}</div>` : ""}
           <div id="gridWrap"></div>`;
         if ($("backBtn")) $("backBtn").onclick = showGalleries;
         document.querySelectorAll(".chip").forEach((c) =>
-          c.addEventListener("click", () => {
-            cur.album = c.dataset.a;
-            renderGallery(only);
-          }),
+          c.addEventListener("click", () => { cur.album = c.dataset.a; renderGallery(only); })
         );
         if ($("zipBtn")) $("zipBtn").onclick = downloadZip;
         renderGrid();
@@ -1100,18 +779,17 @@
         const list = visiblePhotos();
         const wrap = $("gridWrap");
         if (!cur.photos.length) {
-          wrap.innerHTML = `<div class="preparing"><b>Your photos are being prepared ✨</b>
-            We're still editing your session. They'll show up here as soon as they're ready — check back soon.</div>`;
+          wrap.innerHTML = `<div class="preparing"><b>Your photos are being prepared</b>
+            We’re still editing your session. They’ll show up here as soon as they’re ready.</div>`;
           return;
         }
         wrap.innerHTML = `<div class="masonry">${list
           .map((p, i) => {
-            /* phone photos can carry a rotation flag — swap the shape if so */
             const swap = p.rot >= 5 && p.rot <= 8;
             const ratio = p.w && p.h ? (swap ? `${p.h} / ${p.w}` : `${p.w} / ${p.h}`) : "3 / 4";
             return `<div class="ph" data-i="${i}" style="aspect-ratio:${ratio}">
               <img data-id="${esc(p.id)}" src="${esc(p.thumb)}" alt="${esc(p.name)}" loading="lazy" decoding="async" />
-              <a class="quick" href="${esc(p.dl)}" aria-label="Download photo">${DLICON}</a></div>`;
+              <a class="quick" href="${esc(p.dl)}" download aria-label="Download">${DLICON}</a></div>`;
           })
           .join("")}</div>`;
         wrap.querySelectorAll(".ph img").forEach((img) => {
@@ -1123,7 +801,6 @@
         wrap.querySelectorAll(".ph").forEach((el) => el.addEventListener("click", () => openLb(+el.dataset.i)));
       }
 
-      /* signed links last a few hours — quietly renew them if one fails */
       async function refreshUrls() {
         if (!cur || cur.refreshing || Date.now() - cur.fetchedAt < 60000) return;
         cur.refreshing = true;
@@ -1137,9 +814,7 @@
             const p = map.get(img.dataset.id);
             if (p && (!img.complete || !img.naturalWidth)) img.src = p.thumb;
           });
-        } catch (e) {
-          /* ignore */
-        }
+        } catch (e) {}
         if (cur) cur.refreshing = false;
       }
 
@@ -1149,27 +824,29 @@
           cur.fetchedAt = 0;
           await refreshUrls();
         }
-        if (!cur || !cur.zip) return toast("Download isn't ready — please try again");
-        toast("Preparing your ZIP — the download will start shortly. Big galleries can take a few minutes.");
+        if (!cur || !cur.zip) return toast("Download isn’t ready — please try again");
+        toast("Preparing your ZIP — the download will start shortly…");
         window.location.href = cur.zip;
       }
 
-      /* ── lightbox ── */
+      /* ── LIGHTBOX ── */
       let lbIdx = 0;
       const lb = $("lb"), lbImg = $("lbImg");
+
       function openLb(i) {
         lbIdx = i;
         lb.classList.add("open");
         document.body.style.overflow = "hidden";
         showLb();
       }
+
       function showLb() {
         const list = visiblePhotos();
         if (!list.length) return closeLb();
         lbIdx = (lbIdx + list.length) % list.length;
         const p = list[lbIdx];
         $("lbSpin").hidden = false;
-        lbImg.style.opacity = "0.25";
+        lbImg.style.opacity = "0.2";
         lbImg.onload = () => {
           $("lbSpin").hidden = true;
           lbImg.style.opacity = "1";
@@ -1183,55 +860,71 @@
         lbImg.alt = p.name;
         $("lbDl").href = p.dl;
         $("lbCount").textContent = `${lbIdx + 1} / ${list.length}`;
+        // preload neighbours
         [1, -1].forEach((d) => {
           const n = list[(lbIdx + d + list.length) % list.length];
           if (n) new Image().src = n.view;
         });
       }
+
       function closeLb() {
         lb.classList.remove("open");
         document.body.style.overflow = "";
         lbImg.removeAttribute("src");
       }
+
       $("lbClose").onclick = closeLb;
       $("lbPrev").onclick = () => { lbIdx--; showLb(); };
       $("lbNext").onclick = () => { lbIdx++; showLb(); };
       $("lbStage").addEventListener("click", (e) => { if (e.target === $("lbStage")) closeLb(); });
+
       document.addEventListener("keydown", (e) => {
         if (!lb.classList.contains("open")) return;
         if (e.key === "Escape") closeLb();
         if (e.key === "ArrowLeft") { lbIdx--; showLb(); }
         if (e.key === "ArrowRight") { lbIdx++; showLb(); }
       });
+
       let tx = 0, ty = 0;
       lb.addEventListener("touchstart", (e) => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; }, { passive: true });
       lb.addEventListener("touchend", (e) => {
-        const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
-        if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.4) { lbIdx += dx < 0 ? 1 : -1; showLb(); }
-        else if (dy > 110 && Math.abs(dy) > Math.abs(dx) * 1.4) closeLb();
+        const dx = e.changedTouches[0].clientX - tx;
+        const dy = e.changedTouches[0].clientY - ty;
+        if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.4) {
+          lbIdx += dx < 0 ? 1 : -1;
+          showLb();
+        } else if (dy > 110 && Math.abs(dy) > Math.abs(dx) * 1.4) {
+          closeLb();
+        }
       }, { passive: true });
 
-      /* ── boot ── */
+      /* ── BOOT (handles ?portalToken=...) ── */
       async function boot() {
-        if (isSignInWithEmailLink(auth, location.href)) {
-          let email = localStorage.getItem(EMAIL_KEY);
-          if (!email) email = (prompt("Please confirm your email address to finish signing in:") || "").trim().toLowerCase();
+        const params = new URLSearchParams(location.search);
+        const portalToken = params.get("portalToken");
+
+        if (portalToken) {
           try {
-            await signInWithEmailLink(auth, email, location.href);
-            localStorage.removeItem(EMAIL_KEY);
+            const r = await fetch(API + "/api/portal/verify-login", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ token: portalToken }),
+            });
+            const j = await r.json().catch(() => ({}));
+            if (!r.ok) throw new Error(j.error || "Invalid or expired link");
+
+            await signInWithCustomToken(auth, j.customToken);
+            // clean the URL so the token can't be reused by accident
+            history.replaceState(null, "", location.pathname);
           } catch (err) {
             console.error(err);
             history.replaceState(null, "", location.pathname);
             show("login");
-            showLoginError(
-              err.code === "auth/invalid-action-code"
-                ? "That login link has expired or was already used. Enter your email to get a new one."
-                : "We couldn't sign you in with that link. Please request a new one.",
-            );
+            showLoginError(err.message || "That login link has expired. Please request a new one.");
             return;
           }
-          history.replaceState(null, "", location.pathname);
         }
+
         onAuthStateChanged(auth, (user) => {
           if (user) {
             show("app");
@@ -1242,6 +935,7 @@
           }
         });
       }
+
       boot();
     </script>
   </body>

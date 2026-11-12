@@ -939,7 +939,10 @@
           throw new Error("No connection. Check your internet and try again.");
         }
         const j = await r.json().catch(() => ({}));
-        if (!r.ok) throw new Error(j.error || "Something went wrong. Please try again.");
+        if (!r.ok) {
+          if (j.detail) console.warn("Server detail:", j.detail);
+          throw new Error(j.error || "Something went wrong. Please try again.");
+        }
         return j;
       }
       async function sendLink(email) {
